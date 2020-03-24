@@ -8,28 +8,39 @@ const colors = {
 
     black: '#000',
     white: '#fff',
+    transparent: 'transparent',
+    light: '',
+    disabled: '',
 
-    basic100:  '#ffffff',
-    basic200:  '#f7f9fc',
-    basic300:  '#edf1f7',
-    basic400:  '#e4e9f2',
-    basic500:  '#c5cee0',
-    basic600:  '#8f9bb3',
-    basic700:  '#2e3a59',
-    basic800:  '#222b45',
-    basic900:  '#192038',
-    basic1000: '#151a30',
-    basic1100: '#101426',
+    brand100:  '#f2f6ff',
+    brand200:  '#d9e4ff',
+    brand300:  '#a6c1ff',
+    brand400:  '#598bff',
+    brand500:  '#3366ff',
+    brand600:  '#274bdb',
+    brand700:  '#1a34b8',
+    brand800:  '#102694',
+    brand900:  '#091c7a',
 
-    primary100:  '#f2f6ff',
-    primary200:  '#d9e4ff',
-    primary300:  '#a6c1ff',
-    primary400:  '#598bff',
-    primary500:  '#3366ff',
-    primary600:  '#274bdb',
-    primary700:  '#1a34b8',
-    primary800:  '#102694',
-    primary900:  '#091c7a',
+    black100:  '#707d91',
+    black200:  '#626f88',
+    black300:  '#596680',
+    black400:  '#4e5c78',
+    black500:  '#455571',
+    black600:  '#374766',
+    black700:  '#293a5b',
+    black800:  '#13284b',
+    black900:  '#0a1f44',
+
+    gray100:  '#f2f6ff',
+    gray200:  '#d9e4ff',
+    gray300:  '#a6c1ff',
+    gray400:  '#598bff',
+    gray500:  '#3366ff',
+    gray600:  '#274bdb',
+    gray700:  '#1a34b8',
+    gray800:  '#102694',
+    gray900:  '#091c7a',
 
     success100:  '#f0fff5',
     success200:  '#ccfce3',
@@ -73,13 +84,5 @@ const colors = {
 
 
 };
-
-// Basic color
-colors.basic = ['#', '#f7f9fc', '#', '#', '#', '#', '#', '#', '#', '#', '#'];
-
-// primary color
-colors.primary = ['#', '#', '#', '#', '#', '#', '#', '#', '#'];
-
-// 
 
 export default colors;
