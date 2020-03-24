@@ -82,7 +82,6 @@ const colors = {
     danger800:  '#94124e',
     danger900:  '#700940',
 
-
 };
 
 export default colors;
