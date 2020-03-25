@@ -7,9 +7,9 @@
  */
 
  const fonts = {
-    sans: 'sans-serif',
-    serif: 'serif',
-    monospace: 'monospace'
+    sans: 'Robot, sans-serif',
+    serif: '\'Roboto Slab\', serif',
+    monospace: '\'Roboto Mono\', monospace'
  };
 
  export default fonts;

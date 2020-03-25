@@ -23,7 +23,7 @@ import RobotoMonoRegular from './Roboto_Mono/RobotoMono-Regular.ttf';
         font-style: normal;
     }
     @font-face {
-        font-family: 'RobotoMonoRegular';
+        font-family: 'Roboto Mono';
         src: url(${RobotoMonoRegular}) format('truetype');
         font-weight: 400;
         font-style: normal;
