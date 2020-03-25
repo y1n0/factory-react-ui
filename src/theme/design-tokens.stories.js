@@ -33,6 +33,7 @@ const ColorTokenList = (props) => {
 }
 
 export const Colors = (props) => {
+  console.log(props);
   return (
     <Box>
       <Box mb="1rem" display="flex" width="100%">
@@ -53,10 +54,6 @@ export const Colors = (props) => {
 export const FontFamily = (props) => {
   return (
     <Box>
-      <ColorTokenList colorType="success"></ColorTokenList>
-      <ColorTokenList colorType="info"></ColorTokenList>
-      <ColorTokenList colorType="warning"></ColorTokenList>
-      <ColorTokenList colorType="danger"></ColorTokenList>
     </Box>
   )
 };
@@ -64,10 +61,7 @@ export const FontFamily = (props) => {
 export const FontSize = (props) => {
   return (
     <Box>
-      <ColorTokenList colorType="success"></ColorTokenList>
-      <ColorTokenList colorType="info"></ColorTokenList>
-      <ColorTokenList colorType="warning"></ColorTokenList>
-      <ColorTokenList colorType="danger"></ColorTokenList>
+   
     </Box>
   )
 };
@@ -78,15 +72,15 @@ export const Sizing = (props) => {
   return (
     <Box>
       <Box mb="1rem" display="flex" width="100%">
-        <Box mr="1rem" width="sizing01" height="sizing01" backgroundColor="gray800" ></Box>
-        <Box mr="1rem" width="sizing02" height="sizing02" backgroundColor="gray800" ></Box>
-        <Box mr="1rem" width="sizing03" height="sizing03" backgroundColor="gray800" ></Box>
-        <Box mr="1rem" width="sizing04" height="sizing04" backgroundColor="gray800" ></Box>
-        <Box mr="1rem" width="sizing05" height="sizing05" backgroundColor="gray800" ></Box>
-        <Box mr="1rem" width="sizing06" height="sizing06" backgroundColor="gray800" ></Box>
-        <Box mr="1rem" width="sizing07" height="sizing07" backgroundColor="gray800" ></Box>
-        <Box mr="1rem" width="sizing08" height="sizing08" backgroundColor="gray800" ></Box>
-        <Box mr="1rem" width="sizing09" height="sizing09" backgroundColor="gray800" ></Box>
+        <Box mr="1rem" width="sizeXXXSmall" height="sizeXXXSmall" backgroundColor="gray800" ></Box>
+        <Box mr="1rem" width="sizeXXSmall" height="sizeXXSmall" backgroundColor="gray800" ></Box>
+        <Box mr="1rem" width="sizeXSmall" height="sizeXSmall" backgroundColor="gray800" ></Box>
+        <Box mr="1rem" width="sizeSmall" height="sizeSmall" backgroundColor="gray800" ></Box>
+        <Box mr="1rem" width="sizeMedium" height="sizeMedium" backgroundColor="gray800" ></Box>
+        <Box mr="1rem" width="sizeLarge" height="sizeLarge" backgroundColor="gray800" ></Box>
+        <Box mr="1rem" width="sizeXLarge" height="sizeXLarge" backgroundColor="gray800" ></Box>
+        <Box mr="1rem" width="sizeXXLarge" height="sizeXXLarge" backgroundColor="gray800" ></Box>
+        <Box mr="1rem" width="sizeXXXLarge" height="sizeXXXLarge" backgroundColor="gray800" ></Box>
       </Box>
     </Box>
   )
