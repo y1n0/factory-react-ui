@@ -5,15 +5,15 @@
  * Spacing
  */
 const space = {
-    spaceXXXSmall   : '2px',
-    spaceXXSmall    : '4px',
-    spaceXSmall     : '8px',
-    spaceSmall      : '12px',
-    spaceMedium     : '16px',
-    spaceLarge      : '24px',
-    spaceXLarge     : '32px',
-    spaceXXLarge    : '40px',
-    spaceXXXLarge   : '64px',
+    xxxsmall   : '2px',
+    xxsmall    : '4px',
+    xsmall     : '8px',
+    small      : '12px',
+    medium     : '16px',
+    large      : '24px',
+    xlarge     : '32px',
+    xxlarge    : '40px',
+    xxxlarge   : '64px',
 };
 
 export default space;

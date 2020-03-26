@@ -7,7 +7,7 @@ import colors from './colors';
  * Border
  */
 const borders = {
-    brand   : `1px solid ${colors.brand500}`,
+    primary   : `1px solid ${colors.primary500}`,
     success  : `1px solid ${colors.success500}`,
     danger  : `1px solid ${colors.danger500}`,
     info   : `1px solid ${colors.info500}`,

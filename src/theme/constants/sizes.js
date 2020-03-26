@@ -6,15 +6,15 @@
  * Spacing
  */
 const sizes = {
-    sizeXXXSmall: '2px',
-    sizeXXSmall: '4px',
-    sizeXSmall: '8px',
-    sizeSmall: '12px',
-    sizeMedium: '16px',
-    sizeLarge: '24px',
-    sizeXLarge: '32px',
-    sizeXXLarge: '64px',
-    sizeXXXLarge: '128px',
+    xxxsmall: '2px',
+    xxsmall: '4px',
+    xsmall: '8px',
+    small: '12px',
+    medium: '16px',
+    large: '24px',
+    xlarge: '32px',
+    xxlarge: '64px',
+    xxxlarge: '128px',
 };
 
 export default sizes;

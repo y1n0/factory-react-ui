@@ -1,18 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-import { shadow, color, space, layout, flexbox, border, compose, typography } from 'styled-system';
+import { Box } from '../components/Box';
 
-const Box = styled('div')(
-  compose(
-    space,
-    color,
-    layout,
-    flexbox,
-    border,
-    typography,
-    shadow
-  )
-);
 
 const ColorToken = ({ colorType, colorShade = '' }) => {
   return (<Box mr='1rem' flexDirection='column' alignItems='center'>
@@ -33,7 +21,6 @@ const ColorTokenList = (props) => {
 }
 
 export const Colors = (props) => {
-  console.log(props);
   return (
     <Box>
       <Box mb="1rem" display="flex" width="100%">
@@ -42,7 +29,7 @@ export const Colors = (props) => {
         <ColorToken colorType="transparent"></ColorToken>
       </Box>
       <ColorTokenList colorType="black"></ColorTokenList>
-      <ColorTokenList colorType="brand"></ColorTokenList>
+      <ColorTokenList colorType="primary"></ColorTokenList>
       <ColorTokenList colorType="gray"></ColorTokenList>
       <ColorTokenList colorType="success"></ColorTokenList>
       <ColorTokenList colorType="info"></ColorTokenList>
@@ -112,15 +99,15 @@ export const Sizing = (props) => {
     <Box>
     <Box color="black900" fontSize="display1" fontFamily="sans" borderBottom="2px solid black" borderColor="black400" my="1rem">Sizing</Box>
       <Box mb="1rem" display="flex" width="100%">
-        <Box mr="1rem" width="sizeXXXSmall" height="sizeXXXSmall" backgroundColor="gray800" ></Box>
-        <Box mr="1rem" width="sizeXXSmall" height="sizeXXSmall" backgroundColor="gray800" ></Box>
-        <Box mr="1rem" width="sizeXSmall" height="sizeXSmall" backgroundColor="gray800" ></Box>
-        <Box mr="1rem" width="sizeSmall" height="sizeSmall" backgroundColor="gray800" ></Box>
-        <Box mr="1rem" width="sizeMedium" height="sizeMedium" backgroundColor="gray800" ></Box>
-        <Box mr="1rem" width="sizeLarge" height="sizeLarge" backgroundColor="gray800" ></Box>
-        <Box mr="1rem" width="sizeXLarge" height="sizeXLarge" backgroundColor="gray800" ></Box>
-        <Box mr="1rem" width="sizeXXLarge" height="sizeXXLarge" backgroundColor="gray800" ></Box>
-        <Box mr="1rem" width="sizeXXXLarge" height="sizeXXXLarge" backgroundColor="gray800" ></Box>
+        <Box mr="1rem" width="xxxsmall" height="xxxsmall" backgroundColor="gray800" ></Box>
+        <Box mr="1rem" width="xxsmall" height="xxsmall" backgroundColor="gray800" ></Box>
+        <Box mr="1rem" width="xsmall" height="xsmall" backgroundColor="gray800" ></Box>
+        <Box mr="1rem" width="small" height="small" backgroundColor="gray800" ></Box>
+        <Box mr="1rem" width="medium" height="medium" backgroundColor="gray800" ></Box>
+        <Box mr="1rem" width="large" height="large" backgroundColor="gray800" ></Box>
+        <Box mr="1rem" width="xlarge" height="xlarge" backgroundColor="gray800" ></Box>
+        <Box mr="1rem" width="xxlarge" height="xxlarge" backgroundColor="gray800" ></Box>
+        <Box mr="1rem" width="xxxlarge" height="xxxlarge" backgroundColor="gray800" ></Box>
       </Box>
     </Box>
   )
@@ -147,7 +134,7 @@ export const Borders = () => {
     <Box>
     <Box color="black900" fontSize="display1" fontFamily="sans" borderBottom="2px solid black" borderColor="black400" my="1rem">Borders</Box>
       <Box color="black500" mb="1rem" display="flex" width="100%">
-        <Box display="flex" alignItems="center" justifyContent="center" border="brand" mr="2rem" width="6rem" height="6rem" backgroundColor="gray100">brand</Box>
+        <Box display="flex" alignItems="center" justifyContent="center" border="primary" mr="2rem" width="6rem" height="6rem" backgroundColor="gray100">primary</Box>
         <Box display="flex" alignItems="center" justifyContent="center" border="black" mr="2rem" width="6rem" height="6rem" backgroundColor="gray100">black</Box>
         <Box display="flex" alignItems="center" justifyContent="center" border="gray" mr="2rem" width="6rem" height="6rem" backgroundColor="gray100">gray</Box>
         <Box display="flex" alignItems="center" justifyContent="center" border="danger" mr="2rem" width="6rem" height="6rem" backgroundColor="gray100">danger</Box>
@@ -165,13 +152,13 @@ export const BorderRadius = () => {
     <Box>
       <Box color="black900" fontSize="display1" fontFamily="sans" borderBottom="2px solid black" borderColor="black400" my="1rem">Border radius</Box>
       <Box color="black500" mb="1rem" display="flex" width="100%" fontSize="caption">
-        <Box borderRadius="none" display="flex" alignItems="center" justifyContent="center" mr="2rem" width="3rem" height="3rem" backgroundColor="brand200">none</Box>
-        <Box borderRadius="xsmall" display="flex" alignItems="center" justifyContent="center" mr="2rem" width="3rem" height="3rem" backgroundColor="brand200">xsmall</Box>
-        <Box borderRadius="small" display="flex" alignItems="center" justifyContent="center" mr="2rem" width="3rem" height="3rem" backgroundColor="brand200">small</Box>
-        <Box borderRadius="medium" display="flex" alignItems="center" justifyContent="center" mr="2rem" width="3rem" height="3rem" backgroundColor="brand200">medium</Box>
-        <Box borderRadius="large" display="flex" alignItems="center" justifyContent="center" mr="2rem" width="3rem" height="3rem" backgroundColor="brand200">large</Box>
-        <Box borderRadius="xlarge" display="flex" alignItems="center" justifyContent="center" mr="2rem" width="3rem" height="3rem" backgroundColor="brand200">xlarge</Box>
-        <Box borderRadius="rounded" display="flex" alignItems="center" justifyContent="center" mr="2rem" width="3rem" height="3rem" backgroundColor="brand200">rounded</Box>
+        <Box borderRadius="none" display="flex" alignItems="center" justifyContent="center" mr="2rem" width="3rem" height="3rem" backgroundColor="primary200">none</Box>
+        <Box borderRadius="xsmall" display="flex" alignItems="center" justifyContent="center" mr="2rem" width="3rem" height="3rem" backgroundColor="primary200">xsmall</Box>
+        <Box borderRadius="small" display="flex" alignItems="center" justifyContent="center" mr="2rem" width="3rem" height="3rem" backgroundColor="primary200">small</Box>
+        <Box borderRadius="medium" display="flex" alignItems="center" justifyContent="center" mr="2rem" width="3rem" height="3rem" backgroundColor="primary200">medium</Box>
+        <Box borderRadius="large" display="flex" alignItems="center" justifyContent="center" mr="2rem" width="3rem" height="3rem" backgroundColor="primary200">large</Box>
+        <Box borderRadius="xlarge" display="flex" alignItems="center" justifyContent="center" mr="2rem" width="3rem" height="3rem" backgroundColor="primary200">xlarge</Box>
+        <Box borderRadius="rounded" display="flex" alignItems="center" justifyContent="center" mr="2rem" width="3rem" height="3rem" backgroundColor="primary200">rounded</Box>
       </Box>
     </Box>
   );

@@ -26,7 +26,7 @@ const GlobalStyle = createGlobalStyle`
 
     html {
         font-family: ${({ theme }) => theme.fonts.sans};
-        font-size: 16px;
+        font-size: ${({ theme }) => theme.fontSizes.body};;
         box-sizing: border-box;
     }
 
