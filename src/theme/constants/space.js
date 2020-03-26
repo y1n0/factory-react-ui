@@ -5,6 +5,7 @@
  * Spacing
  */
 const space = {
+    none       : '0px',
     xxxsmall   : '2px',
     xxsmall    : '4px',
     xsmall     : '8px',

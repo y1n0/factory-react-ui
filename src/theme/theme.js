@@ -7,7 +7,7 @@ import sizes from './constants/sizes';
 import fonts from './constants/fonts';
 import fontWeights from './constants/fontWeights';
 import fontSizes from './constants/fontSizes';
-import lineHeights from './constants/fontSizes';
+import lineHeights from './constants/lineHeights';
 import borders, {radii, borderWidths, borderStyles} from './constants/borders';
 
 export const theme = {
