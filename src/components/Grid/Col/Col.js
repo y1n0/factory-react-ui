@@ -1,13 +1,10 @@
 
 import styled from 'styled-components';
-import config, { DIMENSION_NAMES } from '../config';
+import config, { lessThan, sortPropsBreakpoint } from '../config';
 
 
-const media = props => {
-    const _propsArr = Object.keys(props);
-    const _breakpoints = _propsArr.filter(_prop => ~DIMENSION_NAMES.indexOf(_prop));
-    const _sortedBreakpoints = _breakpoints.sort((bp1, bp2) => DIMENSION_NAMES.indexOf(bp1) - DIMENSION_NAMES.indexOf(bp2));
-    return _sortedBreakpoints.map(bp => config(props).media[bp]`
+const generateMediaForCol = props => {
+    return sortPropsBreakpoint(props).map(bp => lessThan(bp)`
            ${
                props[bp] >= 0 ? `
                     flex-basis: ${100 / config(props).gridSize * props[bp]}%;
@@ -35,7 +32,7 @@ const Col = styled.div`
     ${p => p.reverse && `
         flex-direction: column-reverse;
     `}
-    ${media}
+    ${generateMediaForCol}
     
 `;
 

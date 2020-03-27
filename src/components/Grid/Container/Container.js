@@ -1,6 +1,6 @@
 
 import styled, {css} from 'styled-components';
-import config, {DIMENSION_NAMES} from '../config';
+import config, {BREAKPOINTS, lessThan} from '../config';
 
 
 const Container = styled.div`
@@ -12,7 +12,7 @@ const Container = styled.div`
     width: 100%;
     ${(props) => !props.fluid &&
                 css`
-                    ${DIMENSION_NAMES.map(dim => config(props).container[dim] && config(props).media[dim]`width: ${(props) => config(props).container[dim]};`)}
+                    ${Object.keys(BREAKPOINTS).map(dim => config(props).container[dim] && lessThan(dim)`width: ${(props) => config(props).container[dim]};`)}
                 `
         }
 `;
