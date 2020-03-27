@@ -1,14 +1,15 @@
 
 import styled from 'styled-components';
-import config, { lessThan, sortPropsBreakpoint } from '../config';
+import { lessThan } from '../config';
+import {sortBreakpointProps, getGridSize, getGutterWidth} from '../helpers';
 
 
 const generateMediaForCol = props => {
-    return sortPropsBreakpoint(props).map(bp => lessThan(bp)`
+    return sortBreakpointProps(props).map(bp => lessThan(bp)`
            ${
                props[bp] >= 0 ? `
-                    flex-basis: ${100 / config(props).gridSize * props[bp]}%;
-                    max-width: ${100 / config(props).gridSize * props[bp]}%;
+                    flex-basis: ${100 / getGridSize(props) * props[bp]}%;
+                    max-width: ${100 / getGridSize(props) * props[bp]}%;
                     display: block;
                ` : (props[bp] ? `
                flex-grow: 1;
@@ -25,8 +26,8 @@ const generateMediaForCol = props => {
 const Col = styled.div`
     box-sizing: border-box;
     flex: 0 0 auto;
-    padding-right: ${props => config(props).gutterWidth / 2}px;
-    padding-left: ${props => config(props).gutterWidth / 2}px;
+    padding-right: ${props => getGutterWidth(props) / 2}px;
+    padding-left: ${props => getGutterWidth(props) / 2}px;
     flex-grow: 1;
     flex-basis:0;
     ${p => p.reverse && `

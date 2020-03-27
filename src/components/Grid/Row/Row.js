@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import config from '../config';
+import {getGutterWidth} from '../helpers';
 import { flexbox } from 'styled-system';
 
 const Row = styled.div`
@@ -8,8 +8,8 @@ const Row = styled.div`
     flex: 0 1 auto;
     flex-direction: row;
     flex-wrap: wrap;
-    margin-right: ${props => config(props).gutterWidth / 2 * -1}px;
-    margin-left: ${props => config(props).gutterWidth / 2 * -1}px;
+    margin-right: ${props => getGutterWidth(props) / 2 * -1}px;
+    margin-left: ${props => getGutterWidth(props) / 2 * -1}px;
     ${flexbox}
 `;
 
