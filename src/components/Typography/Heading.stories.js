@@ -33,5 +33,8 @@ export const HeadingComponent = () => {
 
 export default {
     title: 'Typography',
-    decorators: [withKnobs]
+    decorators: [withKnobs],
+    parameters: {
+        actions: { disabled: true }
+    }
 };

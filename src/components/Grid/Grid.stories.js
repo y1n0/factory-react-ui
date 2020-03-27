@@ -16,6 +16,9 @@ export const BaseTextComponent = () => {
 
 export default {
     title: 'Grid',
-    decorators: [withKnobs]
+    decorators: [withKnobs],
+    parameters: {
+        actions: { disabled: true }
+    }
 };
   

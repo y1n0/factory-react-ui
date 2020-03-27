@@ -169,5 +169,8 @@ export const BorderRadius = () => {
 
 export default {
   title: 'Design Tokens',
-  component: Colors
+  component: Colors,
+  parameters: {
+    actions: { disabled: true }
+}
 };
