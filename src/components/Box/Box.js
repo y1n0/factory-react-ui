@@ -6,7 +6,6 @@ const Box = styled('div')(
     boxSizing: 'border-box',
     margin: 0,
     minWidth: 0,
-    border: "4px solid red"
   },
   props => props.css,
   compose(
