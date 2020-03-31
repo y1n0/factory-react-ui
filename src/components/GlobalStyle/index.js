@@ -19,10 +19,6 @@ const GlobalStyle = createGlobalStyle`
         list-style: none;
     }
 
-    img {
-        max-width: 100%;
-        height: auto;
-    }
 
     html {
         font-family: ${({ theme }) => theme.fonts.sans};

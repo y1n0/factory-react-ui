@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 const Panel = (props) => {
     return (
-        <Box fontFamily="monospace" textAlign="center" padding="small" border="gray" bg="gray100">{props.children}</Box>
+        <Box display="flex" justifyContent={{xs: "center", md: "end"}} fontFamily="monospace"  padding="small" border="gray" bg="gray100">{props.children}</Box>
     );
 }
 

@@ -1,5 +1,4 @@
-import { DEFAULT_CONFIG, BREAKPOINTS } from "./config";
-
+import { DEFAULT_CONFIG } from "./config";
 
 // Name of the grid-system config in theme object
 const THEME_CONF = 'gridSystem';
@@ -40,7 +39,7 @@ const getConfig = ({theme}) => {
 // sort breakpoint names from props
 export const sortBreakpointProps = (props) => {
     const propsArr = Object.keys(props);
-    const breakpointNames = Object.keys(BREAKPOINTS);
+    const breakpointNames = Object.keys(props.theme.breakpoints);
     const breakpoints = propsArr.filter(_prop => ~breakpointNames.indexOf(_prop));
     const sortedBreakpoints = breakpoints.sort((bp1, bp2) => breakpointNames.indexOf(bp1) - breakpointNames.indexOf(bp2));
     return sortedBreakpoints;

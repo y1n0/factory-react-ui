@@ -1,8 +1,26 @@
 
 import styled, {css} from 'styled-components';
-import {BREAKPOINTS, lessThan} from '../config';
 import {getOuterMargin, getContainer} from '../helpers';
+import {generateMedia} from '../../../core/styled-media';
 
+const generateMediaforContainer = props => {
+    // TODO refactoring props.theme.breakpoint , getTheme('breakpoint')
+    const breakpointsName = Object.keys(props.theme.breakpoints);
+    if(!props.fluid) {
+        return css`
+            ${breakpointsName.map(breakpoint => {
+                if(getContainer(props)(breakpoint)) {
+                    return generateMedia(props.theme.breakpoints).greaterThan(breakpoint)`
+                        width: ${(props) => getContainer(props)(breakpoint)};
+                    `
+                } else {
+                    return null;
+                }
+            })}
+        `;
+
+    }
+};
 
 const Container = styled.div`
     box-sizing: border-box;
@@ -11,11 +29,7 @@ const Container = styled.div`
     padding-left: ${props => getOuterMargin(props)}px;
     padding-right: ${props => getOuterMargin(props)}px;
     width: 100%;
-    ${(props) => !props.fluid &&
-                css`
-                    ${Object.keys(BREAKPOINTS).map(dim => getContainer(props)(dim) && lessThan(dim)`width: ${(props) => getContainer(props)(dim)};`)}
-                `
-        }
+    ${generateMediaforContainer}
 `;
 
 Container.defaultProps = {
