@@ -10,7 +10,7 @@ const Paragraph = (props) => {
     } = props;
 
     return (
-        <Text   
+        <Text   {...rest}
                 fontSize="paragraph"
                 lineHeight="paragraph"
                 mb="xsmall"

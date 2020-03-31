@@ -10,7 +10,9 @@ import fontSizes from './constants/fontSizes';
 import lineHeights from './constants/lineHeights';
 import borders, {radii, borderWidths, borderStyles} from './constants/borders';
 
-export const theme = {
+
+
+const baseTheme = {
     colors,
     breakpoints,
     space,
@@ -23,5 +25,30 @@ export const theme = {
     borders,
     radii,
     borderWidths,
-    borderStyles
+    borderStyles,
+}
+
+const componentsTheme = {
+    buttons : {
+        primary :  {
+            backgroundColor: colors.primary500,
+            color: colors.white,
+            fontSize: fontSizes.paragraph,
+            lineHeight: lineHeights.paragraph,
+            borderRadius: radii.rounded,
+            '&:hover': {
+                backgroundColor: colors.primary100,
+                color: colors.primary500,
+            }
+        }
+    },
+    
+}
+
+
+export const theme = {
+    
+    ...baseTheme,
+    ...componentsTheme,
+
 };
