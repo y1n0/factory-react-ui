@@ -57,7 +57,7 @@ const styledSystem = compose(
                 paddingBottom: 'xxsmall',
                 paddingLeft: 'large',
                 paddingRight: 'large',
-                fontSize: '18px',
+                fontSize: '16px',
                 lineHeight: '24px'
             }
         }

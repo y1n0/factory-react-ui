@@ -12,6 +12,7 @@ import borders, {radii, borderWidths, borderStyles} from './constants/borders';
 
 import buttons from './components/buttons';
 import anchors from './components/anchors';
+import inputs from './components/inputs';
 
 const baseTheme = {
     colors,
@@ -32,6 +33,7 @@ const baseTheme = {
 const componentsTheme = {
     buttons,
     anchors,
+    inputs,
 
 }
 

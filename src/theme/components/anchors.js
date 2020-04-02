@@ -4,7 +4,6 @@ const anchors = {
     variants: {
         primary: {
             color: 'primary500',
-            borderColor: 'transparent',
             textDecoration: 'none',
             '&:hover': {
                 color: 'primary600',
@@ -17,7 +16,6 @@ const anchors = {
         },
         danger : {
             color: 'danger500',
-            borderColor: 'transparent',
             textDecoration: 'none',
             '&:hover': {
                 color: 'danger600',
@@ -30,7 +28,6 @@ const anchors = {
         },
         success : {
             color: 'success500',
-            borderColor: 'transparent',
             textDecoration: 'none',
             '&:hover': {
                 color: 'success600',
@@ -43,7 +40,6 @@ const anchors = {
         },
         info : {
             color: 'info500',
-            borderColor: 'transparent',
             textDecoration: 'none',
             '&:hover': {
                 color: 'info600',
@@ -56,7 +52,6 @@ const anchors = {
         },
         warning : {
             color: 'warning500',
-            borderColor: 'transparent',
             textDecoration: 'none',
             '&:hover': {
                 color: 'warning600',

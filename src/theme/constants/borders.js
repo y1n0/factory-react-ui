@@ -7,13 +7,13 @@ import colors from './colors';
  * Border
  */
 const borders = {
-    primary   : `1px solid ${colors.primary500}`,
-    success  : `1px solid ${colors.success500}`,
-    danger  : `1px solid ${colors.danger500}`,
-    info   : `1px solid ${colors.info500}`,
-    warning : `1px solid ${colors.warning500}`,
-    black    : `1px solid ${colors.black500}`,
-    gray    : `1px solid ${colors.gray500}`,
+    primary     : `1px solid ${colors.primary500}`,
+    success     : `1px solid ${colors.success500}`,
+    danger      : `1px solid ${colors.danger500}`,
+    info        : `1px solid ${colors.info500}`,
+    warning     : `1px solid ${colors.warning500}`,
+    black       : `1px solid ${colors.black500}`,
+    gray        : `1px solid ${colors.gray500}`,
 };
 
 
