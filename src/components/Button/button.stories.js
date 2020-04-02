@@ -9,7 +9,7 @@ export const Variant = () => {
     return (
         <Box display="flex" flexDirection="column">
             <Box my="xsmall">
-                <Button variant="basic">basic</Button>
+                <Button variant="basic" type="submit">basic</Button>
             </Box>
             <Box my="xsmall">
                 <Button variant="primary">primary</Button>
@@ -103,6 +103,7 @@ export const fullWidth = () => {
         </Box>
     );
 }
+
 
 
 
