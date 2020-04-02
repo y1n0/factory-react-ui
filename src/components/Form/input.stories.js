@@ -1,10 +1,11 @@
 import React from 'react';
 import { withKnobs } from "@storybook/addon-knobs";
-import { css } from '@styled-system/css';
+import { action } from "@storybook/addon-actions"
 
 import {Text} from '../Typography';
 import { Box } from '../Box';
-import Input from './Input';
+import Input, {Password} from './Input';
+
 
 export const Default = () => {
     return (
@@ -23,22 +24,22 @@ export const Status = () => {
     return (
         <Box display="flex" flexDirection="column">
             <Box my="xsmall" px="xsmall">
-                <Input type="text" value="default" />
+                <Input type="text" placeholder="default" onChange={action("default")}/>
             </Box>
             <Box my="xsmall" px="xsmall">
-                <Input type="text" status="primary" value="primary" />
+                <Input type="text" status="primary" placeholder="primary"onChange={action("primary")} />
             </Box>
             <Box my="xsmall" px="xsmall">
-                <Input type="text" status="success" value="success" />
+                <Input type="text" status="success" placeholder="success"onChange={action("success")} />
             </Box>
             <Box my="xsmall" px="xsmall">
-                <Input type="text" status="danger" value="danger" />
+                <Input type="text" status="danger" placeholder="danger" onChange={action("danger")}/>
             </Box>
             <Box my="xsmall" px="xsmall">
-                <Input type="text" status="info" value="info" />
+                <Input type="text" status="info" placeholder="info"onChange={action("info")} />
             </Box>
             <Box my="xsmall" px="xsmall">
-                <Input type="text" status="warning" value="warning" />
+                <Input type="text" status="warning" placeholder="warning" onChange={action("warning")}/>
             </Box>
         </Box>
     );
@@ -47,13 +48,13 @@ export const Sizes = () => {
     return (
         <Box display="flex" flexDirection="column">
             <Box my="xsmall" px="xsmall">
-                <Input type="text" size="small" value="small" />
+                <Input type="text" size="small" placeholder="small"onChange={action("small")} />
             </Box>
             <Box my="xsmall" px="xsmall">
-                <Input type="text" size="medium" value="medium" />
+                <Input type="text" size="medium" placeholder="medium" onChange={action("medium")}/>
             </Box>
             <Box my="xsmall" px="xsmall">
-                <Input type="text" size="large" value="large" />
+                <Input type="text" size="large" placeholder="large" onChange={action("large")}/>
             </Box>
         </Box>
     );
@@ -81,10 +82,37 @@ export const Disabled = () => {
     return (
         <Box display="flex" flexDirection="column">
             <Box my="xsmall" px="xsmall">
-                <Input type="text" disabled value="disabled" />
+                <Input type="text" disabled placeholder="disabled" onChange={action("disabled")}/>
             </Box>
         </Box>
     );
+}
+
+export const PasswordInput = () => {
+    return (
+        <Box display="flex" flexDirection="column">
+            <Box my="xsmall" px="xsmall">
+                <Text m="xsmall">Textdefaultarea</Text>
+                <Password placeholder="password" />
+            </Box>
+            <Box my="xsmall" px="xsmall">
+                <Text m="xsmall">small</Text>
+                <Password size="small" placeholder="password" />
+            </Box>
+            <Box my="xsmall" px="xsmall">
+                <Text m="xsmall">medium</Text>
+                <Password size="medium" status="primary" placeholder="password" />
+            </Box>
+            <Box my="xsmall" px="xsmall">
+                <Text m="xsmall">large</Text>
+                <Password size="large" placeholder="password" />
+            </Box>
+            <Box my="xsmall" px="xsmall">
+                <Text m="xsmall">full width</Text>
+                <Password  width="100%" />
+            </Box>
+        </Box>
+    )
 }
 
 export default {
