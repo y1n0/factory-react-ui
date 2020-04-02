@@ -1,8 +1,10 @@
 import React from 'react';
 import { withKnobs } from "@storybook/addon-knobs";
 import { Box } from '../Box';
+import {css} from '@styled-system/css';
 
-import { Button } from './Button';
+import Button from './Button';
+import Link from './Link';
 
 
 export const Variant = () => {
@@ -104,8 +106,15 @@ export const fullWidth = () => {
     );
 }
 
-
-
+export const AsLink = () => {
+    return (
+        <Box display="flex" flexDirection="column">
+            <Box my="xsmall">
+                <Link  href="#" outline="primary" borderRadius="rounded">link</Link>
+            </Box>
+        </Box>
+    );
+}
 
 export default {
     title: 'Button',

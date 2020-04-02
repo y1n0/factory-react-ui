@@ -9,7 +9,9 @@ import fontWeights from './constants/fontWeights';
 import fontSizes from './constants/fontSizes';
 import lineHeights from './constants/lineHeights';
 import borders, {radii, borderWidths, borderStyles} from './constants/borders';
+
 import buttons from './components/buttons';
+import anchors from './components/anchors';
 
 const baseTheme = {
     colors,
@@ -29,6 +31,7 @@ const baseTheme = {
 
 const componentsTheme = {
     buttons,
+    anchors,
 
 }
 

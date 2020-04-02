@@ -21,7 +21,6 @@ const styledSystem = compose(
 );
 
 
-
  const Button = styled.button`
 
     display: inline-block;
@@ -87,6 +86,4 @@ Button.defaultProps = {
     borderRadius: 'small'
 }
 
-export {
-    Button
-}
+export default Button;

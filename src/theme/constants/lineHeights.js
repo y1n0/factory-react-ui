@@ -17,6 +17,7 @@ const lineHeights = {
     heading4    : '38px',
     heading3    : '44px',
     heading2    : '62px',
+    heading1    : '62px',
  };
 
  export default lineHeights;
