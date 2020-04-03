@@ -79,6 +79,7 @@ const inputs = {
             }
         }
     },
+    
     sizes: {
         small: {
             paddingY: 'xxsmall',

@@ -21,6 +21,16 @@ const styledSystem = compose(
 
 
 
+const StyledTextInputContainer = styled.div`
+    display:flex;
+    position: relative;
+    width: fit-content;
+    ${width}
+`;
+
+
+
+
 const Input = styled.input`
     display: block;
     padding: 2px;
@@ -76,6 +86,20 @@ Input.defaultProps = {
     size: 'medium'
 }
 
+
+
+export const StyledInput  = (props) => {
+
+
+    return (
+        <StyledTextInputContainer width={props.width}>
+
+            <Input  {...props} />
+
+        </StyledTextInputContainer>
+
+    );
+}
 
 
 const StyledPassword = styled.div`
