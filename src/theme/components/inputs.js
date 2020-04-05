@@ -4,12 +4,15 @@ import colors from "../constants/colors";
 
 
 const inputs = {
+
+    iconContainer: {
+        width: '30px'
+    },
     variants: {
         default: {
             color: 'black800',
             borderColor: 'gray500',
             borderWidth: 'xsmall',
-            textDecoration: 'none',
             borderRadius: 'small',
             ':hover,:active': {
                 boxShadow: `0 0 0 3px ${colors.gray300}`
@@ -24,7 +27,53 @@ const inputs = {
                 color: 'gray800',
                 borderColor: 'gray500'
             }
+        },
+        dam: {
+            color: '#707070',
+            borderColor: '#dfdfdf',
+            borderWidth: '1px',
+            borderRadius: 'rounded',
+            lineHeight: '30px',
+            fontSize: '16px',
+            width: '100%',
+            ':hover,:active': {
+                boxShadow: 'none'
+            },
+            ':focus': {
+                borderColor: '#dfdfdf',
+                boxShadow: 'none'
+            },
 
+            ':disabled': {
+                backgroundColor: 'gray200',
+                boxShadow: 'none',
+                color: 'gray800',
+                borderColor: 'gray500'
+            }
+        },
+        awb: {
+            color: '#000',
+            border: '2px solid #f5c000',
+            backgroundColor: '#fff',
+            fontWeight: 700,
+            borderRadius: 'none',
+            boxShadow: 'inset 0 1px 1px rgba(0,0,0,.075)',
+            transition: 'border-color ease-in-out .15s,box-shadow ease-in-out .15s',
+            ':hover,:active': {
+                boxShadow: 'none'
+            },
+            ':focus': {
+                borderColor: '#f5c001',
+                outline: '0',
+                boxShadow: 'inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(245,192,1,.6)'
+            },
+
+            ':disabled': {
+                backgroundColor: 'gray200',
+                boxShadow: 'none',
+                color: 'gray800',
+                borderColor: 'gray500'
+            }
         }
     },
     status: {
@@ -79,7 +128,7 @@ const inputs = {
             }
         }
     },
-    
+
     sizes: {
         small: {
             paddingY: 'xxsmall',
@@ -99,6 +148,20 @@ const inputs = {
             paddingX: 'small',
             fontSize: '18px',
             lineHeight: '26px'
+        },
+        dam: {
+            
+            paddingX: '14px',
+            fontSize: '16px',
+            lineHeight: '30px',
+        },
+        awb: {
+            padding: '7px 25px',
+            fontSize: '18px',
+            lineHeight: '1.33337',
+            fontWeight: 700,
+            height: '60px',
+            width: '100%'
         }
     }
 };

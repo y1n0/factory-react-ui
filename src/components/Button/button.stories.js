@@ -37,7 +37,7 @@ export const Size = () => {
     return (
         <Box display="flex" flexDirection="column">
             <Box my="xsmall">
-                <Button variant="primary" size="small">small</Button>
+                <Button variant="primary" outline size="small">small</Button>
             </Box>
             <Box my="xsmall">
                 <Button variant="primary" size="medium">medium</Button>
@@ -59,13 +59,13 @@ export const rounded = () => {
                 <Button variant="danger" borderRadius="rounded">danger</Button>
             </Box>
             <Box my="xsmall">
-                <Button variant="success" borderRadius="rounded">success</Button>
+                <Button variant={{_: 'success', sm: 'danger', md: 'primary'}} borderRadius={{sm: 'none', md: 'rounded'}} >Responsive</Button>
             </Box>
             <Box my="xsmall">
                 <Button variant="info" borderRadius="rounded">info</Button>
             </Box>
             <Box my="xsmall">
-                <Button variant="warning" borderRadius="rounded">warning</Button>
+                <Button variant="primary" borderRadius="rounded">warning</Button>
             </Box>
         </Box>
     );
@@ -110,7 +110,7 @@ export const AsLink = () => {
     return (
         <Box display="flex" flexDirection="column">
             <Box my="xsmall">
-                <Link  href="#" outline="primary" borderRadius="rounded">link</Link>
+                <Link href="#" outline="primary" borderRadius="rounded">link</Link>
             </Box>
         </Box>
     );

@@ -14,6 +14,8 @@ import buttons from './components/buttons';
 import anchors from './components/anchors';
 import inputs from './components/inputs';
 
+import labels from './components/labels';
+
 const baseTheme = {
     colors,
     breakpoints,
@@ -34,6 +36,7 @@ const componentsTheme = {
     buttons,
     anchors,
     inputs,
+    labels
 
 }
 

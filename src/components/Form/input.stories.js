@@ -4,7 +4,10 @@ import { action } from "@storybook/addon-actions"
 
 import {Text} from '../Typography';
 import { Box } from '../Box';
-import Input, {Password} from './Input';
+import {Input} from './Input';
+import {Search} from '@styled-icons/evil/Search';
+import {Eye, EyeOff} from '@styled-icons/feather';
+import Label from './Label';
 
 
 export const Default = () => {
@@ -15,6 +18,9 @@ export const Default = () => {
             </Box>
             <Box my="xsmall" px="xsmall">
                 <Input type="text" variant="default" placeholder="placeholder" width="100%" />
+            </Box>
+            <Box my="xsmall" px="xsmall">
+                <Input type="text" disabled placeholder="disabled" onChange={action("disabled")}/>
             </Box>
         </Box>
     );
@@ -78,42 +84,109 @@ export const Types = () => {
         </Box>
     );
 }
-export const Disabled = () => {
+export const Responsive = () => {
     return (
         <Box display="flex" flexDirection="column">
             <Box my="xsmall" px="xsmall">
-                <Input type="text" disabled placeholder="disabled" onChange={action("disabled")}/>
+                <Text m="xsmall">status</Text>
+                <Input status={{_: 'primary', sm: 'danger', md: 'success', lg: 'info'}} placeholder="placeholder" />
+            </Box>
+
+            <Box my="xsmall" px="xsmall">
+                <Text m="xsmall">width</Text>
+                <Input width={{_: '100%', md: 'inherit' }} placeholder="placeholder" />
             </Box>
         </Box>
     );
 }
 
-export const PasswordInput = () => {
+export const WithIcon = () => {
     return (
         <Box display="flex" flexDirection="column">
             <Box my="xsmall" px="xsmall">
-                <Text m="xsmall">Textdefaultarea</Text>
-                <Password placeholder="password" />
+                <Input type="text" placeholder="placeholder" />
             </Box>
             <Box my="xsmall" px="xsmall">
-                <Text m="xsmall">small</Text>
-                <Password size="small" placeholder="password" />
+                <Input icon={<Search size="100%" />} type="text" />
+            </Box>
+
+            <Box my="xsmall" px="xsmall">
+                <Input icon={<Search size="100%" />} type="text" />
+            </Box>
+
+            <Box my="xsmall" px="xsmall">
+                <Input icon={<Search size="25px"/>}  size="small" placeholder="small" type="text" />
+            </Box>
+
+            <Box my="xsmall" px="xsmall">
+                <Input icon={<Search size="100%" />}  size="large" placeholder="large"  type="text" />
             </Box>
             <Box my="xsmall" px="xsmall">
-                <Text m="xsmall">medium</Text>
-                <Password size="medium" status="primary" placeholder="password" />
+                <Input reverse icon={<Search size="100%" />} width="100%"  status="primary" size="large" placeholder="large"  type="text" />
             </Box>
             <Box my="xsmall" px="xsmall">
-                <Text m="xsmall">large</Text>
-                <Password size="large" placeholder="password" />
+                <Input icon={<Search size="100%" />} width="100%" mt="20px" pl="200px" size="large" placeholder="padding-left" type="text" />
             </Box>
+
             <Box my="xsmall" px="xsmall">
-                <Text m="xsmall">full width</Text>
-                <Password  width="100%" />
+                <Input icon={<Search size="25px"/>} size="small" placeholder="small" type="text" />
+            </Box>
+        </Box>
+    );
+}
+
+export const Password = () => {
+
+    const [value, setValue] = React.useState("");
+    const [reveal, setReveal] = React.useState(false);
+
+    return (
+        <Box display="flex" flexDirection="column">
+            <Box my="xsmall" px="xsmall">
+                <Text m="xsmall">Password</Text>
+                <Input  icon={reveal ? <Eye size="90%" onClick={() => setReveal(!reveal)}/> : <EyeOff size="90%" onClick={() => setReveal(!reveal)}/>}
+                        type={reveal ? "text" : "password"}
+                        reverse
+                        value={value}
+                        onChange={event => setValue(event.target.value)}
+                        placeholder="password" />
             </Box>
         </Box>
     )
 }
+
+export const DarAlMoukawil = () => {
+    return (
+        <Box display="flex" flexDirection="column">
+            <Box my="xsmall" px="xsmall">
+                <Label variant="dam">Prénom <Text as="span"  fontWeight="bold" color="#ef3d25">(*)</Text></Label>
+                <Input type="text" variant="dam" width='100%' size="dam"/>
+            </Box>
+            <Box my="xsmall" px="xsmall">
+                <Label variant="dam">Prénom <Text as="span"  fontWeight="bold" color="#ef3d25">(*)</Text></Label>
+                <Input type="text" variant="dam" width='100%' size="dam"/>
+            </Box>
+        </Box>
+    );
+}
+export const AWB = () => {
+    return (
+        <Box display="flex" flexDirection="column">
+            <Box m="0 0 40px" px="xsmall">
+                <Label variant="awb">Prénom <Text as="span" color="#ef3d25">*</Text></Label>
+                <Input type="text" variant="awb" width='100%' size="awb"/>
+            </Box>
+            <Box m="0 0 40px" px="xsmall">
+                <Label variant="awb">Nom <Text as="span" color="#ef3d25">*</Text></Label>
+                <Input type="text" variant="awb" width='100%' size="awb"/>
+            </Box>
+        </Box>
+    );
+}
+
+
+
+
 
 export default {
     title: 'Input',
