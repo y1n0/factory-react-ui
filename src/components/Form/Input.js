@@ -125,7 +125,7 @@ StyledInput.defaultProps = {
 
 
 
-export const Input  = ({as, ...props}) => {
+export const Input  = React.forwardRef(({as, ...props}, ref) => {
 
     const theme = useContext(ThemeContext);
 
@@ -136,11 +136,11 @@ export const Input  = ({as, ...props}) => {
                         {props.icon}
                     </StyledIcon>
             }
-            <StyledInput as={as} {...props} sizeIcon={props.icon && getIconSize(props.icon, theme)} />
+            <StyledInput as={as} {...props} ref={ref} sizeIcon={props.icon && getIconSize(props.icon, theme)} />
         </StyledTextInputContainer>
 
     );
-}
+})
 
 Input.defaultProps = {
     as: 'input',

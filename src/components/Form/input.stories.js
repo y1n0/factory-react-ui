@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withKnobs } from "@storybook/addon-knobs";
 import { action } from "@storybook/addon-actions"
 
@@ -8,7 +8,8 @@ import { Input } from './Input';
 import { Search } from '@styled-icons/evil/Search';
 import { Eye, EyeOff } from '@styled-icons/feather';
 import Label from './Label';
-
+import { useForm } from 'react-hook-form';
+import { Button } from '../Button';
 
 export const Default = () => {
     return (
@@ -109,16 +110,16 @@ export const Layout = () => {
             <Heading level="3">Horizontal Form</Heading>
             <Box display="flex" flexDirection="column">
                 <Box my="xsmall" px="xsmall" display="flex" flexDirection="row" justifyContent="start" alignItems="center">
-                    <Box width={2/12}><Label>Label</Label></Box>
-                    <Box width={10/12}><Input type="text" variant="default" width="100%" /></Box>
+                    <Box width={2 / 12}><Label>Label</Label></Box>
+                    <Box width={10 / 12}><Input type="text" variant="default" width="100%" /></Box>
                 </Box>
                 <Box my="xsmall" px="xsmall" display="flex" flexDirection="row" justifyContent="start" alignItems="center">
-                    <Box width={2/12}><Label>Label</Label></Box>
-                    <Box width={10/12}><Input type="text" variant="default" width="100%" /></Box>
+                    <Box width={2 / 12}><Label>Label</Label></Box>
+                    <Box width={10 / 12}><Input type="text" variant="default" width="100%" /></Box>
                 </Box>
                 <Box my="xsmall" px="xsmall" display="flex" flexDirection="row" justifyContent="start" alignItems="center">
-                    <Box width={2/12}><Label>Label</Label></Box>
-                    <Box width={10/12}><Input type="text" variant="default" width="100%" /></Box>
+                    <Box width={2 / 12}><Label>Label</Label></Box>
+                    <Box width={10 / 12}><Input type="text" variant="default" width="100%" /></Box>
                 </Box>
             </Box>
 
@@ -240,16 +241,44 @@ export const AWB = () => {
 }
 
 export const ReactHookForm = () => {
+
+    const [formData, setFormData] = useState({nom: "", prenom: ""});
+
+    const { register, handleSubmit } = useForm();
+    const onSubmit = data => {
+        setFormData(data);
+        console.log(data)
+    };
+
     return (
-        <Box display="flex" flexDirection="column">
-            <Box my="xsmall" px="xsmall">
-                <Input type="text" variant="default" placeholder="placeholder" />
-            </Box>
-            <Box my="xsmall" px="xsmall">
-                <Input type="text" variant="default" placeholder="placeholder" width="100%" />
-            </Box>
-            <Box my="xsmall" px="xsmall">
-                <Input type="text" disabled placeholder="disabled" onChange={action("disabled")} />
+        <Box>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Box display="flex" flexDirection="column">
+                    <Box my="xsmall" px="xsmall">
+                        <Label>Prénom</Label>
+                        <Input name="prenom" type="text"  ref={register}/>
+                    </Box>
+                    <Box my="xsmall" px="xsmall">
+                        <Label>Nom</Label>
+                        <Input name="nom"  type="text"  ref={register} />
+                    </Box>
+
+                    <Box my="xsmall" px="xsmall">
+                        <Button type="submit" variant="primary" size="medium">Submit</Button>
+                    </Box>
+                </Box>
+            </form>
+            <Box>
+            <Box display="flex" flexDirection="column">
+                    <Box my="xsmall" px="xsmall">
+                        <Text as="span" fontWeight="bold">Nom:</Text>
+                        <Text as="span">{formData && formData.nom}</Text>
+                    </Box>
+                    <Box my="xsmall" px="xsmall">
+                        <Text as="span" fontWeight="bold">Prénom:</Text>
+                        <Text as="span">{ formData && formData.prenom}</Text>
+                    </Box>
+                </Box>
             </Box>
         </Box>
     );

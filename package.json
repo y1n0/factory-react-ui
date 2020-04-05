@@ -10,6 +10,7 @@
     "polished": "^3.5.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-hook-form": "^5.3.1",
     "react-scripts": "3.4.1",
     "styled-components": "^5.0.1",
     "styled-icons": "^10.2.1",
