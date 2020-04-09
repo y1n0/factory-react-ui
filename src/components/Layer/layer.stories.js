@@ -1,6 +1,5 @@
 import React from 'react';
 
-import {StyledLayer, StyledOverlay, StyledContainer} from './StyledLayer';
 import {Layer} from './Layer';
 import {Box, Flex} from '../Box';
 import {Button} from '../Button';
