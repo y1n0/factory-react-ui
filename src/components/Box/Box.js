@@ -28,9 +28,10 @@ export const Box = styled('div', {shouldForwardProp})(
     minWidth: 0,
   },
   base,
-  sx,
   variant,
+  sx,
   props => props.css,
+  props => props.styledCss,
   compose(
     space,
     color,

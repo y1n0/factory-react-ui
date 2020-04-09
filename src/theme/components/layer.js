@@ -6,10 +6,12 @@ export const layer = {
     responsiveBreakpoint: 'md',
     zIndex: 1000,
 
-    overlay: {
-        background: 'gray500'
+    container: {
+        zIndex: 1001,
     },
-    extend:  css`
-        border: 8px solid red;
-    `
+    overlay: {
+        backgroundColor: 'gray700',
+    },
+    default:  {
+    }
 };

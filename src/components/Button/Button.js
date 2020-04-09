@@ -36,7 +36,7 @@ const styledSystem = compose(
     background: transparent;
     overflow: visible;
     text-transform: none;
-
+    border-style: solid;
 
     
 
