@@ -5,7 +5,6 @@ import { Box } from '../Box';
 import { Heading, Paragraph } from '../Typography'
 import { Anchor } from './Anchor';
 
-
 export const Default = () => {
     return (
         <Box display="flex" flexDirection="column">

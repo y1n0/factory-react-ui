@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { typography, display, variant, space, color } from 'styled-system';
+import { typography, display, variant, space, color, flexbox } from 'styled-system';
 
 
 const labelVariants = variant({
@@ -13,14 +13,15 @@ const labelVariants = variant({
 
 
 const Label = styled.label`
-    display: inline-block;
-    max-width: 100%;
+    display: flex;
+    width: 100%;
 
     ${labelVariants}
     ${space}
     ${color}
     ${typography}
     ${display}
+    ${flexbox}
 `;
 
 

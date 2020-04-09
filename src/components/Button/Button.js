@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { layout, flexbox, color, space, typography, compose, background, position, shadow, border, variant, buttonStyle, width, height, display, minWidth, maxWidth } from "styled-system";
+import {  flexbox, color, space, typography, compose, background, position, shadow, border, variant, buttonStyle, width, height, display, minWidth, maxWidth } from "styled-system";
 
 
 const custtomStyledLayout = compose(
@@ -9,6 +9,7 @@ const custtomStyledLayout = compose(
 )
 
 const styledSystem = compose(
+    display,
     space,
     color,
     typography,
@@ -23,7 +24,9 @@ const styledSystem = compose(
 
  const Button = styled.button`
 
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    flex-direction: row;
     box-sizing: border-box;
     cursor: pointer;
     outline: none;
@@ -35,9 +38,7 @@ const styledSystem = compose(
     text-transform: none;
 
 
-    ${styledSystem}
-
-    ${buttonStyle}
+    
 
     ${variant({
         scale: 'buttons.variants',
@@ -71,6 +72,10 @@ const styledSystem = compose(
             }
         }
     })}
+
+    ${styledSystem}
+
+    ${buttonStyle}
 
     &:disabled {
        cursor: not-allowed;

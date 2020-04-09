@@ -1,6 +1,3 @@
 
-import Box from './Box';
 
-export {
-    Box
-};
+export {Box, Flex} from './Box';

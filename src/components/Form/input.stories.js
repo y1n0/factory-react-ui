@@ -287,6 +287,6 @@ export const ReactHookForm = () => {
 
 
 export default {
-    title: 'Input',
+    title: 'Form/Input',
     decorators: [withKnobs],
 };

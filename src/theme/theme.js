@@ -15,6 +15,10 @@ import anchors from './components/anchors';
 import inputs from './components/inputs';
 
 import labels from './components/labels';
+import radio from './components/radio';
+import checkbox from './components/checkbox';
+import select from './components/select';
+import {layer} from './components/layer';
 
 const baseTheme = {
     colors,
@@ -36,8 +40,11 @@ const componentsTheme = {
     buttons,
     anchors,
     inputs,
-    labels
-
+    labels,
+    radio,
+    checkbox,
+    select,
+    layer
 }
 
 
