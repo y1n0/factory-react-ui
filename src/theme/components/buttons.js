@@ -9,12 +9,12 @@ const buttons = {
             lineHeight: 'paragraph',
             borderWidth: '2px',
             borderColor: 'transparent',
-            '&:hover': {
+            ':hover': {
                 backgroundColor: 'primary600',
                 color: 'white',
                 borderColor: 'primary600',
             },
-            '&:disabled': {
+            ':disabled': {
                 backgroundColor: 'primary100',
                 color: 'primary300',
                 borderColor: 'primary200',
@@ -27,12 +27,12 @@ const buttons = {
             lineHeight: 'paragraph',
             borderWidth: '2px',
             borderColor: 'transparent',
-            '&:hover': {
+            ':hover': {
                 backgroundColor: 'danger600',
                 color: 'white',
                 borderColor: 'danger600',
             },
-            '&:disabled': {
+            ':disabled': {
                 backgroundColor: 'danger100',
                 color: 'danger300',
                 borderColor: 'danger200',
@@ -45,12 +45,12 @@ const buttons = {
             lineHeight: 'paragraph',
             borderWidth: '2px',
             borderColor: 'transparent',
-            '&:hover': {
+            ':hover': {
                 backgroundColor: 'success600',
                 color: 'white',
                 borderColor: 'success600',
             },
-            '&:disabled': {
+            ':disabled': {
                 backgroundColor: 'success100',
                 color: 'success300',
                 borderColor: 'success200',
@@ -63,12 +63,12 @@ const buttons = {
             lineHeight: 'paragraph',
             borderWidth: '2px',
             borderColor: 'transparent',
-            '&:hover': {
+            ':hover': {
                 backgroundColor: 'info600',
                 color: 'white',
                 borderColor: 'info600',
             },
-            '&:disabled': {
+            ':disabled': {
                 backgroundColor: 'info100',
                 color: 'info300',
                 borderColor: 'info200',
@@ -81,12 +81,12 @@ const buttons = {
             lineHeight: 'paragraph',
             borderWidth: '2px',
             borderColor: 'transparent',
-            '&:hover': {
+            ':hover': {
                 backgroundColor: 'warning600',
                 color: 'white',
                 borderColor: 'warning600',
             },
-            '&:disabled': {
+            ':disabled': {
                 backgroundColor: 'warning100',
                 color: 'warning300',
                 borderColor: 'warning200',
@@ -127,31 +127,56 @@ const buttons = {
             border: 'primary',
             color: 'primary500',
             borderWidth: 'small',
-            backgroundColor: 'transparent'
+            backgroundColor: 'transparent',
+            ':hover': {
+                backgroundColor: 'primary500',
+                color: 'white',
+                borderColor: 'primary500',
+            },
         },
         danger: {
             border: 'danger',
             color: 'danger500',
             borderWidth: 'small',
-            backgroundColor: 'transparent'
+            backgroundColor: 'transparent',
+            ':hover': {
+                backgroundColor: 'danger500',
+                color: 'white',
+                borderColor: 'danger500',
+            },
         },
         success: {
             border: 'success',
             color: 'success500',
             borderWidth: 'small',
-            backgroundColor: 'transparent'
+            backgroundColor: 'transparent',
+            ':hover': {
+                backgroundColor: 'success500',
+                color: 'white',
+                borderColor: 'success500',
+            },
         },
         warning: {
             border: 'warning',
             color: 'warning500',
             borderWidth: 'small',
-            backgroundColor: 'transparent'
+            backgroundColor: 'transparent',
+            ':hover': {
+                backgroundColor: 'warning500',
+                color: 'white',
+                borderColor: 'warning500',
+            },
         },
         info: {
             border: 'info',
             color: 'info500',
             borderWidth: 'small',
-            backgroundColor: 'transparent'
+            backgroundColor: 'transparent',
+            ':hover': {
+                backgroundColor: 'info500',
+                color: 'white',
+                borderColor: 'info500',
+            },
         },
     }
     

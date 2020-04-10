@@ -12,14 +12,14 @@ const inputs = {
         default: {
             color: 'black800',
             borderColor: 'gray500',
-            borderWidth: 'xsmall',
+            borderWidth: '1px',
             borderRadius: 'small',
             ':hover,:active': {
-                boxShadow: `0 0 0 3px ${colors.gray300}`
+                boxShadow: 'none'
             },
             ':focus': {
-                borderColor: 'gray600',
-                boxShadow: `0 0 0 3px ${colors.gray300}`
+                borderColor: 'primary600',
+                boxShadow: `0 0 0 2px ${colors.primary600}`
             },
             ':disabled': {
                 backgroundColor: 'gray200',

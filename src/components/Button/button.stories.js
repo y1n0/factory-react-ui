@@ -83,18 +83,32 @@ export const rounded = () => {
                 <Button variant="danger" borderRadius="rounded">danger</Button>
             </Box>
             <Box my="xsmall">
-                <Button variant={{_: 'success', sm: 'danger', md: 'primary'}} borderRadius={{sm: 'none', md: 'rounded'}} >Responsive</Button>
+                <Button variant="success"  borderRadius="rounded" >Responsive</Button>
             </Box>
             <Box my="xsmall">
                 <Button variant="info" borderRadius="rounded">info</Button>
             </Box>
             <Box my="xsmall">
-                <Button variant="primary" borderRadius="rounded">warning</Button>
+                <Button variant="warning" borderRadius="rounded">warning</Button>
             </Box>
         </Box>
     );
 }
 
+
+export const responsive= () => {
+    return (
+        <Box display="flex" flexDirection="column">
+
+<Box my="xsmall">
+                <Button variant={{_: 'danger', sm: 'primary', md: 'success'}} >variant</Button>
+            </Box>
+            <Box my="xsmall">
+                <Button outline={{_: 'primary', sm: 'danger', md: 'success'}} >outline</Button>
+            </Box>
+        </Box>
+    );
+}
 export const outline = () => {
     return (
         <Box display="flex" flexDirection="column">

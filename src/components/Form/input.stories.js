@@ -144,7 +144,7 @@ export const Responsive = () => {
         <Box display="flex" flexDirection="column">
             <Box my="xsmall" px="xsmall">
                 <Label mb="xsmall">status</Label>
-                <Input status={{ _: 'primary', sm: 'danger', md: 'success', lg: 'info' }} placeholder="placeholder" />
+                <Input status={{_: 'primary', sm: 'danger', md: 'success'}} placeholder="placeholder" />
             </Box>
 
             <Box my="xsmall" px="xsmall">
@@ -166,7 +166,7 @@ export const WithIcon = () => {
             </Box>
 
             <Box my="xsmall" px="xsmall">
-                <Input icon={<Search size="100%" />} type="text" />
+                <Input icon={<Search size="100%" />} type="text" status={{_: 'primary', sm: 'danger', md: 'success'}} />
             </Box>
 
             <Box my="xsmall" px="xsmall">
