@@ -83,7 +83,7 @@ export const FullVerticalCorner = () => {
                     position="right"
                     full="vertical"
                     modal onClickOutside={() => setShow(false)} >
-                     <Flex width="300px" p="medium" bg="white" flexDirection="column" justifyContent="space-between" overflow="scroll">
+                     <Flex width="300px" height="100%" p="medium" bg="white" flexDirection="column" justifyContent="space-between" overflow="scroll">
                         <Flex borderBottom="1px solid gray;"><Text fontSize="title" mb="small">Title</Text></Flex>
                         <Flex></Flex>
                         <Flex><Button onClick={() => setShow(false)} >close</Button></Flex>

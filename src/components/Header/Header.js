@@ -2,7 +2,7 @@ import React from 'react';
 import {Flex} from '../Box';
 
 
-export const Header = (props) => {
+export const Header = (variant, ...props) => {
     return (
         <Flex
             {...props}

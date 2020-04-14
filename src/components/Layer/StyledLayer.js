@@ -52,7 +52,6 @@ export const StyledLayer = forwardRef(({variant='default', ...props}, ref) => {
             ref={ref}
             variant={`layer${variant ? '.'+variant : ''}`}
             sx={{
-                backgroundColor: 'primary200',
                 position: 'relative',
                 zIndex: themeGet('layer.zIndex')({theme}),
                 pointerEvents: 'none',
@@ -79,8 +78,9 @@ export const StyledOverlay = props => {
         }
     }
     return (
-        <Box
+        <Box data-s="overlay"
             {...props}
+            variant={`layer.overlay`}
             sx={{
                 position: 'absolute',
                 backgroundColor: !props.plain ? themeGet('layer.overlay.backgroundColor')({theme}) : null,
@@ -481,12 +481,12 @@ const getBounds = (bounds, margin, theme, position = undefined) => {
     },
   };
 
-export const StyledContainer = styled.div`
+export const StyledContainer = styled.div.attrs({'data-s': 'StyledContainer'})`
     display: flex;
     min-height: ${themeGet('sizes.xsmall')};
-
+    flex-direction: column;
     outline: none;
-
+    align-items: baseline;
     pointer-events: all;
     z-index: ${themeGet('layer.container.zIndex')};
 
