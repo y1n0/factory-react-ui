@@ -7,8 +7,7 @@ export const Header = (props) => {
         <Flex
             {...props}
             as='header'
-            cmpt='header'
-            variant={props.variant}
+            variant={`header${variant ? '.'+variant : ''}`}
             sx={{
                 position: 'relative',
                 flexDirection: 'row',

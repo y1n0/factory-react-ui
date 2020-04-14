@@ -53,8 +53,7 @@ export const Select = forwardRef(({ variant, ...props }, ref) =>
         <Box
             ref={ref}
             as='select'
-            cmpt='select'
-            variant={variant}
+            variant={`select${variant ? '.'+variant : ''}`}
             {...omitMarginProps(props)}
             __css={{
                 display: 'block',

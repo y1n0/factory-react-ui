@@ -124,8 +124,7 @@ export const Checkbox = forwardRef(({
             <Box
                 as={CheckboxIcon}
                 aria-hidden='true'
-                variant={variant}
-                cmpt='checkbox'
+                variant={`checkbox${variant ? '.'+variant : ''}`}
                 className={className}
                 sx={sx}
                 {...getSystemProps(props)}

@@ -50,8 +50,7 @@ export const StyledLayer = forwardRef(({variant='default', ...props}, ref) => {
         <Box
             {...props}
             ref={ref}
-            cmpt='layer'
-            variant={variant}
+            variant={`layer${variant ? '.'+variant : ''}`}
             sx={{
                 backgroundColor: 'primary200',
                 position: 'relative',

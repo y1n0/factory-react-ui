@@ -18,8 +18,7 @@ const base = props => css(props.__css)(props.theme);
 const variant = ({
   theme,
   variant,
-  cmpt = 'box',
-}) => css(get(theme, cmpt + '.' + variant, get(theme, cmpt)))(theme)
+}) => css(get(theme, variant))(theme)
 
 export const Box = styled('div', {shouldForwardProp})(
   {

@@ -2,13 +2,12 @@ import React from 'react';
 import {Flex} from '../Box';
 
 
-export const Footer = (props) => {
+export const Footer = (variant, ...props) => {
     return (
         <Flex
             {...props}
             as='footer'
-            cmpt='footer'
-            variant={props.variant}
+            variant={`footer${variant ? '.'+variant : ''}`}
             sx={{
                 position: 'relative',
                 flexDirection: 'row',

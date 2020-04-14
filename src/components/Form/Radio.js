@@ -124,8 +124,7 @@ export const Radio = forwardRef(({
             <Box
                 as={RadioIcon}
                 aria-hidden='true'
-                variant={variant}
-                cmpt='radio'
+                variant={`radio${variant ? '.'+variant : ''}`}
                 className={className}
                 sx={sx}
                 {...getSystemProps(props)}
