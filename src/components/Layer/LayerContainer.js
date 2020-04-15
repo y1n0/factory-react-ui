@@ -42,7 +42,7 @@ export const LayerContainer = forwardRef(
           onEsc,
           plain,
           position = 'center',
-          responsive = true,
+          responsive,
           target: layerTarget,
           ...rest
         },

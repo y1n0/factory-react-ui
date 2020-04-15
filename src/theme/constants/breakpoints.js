@@ -6,7 +6,6 @@
  */
 
 const breakpoints = [
-    '0px',
     '500px', 
     '960px', 
     '1280px', 

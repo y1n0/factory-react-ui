@@ -1,14 +1,15 @@
 import React from 'react';
-import {Flex} from '../Box';
+import {Box} from '../Box';
 
 
-export const Header = (variant, ...props) => {
+export const Header = ({variant, ...props}) => {
     return (
-        <Flex
+        <Box
             {...props}
             as='header'
             variant={`header${variant ? '.'+variant : ''}`}
             sx={{
+                display: 'flex',
                 position: 'relative',
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -21,6 +22,6 @@ export const Header = (variant, ...props) => {
             }}
         >
                 {props.children
-        }</Flex>
+        }</Box>
     )
 }

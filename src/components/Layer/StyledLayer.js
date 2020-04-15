@@ -83,7 +83,7 @@ export const StyledOverlay = props => {
             variant={`layer.overlay`}
             sx={{
                 position: 'absolute',
-                backgroundColor: !props.plain ? themeGet('layer.overlay.backgroundColor')({theme}) : null,
+                backgroundColor: !props.plain ? themeGet('layer.overlay.backgroundColor')({theme}) : 'transparent',
                 top: '0px',
                 left: '0px',
                 right: '0px',
@@ -512,6 +512,8 @@ export const StyledContainer = styled.div.attrs({'data-s': 'StyledContainer'})`
                 height: 100vh;
                 width: 100vw;
             `
+        } else {
+          return null;
         }
     }}
 

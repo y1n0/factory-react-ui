@@ -1,14 +1,15 @@
 import React from 'react';
-import {Flex} from '../Box';
+import {Box} from '../Box';
 
 
-export const Footer = (variant, ...props) => {
+export const Footer = ({variant, ...props}) => {
     return (
-        <Flex
+        <Box
             {...props}
             as='footer'
             variant={`footer${variant ? '.'+variant : ''}`}
             sx={{
+                display: 'flex',
                 position: 'relative',
                 flexDirection: 'row',
                 alignItems: 'center',
@@ -20,7 +21,7 @@ export const Footer = (variant, ...props) => {
                 ...props.sx
             }}
         >
-                {props.children
-        }</Flex>
+                {props.children}
+        </Box>
     )
 }

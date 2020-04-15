@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {Layer} from './Layer';
 import {Box, Flex} from '../Box';
 import {Button} from '../Button';
-import {Text} from '../Typography';
+import {Text, Heading} from '../Typography';
 import {Icon} from '../Icon';
+import {Anchor} from '../Anchor/Anchor';
 
 export const Default = () => {
 
@@ -130,6 +131,102 @@ export const Notification = () => {
                 </Layer>
             )}
         </Box>);
+}
+
+
+
+export const Modal = () => {
+
+    const [showModal, setShowModal] = React.useState();
+
+    return (
+        <Flex p="3rem"  alignItems="center" justifyContent="center">
+            <Button borderRadius="rounded" outline="primary" onClick={() => setShowModal(true)}>show</Button>
+            {showModal && (
+                <Layer onClickOutside={() => setShowModal(false)} >
+                        <Flex p="medium" boxShadow={4}  flexDirection="column" bg="white" borderRadius="small" maxWidth="400px" >
+                            <Flex mb="medium"><Text level="1" fontSize="18px">Modal title</Text></Flex>
+                            <Flex>
+                                <Text>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam porta finibus maximus. Mauris diam velit, venenatis sed tincidunt nec, convallis ac tortor. Phasellus imperdiet facilisis placerat.</Text>
+                            </Flex>
+                            <Flex mt="medium" justifyContent="flex-end">
+                                <Button borderRadius="rounded" mx="small" variant="danger" onClick={() => setShowModal(false)}>close</Button>
+                            </Flex>
+                     </Flex>
+                </Layer>
+            )}
+        </Flex>);
+}
+
+
+export const Cookie = () => {
+    
+    const [showCookie, setShowCookie] = React.useState();
+    const [showModal, setShowModal] = React.useState();
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+
+            setShowCookie(true)
+          
+        }, 300);
+        return () => clearTimeout(timer);
+      }, []);
+
+
+
+
+    return (
+        <Flex p="3rem"  alignItems="center" justifyContent="center">
+            cookie compliance
+            {showCookie && (
+                <Layer
+                    full="horizontal"
+                    modal={false}
+                    position="bottom"
+                    plain={true}
+                    onClickOutside={() => setShowCookie(false)} >
+                        <Flex position="relative" py="large" px="xlarge" color="white" bg="black900" >
+                        <Button borderRadius="rounded" padding="small" sx={{
+                            position: 'absolute',
+                            right: '40px',
+                            top: '-20px',
+                            transform: 'rotate(45deg)'
+                        }} size="none" onClick={() => setShowCookie(false)} ><Icon name="add-simple" size="14px"/></Button>
+                            <Flex>
+                                <Text lineHeight="20px">Nous utilisons des cookies afin d’améliorer votre expérience de navigation sur notre site. Vous pouvez obtenir des informations sur ces cookies ou modifier les réglages d’acceptation en cliquant <Anchor onClick={() => setShowModal(true)}>ici</Anchor>. En poursuivant votre navigation sur ce site, vous acceptez l’utilisation de ces cookies.
+</Text>
+                            </Flex>
+                     </Flex>
+                </Layer>
+            )}
+
+{showModal && (
+                <Layer modal={false} plain={true} onClickOutside={() => setShowModal(false)} >
+                        <Flex sx={{
+                                padding: "medium",
+                                boxShadow: 3,
+                                flexDirection: 'column',
+                                backgroundColor: 'white',
+                                border: '1px solid',
+                                borderColor: 'gray300',
+                                borderRadius: 'small',
+                                maxWidth: '400px'
+                        }}>
+                            
+                            <Flex mb="medium"><Text level="1" fontSize="18px">Les cookies Google Analytics</Text></Flex>
+                            <Flex>
+                                <Text>
+                                    Nous utilisons des cookies de Google Analytics, ces cookies nous aident à identifier le contenu qui vous interesse le plus ainsi qu'à repérer certains dysfonctionnements. Vos données de navigations sur ce site sont envoyées à Google Inc
+                                </Text>
+                            </Flex>
+                            <Flex mt="medium" justifyContent="flex-end">
+                                <Button borderRadius="rounded" mx="small" onClick={() => setShowModal(false)}>accepter</Button>
+                            </Flex>
+                     </Flex>
+                </Layer>
+            )}
+        </Flex>);
 }
 
 export default {
