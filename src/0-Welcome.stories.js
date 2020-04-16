@@ -11,6 +11,10 @@ export const Application = () => <App></App>;
 Application.story = {
   name: 'Void Factory',
   parameters: {
-    actions: { disabled: true }
-}
+    actions: { disabled: true },
+    backgrounds: [
+      { name: 'twitter', value: '#00aced', default: true },
+      { name: 'facebook', value: '#3b5998' },
+    ]
+  }
 };
