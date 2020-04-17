@@ -1,14 +1,22 @@
 import React, { useState, Children, cloneElement } from "react";
 
-import {StyledTabs, StyledTabsHeader} from './StyledTabs';
+import {StyledTabs, StyledTabsHeader, StyledTabsContent} from './StyledTabs';
 import {Box, Flex} from '../Box';
+
+
+
+const POSITIONS = {
+    top: {
+        display: 'flex'
+    }
+}
 
 
 export const Tabs = ({
     children,
     theme,
     activeTab: propsActiveKey,
-
+    position="top",
     sx,
 
     onChange, // Callback executed when active tab is changed
@@ -79,14 +87,12 @@ export const Tabs = ({
     );
 
     return (
-        <StyledTabs
-            sx={sx}
-            >
-            <StyledTabsHeader>{tabs}</StyledTabsHeader>
+        <StyledTabs sx={sx} position={position} >
+            <StyledTabsHeader >{tabs}</StyledTabsHeader>
 
-            <Box p='large' bg='gray100'>
+            <StyledTabsContent sx={{flexGrow: 1}}>
                 {activeContent}
-            </Box>
+            </StyledTabsContent>
             
         </StyledTabs>
     )

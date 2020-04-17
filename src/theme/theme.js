@@ -19,6 +19,7 @@ import radio from './components/radio';
 import checkbox from './components/checkbox';
 import select from './components/select';
 import {layer} from './components/layer';
+import tabs from './components/tabs';
 
 const baseTheme = {
     colors,
@@ -44,7 +45,8 @@ const componentsTheme = {
     radio,
     checkbox,
     select,
-    layer
+    layer,
+    tabs
 }
 
 

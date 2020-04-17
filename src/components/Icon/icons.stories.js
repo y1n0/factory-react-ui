@@ -12,10 +12,22 @@ export const Sizes = () => {
         <Box>
             <Box display="flex" flexDirection="column">
                 <Box display="flex" flexDirection="row">
-                    <Box border="gray" m="small" p="medium" display="flex" alignItems="center" justifyContent="center" color="black500"><Icon name="add-simple"  color="primary500" size="small" /></Box>
-                    <Box border="gray" m="small" p="medium" display="flex" alignItems="center" justifyContent="center" color="black500"><Icon name="arrows-left" color="primary500" size="medium" /></Box>
-                    <Box border="gray" m="small" p="medium" display="flex" alignItems="center" justifyContent="center" color="black500"><Icon name="chevron-top" color="primary500" size="large" /></Box>
-                    <Box border="gray" m="small" p="medium" display="flex" alignItems="center" justifyContent="center" color="black500"><Icon name="chevron-down"color="primary500"  size="xlarge" /></Box>
+                    <Box border="gray" m="small" p="medium" display="flex" alignItems="center" justifyContent="center" color="black500">
+                        <Icon name="add-simple"  color="primary500" size="small" />
+                        <Box>add-simple</Box>
+                    </Box>
+                    <Box border="gray" m="small" p="medium" display="flex" alignItems="center" justifyContent="center" color="black500">
+                        <Icon name="arrows-left" color="primary500" size="medium" />
+                        <Box>arrows-left</Box>
+                    </Box>
+                    <Box border="gray" m="small" p="medium" display="flex" alignItems="center" justifyContent="center" color="black500">
+                        <Icon name="chevron-top" color="primary500" size="large" />
+                        <Box>chevron-top</Box>
+                    </Box>
+                    <Box border="gray" m="small" p="medium" display="flex" alignItems="center" justifyContent="center" color="black500">
+                        <Icon name="chevron-down"color="primary500"  size="xlarge" />
+                        <Box>chevron-down</Box>
+                    </Box>
                 </Box>
             </Box>
         </Box>

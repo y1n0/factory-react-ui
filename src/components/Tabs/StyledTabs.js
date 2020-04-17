@@ -3,13 +3,20 @@ import {Box, Flex} from '../Box';
 
 
 
-export const StyledTabs = (props) =>  <Box
+const flexDirectionByPosition = position => {
+    if( position === 'start' || position === 'end' ) {
+        return 'row';
+    } else {
+        return 'column';
+    }
+}
+
+export const StyledTabs = ({position, ...props}) =>  <Box
         {...props}
         variant='tabs.container'
         __css={{
-            border: "3px solid red",
-            padding: "8px",
-            borderColor: "success800"
+            display: 'flex',
+            flexDirection: flexDirectionByPosition(position)
         }}
     >
         {props.children}
@@ -19,3 +26,11 @@ export const StyledTabsHeader = (props) =>
         <Flex {...props} variant='tabs.header.container' >
             {props.children}
         </Flex>
+
+
+export const StyledTabsContent = (props) => <Box
+        {...props}
+        variant='tabs.content.container'
+    >
+        {props.children}
+    </Box>
