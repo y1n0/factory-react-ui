@@ -1,55 +1,55 @@
-import React, { useState, Children, cloneElement } from "react";
+import React, { useState, Children, cloneElement, forwardRef } from "react";
 
-import {StyledTabs, StyledTabsHeader, StyledTabsContent} from './StyledTabs';
-import {Box, Flex} from '../Box';
-
+import { Box, Flex } from '../Box';
 
 
-const POSITIONS = {
-    top: {
-        display: 'flex'
+
+// TODO : refactor utils
+const variantReducer = (accumulator, currentValue) => currentValue ? accumulator + '.' + currentValue : accumulator;
+const getVariant = (variant = []) => {
+    if (typeof variant === 'string') {
+        return variant
     }
+    return variant.reduce(variantReducer)
 }
 
-
-export const Tabs = ({
+export const Tabs = forwardRef(({
     children,
     theme,
     activeTab: propsActiveKey,
-    position="top",
     sx,
+    variant,
 
     onChange, // Callback executed when active tab is changed
     onTabClick, // Callback executed when tab is clicked
     onNextClick, //Callback executed when next button is clicked
     onPrevClick, // Callback executed when prev button is clicked
 
-
-
     ...rest
-}) => {
 
-    const [activeKey, setActiveKey] = useState(rest.activeTab || 0);
+}, ref) => {
 
-    if(activeKey !== propsActiveKey && propsActiveKey !== undefined) {
+    const [activeKey, setActiveKey] = useState(rest.activeTab || 0);
+
+    if (activeKey !== propsActiveKey && propsActiveKey !== undefined) {
         setActiveKey(propsActiveKey);
     }
 
     const handleClickTab = key => {
-            
-        if(propsActiveKey === undefined) {
+
+        if (propsActiveKey === undefined) {
             setActiveKey(key)
         }
-        if(onTabClick) {
+        if (onTabClick) {
             onTabClick(key)
         }
-        if(onChange && activeKey !== key ) {
+        if (onChange && activeKey !== key) {
             onChange(key)
         }
-        if(onNextClick && activeKey + 1 === key ) {
+        if (onNextClick && activeKey + 1 === key) {
             onNextClick()
         }
-        if(onPrevClick && activeKey - 1 === key) {
+        if (onPrevClick && activeKey - 1 === key) {
             onPrevClick()
         }
     }
@@ -68,7 +68,7 @@ export const Tabs = ({
             const isTabActive = index === activeKey;
 
 
-            if(isTabActive) {
+            if (isTabActive) {
                 activeContent = tabProps.children;
                 if (typeof tabProps.title === 'string') {
                     activeTitle = tabProps.title;
@@ -77,27 +77,40 @@ export const Tabs = ({
                 }
             }
 
+            const key = tab.props.tabKey || index;
             return cloneElement(tab, {
                 index,
                 isActive: isTabActive,
-                onClickTab: () => handleClickTab(index),
+                variant,
+                onClickTab: () => handleClickTab(key),
             });
         },
         this
     );
 
     return (
-        <StyledTabs sx={sx} position={position} >
-            <StyledTabsHeader >{tabs}</StyledTabsHeader>
+        <Box
+            sx={sx}
+            {...rest}
+            variant={getVariant(['tabs', variant])}
+            __css={{
+                display: 'flex',
+                flexDirection: 'column',
+                border:"1px solid",
+                borderColor:"gray500"
+            }}
+        >
 
-            <StyledTabsContent sx={{flexGrow: 1}}>
+            <Flex __css={{  backgroundColor: 'gray100',}} variant={getVariant(['tabs', variant, 'header'])} >
+                {tabs}
+            </Flex>
+
+            <Box __css={{
+                flexGrow: 1
+            }} variant={getVariant(['tabs', variant, 'content'])}>
                 {activeContent}
-            </StyledTabsContent>
-            
-        </StyledTabs>
-    )
+            </Box>
+        </Box>
+    );
 
-
-
-
-}
+});

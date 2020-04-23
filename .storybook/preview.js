@@ -10,11 +10,17 @@ import { addParameters } from '@storybook/react';
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 
 addParameters({
-        viewport: {
-          viewports: INITIAL_VIEWPORTS, // newViewports would be an ViewportMap. (see below for examples)
-          defaultViewport: 'responsive',
-        },
-      });
+  viewport: {
+    defaultViewport: 'responsive',
+  },
+});
+addParameters({
+  backgrounds: [
+    { name: 'white', value: 'white', default: true },
+    { name: 'gray', value: '#f7f8f9', default: false },
+    { name: 'Capital Azur', value: '#f8fbfb', default: false },
+  ]
+});
 
 addDecorator(storyFn =>  <ThemeProvider theme={theme}>
         <ExpirementalDefaultFont />

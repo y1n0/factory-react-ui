@@ -20,6 +20,8 @@ import checkbox from './components/checkbox';
 import select from './components/select';
 import {layer} from './components/layer';
 import tabs from './components/tabs';
+import accordion from './components/accordion';
+import breadcrumb from './components/breadcrumb';
 
 const baseTheme = {
     colors,
@@ -46,7 +48,9 @@ const componentsTheme = {
     checkbox,
     select,
     layer,
-    tabs
+    tabs,
+    accordion,
+    breadcrumb
 }
 
 

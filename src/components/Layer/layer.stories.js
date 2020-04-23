@@ -61,7 +61,7 @@ export const Corner = () => {
         <Box p="3rem" >
             <Button borderRadius="rounded" outline="primary" onClick={() => setShow(true)}>show</Button>
             {show && (
-                <Layer position="top-right" onClickOutside={() => setShow(false)} >
+                <Layer responsive={true} position="top-right" onClickOutside={() => setShow(false)} >
                      <Box px="3rem" py="2rem" bg="white" borderRadius="medium" >
                          <Button onClick={() => setShow(false)} >close</Button>
                      </Box>
@@ -194,7 +194,7 @@ export const Cookie = () => {
                             transform: 'rotate(45deg)'
                         }} size="none" onClick={() => setShowCookie(false)} ><Icon name="add-simple" size="14px"/></Button>
                             <Flex>
-                                <Text lineHeight="20px">Nous utilisons des cookies afin d’améliorer votre expérience de navigation sur notre site. Vous pouvez obtenir des informations sur ces cookies ou modifier les réglages d’acceptation en cliquant <Anchor onClick={() => setShowModal(true)}>ici</Anchor>. En poursuivant votre navigation sur ce site, vous acceptez l’utilisation de ces cookies.
+                                <Text lineHeight="20px">Nous utilisons des cookies afin d’améliorer votre expérience de navigation sur notre site. Vous pouvez obtenir des informations sur ces cookies ou modifier les réglages d’acceptation en cliquant <Anchor variant="primary" onClick={() => setShowModal(true)}>ici</Anchor>. En poursuivant votre navigation sur ce site, vous acceptez l’utilisation de ces cookies.
 </Text>
                             </Flex>
                      </Flex>
@@ -202,7 +202,7 @@ export const Cookie = () => {
             )}
 
 {showModal && (
-                <Layer modal={false} plain={true} onClickOutside={() => setShowModal(false)} >
+                <Layer >
                         <Flex sx={{
                                 padding: "medium",
                                 boxShadow: 3,

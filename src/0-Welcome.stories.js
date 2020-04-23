@@ -13,8 +13,8 @@ Application.story = {
   parameters: {
     actions: { disabled: true },
     backgrounds: [
-      { name: 'twitter', value: '#00aced', default: true },
-      { name: 'facebook', value: '#3b5998' },
+      { name: 'white', value: '#FFFFFF', default: true },
+      { name: 'Capital Azur', value: 'linear-gradient(342.21deg, #FFFFFF 0%, #F4F8F8 100%)', default: true },
     ]
   }
 };

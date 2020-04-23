@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import {
+  boxShadow,
   shadow,
   color,
   space,
@@ -38,7 +39,7 @@ export const Box = styled('div', {shouldForwardProp})(
     flexbox,
     border,
     typography,
-    shadow
+    boxShadow 
   ),
 );
 
