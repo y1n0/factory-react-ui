@@ -22,6 +22,7 @@ import {layer} from './components/layer';
 import tabs from './components/tabs';
 import accordion from './components/accordion';
 import breadcrumb from './components/breadcrumb';
+import navs from './components/navs';
 
 const baseTheme = {
     colors,
@@ -50,7 +51,8 @@ const componentsTheme = {
     layer,
     tabs,
     accordion,
-    breadcrumb
+    breadcrumb,
+    navs,
 }
 
 
