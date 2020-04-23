@@ -62,7 +62,10 @@ export const BreadcrumbItem = forwardRef(({
                     cursor: 'pointer',
                     color: active ? 'gray900' : 'primary700',
                 },
-                ...isActiveStyle
+            }}
+            sx={{
+                ...isActiveStyle,
+                ...sx,
             }}
         >
             {children}
