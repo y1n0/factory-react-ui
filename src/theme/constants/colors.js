@@ -85,11 +85,13 @@ const colors = {
     danger800:  '#94124e',
     danger900:  '#700940',
 
+    btnPrimary: '#3366ff',
+
     modes: {
         dark: {
-            text: 'white',
-            background: '#98a1b1',
-            primary500: '#ffaa00',
+            text: 'warning400',
+            background: '#0a1f44',
+            btnPrimary: '#ff3d71'
         }
     }
 

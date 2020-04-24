@@ -4,12 +4,13 @@ import { Box } from './components/Box';
 import {Button}  from './components/Button';
 
 const Comp = () => {
+
+
     return <Box
         sx={{
             padding: 'large',
-            border: '1px solid red',
             backgroundColor: 'background',
-            color: 'text'
+            color: 'text',
         }}
     >This is a box</Box>
 
@@ -18,7 +19,7 @@ const Comp = () => {
 const ChangeColorModeButton = () => {
     const [colorMode, setColorMode] = useColorMode();
     return (
-    <Button variant="primary" onClick={e => {
+    <Button outline="primary" onClick={e => {
         setColorMode(colorMode === 'default' ? 'dark' : 'default')
       }}> Toggle {colorMode === 'default' ? 'Dark' : 'Light'}</Button>
     )

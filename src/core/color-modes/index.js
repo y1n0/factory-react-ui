@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useContext, createContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { ThemeContext, ThemeProvider } from 'styled-components';
 import { get } from 'styled-system';
 import deepmerge from 'deepmerge';
+import {useVactoryTheme, VactoryThemeContext} from '../index';
 
-
-const ColorModeContext = createContext({});
 
 // const STORAGE_KEY = 'vactory-ui-color-mode';
 
@@ -38,7 +37,7 @@ const useColorModeState = (theme = {}) => {
 }  
 
 export const useColorMode = () => {
-    const { colorMode, setColorMode } = useContext(ColorModeContext);
+    const { colorMode, setColorMode } = useVactoryTheme();
     if (typeof setColorMode !== 'function') {
         throw new Error(`[useColorMode] requires the ColorModeProvider component`)
     }
@@ -50,11 +49,11 @@ export const useColorMode = () => {
 
 export const ColorModeProvider = ({children}) => {
 
-    const outerTheme = useContext(ThemeContext);
+    const styledComponentTheme = useContext(ThemeContext);
 
-    const [colorMode, setColorMode] = useColorModeState(outerTheme);
+    const [colorMode, setColorMode] = useColorModeState(styledComponentTheme);
 
-    const theme = applyColorMode(outerTheme || {}, colorMode);
+    const theme = applyColorMode(styledComponentTheme || {}, colorMode);
 
     const context = {
         theme,
@@ -64,9 +63,9 @@ export const ColorModeProvider = ({children}) => {
 
     return (
         <ThemeProvider theme={theme}>
-            <ColorModeContext.Provider value={context}>
+            <VactoryThemeContext.Provider value={context}>
                 {children}
-            </ColorModeContext.Provider>
+            </VactoryThemeContext.Provider>
         </ThemeProvider> 
     );
 }
