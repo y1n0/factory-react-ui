@@ -12,6 +12,9 @@ const colors = {
     light: '',
     disabled: '',
 
+    text: '#0a1f44',
+    background: 'white',
+
     primary100:  '#f2f6ff',
     primary200:  '#d9e4ff',
     primary300:  '#a6c1ff',
@@ -81,6 +84,17 @@ const colors = {
     danger700:  '#b81d5b',
     danger800:  '#94124e',
     danger900:  '#700940',
+
+    btnPrimary: '#3366ff',
+
+    modes: {
+        dark: {
+            text: 'warning400',
+            background: '#0a1f44',
+            btnPrimary: '#ff3d71'
+        }
+    }
+
 
 };
 

@@ -227,7 +227,7 @@ const AccordionPanelCapitalAzur = ({ title, panelKey, isActive, children }) =>
 
 export const CapitalAzur = () => {
 
-    const [activeIndex, setActiveIndex] = useState([]);
+    const [activeIndex, setActiveIndex] = useState(['credit']);
 
     const hanOnActive = index => {
         setActiveIndex(index);

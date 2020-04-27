@@ -16,7 +16,7 @@ export const Tab = forwardRef((
         index,
         isActive,
         onClickTab,
-        variant,
+        variant = 'tabs',
         header,
         sx,
         ...props
@@ -36,7 +36,7 @@ export const Tab = forwardRef((
             ref={ref}
             {...props}
             sx={sx}
-            variant={getVariant(['tabs', variant, isActive ? 'activeTab' : 'tab'])}
+            variant={getVariant([variant, isActive ? 'activeTab' : 'tab'])}
             __css={{
                 cursor: 'pointer',
                 padding: 0,
