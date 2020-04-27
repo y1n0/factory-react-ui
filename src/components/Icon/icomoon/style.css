@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?c7o46m');
-  src:  url('fonts/icomoon.eot?c7o46m#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?c7o46m') format('truetype'),
-    url('fonts/icomoon.woff?c7o46m') format('woff'),
-    url('fonts/icomoon.svg?c7o46m#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?h7bcmw');
+  src:  url('fonts/icomoon.eot?h7bcmw#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?h7bcmw') format('truetype'),
+    url('fonts/icomoon.woff?h7bcmw') format('woff'),
+    url('fonts/icomoon.svg?h7bcmw#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -43,6 +43,42 @@
 .icon-chevron-top:before {
   content: "\e904";
 }
+.icon-image:before {
+  content: "\e90d";
+}
+.icon-headphones:before {
+  content: "\e910";
+}
+.icon-music:before {
+  content: "\e911";
+}
+.icon-play:before {
+  content: "\e912";
+}
+.icon-film:before {
+  content: "\e913";
+}
+.icon-files-empty:before {
+  content: "\e925";
+}
+.icon-file-text2:before {
+  content: "\e926";
+}
+.icon-folder-open:before {
+  content: "\e930";
+}
+.icon-envelop:before {
+  content: "\e945";
+}
+.icon-floppy-disk:before {
+  content: "\e962";
+}
+.icon-bubble2:before {
+  content: "\e96e";
+}
+.icon-cog:before {
+  content: "\e994";
+}
 .icon-happy:before {
   content: "\e9df";
 }
@@ -54,4 +90,16 @@
 }
 .icon-minus:before {
   content: "\ea0b";
+}
+.icon-facebook:before {
+  content: "\ea90";
+}
+.icon-instagram:before {
+  content: "\ea92";
+}
+.icon-twitter:before {
+  content: "\ea96";
+}
+.icon-skype:before {
+  content: "\eac5";
 }

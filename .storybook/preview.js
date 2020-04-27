@@ -18,7 +18,7 @@ addParameters({
   backgrounds: [
     { name: 'white', value: 'white', default: true },
     { name: 'gray', value: '#f7f8f9', default: false },
-    { name: 'Capital Azur', value: '#f8fbfb', default: false },
+    { name: 'Capital Azur', value: '#eef2f2', default: false },
   ]
 });
 

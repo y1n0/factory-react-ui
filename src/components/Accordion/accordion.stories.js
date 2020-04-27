@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, Children, cloneElement } from 'react';
 import { Box, Flex } from '../Box';
 import { Icon } from '../Icon';
 import { Image } from '../Image';
@@ -279,14 +279,14 @@ export const RTL = () => {
 
     const [activeIndex, setActiveIndex] = useState([]);
 
-    const hanOnActive = index => {
+    const handleOnChange = index => {
         setActiveIndex(index);
     }
 
     return (
         <DirectionManager>
             <Flex justifyContent="center" dir="rtl">
-                <Accordion width={['100%', null, '60%']} activeIndex={activeIndex} onActive={hanOnActive} >
+                <Accordion width={['100%', null, '60%']} activeIndex={activeIndex} onChange={handleOnChange} >
                     <AccordionPanel title={<AccordionHeaderCustomIcon isActive={activeIndex.includes(0)}>Panel 1</AccordionHeaderCustomIcon>}>
                         <AccordionContent>
                             Content #1
@@ -308,6 +308,148 @@ export const RTL = () => {
     )
 }
 
+const Menu = (props) => {
+    return <Accordion bg="white" activeIndex={props.activeIndex} onChange={props.onChange} multiple>
+        {Children.map(props.children, (subMenu, index) => cloneElement(subMenu, { level: props.level }))}
+    </Accordion>
+}
+
+const SubMenu = ({ level, panelKey, children, title, props }) => {
+    return (
+        <AccordionPanel border="0" bg="white" panelKey={panelKey} title={title} sx={{
+            pl: level == 1 ? '' : '32px',
+            border: 0,
+        }}>
+            <Box >
+                {children}
+            </Box>
+        </AccordionPanel>
+    )
+
+}
+
+const SubMenuTitle = ({ isActive, children, ...rest }) => {
+    return <Flex sx={{
+        padding: ['medium', null, 'large'],
+        alignItems: 'center',
+        backgroundColor: 'white',
+        fontWeight: 400,
+        m: 0,
+        border: "0"
+    }} {...rest}>
+        <Flex alignItems='center'>{children}</Flex>
+        <Box>
+            {isActive ?
+                <Icon name="chevron-top" size="medium" />
+                :
+                <Icon name="chevron-down" size="medium" />
+            }
+        </Box>
+    </Flex>
+}
+
+const MenuItem = props => {
+
+
+    let isActiveStyle = {
+    }
+    if (props.isActive) {
+        isActiveStyle = {
+            backgroundColor: '#e6f7ff',
+            color: '#1890ff',
+            position: 'relative',
+            '&::after': {
+                display: 'block',
+                content: '""',
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                bottom: 0,
+
+                borderRight: '3px solid #1890ff',
+            }
+        }
+    }
+
+    return (<Box {...props}
+        __css={{
+            position: 'relative',
+            my: '4px',
+            fontSize: '14px',
+            lineHeight: '40px',
+            height: '40px',
+            padding: '0 16px 0 28px',
+            pl: '48px',
+            ':hover': {
+                cursor: 'pointer',
+                color: '#1890ff'
+            },
+            ...isActiveStyle
+        }}>
+        {props.children}
+    </Box>)
+}
+
+const MenuItemGroup = ({ title, ...props }) => <Box>
+    <Box __css={{
+        p: '8px 16px',
+        pl: '32px',
+        color: 'rgba(0,0,0,.45)',
+        fontSize: '14px',
+    }}>{title}</Box>
+    {props.children}
+</Box>
+
+export const InlineMenu = () => {
+
+    const [activeSubMenu1, setActiveSubMenu1] = useState([]);
+
+    const handleOnChange = index => {
+        setActiveSubMenu1(index);
+    }
+
+
+    return (
+        <Box >
+            <Menu level="1" activeIndex={activeSubMenu1} onChange={handleOnChange}>
+                <SubMenu panelKey="sub1" title={<SubMenuTitle isActive={activeSubMenu1.includes("sub1")}><Icon mr="10px" name="file-text2" size="medium" /> Navigation One</SubMenuTitle>}>
+                    <MenuItemGroup title="Item 1">
+                        <MenuItem>Option 1</MenuItem>
+                        <MenuItem isActive={true}>Option 2</MenuItem>
+                    </MenuItemGroup>
+                    <MenuItemGroup title="Item 2">
+                        <MenuItem>Option 3</MenuItem>
+                        <MenuItem>Option 4</MenuItem>
+                    </MenuItemGroup>
+                </SubMenu>
+                <SubMenu panelKey="sub2" title={<SubMenuTitle isActive={activeSubMenu1.includes("sub2")}><Icon mr="10px" name="cog" size="medium" /> Navigation Two</SubMenuTitle>}>
+                    <MenuItem>Option 5</MenuItem>
+                    <MenuItem>Option 6</MenuItem>
+                    <Box>
+                        <Menu level="2">
+                            <SubMenu panelKey="sub2.1" title={<SubMenuTitle isActive={activeSubMenu1.includes("sub2.1")}>Sub Menu 2.1</SubMenuTitle>}>
+                                <MenuItem>Option 7</MenuItem>
+                                <MenuItem>Option 8</MenuItem>
+                            </SubMenu>
+                            <SubMenu panelKey="sub2.2" title={<SubMenuTitle isActive={activeSubMenu1.includes("sub2.2")}>Sub Menu 2.1</SubMenuTitle>}>
+                                <MenuItem>Option 9</MenuItem>
+                                <MenuItem>Option 10</MenuItem>
+                            </SubMenu>
+                        </Menu>
+                    </Box>
+                </SubMenu>
+                <SubMenu panelKey="sub3" title={<SubMenuTitle isActive={activeSubMenu1.includes("sub3")}><Icon mr="10px" name="music" size="medium" /> Navigation Three</SubMenuTitle>}>
+                    <MenuItem>Option 11</MenuItem>
+                    <MenuItem>Option 12</MenuItem>
+                    <MenuItem>Option 13</MenuItem>
+                    <MenuItem>Option 14</MenuItem>
+                </SubMenu>
+            </Menu>
+        </Box>
+    )
+
+
+}
 
 export default {
     title: 'Accordion',
