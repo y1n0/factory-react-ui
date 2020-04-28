@@ -1,18 +1,42 @@
 import React from 'react';
 import { Box, Flex } from '../Box';
-import {Pagination} from './Pagination'
+import { Pagination } from './Pagination'
 
 import { DirectionManager } from '../../core/rtl-manager';
 
 
 
-export const Simple = () => {
-    
-    return (
-        <>
-            <Pagination total={1000} />
-        </>
-    )
+export const Default = () => {
+
+    return <Box>
+        <Box mb="24px">
+            <Pagination total={25} />
+        </Box>
+        <Box>
+            <Pagination total={100} />
+        </Box>
+    </Box>
+}
+
+export const Jumper = () => {
+
+    return <Box>
+        <Box>
+            <Pagination
+                showSizeChanger
+                defaultPageSize={20}
+                defaultCurrent={5}
+                total={450} />
+        </Box>
+
+        <Box>
+            <Pagination
+                showLessItems={true}
+                defaultPageSize={20}
+                defaultCurrent={5}
+                total={450} />
+        </Box>
+    </Box>
 }
 
 export default {
