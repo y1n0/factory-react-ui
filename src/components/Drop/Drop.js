@@ -83,6 +83,7 @@ export const DropContent = forwardRef(({ children, alignProp = { bottom: true, r
         position: 'fixed',
         zIndex: 1000,
         outline: 'none',
+        overflow: 'auto',
         transformOrigin: getTransformOriginStyle(alignProp),
     }}>
         {children}
@@ -105,11 +106,11 @@ export const DropContainer = forwardRef((
         onClickOutside,
         onEsc,
         onKeyDown,
-        overflow = 'auto', // How to control the overflow inside the drop
         plain, // Whether the drop element should have no background nor shadow
         responsive, // Whether the drop element should have no background nor shadow
         restrictFocus, // Whether the drop should control focus
         stretch = 'width',
+        sx,
         ...rest
     },
     ref,
@@ -131,15 +132,8 @@ export const DropContainer = forwardRef((
             const windowWidth = window.innerWidth;
             const windowHeight = window.innerHeight;
             const target = dropTarget;
-            console.log('targer>>', target);
             const container = (ref || dropRef).current;
-            console.log('dropRef',dropRef);
-
-            console.log('container: ', container);
-
-            console.log('ref: ', ref);
             if (container && target) {
-                console.log('container: ', container);
                 // clear prior styling
                 container.style.left = '';
                 container.style.top = '';
@@ -338,7 +332,6 @@ export const DropContainer = forwardRef((
 
         place(false);
 
-        console.log(place(false));
 
         return () => {
             removeScrollListeners();
@@ -368,6 +361,7 @@ export const DropContainer = forwardRef((
 
     let content = (
         <DropContent
+            sx={sx}
             ref={ref || dropRef}
             plain={plain}
             // elevation={
@@ -378,7 +372,6 @@ export const DropContainer = forwardRef((
             elevation={undefined}
             tabIndex="-1"
             alignProp={align}
-            overflow={overflow}
             data-g-portal-id={portalId}
             {...rest}
         >
@@ -414,6 +407,7 @@ export const Drop = forwardRef(
         {
             restrictFocus,
             target: dropTarget, // avoid DOM leakage
+            sx,
             ...rest
         },
         ref,
@@ -455,6 +449,7 @@ export const Drop = forwardRef(
                     dir={theme && theme.dir}
                     dropTarget={dropTarget}
                     restrictFocus={restrictFocus}
+                    sx={sx}
                     {...rest}
                 />,
                 dropContainer,
