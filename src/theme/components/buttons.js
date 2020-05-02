@@ -1,7 +1,7 @@
 
 
 const buttons = {
-    variants: {
+    fill: {
         primary: {
             backgroundColor: 'primary500',
             color: 'white',
@@ -93,7 +93,7 @@ const buttons = {
             }
         }
     },
-    sizes: {
+    size: {
         small: {
             paddingTop: 'xxsmall',
             paddingBottom: 'xxsmall',

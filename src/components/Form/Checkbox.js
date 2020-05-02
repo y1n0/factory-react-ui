@@ -1,30 +1,7 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../Box';
-import { props as systemProps } from '@styled-system/should-forward-prop';
 import { Icon } from '../Icon';
-
-
-
-const CheckboxProps = [
-    ...systemProps,
-    'sx',
-    'variant',
-    'iconName',
-    'checkedIconName',
-    'uncheckedIconName'
-
-];
-
-// TODO: Refactor
-const PRE = new RegExp(`^(${CheckboxProps.join('|')})$`);
-const getProps = (test) => (props) => {
-    const next = {}
-    for (const key in props) {
-        if (test(key || '')) next[key] = props[key]
-    }
-    return next
-}
-const getSystemProps = getProps(k => PRE.test(k));
+import {getSystemProps} from '../../core/utils';
 
 const SVG = ({ size = 24, ...props }) =>
     <Box
@@ -104,8 +81,12 @@ const CheckboxIcon = ({iconName ,checkedIconName, uncheckedIconName, size =  '24
 export const Checkbox = forwardRef(({
     className,
     sx,
+    iconName,
+    checkedIconName,
+    uncheckedIconName,
     variant,
-    ...props }, ref) => (
+    ...props }, ref) => {
+        return (
         <Box>
             <Box
                 ref={ref}
@@ -126,6 +107,9 @@ export const Checkbox = forwardRef(({
                 aria-hidden='true'
                 variant={`checkbox${variant ? '.'+variant : ''}`}
                 className={className}
+                uncheckedIconName={uncheckedIconName}
+                checkedIconName={checkedIconName}
+                iconName={iconName}
                 sx={sx}
                 {...getSystemProps(props)}
                 __css={{
@@ -145,4 +129,4 @@ export const Checkbox = forwardRef(({
                 }}
             />
         </Box>
-    ));
+    )});

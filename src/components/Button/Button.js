@@ -1,28 +1,36 @@
-import styled, { css } from "styled-components";
-import {  flexbox, color, space, typography, compose, background, position, shadow, border, variant, buttonStyle, width, height, display, minWidth, maxWidth } from "styled-system";
+import styled from "styled-components";
+import { flexbox, color, space, typography, compose, background, position, shadow, border, variant, buttonStyle, width, height, display } from "styled-system";
 
 
-const custtomStyledLayout = compose(
-    width,
-    height,
-    display,
-)
+const fillVariants = variant({
+    scale: 'buttons.fill',
+    prop: 'fill',
+    variants: {
+        primary: {
+        }
+    }
+});
 
-const styledSystem = compose(
-    display,
-    space,
-    color,
-    typography,
-    custtomStyledLayout,
-    flexbox,
-    background,
-    border,
-    position,
-    shadow
-);
+const sizeVariants = variant({
+    scale: 'buttons.size',
+    prop: 'size',
+    variants: {
+        medium: {
+        }
+    }
+});
+
+const outlineVariants = variant({
+    scale: 'buttons.outline',
+    prop: 'outline',
+    variants: {
+        primary: {
+        }
+    }
+})
 
 
- const Button = styled.button`
+ export const Button = styled.div`
 
     display: inline-flex;
     align-items: center;
@@ -37,43 +45,24 @@ const styledSystem = compose(
     overflow: visible;
     text-transform: none;
     border-style: solid;
-
     
+    ${fillVariants}
+    ${outlineVariants}
+    ${sizeVariants}
 
-    ${variant({
-        scale: 'buttons.variants',
-        prop: 'variant',
-        variants: {
-            primary: {
-
-            }
-        }
-    })}
-    ${variant({
-        scale: 'buttons.sizes',
-        prop: 'size',
-        variants: {
-            medium: {
-                paddingTop: 'xxsmall',
-                paddingBottom: 'xxsmall',
-                paddingLeft: 'large',
-                paddingRight: 'large',
-                fontSize: '16px',
-                lineHeight: '24px'
-            }
-        }
-    })}
-
-    ${variant({
-        scale: 'buttons.outline',
-        prop: 'outline',
-        variants: {
-            primary: {
-            }
-        }
-    })}
-
-    ${styledSystem}
+    ${compose(
+        width,
+        height,
+        display,
+        space,
+        color,
+        typography,
+        flexbox,
+        background,
+        border,
+        position,
+        shadow
+    )}
 
     ${buttonStyle}
 
@@ -86,9 +75,8 @@ const styledSystem = compose(
 `;
 
 Button.defaultProps = {
-    variant: 'primary',
+    fill: 'primary',
     size: 'medium',
     borderRadius: 'small'
 }
-
 export default Button;

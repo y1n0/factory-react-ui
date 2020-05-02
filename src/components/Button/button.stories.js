@@ -12,22 +12,22 @@ export const Variant = () => {
     return (
         <Box display="flex" flexDirection="column">
             <Box my="xsmall">
-                <Button variant="basic" type="submit">basic</Button>
+                <Button fill="basic" type="submit">basic</Button>
             </Box>
             <Box my="xsmall">
-                <Button variant="primary">primary</Button>
+                <Button fill="primary">primary</Button>
             </Box>
             <Box my="xsmall">
-                <Button variant="danger">danger</Button>
+                <Button fill="danger">danger</Button>
             </Box>
             <Box my="xsmall">
-                <Button variant="success">success</Button>
+                <Button fill="success">success</Button>
             </Box>
             <Box my="xsmall">
-                <Button variant="info">info</Button>
+                <Button fill="info">info</Button>
             </Box>
             <Box my="xsmall">
-                <Button variant="warning">warning</Button>
+                <Button fill="warning">warning</Button>
             </Box>
         </Box>
     );
@@ -38,19 +38,19 @@ export const WithIcon = () => {
         <Box display="flex" flexDirection="column">
 
             <Box my="xsmall">
-                <Button variant="primary"><Icon mr="14px" name="add-simple" size="14px"/> primary</Button>
+                <Button fill="primary"><Icon mr="14px" name="add-simple" size="14px"/> primary</Button>
             </Box>
             <Box my="xsmall">
-                <Button variant="danger">danger <Icon ml="14px" name="chevron-down" size="14px"/></Button>
+                <Button fill="danger">danger <Icon ml="14px" name="chevron-down" size="14px"/></Button>
             </Box>
             <Box my="xsmall">
-                <Button variant="success" p="14px"><Icon name="chevron-down" size="14px"/></Button>
+                <Button fill="success" p="14px"><Icon name="chevron-down" size="14px"/></Button>
             </Box>
             <Box my="xsmall">
-                <Button variant="info">info</Button>
+                <Button fill="info">info</Button>
             </Box>
             <Box my="xsmall">
-                <Button variant="warning">warning</Button>
+                <Button fill="warning">warning</Button>
             </Box>
         </Box>
     );
@@ -61,13 +61,13 @@ export const Size = () => {
     return (
         <Box display="flex" flexDirection="column">
             <Box my="xsmall">
-                <Button variant="primary" outline size="small">small</Button>
+                <Button fill="primary" outline size="small">small</Button>
             </Box>
             <Box my="xsmall">
-                <Button variant="primary" size="medium">medium</Button>
+                <Button fill="primary" size="medium">medium</Button>
             </Box>
             <Box my="xsmall">
-                <Button variant="primary" size="large">large</Button>
+                <Button fill="primary" size="large">large</Button>
             </Box>
         </Box>
     );
@@ -77,19 +77,19 @@ export const rounded = () => {
     return (
         <Box display="flex" flexDirection="column">
             <Box my="xsmall">
-                <Button variant="primary" borderRadius="rounded">primary</Button>
+                <Button fill="primary" borderRadius="rounded">primary</Button>
             </Box>
             <Box my="xsmall">
-                <Button variant="danger" borderRadius="rounded">danger</Button>
+                <Button fill="danger" borderRadius="rounded">danger</Button>
             </Box>
             <Box my="xsmall">
-                <Button variant="success"  borderRadius="rounded" >Responsive</Button>
+                <Button fill="success"  borderRadius="rounded" >Success</Button>
             </Box>
             <Box my="xsmall">
-                <Button variant="info" borderRadius="rounded">info</Button>
+                <Button fill="info" borderRadius="rounded">info</Button>
             </Box>
             <Box my="xsmall">
-                <Button variant="warning" borderRadius="rounded">warning</Button>
+                <Button fill="warning" borderRadius="rounded">warning</Button>
             </Box>
         </Box>
     );
@@ -101,7 +101,7 @@ export const responsive= () => {
         <Box display="flex" flexDirection="column">
 
 <Box my="xsmall">
-                <Button variant={{_: 'danger', sm: 'primary', md: 'success'}} >variant</Button>
+                <Button fill={{_: 'danger', sm: 'primary', md: 'success'}} >variant</Button>
             </Box>
             <Box my="xsmall">
                 <Button outline={{_: 'primary', sm: 'danger', md: 'success'}} >outline</Button>
@@ -138,7 +138,7 @@ export const fullWidth = () => {
                 <Button width="100%">full Width</Button>
             </Box>
             <Box my="xsmall">
-                <Button width="100%" borderRadius="rounded">full Width</Button>
+                <Button sx={{color: 'danger400'}}width="100%" borderRadius="rounded">full Width</Button>
             </Box>
         </Box>
     );
