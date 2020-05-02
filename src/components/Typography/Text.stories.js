@@ -1,6 +1,5 @@
 import React from 'react';
-import {Box} from '../Box';
-import Text from './Text';
+import {Text} from './Text';
 import { withKnobs, text, select } from "@storybook/addon-knobs";
 
 import { 

@@ -3,18 +3,12 @@ import React, { forwardRef, useContext, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { LayerContainer } from './LayerContainer';
+import { getNewContainer } from '../../core/utils';
 
 const ContainerTargetContext = React.createContext(
     typeof document === 'object' ? document.body : undefined,
 );
 
-// TODO move to util/DOM
-const getNewContainer = (rootNode = document.body) => {
-    // setup DOM
-    const container = document.createElement('div');
-    rootNode.appendChild(container);
-    return container;
-};
 
 
 const animationDuration = 200;

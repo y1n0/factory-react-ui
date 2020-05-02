@@ -1,29 +1,11 @@
-import styled from 'styled-components';
-import { typography, display, variant, space, color, flexbox } from 'styled-system';
+import React from 'react';
+import {Flex} from '../Box'
 
 
-const labelVariants = variant({
-    prop: 'variant',
-    scale: 'labels.variants',
-    variants: {
-        default: {
-        }
-    }
-})
-
-
-const Label = styled.label`
-    display: flex;
-    width: 100%;
-
-    ${labelVariants}
-    ${space}
-    ${color}
-    ${typography}
-    ${display}
-    ${flexbox}
-`;
-
-
+const Label = ({children, variant, ...props}) => {
+    return <Flex __css={{width:"100%"}} as="label" {...props} variant={variant}>
+        {children}
+    </Flex>
+}
 
 export default Label;

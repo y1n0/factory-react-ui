@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import { flexbox, color, space, typography, compose, background, position, shadow, border, variant, buttonStyle, width, height, display } from "styled-system";
+import { flexbox, color, space, typography, compose, background, position, shadow, border, variant as StyledVariant, buttonStyle, width, height, display } from "styled-system";
+import { sx, variant } from "../../core/utils";
 
 
-const fillVariants = variant({
+const fillVariants = StyledVariant({
     scale: 'buttons.fill',
     prop: 'fill',
     variants: {
@@ -11,7 +12,7 @@ const fillVariants = variant({
     }
 });
 
-const sizeVariants = variant({
+const sizeVariants = StyledVariant({
     scale: 'buttons.size',
     prop: 'size',
     variants: {
@@ -20,7 +21,7 @@ const sizeVariants = variant({
     }
 });
 
-const outlineVariants = variant({
+const outlineVariants = StyledVariant({
     scale: 'buttons.outline',
     prop: 'outline',
     variants: {
@@ -45,11 +46,14 @@ const outlineVariants = variant({
     overflow: visible;
     text-transform: none;
     border-style: solid;
+
     
+    ${buttonStyle}
     ${fillVariants}
     ${outlineVariants}
     ${sizeVariants}
-
+    ${variant}
+    ${sx}
     ${compose(
         width,
         height,
@@ -64,13 +68,11 @@ const outlineVariants = variant({
         shadow
     )}
 
-    ${buttonStyle}
 
     &:disabled {
        cursor: not-allowed;
        pointer-events: all !important;
     }
-    ${props => props.sx}
 
 `;
 

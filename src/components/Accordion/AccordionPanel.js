@@ -1,45 +1,9 @@
-import React, { forwardRef, useContext, useMemo, useState, cloneElement } from 'react';
+import React, { forwardRef, useContext, cloneElement } from 'react';
 import { ThemeContext } from 'styled-components';
 import { Box } from '../Box';
-import { Text } from '../Typography';
-
-import { props as systemProps } from '@styled-system/should-forward-prop';
 import { AccordionContext } from './AccordionContext';
+import { getVariant, getSystemProps } from '../../core/utils';
 
-
-const PanelProps = [
-  ...systemProps,
-  'sx',
-];
-
-const MARGIN_REG_EXP = /^m[trblxy]?$/;
-const PADDING_REG_EXP = /^p[trblxy]?$/;
-
-const PRE = new RegExp(`^(${PanelProps.join('|')})$`);
-const getProps = (test) => (props) => {
-  const next = {}
-  for (const key in props) {
-    if (test(key || '')) next[key] = props[key]
-  }
-  return next
-}
-const getSystemProps = getProps(k => PRE.test(k));
-
-const getMarginProps = getProps(k => MARGIN_REG_EXP.test(k));
-const omitMarginProps = getProps(k => !MARGIN_REG_EXP.test(k));
-
-const getPaddingProps = getProps(k => PADDING_REG_EXP.test(k));
-const omitPaddingProps = getProps(k => !PADDING_REG_EXP.test(k));
-
-// TODO : refactor utils
-
-const variantReducer = (accumulator, currentValue) => currentValue ? accumulator + '.' + currentValue : accumulator;
-const getVariant = (variant = []) => {
-  if (typeof variant === 'string') {
-    return variant
-  }
-  return variant.reduce(variantReducer)
-}
 
 
 const PanelHeaderBaseStyle = {
@@ -58,8 +22,9 @@ export const AccordionPanel = forwardRef(
       children,
       header,
       title,
-      variant,
+      variant="accordion",
       key,
+      sx,
       ...rest
     },
     ref,
@@ -72,7 +37,6 @@ export const AccordionPanel = forwardRef(
       });
     }
 
-    const theme = useContext(ThemeContext) || {};
     const { active, variant: variantAccordion, onPanelChange } = useContext(AccordionContext);
 
     if (variant === undefined) {
@@ -88,7 +52,8 @@ export const AccordionPanel = forwardRef(
             borderBottom: 0,
           }
         }}
-        variant={getVariant(['accordion', variant, 'panel'])}
+        sx={sx}
+        variant={getVariant([variant, 'panel'])}
         {...getSystemProps(rest)}
       >
 
@@ -113,7 +78,7 @@ export const AccordionPanel = forwardRef(
             (
               <Box
                 __css={PanelHeaderBaseStyle}
-                variant={getVariant(['accordion', variant, 'header'])}
+                variant={getVariant([variant, 'header'])}
               >
                 {title}
               </Box>
@@ -130,7 +95,7 @@ export const AccordionPanel = forwardRef(
             overflow: active ? null : 'hidden',
             display: active ? null : 'none',
           }}
-          variant={getVariant(['accordion', variant, 'content'])}
+          variant={getVariant([variant, 'content'])}
         >
           {children}
         </Box>

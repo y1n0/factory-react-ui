@@ -1,13 +1,12 @@
 import React from 'react';
-import Paragraph from './Paragraph';
 import { withKnobs, text, select } from "@storybook/addon-knobs";
 import { 
     fontFamilyOption,
     colorOption,
     themeId
 } from './knobes-options.storybook';
+import {Paragraph} from './Text';
 
-const customText = "Heading";
 
 export const ParagraphComponent = () => {
 

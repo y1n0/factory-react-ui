@@ -1,36 +1,11 @@
 
 import React, { forwardRef, Children, cloneElement, Fragment } from "react";
-import { props as systemProps } from '@styled-system/should-forward-prop';
-import {Box, Flex} from '../Box';
-
-const Props = [
-    ...systemProps,
-    'sx',
-];
-
-const PRE = new RegExp(`^(${Props.join('|')})$`);
-const getProps = (test) => (props) => {
-  const next = {}
-  for (const key in props) {
-    if (test(key || '')) next[key] = props[key]
-  }
-  return next
-}
-const getSystemProps = getProps(k => PRE.test(k));
-
-
-// TODO : refactor utils
-const variantReducer = (accumulator, currentValue) => currentValue ? accumulator + '.' + currentValue : accumulator;
-const getVariant = (variant = []) => {
-    if (typeof variant === 'string') {
-        return variant
-    }
-    return variant.reduce(variantReducer)
-}
+import {Box} from '../Box';
+import { getVariant, getSystemProps } from "../../core/utils";
 
 
 export const Breadcrumb = forwardRef(({
-    variant,
+    variant='breadcrumb',
     children,
     separator = '/',
     sx,
@@ -73,7 +48,7 @@ export const Breadcrumb = forwardRef(({
             ref={ref}
             sx={sx}
             {...getSystemProps(rest)}
-            variant={getVariant(['breadcrumb', variant])}
+            variant={getVariant([variant])}
             __css={{
                 padding: 'small',
                 backgroundColor: 'gray200',

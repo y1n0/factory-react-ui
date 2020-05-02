@@ -1,11 +1,11 @@
 import React from 'react';
-import Heading from './Heading';
 import { withKnobs, text, select } from "@storybook/addon-knobs";
 import { 
     fontFamilyOption,
     colorOption,
     themeId
 } from './knobes-options.storybook';
+import {Heading} from './Text';
 
 const customText = "Heading";
 

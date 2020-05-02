@@ -52,7 +52,7 @@ export const VariantCapitalAzur = () => {
 
     return (
         <Box >
-            <Breadcrumb variant="capitalazur" p="small" separator={<Box mx="4px">></Box>}>
+            <Breadcrumb variant="breadcrumb.capitalazur" p="small" separator={<Box mx="4px">></Box>}>
                 <BreadcrumbItem p="medium"  href="#">Acceuil</BreadcrumbItem>
                 <BreadcrumbItem p="medium" href="#">Produits & Service</BreadcrumbItem>
                 <BreadcrumbItem p="medium" href="#" active={true}>Assurance</BreadcrumbItem>

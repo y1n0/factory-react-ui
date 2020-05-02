@@ -2,67 +2,12 @@ import React, { forwardRef, useContext, createContext, useMemo, useRef, useState
 import { Box } from '../Box';
 import { ThemeContext } from 'styled-components';
 import { createPortal } from 'react-dom';
+import { parseMetricToNum, findScrollParents, setFocusWithoutScroll, findVisibleParent, getNewContainer } from '../../core/utils';
 
 const PortalContext = createContext(undefined);
 const ContainerTargetContext = React.createContext(
     typeof document === 'object' ? document.body : undefined,
 );
-
-const getNewContainer = (rootNode = document.body) => {
-    // setup DOM
-    const container = document.createElement('div');
-    rootNode.appendChild(container);
-    return container;
-};
-
-const setFocusWithoutScroll = element => {
-    const x = window.scrollX;
-    const y = window.scrollY;
-    element.focus();
-    window.scrollTo(x, y);
-};
-
-const findScrollParents = (element, horizontal) => {
-    const result = [];
-    if (element) {
-        let parent = element.parentNode;
-        while (parent && parent.getBoundingClientRect) {
-            const rect = parent.getBoundingClientRect();
-            // 10px is to account for borders and scrollbars in a lazy way
-            if (horizontal) {
-                if (rect.width && parent.scrollWidth > rect.width + 10) {
-                    result.push(parent);
-                }
-            } else if (rect.height && parent.scrollHeight > rect.height + 10) {
-                result.push(parent);
-            }
-            parent = parent.parentNode;
-        }
-        // last scrollable element will be the document
-        // if nothing else is scrollable in the page
-        if (result.length === 0) {
-            result.push(document);
-        } else if (result[0].tagName.toLowerCase() === 'body') {
-            result.length = 0;
-            result.push(document);
-        }
-    }
-    return result;
-};
-const findVisibleParent = element => {
-    if (element) {
-        return element.offsetParent
-            ? element
-            : findVisibleParent(element.parentElement) || element;
-    }
-    return undefined;
-};
-const parseMetricToNum = fontAsString => {
-    if (fontAsString.match(/\s/) && process.env.NODE_ENV !== 'production') {
-        console.warn(`Invalid single measurement value: "${fontAsString}"`);
-    }
-    return parseFloat(fontAsString.match(/\d+(\.\d+)?/), 10);
-};
 
 const getTransformOriginStyle = align => {
     let vertical = 'top';

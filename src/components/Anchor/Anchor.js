@@ -1,22 +1,16 @@
-import React from 'react';
+
 import styled from 'styled-components';
-import { color, space, typography, compose, position, variant, system} from "styled-system";
+import { color, space, typography, compose, position, variant as StyledVariant, system } from "styled-system";
+import { sx, variant } from "../../core/utils";
 
-
-const styledSystem = compose(
-    space,
-    color,
-    typography,
-    position
-);
-
-const textDecoration = system({
-    prop: 'textDecoration',
-    cssProperty: 'textDecoration',
-    scale: 'textDecoration',
-    defaultScale: ['inherit']
+const outlineVariants = StyledVariant({
+    scale: 'buttons.outline',
+    prop: 'outline',
+    variants: {
+        primary: {
+        }
+    }
 })
-
 const Anchor = styled.a`
     box-sizing: border-box;
     cursor: pointer;
@@ -26,23 +20,25 @@ const Anchor = styled.a`
     color: inherit;
     text-decoration: none;
 
-    ${styledSystem}
-
-    ${textDecoration}
-
-    ${variant({
-        scale: 'anchors.variants',
-        prop: 'variant',
-        variants: {
-            primary: {
-            }
-        }
+    ${system({
+        prop: 'textDecoration',
+        cssProperty: 'textDecoration',
+        scale: 'textDecoration',
+        defaultScale: ['inherit']
     })}
-
+    ${outlineVariants}
+    ${variant}
+    ${sx}
+    ${compose(
+        space,
+        color,
+        typography,
+        position
+    )}
 `;
 
 
 Anchor.defaultProps = {
 }
 
-export {Anchor};
+export { Anchor };

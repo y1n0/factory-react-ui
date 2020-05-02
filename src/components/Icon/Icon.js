@@ -1,15 +1,11 @@
-import React from "react";
+
 import IcoMoon from "react-icomoon";
 import styled from "styled-components";
 import { size, color, space } from "styled-system";
-import css from '@styled-system/css';
 import shouldForwardProp from '@styled-system/should-forward-prop';
+import { sx, base } from "../../core/utils";
 
 const iconSet = require("./selection.json");
-
-// TODO: refactoring - duplicate code
-const sx = props => css(props.sx)(props.theme);
-const base = props => css(props.__css)(props.theme);
 
 export const Icon = styled(IcoMoon, {shouldForwardProp}).attrs(props => ({
                         removeInlineStyle: true,
@@ -25,6 +21,5 @@ export const Icon = styled(IcoMoon, {shouldForwardProp}).attrs(props => ({
     ${base}
     ${sx}
   `;
-
 
 export default Icon;

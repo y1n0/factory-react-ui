@@ -24,7 +24,7 @@ export const Variant = () => {
 
     return (
         <Box >
-            <Navs variant="capitalazur">
+            <Navs variant="navs.capitalazur">
                 <Nav href="#" active={true}>Produits & Service</Nav>
                 <Nav href="#">Nous connaître</Nav>
                 <Nav href="#" >insights</Nav>
@@ -38,7 +38,7 @@ export const RTL = () => {
     return (
         <DirectionManager dir="rtl">
             <Box dir="rtl" >
-                <Navs variant="capitalazur">
+                <Navs variant="navs.capitalazur">
                     <Nav href="#" active={true}>Produits & Service</Nav>
                     <Nav href="#">Nous connaître</Nav>
                     <Nav href="#" >insights</Nav>

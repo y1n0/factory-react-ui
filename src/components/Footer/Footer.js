@@ -1,13 +1,14 @@
 import React from 'react';
 import {Box} from '../Box';
+import { getVariant } from '../../core/utils';
 
 
-export const Footer = ({variant, ...props}) => {
+export const Footer = ({variant='footer', ...props}) => {
     return (
         <Box
             {...props}
             as='footer'
-            variant={`footer${variant ? '.'+variant : ''}`}
+            variant={getVariant([variant])}
             sx={{
                 display: 'flex',
                 position: 'relative',

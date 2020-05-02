@@ -1,13 +1,14 @@
 import React from 'react';
 import {Box} from '../Box';
+import { getVariant } from '../../core/utils';
 
 
-export const Header = ({variant, ...props}) => {
+export const Header = ({variant='header', ...props}) => {
     return (
         <Box
             {...props}
             as='header'
-            variant={`header${variant ? '.'+variant : ''}`}
+            variant={getVariant([variant])}
             sx={{
                 display: 'flex',
                 position: 'relative',

@@ -3,18 +3,10 @@ import React, { Children, forwardRef, useState } from 'react';
 
 import { AccordionContext } from './AccordionContext';
 import { Box } from '../Box';
+import { getVariant } from '../../core/utils';
 
 const activeAsArray = active =>
     typeof active === 'number' ? [active] : active;
-
-// TODO : refactor utils
-const variantReducer = (accumulator, currentValue) => currentValue ? accumulator + '.' + currentValue : accumulator;
-const getVariant = (variant = []) => {
-    if (typeof variant === 'string') {
-        return variant
-    }
-    return variant.reduce(variantReducer)
-}
 
 
 export const Accordion = forwardRef(
@@ -22,7 +14,7 @@ export const Accordion = forwardRef(
         children,
         multiple,
         onChange,
-        variant,
+        variant='accordion',
         ...rest
     }, ref) => {
 
@@ -78,7 +70,7 @@ export const Accordion = forwardRef(
         return (
             <Box
                 ref={ref}
-                variant={getVariant(['accordion', variant])}
+                variant={getVariant([variant])}
                 {...rest}>
                 {panels}
             </Box>

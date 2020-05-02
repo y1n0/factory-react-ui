@@ -1,39 +1,13 @@
 import React, { forwardRef, useContext } from 'react';
 import { Box } from '../Box';
-import { props as systemProps } from '@styled-system/should-forward-prop';
 import { ThemeContext } from "styled-components";
-import css, { get } from '@styled-system/css';
+import  { get } from '@styled-system/css';
+import { getSystemProps, getVariant } from '../../core/utils';
 
-
-
-const Props = [
-    ...systemProps,
-    'sx',
-];
-
-const PRE = new RegExp(`^(${Props.join('|')})$`);
-const getProps = (test) => (props) => {
-    const next = {}
-    for (const key in props) {
-        if (test(key || '')) next[key] = props[key]
-    }
-    return next
-}
-const getSystemProps = getProps(k => PRE.test(k));
-
-
-// TODO : refactor utils
-const variantReducer = (accumulator, currentValue) => currentValue ? accumulator + '.' + currentValue : accumulator;
-const getVariant = (variant = []) => {
-    if (typeof variant === 'string') {
-        return variant
-    }
-    return variant.reduce(variantReducer)
-}
 
 
 export const Nav = forwardRef(({
-    variant,
+    variant = 'navs',
     children,
     href,
     active,
@@ -46,10 +20,8 @@ export const Nav = forwardRef(({
     let isActiveStyle = null;
     if (active) {
         const theme = useContext(ThemeContext);
-        console.log('isActive yes', variant);
-        isActiveStyle = get(theme, getVariant(['navs', variant, 'activeNav']));
+        isActiveStyle = get(theme, getVariant([variant, 'activeNav']));
 
-        console.log('isActive yes', isActiveStyle);
     }
     return (
         <Box
@@ -57,7 +29,7 @@ export const Nav = forwardRef(({
             ref={ref}
             href={href}
             {...getSystemProps(rest)}
-            variant={getVariant(['navs', variant, 'nav'])}
+            variant={getVariant([variant, 'nav'])}
             __css={{
                 color: 'primary500',
                 textDecoration: 'none',

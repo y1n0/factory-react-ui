@@ -1,16 +1,49 @@
-import styled from 'styled-components';
-import { color, typography, margin, display } from 'styled-system';
+import React from 'react';
+import { Box } from '../Box';
 
-const Text = styled.p`
-    font-size: inherit;
-    font-weight: inherit;
-    line-height: inherit;
-    ${color}
-    ${typography}
-    ${display}
-    ${margin}
-`;
 
+export const Text = ({ children, as = 'p', ...rest }) => <Box {...rest} as={as} __css={{
+    fontSize: 'inherit',
+    fontWeight: 'inherit',
+    lineHeight: 'inherit'
+}}>
+    {children}
+</Box>
+
+export const Paragraph = ({
+    children,
+    ...rest
+}) => {
+
+    return (
+        <Text sx={{
+            fontSize: "paragraph",
+            lineHeight: "paragraph",
+            mb: "xsmall",
+        }}
+            {...rest}>
+            {children}
+        </Text>
+    );
+}
+
+export const Heading = ({
+    children,
+    level = '1',
+    ...rest
+}) => {
+
+    return (
+        <Text
+            sx={{
+                fontSize: `heading${level}`,
+                lineHeight: `heading${level}`,
+                mb: "small",
+            }}
+            {...rest}
+            as={`h${level}`}>{children}</Text>
+    );
+}
 
 export default Text;
 

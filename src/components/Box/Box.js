@@ -9,17 +9,9 @@ import {
   border,
   compose,
   typography } from 'styled-system';
-import css, { get } from '@styled-system/css';
 import shouldForwardProp from '@styled-system/should-forward-prop';
+import { variant, base, sx } from '../../core/utils';
 
-// TODO: refactoring - duplicate code
-const sx = props => css(props.sx)(props.theme);
-const base = props => css(props.__css)(props.theme);
-
-const variant = ({
-  theme,
-  variant,
-}) => css(get(theme, variant))(theme)
 
 export const Box = styled('div', {shouldForwardProp})(
   {

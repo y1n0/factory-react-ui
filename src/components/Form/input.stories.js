@@ -10,6 +10,7 @@ import { Input } from './Input';
 import Label from './Label';
 import { useForm } from 'react-hook-form';
 import { Button } from '../Button';
+import { Icon } from '../Icon';
 
 export const Default = () => {
     return (
@@ -159,32 +160,19 @@ export const WithIcon = () => {
     return (
         <Box display="flex" flexDirection="column">
             <Box my="xsmall" px="xsmall">
-                <Input type="text" placeholder="placeholder" />
+                <Input icon={<Icon color="gray500" name="plus" size="medium" sx={{marginLeft:"8px"}} />} type="text" placeholder="placeholder" pl="30px"/>
             </Box>
+
+
             <Box my="xsmall" px="xsmall">
-                <Input type="text" />
+                <Input size="small" placeholder="small" type="text" icon={<Icon color="gray500" name="plus" size="small" sx={{marginLeft:"8px"}} />}  type="text" pl="30px" />
             </Box>
 
             <Box my="xsmall" px="xsmall">
-                <Input type="text" status={{_: 'primary', sm: 'danger', md: 'success'}} />
-            </Box>
-
-            <Box my="xsmall" px="xsmall">
-                <Input size="small" placeholder="small" type="text" />
-            </Box>
-
-            <Box my="xsmall" px="xsmall">
-                <Input size="large" placeholder="large" type="text" />
+                <Input size="large" placeholder="large" icon={<Icon color="gray500" name="plus" size="large" sx={{marginLeft:"12px"}} />}  type="text" pl="45px" />
             </Box>
             <Box my="xsmall" px="xsmall">
-                <Input width="100%" status="primary" size="large" placeholder="large" type="text" />
-            </Box>
-            <Box my="xsmall" px="xsmall">
-                <Input width="100%" mt="20px" pl="200px" size="large" placeholder="padding-left" type="text" />
-            </Box>
-
-            <Box my="xsmall" px="xsmall">
-                <Input size="small" placeholder="small" type="text" />
+                <Input width="100%"  icon={<Icon color="gray500" name="plus" size="large" sx={{marginLeft:"12px"}} />} mt="20px" pl="200px" size="large" placeholder="padding-left" type="text" />
             </Box>
         </Box>
     );
@@ -194,17 +182,22 @@ export const Password = () => {
 
     const [value, setValue] = React.useState("");
     const [reveal, setReveal] = React.useState(false);
+    const PasswordIcon = ({isReveal}) => isReveal ?
+    <Icon name="minus" size="medium" onClick={() => setReveal(false)}sx={{ marginX:"12px"}}/>
+    :
+    <Icon onClick={() => setReveal(true)} name="plus" size="medium" sx={{ marginX:"12px"}}/>
 
     return (
         <Box display="flex" flexDirection="column">
             <Box my="xsmall" px="xsmall">
                 <Label mb="xsmall">Password</Label>
-                <Input icon={reveal ? "eye": "eyOf"}
+                <Input icon={<PasswordIcon  isReveal={reveal} />}
                     type={reveal ? "text" : "password"}
-                    reverse
                     value={value}
                     onChange={event => setValue(event.target.value)}
-                    placeholder="password" />
+                    placeholder="password"
+                    sx={{paddingLeft: '42px'}}
+                    />
             </Box>
         </Box>
     )
@@ -246,8 +239,7 @@ export const ReactHookForm = () => {
 
     const { register, handleSubmit } = useForm();
     const onSubmit = data => {
-        setFormData(data);
-        console.log(data)
+        setFormData(data)
     };
 
     return (

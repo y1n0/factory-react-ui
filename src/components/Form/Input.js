@@ -1,26 +1,11 @@
-import React, { useState, useContext } from 'react';
-import styled, { ThemeContext } from 'styled-components';
-import { color, typography, background, border, position, shadow, variant, compose, width, height, display, padding, margin } from 'styled-system';
-import  {getValueAndUnit, stripUnit} from 'polished';
+import React from 'react';
+import styled  from 'styled-components';
+import { color, typography, background, border, position, shadow, variant as StyledVariant, compose, width, height, display, padding, margin, } from 'styled-system';
 
+import { sx, variant, getProps } from "../../core/utils";
+import { Flex } from '../Box';
 
-const custtomStyledLayout = compose(
-    width,
-    height,
-    display,
-);
-const styledSystem = compose(
-    padding,
-    color,
-    typography,
-    background,
-    border,
-    position,
-    shadow,
-    custtomStyledLayout,
-);
-
-const variantVariants = variant({
+const variantVariants = StyledVariant({
     scale: 'inputs.variants',
     prop: 'variant',
     variants: {
@@ -29,7 +14,7 @@ const variantVariants = variant({
         }
     }
 });
-const variantStatus = variant({
+const variantStatus = StyledVariant({
     scale: 'inputs.status',
     prop: 'status',
     variants: {
@@ -39,7 +24,7 @@ const variantStatus = variant({
     }
 });
 
-const variantSizes = variant({
+const variantSizes = StyledVariant({
     scale: 'inputs.sizes',
     prop: 'size',
     variants: {
@@ -51,42 +36,6 @@ const variantSizes = variant({
     }
 });
 
-
-const StyledIcon = styled.div`
-  position: absolute;
-  width: ${props=> props.sizeIcon};
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  top:0;
-  bottom: 0;
-  ${props =>
-    props.reverse
-      ? `right: ${parseInt(props.theme.space[props.theme.inputs.sizes[props.size].paddingX].slice(0,-2))}px ;`
-      : `left: ${parseInt(props.theme.space[props.theme.inputs.sizes[props.size].paddingX].slice(0,-2))}px;`}
-`;
-
-const StyledTextInputContainer = styled.div`
-    display:flex;
-    position: relative;
-    width: fit-content;
-    ${width}
-    ${margin}
-`;
-
-const getIconSize = (icon, theme) => {
-    const valueAndUnit = icon.props && getValueAndUnit(icon.props.size)
-    const value = valueAndUnit[0];
-    const unit = valueAndUnit[1];
-    if(unit === '%') {
-        return theme.inputs.iconContainer.width;
-    } else if(unit === 'px') {
-        return value+unit;
-    } else {
-        console.error('The size of icon should be in \`px\` or \'%\'.');
-    }
-};
 
 const StyledInput = styled.input`
     display: block;
@@ -107,12 +56,21 @@ const StyledInput = styled.input`
     ${variantStatus}
     ${variantSizes}
 
-    ${props =>  props.icon && 
-                (props.reverse
-                    ? `padding-right: ${stripUnit(props.theme.space[props.theme.inputs.sizes[props.size].paddingX])*2 + stripUnit(props.sizeIcon)}px ;`
-                    : `padding-left: ${stripUnit(props.theme.space[props.theme.inputs.sizes[props.size].paddingX])*2 + stripUnit(props.sizeIcon)}px ;` )
-    }
-     ${styledSystem}
+
+    ${variant}
+    ${sx}
+    ${compose(
+        padding,
+        color,
+        typography,
+        background,
+        border,
+        position,
+        shadow,
+        width,
+        height,
+        display,
+    )}
 `;
 
 StyledInput.defaultProps = {
@@ -122,22 +80,33 @@ StyledInput.defaultProps = {
 }
 
 
+export const Input  = React.forwardRef(({as,size,reverse,  ...props}, ref) => {
 
-
-
-export const Input  = React.forwardRef(({as, ...props}, ref) => {
-
-    const theme = useContext(ThemeContext);
 
     return (
-        <StyledTextInputContainer {...props}>
+        <Flex __css={{
+            position: 'relative',
+            width: 'fit-content'
+        }} {...getProps([...margin.propNames, ...width.propNames])} >
             {props.icon && 
-                    <StyledIcon theme={theme} size={props.size} reverse={props.reverse} sizeIcon={props.icon && getIconSize(props.icon, theme)} >
+
+                    <Flex
+                        __css={{
+                            color:'inherit',
+                            position: 'absolute',
+                            width: 'auto',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            top:0,
+                            bottom: 0,
+                            right: reverse ? 0 : null,
+                            left: reverse ? null : 0,
+                        }}>
                         {props.icon}
-                    </StyledIcon>
+                    </Flex>
             }
-            <StyledInput as={as} {...props} ref={ref} sizeIcon={props.icon && getIconSize(props.icon, theme)} />
-        </StyledTextInputContainer>
+            <StyledInput as={as} reverse={reverse} size={size} {...props} ref={ref} />
+        </Flex>
 
     );
 })

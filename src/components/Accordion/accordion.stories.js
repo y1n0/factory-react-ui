@@ -214,7 +214,7 @@ const AccordionPanelCapitalAzur = ({ title, panelKey, isActive, children }) =>
         overflow: 'hidden',
         backgroundColor: 'white',
         borderRadius: '8px',
-        marginBottom: '30px'
+        marginBottom: '30px',
     }}
         panelKey={panelKey}
         title={<AccordionHeaderCapitalAzur isActive={isActive}>{title}</AccordionHeaderCapitalAzur>}>
