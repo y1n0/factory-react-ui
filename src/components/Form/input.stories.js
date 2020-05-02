@@ -5,8 +5,8 @@ import { action } from "@storybook/addon-actions"
 import { Text, Heading } from '../Typography';
 import { Box } from '../Box';
 import { Input } from './Input';
-import { Search } from '@styled-icons/evil/Search';
-import { Eye, EyeOff } from '@styled-icons/feather';
+// import { Search } from '@styled-icons/evil/Search';
+// import { Eye, EyeOff } from '@styled-icons/feather';
 import Label from './Label';
 import { useForm } from 'react-hook-form';
 import { Button } from '../Button';
@@ -162,29 +162,29 @@ export const WithIcon = () => {
                 <Input type="text" placeholder="placeholder" />
             </Box>
             <Box my="xsmall" px="xsmall">
-                <Input icon={<Search size="100%" />} type="text" />
+                <Input type="text" />
             </Box>
 
             <Box my="xsmall" px="xsmall">
-                <Input icon={<Search size="100%" />} type="text" status={{_: 'primary', sm: 'danger', md: 'success'}} />
+                <Input type="text" status={{_: 'primary', sm: 'danger', md: 'success'}} />
             </Box>
 
             <Box my="xsmall" px="xsmall">
-                <Input icon={<Search size="25px" />} size="small" placeholder="small" type="text" />
+                <Input size="small" placeholder="small" type="text" />
             </Box>
 
             <Box my="xsmall" px="xsmall">
-                <Input icon={<Search size="100%" />} size="large" placeholder="large" type="text" />
+                <Input size="large" placeholder="large" type="text" />
             </Box>
             <Box my="xsmall" px="xsmall">
-                <Input reverse icon={<Search size="100%" />} width="100%" status="primary" size="large" placeholder="large" type="text" />
+                <Input width="100%" status="primary" size="large" placeholder="large" type="text" />
             </Box>
             <Box my="xsmall" px="xsmall">
-                <Input icon={<Search size="100%" />} width="100%" mt="20px" pl="200px" size="large" placeholder="padding-left" type="text" />
+                <Input width="100%" mt="20px" pl="200px" size="large" placeholder="padding-left" type="text" />
             </Box>
 
             <Box my="xsmall" px="xsmall">
-                <Input icon={<Search size="25px" />} size="small" placeholder="small" type="text" />
+                <Input size="small" placeholder="small" type="text" />
             </Box>
         </Box>
     );
@@ -199,7 +199,7 @@ export const Password = () => {
         <Box display="flex" flexDirection="column">
             <Box my="xsmall" px="xsmall">
                 <Label mb="xsmall">Password</Label>
-                <Input icon={reveal ? <Eye size="90%" onClick={() => setReveal(!reveal)} /> : <EyeOff size="90%" onClick={() => setReveal(!reveal)} />}
+                <Input icon={reveal ? "eye": "eyOf"}
                     type={reveal ? "text" : "password"}
                     reverse
                     value={value}
