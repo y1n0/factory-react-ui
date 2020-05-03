@@ -1,7 +1,7 @@
 import React, { forwardRef, useContext, createContext, useMemo, useRef, useState, useEffect } from 'react';
 import { Box } from '../Box';
 import { ThemeContext } from 'styled-components';
-import { createPortal } from 'react-dom';
+import ReactDOM from 'react-dom'
 import { parseMetricToNum, findScrollParents, setFocusWithoutScroll, findVisibleParent, getNewContainer } from '../../core';
 
 const PortalContext = createContext(undefined);
@@ -388,7 +388,7 @@ export const Drop = forwardRef(
         );
 
         return dropContainer
-            ? createPortal(
+            ? ReactDOM.createPortal(
                 <DropContainer
                     ref={ref}
                     dir={theme && theme.dir}

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { ThemeContext, ThemeProvider } from 'styled-components';
 import { get } from 'styled-system';
 import deepmerge from 'deepmerge';
-import { useVactoryTheme, VactoryThemeContext } from '../index';
+import { useVactoryTheme, VactoryThemeContext } from '../context';
 
 
 const STORAGE_KEY = 'vactory-ui-color-mode';

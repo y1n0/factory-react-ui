@@ -75,8 +75,7 @@ export const Tabs = forwardRef(({
                 variant,
                 onClickTab: () => handleClickTab(key),
             });
-        },
-        this
+        }
     );
 
     return (
