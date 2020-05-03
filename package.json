@@ -8,7 +8,6 @@
   "author": "void.fr",
   "dependencies": {
     "deepmerge": "^4.2.2",
-    "polished": "^3.5.1",
     "rc-pagination": "^2.2.0",
     "react-icomoon": "^2.0.3",
     "styled-components": "^5.0.1",
@@ -26,9 +25,10 @@
     "prepublish": "run-s build",
     "test": "run-s test:unit test:lint test:build",
     "test:build": "run-s build",
-    "test:lint": "eslint .",
+    "test:lint": "eslint src/*",
     "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
+    "fix:lint": "eslint --fix --fix-type problem src/components/Image/*",
     "predeploy": "cd example && yarn install && yarn run build",
     "deploy": "gh-pages -d example/build",
     "storybook": "start-storybook -p 9009 -s public",
@@ -37,19 +37,6 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-
   "peerDependencies": {
     "react": "^16.0.0"
   },

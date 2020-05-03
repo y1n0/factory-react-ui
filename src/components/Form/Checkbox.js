@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../Box';
 import { Icon } from '../Icon';
-import {getSystemProps} from '../../core/utils';
+import {getSystemProps} from '../../core';
 
 const SVG = ({ size = 24, ...props }) =>
     <Box

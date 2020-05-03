@@ -1,8 +1,7 @@
 import React, { forwardRef, useContext, cloneElement } from 'react';
-import { ThemeContext } from 'styled-components';
 import { Box } from '../Box';
 import { AccordionContext } from './AccordionContext';
-import { getVariant, getSystemProps } from '../../core/utils';
+import { getVariant, getSystemProps } from '../../core';
 
 
 
@@ -30,12 +29,12 @@ export const AccordionPanel = forwardRef(
     ref,
   ) => {
 
-    let Header;
-    if (header) {
-      Header = cloneElement(header, {
-        __css: { marginBottom: '-1px' },
-      });
-    }
+    // let Header;
+    // if (header) {
+    //   Header = cloneElement(header, {
+    //     __css: { marginBottom: '-1px' },
+    //   });
+    // }
 
     const { active, variant: variantAccordion, onPanelChange } = useContext(AccordionContext);
 

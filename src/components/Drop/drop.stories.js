@@ -1,8 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Box, Flex } from '../Box';
 import { Button } from '../Button';
-import { Icon } from '../Icon';
-import { DirectionManager } from '../../core/rtl-manager';
 import { Drop } from './Drop';
 
 export const DropButton = () => {

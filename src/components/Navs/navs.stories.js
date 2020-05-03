@@ -1,11 +1,9 @@
-import React, { useState, useRef } from 'react';
-import { Box, Flex } from '../Box';
-import { Icon } from '../Icon';
-import Space from '../../core/space';
+import React from 'react';
+import { Box } from '../Box';
 import {Navs} from './Navs'
 import {Nav} from './Nav';
 
-import { DirectionManager } from '../../core/rtl-manager';
+import { DirectionManager } from '../../core';
 
 export const Simple = () => {
 

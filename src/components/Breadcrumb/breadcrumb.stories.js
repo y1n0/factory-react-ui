@@ -1,8 +1,6 @@
-import React, { useState, useRef } from 'react';
-import { Box, Flex } from '../Box';
+import React from 'react';
+import { Box } from '../Box';
 import { Icon } from '../Icon';
-import { DirectionManager } from '../../core/rtl-manager';
-import Space from '../../core/space';
 import {Breadcrumb} from './Breadcrumb'
 import {BreadcrumbItem} from './BreadcrumbItem'
 

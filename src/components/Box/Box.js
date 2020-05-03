@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import {
   boxShadow,
   shadow,
-  color,
+  color, 
   space,
   layout,
   flexbox,
@@ -10,7 +10,7 @@ import {
   compose,
   typography } from 'styled-system';
 import shouldForwardProp from '@styled-system/should-forward-prop';
-import { variant, base, sx } from '../../core/utils';
+import { variant, base, sx } from '../../core';
 
 
 export const Box = styled('div', {shouldForwardProp})(

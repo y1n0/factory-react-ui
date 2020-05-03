@@ -1,8 +1,8 @@
 import React, { useContext, forwardRef } from 'react';
-import styled, { css, keyframes, ThemeContext } from 'styled-components';
+import styled, { css, ThemeContext } from 'styled-components';
 import { themeGet } from '@styled-system/theme-get';
-import { Box, Flex} from '../Box';
-import { generateMedia } from '../../core/styled-media';
+import { Box} from '../Box';
+import { generateMedia } from '../../core';
 
 
 export const StyledLayer = forwardRef(({variant='default', ...props}, ref) => {

@@ -1,7 +1,7 @@
 
 import styled, {css} from 'styled-components';
 import {getOuterMargin, getContainer} from '../helpers';
-import {generateMedia} from '../../../core/styled-media';
+import {generateMedia} from '../../../core';
 
 const generateMediaforContainer = props => {
     // TODO refactoring props.theme.breakpoint , getTheme('breakpoint')

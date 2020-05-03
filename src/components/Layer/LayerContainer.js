@@ -9,7 +9,7 @@ import React, {
 import styled, { ThemeContext } from 'styled-components';
 import { StyledLayer, StyledContainer, StyledOverlay } from './StyledLayer';
 import { FocusedContainer } from './FocusedContainer';
-import { findVisibleParent } from '../../core/utils';
+import { findVisibleParent } from '../../core';
 
 const HiddenAnchor = styled.a`
   width: 0;

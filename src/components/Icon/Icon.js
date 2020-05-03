@@ -3,7 +3,7 @@ import IcoMoon from "react-icomoon";
 import styled from "styled-components";
 import { size, color, space } from "styled-system";
 import shouldForwardProp from '@styled-system/should-forward-prop';
-import { sx, base } from "../../core/utils";
+import { sx, base } from "../../core";
 
 const iconSet = require("./selection.json");
 

@@ -2,7 +2,7 @@ import React from 'react';
 import styled  from 'styled-components';
 import { color, typography, background, border, position, shadow, variant as StyledVariant, compose, width, height, display, padding, margin, } from 'styled-system';
 
-import { sx, variant, getProps } from "../../core/utils";
+import { sx, variant, getProps } from "../../core";
 import { Flex } from '../Box';
 
 const variantVariants = StyledVariant({

@@ -2,7 +2,7 @@ import React, { forwardRef, useContext, createContext, useMemo, useRef, useState
 import { Box } from '../Box';
 import { ThemeContext } from 'styled-components';
 import { createPortal } from 'react-dom';
-import { parseMetricToNum, findScrollParents, setFocusWithoutScroll, findVisibleParent, getNewContainer } from '../../core/utils';
+import { parseMetricToNum, findScrollParents, setFocusWithoutScroll, findVisibleParent, getNewContainer } from '../../core';
 
 const PortalContext = createContext(undefined);
 const ContainerTargetContext = React.createContext(

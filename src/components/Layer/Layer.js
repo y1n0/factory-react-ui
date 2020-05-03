@@ -3,7 +3,7 @@ import React, { forwardRef, useContext, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
 import { LayerContainer } from './LayerContainer';
-import { getNewContainer } from '../../core/utils';
+import { getNewContainer } from '../../core';
 
 const ContainerTargetContext = React.createContext(
     typeof document === 'object' ? document.body : undefined,

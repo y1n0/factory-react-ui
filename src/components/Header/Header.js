@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box} from '../Box';
-import { getVariant } from '../../core/utils';
+import { getVariant } from '../../core';
 
 
 export const Header = ({variant='header', ...props}) => {

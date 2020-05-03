@@ -1,7 +1,7 @@
 
 import styled from 'styled-components';
 import {sortBreakpointProps, getGridSize, getGutterWidth} from '../helpers';
-import {generateMedia} from '../../../core/styled-media';
+import {generateMedia} from '../../../core';
 
 
 const generateMediaForCol = props => {

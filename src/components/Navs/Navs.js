@@ -1,7 +1,7 @@
 
 import React, { forwardRef, Children, cloneElement, Fragment } from "react";
 import {Box, } from '../Box';
-import { getSystemProps } from "../../core/utils";
+import { getSystemProps } from "../../core";
 
 export const Navs = forwardRef(({
     variant= "navs",

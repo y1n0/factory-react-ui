@@ -1,9 +1,6 @@
 import React from 'react';
-import { Box, Flex } from '../Box';
-import { Pagination } from './Pagination'
-
-import { DirectionManager } from '../../core/rtl-manager';
-
+import { Box } from '../Box';
+import { Pagination } from './Pagination';
 
 
 export const Default = () => {

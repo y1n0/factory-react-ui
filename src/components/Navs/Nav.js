@@ -2,7 +2,7 @@ import React, { forwardRef, useContext } from 'react';
 import { Box } from '../Box';
 import { ThemeContext } from "styled-components";
 import  { get } from '@styled-system/css';
-import { getSystemProps, getVariant } from '../../core/utils';
+import { getSystemProps, getVariant } from '../../core';
 
 
 

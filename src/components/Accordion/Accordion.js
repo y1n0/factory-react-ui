@@ -3,7 +3,7 @@ import React, { Children, forwardRef, useState } from 'react';
 
 import { AccordionContext } from './AccordionContext';
 import { Box } from '../Box';
-import { getVariant } from '../../core/utils';
+import { getVariant } from '../../core';
 
 const activeAsArray = active =>
     typeof active === 'number' ? [active] : active;

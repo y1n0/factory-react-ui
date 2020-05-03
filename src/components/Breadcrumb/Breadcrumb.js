@@ -1,7 +1,7 @@
 
 import React, { forwardRef, Children, cloneElement, Fragment } from "react";
 import {Box} from '../Box';
-import { getVariant, getSystemProps } from "../../core/utils";
+import { getVariant, getSystemProps } from "../../core";
 
 
 export const Breadcrumb = forwardRef(({

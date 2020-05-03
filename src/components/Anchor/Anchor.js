@@ -1,7 +1,7 @@
 
 import styled from 'styled-components';
 import { color, space, typography, compose, position, variant as StyledVariant, system } from "styled-system";
-import { sx, variant } from "../../core/utils";
+import { sx, variant } from "../../core";
 
 const outlineVariants = StyledVariant({
     scale: 'buttons.outline',

@@ -1,4 +1,4 @@
-import React, { useState, useRef, Children, cloneElement } from 'react';
+import React, { useState, Children, cloneElement } from 'react';
 import { Box, Flex } from '../Box';
 import { Icon } from '../Icon';
 import { Image } from '../Image';
@@ -6,8 +6,7 @@ import CapitalAzurImage from './capital-azur.png'
 
 import { Accordion } from './Accordion';
 import { AccordionPanel } from './AccordionPanel';
-import { DirectionManager } from '../../core/rtl-manager';
-import Space from '../../core/space';
+import { DirectionManager } from '../../core';
 
 export const Simple = () => {
 
@@ -36,11 +35,6 @@ export const Simple = () => {
 
 export const Multiple = () => {
 
-    const [activeIndex, setActiveIndex] = useState([]);
-
-    const hanOnActive = index => {
-        setActiveIndex(index);
-    }
     return (
         <Box >
             <Accordion multiple>
@@ -317,7 +311,7 @@ const Menu = (props) => {
 const SubMenu = ({ level, panelKey, children, title, props }) => {
     return (
         <AccordionPanel border="0" bg="white" panelKey={panelKey} title={title} sx={{
-            pl: level == 1 ? '' : '32px',
+            pl: level === 1 ? '' : '32px',
             border: 0,
         }}>
             <Box >

@@ -1,6 +1,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
-import { makeNodeFocusable, makeNodeUnfocusable, isNotAncestorOf, getBodyChildElements } from '../../core/utils/dom';
+import { makeNodeFocusable, makeNodeUnfocusable, isNotAncestorOf, getBodyChildElements } from '../../core';
 
 export const FocusedContainer = ({
   hidden = false,
