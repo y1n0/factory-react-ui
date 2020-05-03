@@ -4,9 +4,9 @@ import { Icon } from '../../Icon';
 import { Image } from '../../Image';
 import CapitalAzurImage from './capital-azur.png'
 
-import { Accordion } from './Accordion';
-import { AccordionPanel } from './AccordionPanel';
-import { DirectionManager } from '../../core';
+import { Accordion } from '../Accordion';
+import { AccordionPanel } from '../AccordionPanel';
+import { DirectionManager } from '../../../core';
 
 export const Simple = () => {
 
