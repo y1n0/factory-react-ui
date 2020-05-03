@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box, Flex } from '../Box';
-import { Image } from '../Image';
+import { Box, Flex } from '../../Box';
+import { Image } from '../../Image';
 import CardImage from './img1.jpg';
 
 const CapitalCardTitle = ({ sx, children, ...rest }) => {

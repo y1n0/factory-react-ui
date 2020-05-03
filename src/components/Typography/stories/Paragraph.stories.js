@@ -5,7 +5,7 @@ import {
     colorOption,
     themeId
 } from './knobes-options.storybook';
-import {Paragraph} from './Text';
+import {Paragraph} from '../Text';
 
 
 export const ParagraphComponent = () => {

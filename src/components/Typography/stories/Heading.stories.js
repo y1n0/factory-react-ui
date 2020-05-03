@@ -5,7 +5,7 @@ import {
     colorOption,
     themeId
 } from './knobes-options.storybook';
-import {Heading} from './Text';
+import {Heading} from '../Text';
 
 const customText = "Heading";
 

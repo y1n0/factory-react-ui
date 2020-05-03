@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box } from '../Box';
-import { Icon } from '../Icon';
-import {Breadcrumb} from './Breadcrumb'
-import {BreadcrumbItem} from './BreadcrumbItem'
+import { Box } from '../../Box';
+import { Icon } from '../../Icon';
+import {Breadcrumb} from '../Breadcrumb'
+import {BreadcrumbItem} from '../BreadcrumbItem'
 
 export const Simple = () => {
 

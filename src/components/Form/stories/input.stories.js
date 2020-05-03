@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { withKnobs } from "@storybook/addon-knobs";
 import { action } from "@storybook/addon-actions"
 
-import { Text, Heading } from '../Typography';
-import { Box } from '../Box';
-import { Input } from './Input';
+import { Text, Heading } from '../../Typography';
+import { Box } from '../../Box';
+import { Input } from '../Input';
 // import { Search } from '@styled-icons/evil/Search';
 // import { Eye, EyeOff } from '@styled-icons/feather';
-import Label from './Label';
+import Label from '../Label';
 import { useForm } from 'react-hook-form';
-import { Button } from '../Button';
-import { Icon } from '../Icon';
+import { Button } from '../../Button';
+import { Icon } from '../../Icon';
 
 export const Default = () => {
     return (

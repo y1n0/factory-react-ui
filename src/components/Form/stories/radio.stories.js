@@ -1,8 +1,8 @@
 import React from 'react';
-import { Radio } from './Radio';
-import { Box } from '../Box';
+import { Radio } from '../Radio';
+import { Box } from '../../Box';
 import { withKnobs } from '@storybook/addon-knobs';
-import Label from './Label';
+import Label from '../Label';
 
 
 export const DefaultRadio = () => {

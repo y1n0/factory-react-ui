@@ -1,9 +1,9 @@
 import React from 'react';
 import { withKnobs } from "@storybook/addon-knobs";
 import { action } from "@storybook/addon-actions"
-import { Box } from '../Box';
-import { Heading, Paragraph } from '../Typography'
-import { Anchor } from './Anchor';
+import { Box } from '../../Box';
+import { Heading, Paragraph } from '../../Typography'
+import { Anchor } from '../Anchor';
 
 export const Default = () => {
     return (

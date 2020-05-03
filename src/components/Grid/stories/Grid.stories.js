@@ -1,9 +1,9 @@
 import React from 'react';
-import {Box} from '../Box';
+import {Box} from '../../Box';
 import { withKnobs, boolean} from "@storybook/addon-knobs";
-import Container from './Container/Container';
-import Row from './Row/Row';
-import Col from './Col/Col';
+import Container from '../Container/Container';
+import Row from '../Row/Row';
+import Col from '../Col/Col';
 
 
 const Panel = (props) => {

@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Header } from './Header';
-import { Box, Flex } from '../Box';
-import { Text } from '../Typography';
-import { Layer } from '../Layer';
-import { Button } from '../Button';
-import { Icon } from '../Icon';
+import { Header } from '../Header';
+import { Box, Flex } from '../../Box';
+import { Text } from '../../Typography';
+import { Layer } from '../../Layer';
+import { Button } from '../../Button';
+import { Icon } from '../../Icon';
 
 export const Simple = () => {
 

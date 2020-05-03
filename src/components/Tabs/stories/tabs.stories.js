@@ -1,9 +1,9 @@
 import React from 'react';
-import { Box } from '../Box';
+import { Box } from '../../Box';
 
 
-import {Tabs} from './Tabs';
-import {Tab} from './Tab';
+import {Tabs} from '../Tabs';
+import {Tab} from '../Tab';
 
 
 export const Simple= () => {

@@ -1,7 +1,7 @@
 import React, { useState, Children, cloneElement } from 'react';
-import { Box, Flex } from '../Box';
-import { Icon } from '../Icon';
-import { Image } from '../Image';
+import { Box, Flex } from '../../Box';
+import { Icon } from '../../Icon';
+import { Image } from '../../Image';
 import CapitalAzurImage from './capital-azur.png'
 
 import { Accordion } from './Accordion';

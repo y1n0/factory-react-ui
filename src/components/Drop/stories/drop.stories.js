@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { Box, Flex } from '../Box';
-import { Button } from '../Button';
-import { Drop } from './Drop';
+import { Box, Flex } from '../../Box';
+import { Button } from '../../Button';
+import { Drop } from '../Drop';
 
 export const DropButton = () => {
     const [showDrop, setShowDrop] = useState(false);

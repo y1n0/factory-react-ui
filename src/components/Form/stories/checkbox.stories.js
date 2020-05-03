@@ -1,8 +1,8 @@
 import React from 'react';
-import { Checkbox } from './Checkbox';
-import { Box } from '../Box';
+import { Checkbox } from '../Checkbox';
+import { Box } from '../../Box';
 import { withKnobs } from '@storybook/addon-knobs';
-import Label from './Label';
+import Label from '../Label';
 
 
 

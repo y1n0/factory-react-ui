@@ -1,9 +1,9 @@
 import React from 'react';
-import { Box } from '../Box';
-import {Navs} from './Navs'
-import {Nav} from './Nav';
+import { Box } from '../../Box';
+import {Navs} from '../Navs'
+import {Nav} from '../Nav';
 
-import { DirectionManager } from '../../core';
+import { DirectionManager } from '../../../core';
 
 export const Simple = () => {
 

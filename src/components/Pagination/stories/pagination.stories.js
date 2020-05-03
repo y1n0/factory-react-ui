@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box } from '../Box';
-import { Pagination } from './Pagination';
+import { Box } from '../../Box';
+import { Pagination } from '../Pagination';
 
 
 export const Default = () => {

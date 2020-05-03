@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Footer } from './Footer';
-import { Box, Flex } from '../Box';
-import { Text } from '../Typography';
-import { Anchor } from '../Anchor/Anchor';
-import { Navs, Nav } from '../Navs';
-import { Icon} from '../Icon';
+import { Footer } from '../Footer';
+import { Box, Flex } from '../../Box';
+import { Text } from '../../Typography';
+import { Anchor } from '../../Anchor/Anchor';
+import { Navs, Nav } from '../../Navs';
+import { Icon} from '../../Icon';
 
 export const Simple = () => {
 

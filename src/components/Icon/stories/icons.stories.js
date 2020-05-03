@@ -1,8 +1,8 @@
 import React from 'react';
 import { withKnobs } from "@storybook/addon-knobs";
-import { Box } from '../Box';
+import { Box } from '../../Box';
 
-import Icon from './Icon';
+import Icon from '../Icon';
 
 
 
