@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import { Box, Flex } from '../Box';
+import { Box } from '../Box';
 import { props as systemProps } from '@styled-system/should-forward-prop';
 import { Icon } from '../Icon';
 

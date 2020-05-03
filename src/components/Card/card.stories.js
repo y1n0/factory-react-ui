@@ -42,12 +42,6 @@ const Card = ({ sx, children, ...rest }) => {
         {children}
     </Box>)
 }
-const CardFooter = ({ sx, children, ...rest }) => {
-    return (<Box sx={sx} __css={{
-    }}>
-        {children}
-    </Box>)
-}
 
 const CapitalCardTag = ({ children }) => <Box __css={{
     display: 'inline-flex',

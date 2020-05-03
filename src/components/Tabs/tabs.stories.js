@@ -1,11 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Box } from '../Box';
 
-import { action } from "@storybook/addon-actions"
 
 import {Tabs} from './Tabs';
 import {Tab} from './Tab';
-import {Icon}  from '../Icon';
 
 
 export const Simple= () => {

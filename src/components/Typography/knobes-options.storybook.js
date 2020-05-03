@@ -19,7 +19,6 @@ export const colorOption = {
     info       : 'info500',
     success    : 'success500',
     warning    : 'warning500',
-    gray       : 'gray500',
 }
 export const fontSizeAndLineHeightOption = {
    tiny        : 'tiny',

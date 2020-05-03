@@ -1,7 +1,6 @@
 import React from 'react';
 import { withKnobs } from "@storybook/addon-knobs";
 import { Box } from '../Box';
-import {css} from '@styled-system/css';
 
 import Button from './Button';
 import Link from './Link';

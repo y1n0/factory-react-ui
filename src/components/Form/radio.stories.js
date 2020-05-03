@@ -5,9 +5,6 @@ import { withKnobs } from '@storybook/addon-knobs';
 import Label from './Label';
 
 
-
-
-
 export const DefaultRadio = () => {
     return (
         <Box p="medium">

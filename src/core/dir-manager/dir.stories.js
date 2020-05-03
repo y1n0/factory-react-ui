@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 import { border, typography } from 'styled-system';
 import { DirectionManager } from './index';
-import markdown from './rtl.notes.md'
+import markdown from './README.md'
 const Box = styled.div`
   background: mediumseagreen;
   margin-bottom: 10px;

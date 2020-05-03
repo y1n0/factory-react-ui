@@ -163,9 +163,8 @@ export const WithIcon = () => {
                 <Input icon={<Icon color="gray500" name="plus" size="medium" sx={{marginLeft:"8px"}} />} type="text" placeholder="placeholder" pl="30px"/>
             </Box>
 
-
             <Box my="xsmall" px="xsmall">
-                <Input size="small" placeholder="small" type="text" icon={<Icon color="gray500" name="plus" size="small" sx={{marginLeft:"8px"}} />}  type="text" pl="30px" />
+                <Input size="small" placeholder="small" type="text" icon={<Icon color="gray500" name="plus" size="small" sx={{marginLeft:"8px"}} />}  pl="30px" />
             </Box>
 
             <Box my="xsmall" px="xsmall">

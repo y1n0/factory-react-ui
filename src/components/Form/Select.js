@@ -1,22 +1,7 @@
 import React, { forwardRef } from 'react';
 import { Box, Flex } from '../Box';
-import { props as systemProps } from '@styled-system/should-forward-prop';
-import { Icon } from '../Icon';
+import { getMarginProps, omitMarginProps } from '../../core';
 
-
-
-
-// TODO: Refactor
-const MRE = /^m[trblxy]?$/;
-const getProps = (test) => (props) => {
-    const next = {}
-    for (const key in props) {
-        if (test(key || '')) next[key] = props[key]
-    }
-    return next
-}
-const getMarginProps = getProps(k => MRE.test(k));
-const omitMarginProps = getProps(k => !MRE.test(k));
 
 const SVG = ({ size = 24, ...props }) =>
     <Box
@@ -36,7 +21,6 @@ const DownArrow = props =>
 
 
 const SelectIcon = ({icon} )=>{
-    console.log('Select Icon icon: ', icon);
     return <Box
                 sx={{
                     ml: -28,

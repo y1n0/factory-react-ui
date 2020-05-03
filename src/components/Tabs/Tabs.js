@@ -1,17 +1,8 @@
 import React, { useState, Children, cloneElement, forwardRef } from "react";
 
 import { Box, Flex } from '../Box';
+import { getVariant } from "../../core";
 
-
-
-// TODO : refactor utils
-const variantReducer = (accumulator, currentValue) => currentValue ? accumulator + '.' + currentValue : accumulator;
-const getVariant = (variant = []) => {
-    if (typeof variant === 'string') {
-        return variant
-    }
-    return variant.reduce(variantReducer)
-}
 
 export const Tabs = forwardRef(({
     children,
@@ -58,7 +49,7 @@ export const Tabs = forwardRef(({
     delete rest.onActive;
 
     let activeContent;
-    let activeTitle;
+    // let activeTitle;
 
     const tabs = Children.map(
         children,
@@ -70,11 +61,11 @@ export const Tabs = forwardRef(({
 
             if (isTabActive) {
                 activeContent = tabProps.children;
-                if (typeof tabProps.title === 'string') {
-                    activeTitle = tabProps.title;
-                } else {
-                    activeTitle = index + 1;
-                }
+                // if (typeof tabProps.title === 'string') {
+                //     activeTitle = tabProps.title;
+                // } else {
+                //     activeTitle = index + 1;
+                // }
             }
 
             const key = tab.props.tabKey || index;

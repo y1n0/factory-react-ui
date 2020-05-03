@@ -22,11 +22,11 @@ const tabs = {
         tab: {
             border: '1px solid',
             borderColor: 'gray400',
-            mx:'-1px',
             borderRadius: "4px",
             borderBottomLeftRadius: "0px",
             borderBottomRightRadius: "0px",
-            marginBottom: '-1px',mx:'3px',
+            marginBottom: '-1px',
+            mx:'3px',
             '&:not(first-of-type)': {
                 marginLeft: '0'
             },

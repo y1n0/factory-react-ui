@@ -1,6 +1,6 @@
 
 import { props as systemProps } from '@styled-system/should-forward-prop';
-import { size, space } from 'styled-system';
+import { size, space, margin } from 'styled-system';
 
 import css, { get } from '@styled-system/css';
 
@@ -14,6 +14,10 @@ const _getProps = (test) => (props) => {
     }
     return next
 }
+
+const MRE = new RegExp(`^(${margin.propNames.join('|')})$`);
+export const getMarginProps = _getProps(k => MRE.test(k));
+export const omitMarginProps = _getProps(k => !MRE.test(k));
 
 export const getSystemProps = _getProps(k => PRE.test(k));
 

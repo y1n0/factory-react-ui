@@ -1,5 +1,5 @@
 import React from 'react';
-import { withKnobs, text, select } from "@storybook/addon-knobs";
+import { withKnobs, select } from "@storybook/addon-knobs";
 import { 
     fontFamilyOption,
     colorOption,

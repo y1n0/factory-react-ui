@@ -1,6 +1,3 @@
-
-import { css } from 'styled-components'
-
 export const DEFAULT_CONFIG = {
   gridSize: 12,
   gutterWidth: 16,

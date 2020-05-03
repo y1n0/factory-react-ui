@@ -4,7 +4,6 @@ import { withKnobs, boolean} from "@storybook/addon-knobs";
 import Container from './Container/Container';
 import Row from './Row/Row';
 import Col from './Col/Col';
-import styled from 'styled-components';
 
 
 const Panel = (props) => {

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import {Layer} from './Layer';
 import {Box, Flex} from '../Box';
 import {Button} from '../Button';
-import {Text, Heading} from '../Typography';
+import {Text} from '../Typography';
 import {Icon} from '../Icon';
 import {Anchor} from '../Anchor/Anchor';
 

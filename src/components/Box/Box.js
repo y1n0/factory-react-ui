@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import {
   boxShadow,
-  shadow,
   color, 
   space,
   layout,

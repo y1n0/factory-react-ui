@@ -1,15 +1,6 @@
 import React, { forwardRef } from 'react';
 import { Box } from '../Box';
-
-// TODO : refactor utils
-const variantReducer = (accumulator, currentValue) => currentValue ? accumulator + '.' + currentValue : accumulator;
-const getVariant = (variant = []) => {
-    if (typeof variant === 'string') {
-        return variant
-    }
-    return variant.reduce(variantReducer)
-}
-
+import { getVariant } from '../../core';
 
 export const Tab = forwardRef((
     {   title,
@@ -39,7 +30,6 @@ export const Tab = forwardRef((
             variant={getVariant([variant, isActive ? 'activeTab' : 'tab'])}
             __css={{
                 cursor: 'pointer',
-                padding: 0,
                 margin: 0,
                 display: 'flex',
                 alignItems: 'center',
