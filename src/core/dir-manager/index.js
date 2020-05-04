@@ -4,5 +4,6 @@ import stylisRTLPlugin from 'stylis-plugin-rtl';
 
 
 export const DirectionManager = ({dir= "ltr", children}) => {
-    return <StyleSheetManager stylisPlugins={dir === 'rtl' ? [stylisRTLPlugin] : []}>{children}</StyleSheetManager>
+    console.log("Dir Manager", React.Fragment);
+    return <StyleSheetManager stylisPlugins={dir === 'rtl' ? [stylisRTLPlugin] : []}><React.Fragment>{children}</React.Fragment></StyleSheetManager>
 } 
