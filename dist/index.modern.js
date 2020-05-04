@@ -29255,6 +29255,7 @@ var getConfig = function getConfig(_ref) {
   var conf = resolveConfig(theme);
   configCache[0] = cacheId;
   configCache[1] = conf;
+  console.log('getConfig:', conf);
   return conf;
 };
 
@@ -29316,9 +29317,12 @@ function _templateObject$6() {
 
 var generateMediaforContainer = function generateMediaforContainer(props) {
   var breakpointsName = Object.keys(props.theme.breakpoints);
+  console.log('generateMediaforContainer: breakpointsName :', breakpointsName);
 
   if (!props.fluid) {
     return css(_templateObject$6(), breakpointsName.map(function (breakpoint) {
+      console.log('>> maping: breakpoint :', breakpoint);
+
       if (getContainer(props)(breakpoint)) {
         return generateMedia(props.theme.breakpoints).greaterThan(breakpoint)(_templateObject2$1(), function (props) {
           return getContainer(props)(breakpoint);

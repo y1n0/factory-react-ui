@@ -33,6 +33,7 @@ const getConfig = ({theme}) => {
     const conf = resolveConfig(theme);
     configCache[0] = cacheId
     configCache[1] = conf
+    console.log('getConfig:', conf);
     return conf;
 };
 
