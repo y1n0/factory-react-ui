@@ -21,8 +21,10 @@ const BoxTextRight = styled.div`
 export const LTR = () => {
 
     return (<DirectionManager>
+      <>
                 <Box borderLeft="20px solid red">My border is now on the left!</Box>
                 <BoxTextRight textAlign="right">Content aligns along the right side.</BoxTextRight>
+                </>
             </DirectionManager>
             
     );
@@ -31,8 +33,10 @@ export const RTL = () => {
 
     return (
         <DirectionManager dir="rtl">
+          <>
                 <Box borderLeft="20px solid red">My border is now on the right!</Box>
                 <BoxTextRight textAlign="right">Content aligns along the right side.</BoxTextRight>
+                </>
         </DirectionManager>
     );
 }
