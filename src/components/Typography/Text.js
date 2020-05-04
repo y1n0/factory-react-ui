@@ -5,7 +5,8 @@ import { Box } from '../Box';
 export const Text = ({ children, as = 'p', ...rest }) => <Box {...rest} as={as} __css={{
     fontSize: 'inherit',
     fontWeight: 'inherit',
-    lineHeight: 'inherit'
+    lineHeight: 'inherit',
+    ...rest.__css
 }}>
     {children}
 </Box>
@@ -16,7 +17,7 @@ export const Paragraph = ({
 }) => {
 
     return (
-        <Text sx={{
+        <Text __css={{
             fontSize: "paragraph",
             lineHeight: "paragraph",
             mb: "xsmall",
@@ -35,7 +36,7 @@ export const Heading = ({
 
     return (
         <Text
-            sx={{
+            __css={{
                 fontSize: `heading${level}`,
                 lineHeight: `heading${level}`,
                 mb: "small",

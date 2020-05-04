@@ -4,8 +4,7 @@ import styled from "styled-components";
 import { size, color, space } from "styled-system";
 import shouldForwardProp from '@styled-system/should-forward-prop';
 import { sx, base } from "../../core";
-
-const iconSet = require("./selection.json");
+import iconSet from './selection.json';
 
 export const Icon = styled(IcoMoon, {shouldForwardProp}).attrs(props => ({
                         removeInlineStyle: true,

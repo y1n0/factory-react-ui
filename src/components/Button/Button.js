@@ -31,7 +31,7 @@ const outlineVariants = StyledVariant({
 })
 
 
- export const Button = styled.div`
+ export const Button = styled.button`
 
     display: inline-flex;
     align-items: center;
