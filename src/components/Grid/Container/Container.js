@@ -6,11 +6,9 @@ import {generateMedia} from '../../../core';
 const generateMediaforContainer = props => {
     // TODO refactoring props.theme.breakpoint , getTheme('breakpoint')
     const breakpointsName = Object.keys(props.theme.breakpoints);
-    console.log('generateMediaforContainer: breakpointsName :', breakpointsName);
     if(!props.fluid) {
         return css`
             ${breakpointsName.map(breakpoint => {
-                console.log('>> maping: breakpoint :', breakpoint);
                 if(getContainer(props)(breakpoint)) {
                     return generateMedia(props.theme.breakpoints).greaterThan(breakpoint)`
                         width: ${(props) => getContainer(props)(breakpoint)};
