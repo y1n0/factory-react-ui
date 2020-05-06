@@ -41,7 +41,7 @@ export const Select = forwardRef(({ variant, ...props }, ref) =>
             {...omitMarginProps(props)}
             __css={{
                 display: 'block',
-                width: 'unset%',
+                width: 'unset',
                 p: 'small',
                 appearance: 'none',
                 fontSize: 'inherit',
