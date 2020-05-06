@@ -15,3 +15,4 @@ export * from './Navs';
 export * from './Pagination';
 export * from './Tabs';
 export * from './Typography';
+export * from './Layer';
