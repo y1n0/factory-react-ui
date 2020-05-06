@@ -1,6 +1,6 @@
 
 import { props as systemProps } from '@styled-system/should-forward-prop';
-import { size, space, margin } from 'styled-system';
+import { size, space, margin, layout } from 'styled-system';
 
 import css, { get } from '@styled-system/css';
 
@@ -24,6 +24,10 @@ export const getSystemProps = _getProps(k => PRE.test(k));
 const SizePropsRegExp = new RegExp(`^(${size.propNames.join('|')})$`);
 export const omitSizeProps = _getProps(k => !SizePropsRegExp.test(k));
 export const getSizeProps = _getProps(k => SizePropsRegExp.test(k));
+
+const LayoutPropsRegExp = new RegExp(`^(${layout.propNames.join('|')})$`);
+export const omitLayoutProps = _getProps(k => !LayoutPropsRegExp.test(k));
+export const getLayoutProps = _getProps(k => LayoutPropsRegExp.test(k));
 
 const SpacePRopsRegExp = new RegExp(`^(${space.propNames.join('|')})$`);
 export const omitSpaceProps = _getProps(k => !SpacePRopsRegExp.test(k));
