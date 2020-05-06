@@ -3,7 +3,7 @@ import {Flex} from '../Box'
 
 
 const Label = ({children, variant, ...props}) => {
-    return <Flex __css={{width:"100%"}} as="label" {...props} variant={variant}>
+    return <Flex as="label" {...props} variant={variant}>
         {children}
     </Flex>
 }
