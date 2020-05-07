@@ -143,6 +143,17 @@ export const Responsive = () => {
 }
 
 
+export const Sticky = () => {
+    return (
+        <Box height="200vh">
+            <Header p="large" bg="white" boxShadow={1} sticky={true}>
+                <Text textAlign="center" fontWeight="black" fontSize="14px" color="primary500">LOGO</Text>
+            </Header>
+            <Box height="100%" py="150px" bg="gray200" px="32px">Page Content</Box>
+        </Box>);
+}
+
+
 export default {
     title: 'Header'
 }
