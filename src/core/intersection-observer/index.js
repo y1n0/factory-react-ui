@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { useIntersection } from "react-use";
 
 export const IntersectionContext = React.createContext({ inView: true });
