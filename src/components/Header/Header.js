@@ -3,17 +3,30 @@ import { Box } from '../Box';
 import { getVariant } from '../../core';
 import Headroom from 'react-headroom';
 
+export const Header = React.forwardRef(({
+    fixed = false,
+    sticky = false,
+    variant = 'header',
+    children,
+    ...rest }, ref) => {
 
-export const Header = ({ sticky = false, variant = 'header', ...props }) => {
-
+    let fixedStyle = {};
+    if (fixed) {
+        fixedStyle = {
+            position: 'fixed',
+            top: '0px',
+            left: '0px',
+            right: '0px',
+        }
+    }
     const Wrapper = sticky ? Headroom : React.Fragment;
     return (
         <Wrapper>
             <Box
-                {...props}
+                ref={ref}
                 as='header'
                 variant={getVariant([variant])}
-                sx={{
+                __css={{
                     display: 'flex',
                     position: 'relative',
                     flexDirection: 'row',
@@ -23,12 +36,13 @@ export const Header = ({ sticky = false, variant = 'header', ...props }) => {
                     minWidth: '0px',
                     minHeight: '0px',
                     outline: 'none',
-                    ...props.sx
+                    ...fixedStyle
                 }}
+                {...rest}
             >
-                {props.children
-                }</Box>
+                {children}
+            </Box>
         </Wrapper>
 
-    )
-}
+    );
+});
