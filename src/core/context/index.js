@@ -1,7 +1,8 @@
 import React from 'react';
 
 export const VactoryThemeContext = React.createContext({
-    theme: null,
+    colorMode: null,
+    setColorMode: null,
 });
 
 export const useVactoryTheme = () => React.useContext(VactoryThemeContext);

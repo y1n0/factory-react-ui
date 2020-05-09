@@ -5,7 +5,8 @@ import {generateMedia} from '../../../core';
 
 
 const generateMediaForCol = props => {
-    return sortBreakpointProps(props).map(bp => generateMedia(props.theme.breakpoints).greaterThan(bp)`
+    return sortBreakpointProps(props).map(bp => {
+        return generateMedia(props.theme.breakpoints).greaterThan(bp)`
            ${
                props[bp] >= 0 ? `
                     flex-basis: ${100 / getGridSize(props) * props[bp]}%;
@@ -20,7 +21,7 @@ const generateMediaForCol = props => {
                display: none;
            ` )
            }
-        `);
+        `});
 }
 
 const Col = styled.div`
@@ -30,6 +31,7 @@ const Col = styled.div`
     padding-left: ${props => getGutterWidth(props) / 2}px;
     flex-grow: 1;
     flex-basis:0;
+    max-width: 100%;
     ${p => p.reverse && `
         flex-direction: column-reverse;
     `}
