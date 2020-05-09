@@ -1,4 +1,5 @@
 import { DEFAULT_CONFIG } from "./config";
+import {stripUnit} from 'polished';
 
 // Name of the grid-system config in theme object
 const THEME_CONF = 'gridSystem';
@@ -41,7 +42,11 @@ export const sortBreakpointProps = (props) => {
     const propsArr = Object.keys(props);
     const breakpointNames = Object.keys(props.theme.breakpoints);
     const breakpoints = propsArr.filter(_prop => ~breakpointNames.indexOf(_prop));
-    const sortedBreakpoints = breakpoints.sort((bp1, bp2) => breakpointNames.indexOf(bp1) - breakpointNames.indexOf(bp2));
+    const sortedBreakpoints = breakpoints.sort((bp1, bp2) => {
+        const valueBp1 = stripUnit(props.theme.breakpoints[bp1]);
+        const valueBp2 = stripUnit(props.theme.breakpoints[bp2]);
+        return  valueBp1 - valueBp2
+    });
     return sortedBreakpoints;
 };
 
