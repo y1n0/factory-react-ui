@@ -4,7 +4,6 @@ import {getOuterMargin, getContainer} from '../helpers';
 import {generateMedia} from '../../../core';
 
 const generateMediaforContainer = props => {
-    // TODO refactoring props.theme.breakpoint , getTheme('breakpoint')
     const breakpointsName = Object.keys(props.theme.breakpoints);
     if(!props.fluid) {
         return css`
