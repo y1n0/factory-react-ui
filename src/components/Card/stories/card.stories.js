@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Flex } from '../../Box';
 import { Image } from '../../Image';
+import { Container, Row, Col } from '../../Grid';
 import CardImage from './img1.jpg';
 
 const CapitalCardTitle = ({ sx, children, ...rest }) => {
@@ -29,7 +30,7 @@ const CardBody = ({ sx, children, ...rest }) => {
 }
 
 const Card = ({ sx, children, ...rest }) => {
-    return (<Box sx={sx} __css={{
+    return (<Box  sx={sx} __css={{
         background: 'white',
         display: 'flex',
         flexDirection: 'column',
@@ -37,8 +38,8 @@ const Card = ({ sx, children, ...rest }) => {
         overflow: 'hidden',
         fontFamily: 'montserrat',
         marginBottom: '16px',
-       // minHeight: '421px'
-    }}>
+        // minHeight: '421px'
+    }} {...rest}>
         {children}
     </Box>)
 }
@@ -145,34 +146,36 @@ const articles = [
 export const Layout = () => {
 
     return (
-        <Box m='0 auto' px="8px" width={['100%', '450px', '900px', '1200px', '1900px']}>
+        <Container fluid={true}>
 
-            <Flex mx="-8px" flexWrap="wrap">
+            <Row>
                 {articles.map((article, key) => {
                     return (
-                        <Flex key={key} px="8px" width={[1, 1, 1 / 3]}>
-                            <Card>
+                        <Col xs={12} sm={6} md={4} marginBottom="16px">
+                            <Box height="100%" pb="16px">
+                                <Card height="100%">
 
-                                <CardBody>
-                                    <Image src={CardImage} />
-                                    <Box sx={{ p: 'medium', flexGrow: 1 }} >
-                                        <Flex mb="16px">
-                                            <CapitalCardTag>{article.tag}</CapitalCardTag>
-                                            <CapitalCardDate>{article.date}</CapitalCardDate>
-                                        </Flex>
-                                        <CapitalCardTitle>{article.title}</CapitalCardTitle>
-                                    </Box>
-                                    <Box p="medium">
-                                        <CapitalCardButton>lire plus</CapitalCardButton>
-                                    </Box>
-                                </CardBody>
+                                    <CardBody>
+                                        <Image src={CardImage} />
+                                        <Box sx={{ p: 'medium', flexGrow: 1 }} >
+                                            <Flex mb="16px">
+                                                <CapitalCardTag>{article.tag}</CapitalCardTag>
+                                                <CapitalCardDate>{article.date}</CapitalCardDate>
+                                            </Flex>
+                                            <CapitalCardTitle>{article.title}</CapitalCardTitle>
+                                        </Box>
+                                        <Box p="medium">
+                                            <CapitalCardButton>lire plus</CapitalCardButton>
+                                        </Box>
+                                    </CardBody>
 
-                            </Card>
-                        </Flex>)
+                                </Card>
+                            </Box>
+                        </Col>)
                 })}
-            </Flex>
+            </Row>
 
-        </Box>
+        </Container>
 
     )
 }
@@ -180,13 +183,12 @@ export const Layout = () => {
 
 export const InlineCard = () => {
     return (
-        <Box m="0 auto" px="8px">
+        <Container fluid={true}>
 
-            {/* Row */}
-            <Flex mx="-8px" flexWrap="wrap">
+            <Row>
 
                 {/* Column */}
-                <Flex px="8px" width={[1, 1, 1/2]}>
+                <Col xs={12} md={6}>
                     <Card>
                         <CardBody>
                             <Flex flexDirection={['column', 'row', 'row']}>
@@ -208,9 +210,8 @@ export const InlineCard = () => {
                             </Flex>
                         </CardBody>
                     </Card>
-                </Flex>
-                {/* Column */}
-                <Flex px="8px" width={[1, 1, 1/2]}>
+                </Col>
+                <Col xs={12} md={6}>
                     <Card>
                         <CardBody>
                             <Flex flexDirection={['column', 'row', 'row']}>
@@ -232,10 +233,10 @@ export const InlineCard = () => {
                             </Flex>
                         </CardBody>
                     </Card>
-                </Flex>
+                </Col>
 
-            </Flex>
-        </Box>
+            </Row>
+        </Container>
     )
 }
 
