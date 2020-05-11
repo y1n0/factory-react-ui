@@ -1,5 +1,8 @@
 import React from 'react';
-import { Box, ParallaxBox } from '../components';
+import { ParallaxBox } from '../ParallaxBox';
+import { RevealBox } from '../RevealBox';
+import { Box } from '../../Box';
+import { IntersectionObserver } from '../../../core';
 
 export const Parallax = () => {
 
@@ -29,6 +32,25 @@ export const Parallax = () => {
                 backgroundColor: 'success300'
             }} >2</ParallaxBox>
         </Box>
+    </Box>)
+}
+
+export const Reveal = () => {
+    return (<Box height="200vh">
+        {
+            [1,2,3,4,5,6, 7, 8].map(e =>  <IntersectionObserver reset={true}><RevealBox key={e}sx={{
+                display: 'flex',
+                width: '100%',
+                height: '300px',
+                color: 'white',
+                alignItems: 'center',
+                fontSize: '52px',
+                justifyContent: 'center',
+                mb:'large',
+                backgroundColor: 'primary500'
+            }} >{e}</RevealBox></IntersectionObserver>)
+        }
+       
     </Box>)
 }
 
