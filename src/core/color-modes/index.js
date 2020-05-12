@@ -32,11 +32,12 @@ const storage = {
     },
 }
 
-const applyColorMode = (theme, mode) => {
-    if (!mode) return theme
-    const modes = get(theme, 'colors.modes', {})
-    return deepmerge.all([{}, theme, {
-        colors: get(modes, mode, {}),
+const getColorsByMode = (theme, mode) => {
+    const themeColors = theme.colors || {};
+    if (!mode) return themeColors;
+    const modes = get(theme, 'colors.modes', {});
+    return deepmerge.all([{}, {...theme.colors}, {
+        ...get(modes, mode, {}),
     }]);
 }
 
@@ -78,10 +79,12 @@ export const ColorModeProvider = ({ children }) => {
 
     const [colorMode, setColorMode] = useColorModeState(styledComponentTheme);
 
-    const theme = applyColorMode(styledComponentTheme || {}, colorMode);
-
+    const colors = getColorsByMode(styledComponentTheme || {}, colorMode);
+    const theme = {
+        ...styledComponentTheme,
+        colors
+    };
     const context = {
-        theme,
         colorMode,
         setColorMode,
     }

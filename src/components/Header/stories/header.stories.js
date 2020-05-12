@@ -6,6 +6,8 @@ import { Text } from '../../Typography';
 import { Layer } from '../../Layer';
 import { Button } from '../../Button';
 import { Icon } from '../../Icon';
+import { Waypoint } from 'react-waypoint';
+import { motion, useAnimation } from 'framer-motion';
 
 export const Simple = () => {
 
@@ -15,7 +17,33 @@ export const Simple = () => {
             <Header p="large" bg="white" boxShadow={1}>
                 <Text textAlign="center" fontWeight="black" fontSize="14px" color="primary500">LOGO</Text>
             </Header>
-            <Box py="150px" bg="gray200" px="32px">Page Content</Box>
+            <Box py="150px" bg="gray200" px="32px"></Box>
+            <Box py="150px" bg="gray300" px="32px"></Box>
+            <Box py="150px" bg="gray500" px="32px"></Box>
+            <Box py="150px" bg="gray400" px="32px"></Box>
+            <Box py="150px" bg="gray200" px="32px"></Box>
+            <Box py="150px" bg="gray300" px="32px"></Box>
+            <Box py="150px" bg="gray500" px="32px"></Box>
+            <Box py="150px" bg="gray400" px="32px"></Box>
+        </Box>);
+}
+
+
+export const Fixed = () => {
+
+    return (
+        <Box>
+            <Header fixed={true} p="large" bg="white" boxShadow={1}>
+                <Text textAlign="center" fontWeight="black" fontSize="14px" color="primary500">LOGO</Text>
+            </Header>
+            <Box py="150px" bg="gray200" px="32px"></Box>
+            <Box py="150px" bg="gray300" px="32px"></Box>
+            <Box py="150px" bg="gray500" px="32px"></Box>
+            <Box py="150px" bg="gray400" px="32px"></Box>
+            <Box py="150px" bg="gray200" px="32px"></Box>
+            <Box py="150px" bg="gray300" px="32px"></Box>
+            <Box py="150px" bg="gray500" px="32px"></Box>
+            <Box py="150px" bg="gray400" px="32px"></Box>
         </Box>);
 }
 
@@ -27,7 +55,7 @@ const CloseButton = ({ size = 'large', ...props }) =>
             padding: '0',
             background: 'transparent',
             '&:hover, &:focus': {
-                background:'transparent', 
+                background: 'transparent',
                 color: 'inherit',
                 borderColor: 'transparent'
             }
@@ -44,7 +72,7 @@ const MenuButton = ({ size = 'large', ...props }) =>
             background: 'transparent',
             color: 'inherit',
             '&:hover, &:focus': {
-                background:'transparent', 
+                background: 'transparent',
                 color: 'inherit',
                 borderColor: 'transparent'
             }
@@ -61,7 +89,7 @@ const CaretButton = ({ size = 'large', ...props }) =>
             padding: '0',
             background: 'transparent',
             '&:hover, &:focus': {
-                background:'transparent', 
+                background: 'transparent',
                 color: 'inherit',
                 borderColor: 'transparent'
             }
@@ -103,7 +131,7 @@ export const Responsive = () => {
                         height: '100%',
                         flexDirection: 'column',
                         width: '100%',
-                        fontSize: '17px', 
+                        fontSize: '17px',
                         fontWeight: 200
                     }}>
                         <Flex padding="25px 20px" justifyContent="flex-end">
@@ -111,25 +139,25 @@ export const Responsive = () => {
                         </Flex>
                         <Flex flexDirection="column">
                             <Flex borderTop="1px solid #fff">
-                                <Flex justifyContent="space-between"  alignItems="center" width="100%" padding="35px 20px">
+                                <Flex justifyContent="space-between" alignItems="center" width="100%" padding="35px 20px">
                                     <Text as="span">A chaque moment de la vie</Text>
                                     <CaretButton />
                                 </Flex>
                             </Flex>
                             <Flex borderTop="1px solid #fff">
-                                <Flex justifyContent="space-between"  alignItems="center" width="100%" padding="35px 20px">
+                                <Flex justifyContent="space-between" alignItems="center" width="100%" padding="35px 20px">
                                     <Text>Qui que vous soyez</Text>
                                     <CaretButton />
                                 </Flex>
                             </Flex>
                             <Flex borderTop="1px solid #fff">
-                            <Flex justifyContent="space-between"  alignItems="center" width="100%" padding="35px 20px">
+                                <Flex justifyContent="space-between" alignItems="center" width="100%" padding="35px 20px">
                                     <Text>Partout dans le monde</Text>
                                     <CaretButton />
                                 </Flex>
                             </Flex>
                             <Flex borderTop="1px solid #fff">
-                            <Flex justifyContent="space-between"  alignItems="center" width="100%" padding="35px 20px">
+                                <Flex justifyContent="space-between" alignItems="center" width="100%" padding="35px 20px">
                                     <Text>Nos filiales à votre service</Text>
                                     <CaretButton />
                                 </Flex>
@@ -139,6 +167,61 @@ export const Responsive = () => {
                     </Flex>
                 </Layer>
             )}
+        </Box>);
+}
+
+
+export const Sticky = () => {
+    return (
+        <Box height="200vh">
+            <Header p="large" bg="white" boxShadow={1} sticky={true}>
+                <Text textAlign="center" fontWeight="black" fontSize="14px" color="primary500">LOGO</Text>
+            </Header>
+            <Box py="150px" bg="gray200" px="32px"></Box>
+            <Box py="150px" bg="gray300" px="32px"></Box>
+            <Box py="150px" bg="gray500" px="32px"></Box>
+            <Box py="150px" bg="gray400" px="32px"></Box>
+            <Box py="150px" bg="gray200" px="32px"></Box>
+            <Box py="150px" bg="gray300" px="32px"></Box>
+            <Box py="150px" bg="gray500" px="32px"></Box>
+            <Box py="150px" bg="gray400" px="32px"></Box>
+        </Box>);
+}
+
+const MotionHeader =  motion.custom(Header);
+
+export const WaypointWithMotion = () => {
+
+    const headerAnimationCtrls = useAnimation();
+    const variants = {
+        state1: {  y: 0, width: '100%' },
+        state2: { y: "40px", width: '80%'},
+    }
+
+    return (
+        <Box height="200vh">
+
+            <MotionHeader animate={headerAnimationCtrls} initial="state1" variants={variants} fixed={true} m="0 auto" transition={{ type: "tween" }} p="large" bg="white" boxShadow={1} >
+                <Text textAlign="center" fontWeight="black" fontSize="14px" color="primary500">LOGO</Text>
+            </MotionHeader>
+
+            <Waypoint onEnter={() => headerAnimationCtrls.start("state1")} />
+            <Box py="150px" bg="gray200" px="32px"></Box>
+            <Box py="150px" bg="gray300" px="32px"></Box>
+            <Box py="150px" bg="gray500" px="32px"></Box>
+            <Box py="150px" bg="gray400" px="32px"></Box>
+            <Box py="150px" bg="gray500" px="32px"></Box>
+            <Box py="150px" bg="gray400" px="32px"></Box>
+            <Waypoint onEnter={() => headerAnimationCtrls.start("state2")} />
+            <Box py="150px" bg="gray200" px="32px"></Box>
+            <Box py="150px" bg="gray300" px="32px"></Box>
+            <Box py="150px" bg="gray500" px="32px"></Box>
+            <Box py="150px" bg="gray400" px="32px"></Box>
+            <Box py="150px" bg="gray200" px="32px"></Box>
+            <Waypoint onEnter={() => headerAnimationCtrls.start("state1")} />
+            <Box py="150px" bg="gray300" px="32px"></Box>
+            <Box py="150px" bg="gray500" px="32px"></Box>
+            <Box py="150px" bg="gray400" px="32px"></Box>
         </Box>);
 }
 

@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
 import { Box, Flex } from '../Box';
-import { getMarginProps, omitMarginProps } from '../../core';
+import { getMarginProps, omitMarginProps, getLayoutProps } from '../../core';
 
 
 const SVG = ({ size = 24, ...props }) =>
@@ -32,8 +32,8 @@ const SelectIcon = ({icon} )=>{
             </Box>;
 };
 
-export const Select = forwardRef(({ variant, ...props }, ref) =>
-    <Flex {...getMarginProps(props)}>
+export const Select = forwardRef(({ variant, ...props }, ref) => 
+<Flex {...getMarginProps(props)} {...getLayoutProps(props)} __css={{width: 'max-content'}}>
         <Box
             ref={ref}
             as='select'
@@ -41,7 +41,7 @@ export const Select = forwardRef(({ variant, ...props }, ref) =>
             {...omitMarginProps(props)}
             __css={{
                 display: 'block',
-                width: '100%',
+                width: 'unset',
                 p: 'small',
                 appearance: 'none',
                 fontSize: 'inherit',
