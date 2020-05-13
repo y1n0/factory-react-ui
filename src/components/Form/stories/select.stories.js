@@ -50,6 +50,22 @@ export const CustomDownarrow = () => {
                             <option>Casablanca</option>
                             <option>Tanger</option>
                         </Select>
+
+
+            <Label alignItems="center">Villes</Label>
+                <Select id='countrSy'
+                        name='country'
+                        defaultValue='tous les thématiques'
+                        mt="medium"
+                        icon={<Icon name="chevron-down" size="medium" />}>
+                            <option>tous les thématiques</option>
+                            <option>EL Jadida</option>
+                            <option>Casablanca</option>
+                            <option>Tanger</option>
+                        </Select>
+
+
+                        
         </Box>);
 }
 
