@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useRef } from 'react';
 import { Box, Flex } from '../Box';
 import { getMarginProps, omitMarginProps, getLayoutProps } from '../../core';
 
@@ -20,29 +20,43 @@ const DownArrow = props =>
     </SVG>
 
 
-const SelectIcon = ({icon} )=>{
+const SelectIcon = ({ icon }) => {
     return <Flex
-                sx={{
-                    ml: -28,
-                    alignSelf: 'center',
-                    alignItems: 'center',
-                    pointerEvents: 'none',
-                }}
-            >
-                {icon || <DownArrow />}
-            </Flex>;
+        sx={{
+            ml: -28,
+            alignSelf: 'center',
+            alignItems: 'center',
+            pointerEvents: 'none',
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            right: 0,
+
+        }}
+    >
+        {icon || <DownArrow />}
+    </Flex>;
 };
 
-export const Select = forwardRef(({ variant, ...props }, ref) => 
-<Flex {...getMarginProps(props)} {...getLayoutProps(props)} __css={{width: 'max-content'}}>
+const Select = forwardRef(({ variant, ...props }, ref) => {
+
+    const selectRef = ref || useRef();
+
+    const handleOnChange = (ev) => {
+        const value = selectRef.current.value;
+        props.onChange(value);
+    }
+    return <Flex {...getMarginProps(props)} {...getLayoutProps(props)} __css={{ width: 'fit-content',
+    position: 'relative' }}>
         <Box
-            ref={ref}
+            ref={selectRef}
             as='select'
-            variant={`select${variant ? '.'+variant : ''}`}
+            variant={`select${variant ? '.' + variant : ''}`}
             {...omitMarginProps(props)}
+            onChange={handleOnChange}
             __css={{
                 display: 'block',
-                width: 'unset',
+                width: 'auto',
                 p: 'small',
                 appearance: 'none',
                 fontSize: 'inherit',
@@ -59,6 +73,11 @@ export const Select = forwardRef(({ variant, ...props }, ref) =>
                 }
             }}
         />
-        <SelectIcon {...props}/>
-        
-    </Flex>);
+        <SelectIcon {...props} />
+
+    </Flex>
+});
+
+Select.Option = ({ children, ...props }) => <option {...props}>{children}</option>;
+
+export { Select };
