@@ -28,7 +28,7 @@ export const BreadcrumbItem = forwardRef(({
             as={as}
             ref={ref}
             href={href}
-            {...getSystemProps(rest)}
+            {...rest}
             variant={getVariant([variant, 'item'])}
             __css={{
                 color: active ? 'gray900' : 'primary500',
