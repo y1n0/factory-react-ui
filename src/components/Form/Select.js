@@ -20,30 +20,24 @@ const DownArrow = props =>
     </SVG>
 
 
-const SelectIcon = ({ icon }) => {
-    return <Flex
-        __css={{
-            // ml: -28,
-            //alignSelf: 'center',
-            // border: '1px solid',
-            borderColor: 'gray500',
-            pointerEvents: 'none',
-            alignItems: 'center',
-            justofyContent: 'center',
-            border: 0,
-            px: 'small'
-        }}
-    >
-        {icon || <DownArrow />}
-    </Flex>;
+const SelectIcon = ({icon} )=>{
+    return <Box
+                sx={{
+                    ml: -28,
+                    alignSelf: 'center',
+                    pointerEvents: 'none',
+                }}
+            >
+                {icon || <DownArrow />}
+            </Box>;
 };
 
-export const Select = forwardRef(({ variant, ...props }, ref) =>
-    <Flex {...getMarginProps(props)} {...getLayoutProps(props)} __css={{ border: '1px solid red',  width: 'max-content', alignItems: 'stretch' }}>
+export const Select = forwardRef(({ variant, ...props }, ref) => 
+<Flex {...getMarginProps(props)} {...getLayoutProps(props)} __css={{width: 'max-content'}}>
         <Box
             ref={ref}
             as='select'
-            variant={`select${variant ? '.' + variant : ''}`}
+            variant={`select${variant ? '.'+variant : ''}`}
             {...omitMarginProps(props)}
             __css={{
                 display: 'block',
@@ -52,20 +46,17 @@ export const Select = forwardRef(({ variant, ...props }, ref) =>
                 appearance: 'none',
                 fontSize: 'inherit',
                 lineHeight: 'inherit',
-                // border: '1px solid',
-                borderColor: 'gray500',
+                border: '1px solid gray500',
                 borderRadius: 'medium',
                 color: 'inherit',
                 bg: 'transparent',
                 ':focus': {
                     borderColor: 'primary500',
                     outline: 'none',
-                    border: 0,
                     boxShadow: t => `0 0 0 2px ${t.colors.primary500}`,
-                },
-                border: 0,
+                }
             }}
         />
-        <SelectIcon {...props} />
-
+        <SelectIcon {...props}/>
+        
     </Flex>);
