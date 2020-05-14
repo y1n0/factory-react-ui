@@ -21,15 +21,16 @@ const DownArrow = props =>
 
 
 const SelectIcon = ({icon} )=>{
-    return <Box
+    return <Flex
                 sx={{
                     ml: -28,
                     alignSelf: 'center',
+                    alignItems: 'center',
                     pointerEvents: 'none',
                 }}
             >
                 {icon || <DownArrow />}
-            </Box>;
+            </Flex>;
 };
 
 export const Select = forwardRef(({ variant, ...props }, ref) => 
@@ -49,6 +50,7 @@ export const Select = forwardRef(({ variant, ...props }, ref) =>
                 border: '1px solid gray500',
                 borderRadius: 'medium',
                 color: 'inherit',
+                pr: '32px',
                 bg: 'transparent',
                 ':focus': {
                     borderColor: 'primary500',

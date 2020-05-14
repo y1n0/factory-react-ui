@@ -5,8 +5,6 @@ import { action } from "@storybook/addon-actions"
 import { Text, Heading } from '../../Typography';
 import { Box } from '../../Box';
 import { Input } from '../Input';
-// import { Search } from '@styled-icons/evil/Search';
-// import { Eye, EyeOff } from '@styled-icons/feather';
 import {Label} from '../Label';
 import { useForm } from 'react-hook-form';
 import { Button } from '../../Button';
