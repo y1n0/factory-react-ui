@@ -2292,6 +2292,18 @@ Input.defaultProps = {
   size: 'medium'
 };
 
+var Label = function Label(_ref) {
+  var children = _ref.children,
+      variant = _ref.variant,
+      props = _objectWithoutPropertiesLoose(_ref, ["children", "variant"]);
+
+  return /*#__PURE__*/React__default.createElement(Flex, _extends({
+    as: "label"
+  }, props, {
+    variant: variant
+  }), children);
+};
+
 var RadioProps = [].concat(shouldForwardProp.props, ['sx', 'variant', 'iconName', 'checkedIconName', 'uncheckedIconName']);
 var PRE$1 = new RegExp("^(" + RadioProps.join('|') + ")$");
 
@@ -2527,7 +2539,7 @@ var cssRegex = /^([+-]?(?:\d+|\d*\.\d+))([a-z]*|%)$/;
 /**
  * Returns a given CSS value minus its unit of measure.
  *
- * @deprecated - stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getValueAndUnit.
+ * @deprecated - stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getUnitAndValue.
  *
  * @example
  * // Styles as object usage
@@ -2553,7 +2565,7 @@ function stripUnit(value, unitReturn) {
 
   if (unitReturn) {
     // eslint-disable-next-line no-console
-    console.warn("stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getValueAndUnit.");
+    console.warn("stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getUnitAndValue.");
     if (matchedValue) return [parseFloat(value), matchedValue[2]];
     return [value, undefined];
   }
@@ -5116,6 +5128,7 @@ exports.Image = Image;
 exports.Input = Input;
 exports.IntersectionContext = IntersectionContext;
 exports.IntersectionObserver = IntersectionObserver;
+exports.Label = Label;
 exports.Layer = Layer;
 exports.Link = Link;
 exports.MotionBox = MotionBox;

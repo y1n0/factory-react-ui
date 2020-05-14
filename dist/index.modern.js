@@ -2285,6 +2285,18 @@ Input.defaultProps = {
   size: 'medium'
 };
 
+var Label = function Label(_ref) {
+  var children = _ref.children,
+      variant = _ref.variant,
+      props = _objectWithoutPropertiesLoose(_ref, ["children", "variant"]);
+
+  return /*#__PURE__*/React.createElement(Flex, _extends({
+    as: "label"
+  }, props, {
+    variant: variant
+  }), children);
+};
+
 var RadioProps = [].concat(props, ['sx', 'variant', 'iconName', 'checkedIconName', 'uncheckedIconName']);
 var PRE$1 = new RegExp("^(" + RadioProps.join('|') + ")$");
 
@@ -2520,7 +2532,7 @@ var cssRegex = /^([+-]?(?:\d+|\d*\.\d+))([a-z]*|%)$/;
 /**
  * Returns a given CSS value minus its unit of measure.
  *
- * @deprecated - stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getValueAndUnit.
+ * @deprecated - stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getUnitAndValue.
  *
  * @example
  * // Styles as object usage
@@ -2546,7 +2558,7 @@ function stripUnit(value, unitReturn) {
 
   if (unitReturn) {
     // eslint-disable-next-line no-console
-    console.warn("stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getValueAndUnit.");
+    console.warn("stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getUnitAndValue.");
     if (matchedValue) return [parseFloat(value), matchedValue[2]];
     return [value, undefined];
   }
@@ -5085,5 +5097,5 @@ var componentsTheme = {
 };
 var theme = _extends(_extends({}, baseTheme), componentsTheme);
 
-export { Accordion, AccordionPanel, Anchor, Box, Breadcrumb, BreadcrumbItem, Button, Checkbox, Col, ColorModeProvider, Container, DEFAULT_BREAKPOINTS, DirectionManager, Drop, Flex, Footer, GlobalStyle, Header, Heading, Icon, Image, Input, IntersectionContext, IntersectionObserver, Layer, Link, MotionBox, MotionFlex, Nav, Navs, Pagination, Paragraph, ParallaxBox, Radio, Row, Select, Slider, StyledChildren, TABINDEX, TABINDEX_STATE, Tab, Tabs, Text, VactoryThemeContext, base, findScrollParents, findVisibleParent, generateMedia, getBodyChildElements, getLayoutProps, getMarginProps, getNewContainer, getProps, getSizeProps, getSpaceProps, getSystemProps, getVariant, isNotAncestorOf, makeNodeFocusable, makeNodeUnfocusable, omitLayoutProps, omitMarginProps, omitProps, omitSizeProps, omitSpaceProps, parseMetricToNum, setFocusWithoutScroll, sx, theme, useColorMode, useVactoryTheme, variant, variantReducer };
+export { Accordion, AccordionPanel, Anchor, Box, Breadcrumb, BreadcrumbItem, Button, Checkbox, Col, ColorModeProvider, Container, DEFAULT_BREAKPOINTS, DirectionManager, Drop, Flex, Footer, GlobalStyle, Header, Heading, Icon, Image, Input, IntersectionContext, IntersectionObserver, Label, Layer, Link, MotionBox, MotionFlex, Nav, Navs, Pagination, Paragraph, ParallaxBox, Radio, Row, Select, Slider, StyledChildren, TABINDEX, TABINDEX_STATE, Tab, Tabs, Text, VactoryThemeContext, base, findScrollParents, findVisibleParent, generateMedia, getBodyChildElements, getLayoutProps, getMarginProps, getNewContainer, getProps, getSizeProps, getSpaceProps, getSystemProps, getVariant, isNotAncestorOf, makeNodeFocusable, makeNodeUnfocusable, omitLayoutProps, omitMarginProps, omitProps, omitSizeProps, omitSpaceProps, parseMetricToNum, setFocusWithoutScroll, sx, theme, useColorMode, useVactoryTheme, variant, variantReducer };
 //# sourceMappingURL=index.modern.js.map
