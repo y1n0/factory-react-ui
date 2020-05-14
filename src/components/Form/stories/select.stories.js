@@ -2,7 +2,7 @@ import React from 'react';
 import { Select } from '../Select';
 import { Box } from '../../Box';
 import { withKnobs } from '@storybook/addon-knobs';
-import Label from '../Label';
+import {Label} from '../Label';
 import {Icon} from '../../Icon';
 
 
