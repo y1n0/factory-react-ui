@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box } from '../Box';
 import { Icon } from '../Icon';
 import RCPagination from 'rc-pagination';
-
+import frFR from 'rc-pagination/lib/locale/fr_FR';
+import { get } from 'styled-system';
+import { ThemeContext } from 'styled-components';
 
 const PaginationPageButton = (props) => <Box
     __css={{
@@ -53,9 +55,7 @@ const PaginationPrevNextButton = (props) => <Box
         '.rc-pagination-prev[aria-disabled=true] &': {
             cursor: 'not-allowed',
             color: 'gray500'
-
         }
-
     }}>
     {props.children}
 </Box>
@@ -107,15 +107,36 @@ export const Pagination = ({
     sx,
     ...props
 }) => {
-
+    const theme = useContext(ThemeContext);
     return (
         <Box __css={{
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
-            '& [class^="rc-pagination"]:focus': {
-                outline: 'none'
+            flexWrap: 'wrap',
+            '& [class^="rc-pagination"]': {
+                marginBottom: ['8px', null, 0]
             },
-        }} as={RCPagination} {...props} sx={sx} itemRender={itemRender}></Box>
+            '& [class^="rc-pagination"]:focus': {
+                outline: 'none',
+            },
+            '.rc-pagination-options': {
+                display: 'flex',
+                alignItems: 'center'
+            },
+            '.rc-pagination-options-quick-jumper > input' : {
+                display: 'inline-block',
+                padding: '2px',
+                appearance: 'none',
+                fontSize: 'inherit',
+                lineHeight: 'inherit',
+                border: '1px solid',
+                color: 'inherit',
+                background: 'transparent',
+                mx: '8px',
+                ...get(theme, 'inputs.variants.default', {}),
+                ...get(theme, 'inputs.sizes.medium', {})
+            }
+        }} as={RCPagination} locale={frFR} {...props} sx={sx} itemRender={itemRender} />
     );
 }

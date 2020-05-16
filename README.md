@@ -2,7 +2,7 @@
 
 ## StoryBook
 ### `yarn start`
-Lancez `yarn start` pour démarrer l'environnement Storybook. 
+Lancez `yarn storybook` pour démarrer l'environnement Storybook. 
 Storybook est accesible via `http://localhost:9009`
 
 

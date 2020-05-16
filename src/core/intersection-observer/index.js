@@ -5,12 +5,13 @@ export const IntersectionContext = React.createContext({ inView: true });
 
 export const IntersectionObserver = ({
     children,
+    threshold = 0,
     reset = false // if value set to true - observed element will reappear every time it shows up on the screen
 }) => {
     const [inView, setInView] = useState(false);
     const intersectionRef = React.useRef(null);
     const intersection = useIntersection(intersectionRef, {
-        threshold: 0
+        threshold
     });
 
     useEffect(() => {
