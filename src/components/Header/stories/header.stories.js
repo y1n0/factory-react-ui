@@ -1,13 +1,14 @@
 import React from 'react';
 
 import { Header } from '../Header';
-import { Box, Flex } from '../../Box';
+import { Box, Flex, MotionBox } from '../../Box';
 import { Text } from '../../Typography';
 import { Layer } from '../../Layer';
 import { Button } from '../../Button';
 import { Icon } from '../../Icon';
 import { Waypoint } from 'react-waypoint';
 import { motion, useAnimation } from 'framer-motion';
+
 
 export const Simple = () => {
 
@@ -188,14 +189,46 @@ export const Sticky = () => {
         </Box>);
 }
 
-const MotionHeader =  motion.custom(Header);
+
+const MotionHeader = motion.custom(Header);
+
+export const Sticky2levels = () => {
+    const headerAnimationCtrls = useAnimation();
+
+    const variants = {
+        initial: { position: 'relative', y: [0, 0] },
+        sticky: { position: 'fixed', width: '100%', y: [-200, -170] },
+    }
+
+    return (
+        <Box height="200vh">
+            <Header sx={{ p: 'large', backgroundColor: 'gray100',  boxShadow: 1}}>
+                <Text textAlign="center" height="120px" fontWeight="black" fontSize="14px" color="primary500">Header 1</Text>
+            </Header>
+            <MotionBox duration={0.3} animate={headerAnimationCtrls} initial="initial" variants={variants} transition={{ duration: 0.3 }}>
+                <Header sx={{ p: 'large', backgroundColor: 'white',  boxShadow: 1}}>
+                    <Text textAlign="center" height="120px" fontWeight="black" fontSize="14px" color="primary500">Header 1</Text>
+                </Header>
+            </MotionBox>
+            <Waypoint onEnter={() => headerAnimationCtrls.start('initial')} onLeave={() => headerAnimationCtrls.start('sticky')} />
+            <Box py="150px" bg="gray200" px="32px"></Box>
+            <Box py="150px" bg="gray300" px="32px"></Box>
+            <Box py="150px" bg="gray500" px="32px"></Box>
+            <Box py="150px" bg="gray400" px="32px"></Box>
+            <Box py="150px" bg="gray200" px="32px"></Box>
+            <Box py="150px" bg="gray300" px="32px"></Box>
+            <Box py="150px" bg="gray500" px="32px"></Box>
+            <Box py="150px" bg="gray400" px="32px"></Box>
+        </Box>);
+}
+
 
 export const WaypointWithMotion = () => {
 
     const headerAnimationCtrls = useAnimation();
     const variants = {
-        state1: {  y: 0, width: '100%' },
-        state2: { y: "40px", width: '80%'},
+        state1: { y: 0, width: '100%' },
+        state2: { y: "40px", width: '80%' },
     }
 
     return (
