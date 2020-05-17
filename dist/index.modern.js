@@ -6,12 +6,13 @@ import deepmerge from 'deepmerge';
 import stylisRTLPlugin from 'stylis-plugin-rtl';
 import css$1, { get as get$1 } from '@styled-system/css';
 import { useIntersection } from 'react-use';
+import { motion, useViewportScroll, useTransform } from 'framer-motion';
 import ReactDOM, { createPortal } from 'react-dom';
 import IcoMoon from 'react-icomoon';
 import Headroom from 'react-headroom';
 import RCPagination from 'rc-pagination';
+import frFR from 'rc-pagination/lib/locale/fr_FR';
 import { themeGet } from '@styled-system/theme-get';
-import { motion, useViewportScroll, useTransform } from 'framer-motion';
 import SlickSlider from 'react-slick';
 
 function _extends() {
@@ -467,6 +468,8 @@ var IntersectionContext = React.createContext({
 });
 var IntersectionObserver = function IntersectionObserver(_ref) {
   var children = _ref.children,
+      _ref$threshold = _ref.threshold,
+      threshold = _ref$threshold === void 0 ? 0 : _ref$threshold,
       _ref$reset = _ref.reset,
       reset = _ref$reset === void 0 ? false : _ref$reset;
 
@@ -476,7 +479,7 @@ var IntersectionObserver = function IntersectionObserver(_ref) {
 
   var intersectionRef = React.useRef(null);
   var intersection = useIntersection(intersectionRef, {
-    threshold: 0
+    threshold: threshold
   });
   useEffect(function () {
     var inViewNow = intersection && intersection.intersectionRatio > 0;
@@ -510,6 +513,8 @@ var Box = styled('div', {
 var Flex = styled(Box)({
   display: 'flex'
 });
+var MotionBox = motion.custom(Box);
+var MotionFlex = motion.custom(Flex);
 
 var activeAsArray = function activeAsArray(active) {
   return typeof active === 'number' ? [active] : active;
@@ -732,7 +737,7 @@ var BreadcrumbItem = forwardRef(function (_ref, ref) {
     as: as,
     ref: ref,
     href: href
-  }, getSystemProps(rest), {
+  }, rest, {
     variant: getVariant([variant, 'item']),
     __css: {
       color: active ? 'gray900' : 'primary500',
@@ -2455,11 +2460,16 @@ var DownArrow = function DownArrow(props) {
 
 var SelectIcon = function SelectIcon(_ref2) {
   var icon = _ref2.icon;
-  return /*#__PURE__*/React.createElement(Box, {
+  return /*#__PURE__*/React.createElement(Flex, {
     sx: {
       ml: -28,
       alignSelf: 'center',
-      pointerEvents: 'none'
+      alignItems: 'center',
+      pointerEvents: 'none',
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      right: 0
     }
   }, icon || /*#__PURE__*/React.createElement(DownArrow, null));
 };
@@ -2468,18 +2478,27 @@ var Select = forwardRef(function (_ref3, ref) {
   var variant = _ref3.variant,
       props = _objectWithoutPropertiesLoose(_ref3, ["variant"]);
 
+  var selectRef = ref || useRef();
+
+  var handleOnChange = function handleOnChange(ev) {
+    var value = selectRef.current.value;
+    props.onChange(value);
+  };
+
   return /*#__PURE__*/React.createElement(Flex, _extends({}, getMarginProps(props), getLayoutProps(props), {
     __css: {
-      width: 'max-content'
+      width: 'fit-content',
+      position: 'relative'
     }
   }), /*#__PURE__*/React.createElement(Box, _extends({
-    ref: ref,
+    ref: selectRef,
     as: "select",
     variant: "select" + (variant ? '.' + variant : '')
   }, omitMarginProps(props), {
+    onChange: handleOnChange,
     __css: {
       display: 'block',
-      width: 'unset',
+      width: 'auto',
       p: 'small',
       appearance: 'none',
       fontSize: 'inherit',
@@ -2487,6 +2506,7 @@ var Select = forwardRef(function (_ref3, ref) {
       border: '1px solid gray500',
       borderRadius: 'medium',
       color: 'inherit',
+      pr: '32px',
       bg: 'transparent',
       ':focus': {
         borderColor: 'primary500',
@@ -2498,6 +2518,13 @@ var Select = forwardRef(function (_ref3, ref) {
     }
   })), /*#__PURE__*/React.createElement(SelectIcon, props));
 });
+
+Select.Option = function (_ref4) {
+  var children = _ref4.children,
+      props = _objectWithoutPropertiesLoose(_ref4, ["children"]);
+
+  return /*#__PURE__*/React.createElement("option", props, children);
+};
 
 function _templateObject$5() {
   var data = _taggedTemplateLiteralLoose(["\n\n    *,\n    *::before,\n    *::after {\n        box-sizing: border-box;\n    }\n\n    body, h1, h2, h3, h4, h5, h6, p, ol, ul {\n        margin: 0;\n        padding: 0;\n        font-weight: normal;\n    }\n\n    ol, ul {\n        list-style: none;\n    }\n\n\n    html {\n        font-family: ", ";\n        font-size: ", ";;\n        box-sizing: border-box;\n    }\n\n"]);
@@ -2968,16 +2995,37 @@ var Pagination = function Pagination(_ref) {
   var sx = _ref.sx,
       props = _objectWithoutPropertiesLoose(_ref, ["sx"]);
 
+  var theme = useContext(ThemeContext);
   return /*#__PURE__*/React.createElement(Box, _extends({
     __css: {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
+      flexWrap: 'wrap',
+      '& [class^="rc-pagination"]': {
+        marginBottom: ['8px', null, 0]
+      },
       '& [class^="rc-pagination"]:focus': {
         outline: 'none'
-      }
+      },
+      '.rc-pagination-options': {
+        display: 'flex',
+        alignItems: 'center'
+      },
+      '.rc-pagination-options-quick-jumper > input': _extends(_extends({
+        display: 'inline-block',
+        padding: '2px',
+        appearance: 'none',
+        fontSize: 'inherit',
+        lineHeight: 'inherit',
+        border: '1px solid',
+        color: 'inherit',
+        background: 'transparent',
+        mx: '8px'
+      }, get(theme, 'inputs.variants.default', {})), get(theme, 'inputs.sizes.medium', {}))
     },
-    as: RCPagination
+    as: RCPagination,
+    locale: frFR
   }, props, {
     sx: sx,
     itemRender: itemRender
@@ -4181,12 +4229,12 @@ var Layer = forwardRef(function (props, ref) {
 });
 Layer.displayName = 'Layer';
 
-var MotionBox = motion.custom(Box);
-var MotionFlex = motion.custom(Flex);
+var MotionBox$1 = motion.custom(Box);
+var MotionFlex$1 = motion.custom(Flex);
 
 var ParallaxBox = function ParallaxBox(_ref) {
   var _ref$as = _ref.as,
-      as = _ref$as === void 0 ? MotionBox : _ref$as,
+      as = _ref$as === void 0 ? MotionBox$1 : _ref$as,
       children = _ref.children,
       _ref$easing = _ref.easing,
       easing = _ref$easing === void 0 ? [0.42, 0, 0.58, 1] : _ref$easing,
@@ -5097,5 +5145,5 @@ var componentsTheme = {
 };
 var theme = _extends(_extends({}, baseTheme), componentsTheme);
 
-export { Accordion, AccordionPanel, Anchor, Box, Breadcrumb, BreadcrumbItem, Button, Checkbox, Col, ColorModeProvider, Container, DEFAULT_BREAKPOINTS, DirectionManager, Drop, Flex, Footer, GlobalStyle, Header, Heading, Icon, Image, Input, IntersectionContext, IntersectionObserver, Label, Layer, Link, MotionBox, MotionFlex, Nav, Navs, Pagination, Paragraph, ParallaxBox, Radio, Row, Select, Slider, StyledChildren, TABINDEX, TABINDEX_STATE, Tab, Tabs, Text, VactoryThemeContext, base, findScrollParents, findVisibleParent, generateMedia, getBodyChildElements, getLayoutProps, getMarginProps, getNewContainer, getProps, getSizeProps, getSpaceProps, getSystemProps, getVariant, isNotAncestorOf, makeNodeFocusable, makeNodeUnfocusable, omitLayoutProps, omitMarginProps, omitProps, omitSizeProps, omitSpaceProps, parseMetricToNum, setFocusWithoutScroll, sx, theme, useColorMode, useVactoryTheme, variant, variantReducer };
+export { Accordion, AccordionPanel, Anchor, Box, Breadcrumb, BreadcrumbItem, Button, Checkbox, Col, ColorModeProvider, Container, DEFAULT_BREAKPOINTS, DirectionManager, Drop, Flex, Footer, GlobalStyle, Header, Heading, Icon, Image, Input, IntersectionContext, IntersectionObserver, Label, Layer, Link, MotionBox$1 as MotionBox, MotionFlex$1 as MotionFlex, Nav, Navs, Pagination, Paragraph, ParallaxBox, Radio, Row, Select, Slider, StyledChildren, TABINDEX, TABINDEX_STATE, Tab, Tabs, Text, VactoryThemeContext, base, findScrollParents, findVisibleParent, generateMedia, getBodyChildElements, getLayoutProps, getMarginProps, getNewContainer, getProps, getSizeProps, getSpaceProps, getSystemProps, getVariant, isNotAncestorOf, makeNodeFocusable, makeNodeUnfocusable, omitLayoutProps, omitMarginProps, omitProps, omitSizeProps, omitSpaceProps, parseMetricToNum, setFocusWithoutScroll, sx, theme, useColorMode, useVactoryTheme, variant, variantReducer };
 //# sourceMappingURL=index.modern.js.map

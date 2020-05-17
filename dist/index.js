@@ -12,13 +12,14 @@ var stylisRTLPlugin = _interopDefault(require('stylis-plugin-rtl'));
 var css = require('@styled-system/css');
 var css__default = _interopDefault(css);
 var reactUse = require('react-use');
+var framerMotion = require('framer-motion');
 var ReactDOM = require('react-dom');
 var ReactDOM__default = _interopDefault(ReactDOM);
 var IcoMoon = _interopDefault(require('react-icomoon'));
 var Headroom = _interopDefault(require('react-headroom'));
 var RCPagination = _interopDefault(require('rc-pagination'));
+var frFR = _interopDefault(require('rc-pagination/lib/locale/fr_FR'));
 var themeGet = require('@styled-system/theme-get');
-var framerMotion = require('framer-motion');
 var SlickSlider = _interopDefault(require('react-slick'));
 
 function _extends() {
@@ -474,6 +475,8 @@ var IntersectionContext = React__default.createContext({
 });
 var IntersectionObserver = function IntersectionObserver(_ref) {
   var children = _ref.children,
+      _ref$threshold = _ref.threshold,
+      threshold = _ref$threshold === void 0 ? 0 : _ref$threshold,
       _ref$reset = _ref.reset,
       reset = _ref$reset === void 0 ? false : _ref$reset;
 
@@ -483,7 +486,7 @@ var IntersectionObserver = function IntersectionObserver(_ref) {
 
   var intersectionRef = React__default.useRef(null);
   var intersection = reactUse.useIntersection(intersectionRef, {
-    threshold: 0
+    threshold: threshold
   });
   React.useEffect(function () {
     var inViewNow = intersection && intersection.intersectionRatio > 0;
@@ -517,6 +520,8 @@ var Box = styled__default('div', {
 var Flex = styled__default(Box)({
   display: 'flex'
 });
+var MotionBox = framerMotion.motion.custom(Box);
+var MotionFlex = framerMotion.motion.custom(Flex);
 
 var activeAsArray = function activeAsArray(active) {
   return typeof active === 'number' ? [active] : active;
@@ -739,7 +744,7 @@ var BreadcrumbItem = React.forwardRef(function (_ref, ref) {
     as: as,
     ref: ref,
     href: href
-  }, getSystemProps(rest), {
+  }, rest, {
     variant: getVariant([variant, 'item']),
     __css: {
       color: active ? 'gray900' : 'primary500',
@@ -2462,11 +2467,16 @@ var DownArrow = function DownArrow(props) {
 
 var SelectIcon = function SelectIcon(_ref2) {
   var icon = _ref2.icon;
-  return /*#__PURE__*/React__default.createElement(Box, {
+  return /*#__PURE__*/React__default.createElement(Flex, {
     sx: {
       ml: -28,
       alignSelf: 'center',
-      pointerEvents: 'none'
+      alignItems: 'center',
+      pointerEvents: 'none',
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      right: 0
     }
   }, icon || /*#__PURE__*/React__default.createElement(DownArrow, null));
 };
@@ -2475,18 +2485,27 @@ var Select = React.forwardRef(function (_ref3, ref) {
   var variant = _ref3.variant,
       props = _objectWithoutPropertiesLoose(_ref3, ["variant"]);
 
+  var selectRef = ref || React.useRef();
+
+  var handleOnChange = function handleOnChange(ev) {
+    var value = selectRef.current.value;
+    props.onChange(value);
+  };
+
   return /*#__PURE__*/React__default.createElement(Flex, _extends({}, getMarginProps(props), getLayoutProps(props), {
     __css: {
-      width: 'max-content'
+      width: 'fit-content',
+      position: 'relative'
     }
   }), /*#__PURE__*/React__default.createElement(Box, _extends({
-    ref: ref,
+    ref: selectRef,
     as: "select",
     variant: "select" + (variant ? '.' + variant : '')
   }, omitMarginProps(props), {
+    onChange: handleOnChange,
     __css: {
       display: 'block',
-      width: 'unset',
+      width: 'auto',
       p: 'small',
       appearance: 'none',
       fontSize: 'inherit',
@@ -2494,6 +2513,7 @@ var Select = React.forwardRef(function (_ref3, ref) {
       border: '1px solid gray500',
       borderRadius: 'medium',
       color: 'inherit',
+      pr: '32px',
       bg: 'transparent',
       ':focus': {
         borderColor: 'primary500',
@@ -2505,6 +2525,13 @@ var Select = React.forwardRef(function (_ref3, ref) {
     }
   })), /*#__PURE__*/React__default.createElement(SelectIcon, props));
 });
+
+Select.Option = function (_ref4) {
+  var children = _ref4.children,
+      props = _objectWithoutPropertiesLoose(_ref4, ["children"]);
+
+  return /*#__PURE__*/React__default.createElement("option", props, children);
+};
 
 function _templateObject$5() {
   var data = _taggedTemplateLiteralLoose(["\n\n    *,\n    *::before,\n    *::after {\n        box-sizing: border-box;\n    }\n\n    body, h1, h2, h3, h4, h5, h6, p, ol, ul {\n        margin: 0;\n        padding: 0;\n        font-weight: normal;\n    }\n\n    ol, ul {\n        list-style: none;\n    }\n\n\n    html {\n        font-family: ", ";\n        font-size: ", ";;\n        box-sizing: border-box;\n    }\n\n"]);
@@ -2975,16 +3002,37 @@ var Pagination = function Pagination(_ref) {
   var sx = _ref.sx,
       props = _objectWithoutPropertiesLoose(_ref, ["sx"]);
 
+  var theme = React.useContext(styled.ThemeContext);
   return /*#__PURE__*/React__default.createElement(Box, _extends({
     __css: {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
+      flexWrap: 'wrap',
+      '& [class^="rc-pagination"]': {
+        marginBottom: ['8px', null, 0]
+      },
       '& [class^="rc-pagination"]:focus': {
         outline: 'none'
-      }
+      },
+      '.rc-pagination-options': {
+        display: 'flex',
+        alignItems: 'center'
+      },
+      '.rc-pagination-options-quick-jumper > input': _extends(_extends({
+        display: 'inline-block',
+        padding: '2px',
+        appearance: 'none',
+        fontSize: 'inherit',
+        lineHeight: 'inherit',
+        border: '1px solid',
+        color: 'inherit',
+        background: 'transparent',
+        mx: '8px'
+      }, styledSystem.get(theme, 'inputs.variants.default', {})), styledSystem.get(theme, 'inputs.sizes.medium', {}))
     },
-    as: RCPagination
+    as: RCPagination,
+    locale: frFR
   }, props, {
     sx: sx,
     itemRender: itemRender
@@ -4188,12 +4236,12 @@ var Layer = React.forwardRef(function (props, ref) {
 });
 Layer.displayName = 'Layer';
 
-var MotionBox = framerMotion.motion.custom(Box);
-var MotionFlex = framerMotion.motion.custom(Flex);
+var MotionBox$1 = framerMotion.motion.custom(Box);
+var MotionFlex$1 = framerMotion.motion.custom(Flex);
 
 var ParallaxBox = function ParallaxBox(_ref) {
   var _ref$as = _ref.as,
-      as = _ref$as === void 0 ? MotionBox : _ref$as,
+      as = _ref$as === void 0 ? MotionBox$1 : _ref$as,
       children = _ref.children,
       _ref$easing = _ref.easing,
       easing = _ref$easing === void 0 ? [0.42, 0, 0.58, 1] : _ref$easing,
@@ -5131,8 +5179,8 @@ exports.IntersectionObserver = IntersectionObserver;
 exports.Label = Label;
 exports.Layer = Layer;
 exports.Link = Link;
-exports.MotionBox = MotionBox;
-exports.MotionFlex = MotionFlex;
+exports.MotionBox = MotionBox$1;
+exports.MotionFlex = MotionFlex$1;
 exports.Nav = Nav;
 exports.Navs = Navs;
 exports.Pagination = Pagination;
