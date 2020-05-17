@@ -7,13 +7,13 @@ import ExpirementalDefaultFont from '../src/components/Font';
 import GlobalStyle from "../src/components/GlobalStyle";
 
 import { addParameters } from '@storybook/react';
-import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
+// import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 
-addParameters({
-  viewport: {
-    defaultViewport: 'responsive',
-  },
-});
+// addParameters({
+//   viewport: {
+//     defaultViewport: 'responsive',
+//   },
+// });
 addParameters({
   backgrounds: [
     { name: 'white', value: 'white', default: true },

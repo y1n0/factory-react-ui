@@ -63,8 +63,7 @@ export const RTL = () => {
                     name='country'
                     defaultValue='Casablanca'
                     mt="medium"
-                    pr="43px"
-                    icon={<Icon name="chevron-down" size="medium" mx="8px"  />}>
+                    >
                     <option>Agadir</option>
                     <option>EL Jadida</option>
                     <option>Casablanca</option>
