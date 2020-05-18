@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, forwardRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { Header } from '../Header';
 import { Box, Flex, MotionBox } from '../../Box';
@@ -7,8 +7,8 @@ import { Layer } from '../../Layer';
 import { Button } from '../../Button';
 import { Icon } from '../../Icon';
 import { Waypoint } from 'react-waypoint';
-import { motion, useAnimation, useViewportScroll } from 'framer-motion';
-import { useScroll, useScrollPosition } from '../../../core';
+import { motion, useAnimation } from 'framer-motion';
+import {  useScrollPosition } from '../../../core';
 
 
 export const Simple = () => {

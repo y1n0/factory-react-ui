@@ -8,7 +8,7 @@ import iconSet from './selection.json';
 
 export const Icon = styled(IcoMoon, {shouldForwardProp}).attrs(props => ({
                         removeInlineStyle: true,
-                        iconSet: iconSet,
+                        iconSet: props.iconSet || iconSet,
                         icon: props.name || props.icon}))
   `
     display: inline-block;

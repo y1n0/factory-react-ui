@@ -1,33 +1,43 @@
 import React from 'react';
 import { withKnobs } from "@storybook/addon-knobs";
-import { Box } from '../../Box';
+import { Box, Flex } from '../../Box';
 
 import Icon from '../Icon';
 
+import iconSet from '../selection.json';
 
+const iconNameList = iconSet.icons.map(icon => icon.properties.name);
 
 export const Sizes = () => {
+    console.log(iconSet);
     return (
         <Box>
             <Box display="flex" flexDirection="column">
-                <Box display="flex" flexDirection="row">
-                    <Box border="gray" m="small" p="medium" display="flex" alignItems="center" justifyContent="center" color="black500">
-                        <Icon name="add-simple"  color="primary500" size="small" />
-                        <Box>add-simple</Box>
-                    </Box>
-                    <Box border="gray" m="small" p="medium" display="flex" alignItems="center" justifyContent="center" color="black500">
-                        <Icon name="arrows-left" color="primary500" size="medium" />
-                        <Box>arrows-left</Box>
-                    </Box>
-                    <Box border="gray" m="small" p="medium" display="flex" alignItems="center" justifyContent="center" color="black500">
-                        <Icon name="chevron-top" color="primary500" size="large" />
-                        <Box>chevron-top</Box>
-                    </Box>
-                    <Box border="gray" m="small" p="medium" display="flex" alignItems="center" justifyContent="center" color="black500">
-                        <Icon name="chevron-down"color="primary500"  size="xlarge" />
-                        <Box>chevron-down</Box>
-                    </Box>
-                </Box>
+                <Flex  sx={{
+                    flexDirection: 'row',
+                    flexWrap: 'wrap'
+                }}>
+                    {
+                        iconNameList.map((iconName, key) => (
+                            <Flex
+                            key={key} sx={{
+                                border: '2px solid',
+                                borderColor: 'gray200',
+                                m: 'small',
+                                p: 'medium',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                flexDirection: 'column',
+                                color: 'black500',
+                                height: "130px",
+                                width: "130px",
+                            }}>
+                                <Icon name={iconName} size="large" />
+                                <Box mt="medium">{iconName}</Box>
+                            </Flex>
+                        ))
+                    }
+                </Flex>
             </Box>
         </Box>
     )
