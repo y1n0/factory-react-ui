@@ -196,19 +196,19 @@ const MotionHeader = motion.custom(Header);
 export const StickyTwoLevels = () => {
     const headerAnimationCtrls = useAnimation();
     const [headerHeight, setHeaderHeight] = useState(0);
-    
-    const headerRef = useRef(null); 
+
+    const headerRef = useRef(null);
 
     const prevIsScrollingDown = useRef(false);
 
     useScrollPosition(({ prevPos, currPos }) => {
-        const currIsScrollingDown =  currPos.y < prevPos.y;
+        const currIsScrollingDown = currPos.y < prevPos.y;
         // console.log('currIsScrollingDown ', currIsScrollingDown );
-       
 
-        if(currIsScrollingDown !== prevIsScrollingDown.current) {
 
-            if(currIsScrollingDown) {
+        if (currIsScrollingDown !== prevIsScrollingDown.current) {
+
+            if (currIsScrollingDown) {
                 headerAnimationCtrls.start('sticky');
             } else {
                 headerAnimationCtrls.start('initial');
@@ -235,13 +235,13 @@ export const StickyTwoLevels = () => {
         // headerRef.current.getBoundingClientRect().height = headerRef.current.getBoundingClientRect().height;
         setHeaderHeight(headerRef.current.getBoundingClientRect().height);
     }, []);
-   
+
     // const [bodyOffset, setBodyOffset] = useState(
     //     typeof window === "undefined" || !window.document ? 0 : document.body.getBoundingClientRect()
     // );
     // const [lastYPos, setLastYPos] = useState(0);
     // const [scrollDirection, setScrollDirection] = useState();
-   // const {scrollY, scrollDirection} = useScroll()
+    // const {scrollY, scrollDirection} = useScroll()
     // const scrollListener = e => {
     //     // console.log("scrolling :", scrollY);
     //     return ;
@@ -262,12 +262,12 @@ export const StickyTwoLevels = () => {
     //         window.removeEventListener('scroll', scrollListener)
     //     }
     // });
-  
+
     let variants = {
-        initial: { position: 'fixed',  width: '100%', top: [-headerHeight, 0] },
+        initial: { position: 'fixed', width: '100%', top: [-headerHeight, 0] },
         sticky: { position: 'fixed', width: '100%', top: [0, -headerHeight] },
     }
-    
+
     return (
         <Box height="200vh" pt="164px">
 
@@ -279,7 +279,7 @@ export const StickyTwoLevels = () => {
                     <Text textAlign="center" fontWeight="black" fontSize="14px" color="primary500">Header 2</Text>
                 </Header>
             </MotionBox>
-           
+
             <Box py="150px" bg="gray200" px="32px"></Box>
             <Box py="150px" bg="gray300" px="32px"></Box>
             <Box py="150px" bg="gray500" px="32px"></Box>
@@ -291,78 +291,30 @@ export const StickyTwoLevels = () => {
         </Box>);
 }
 
-const SecondaryHeaderContent = forwardRef(({ ...props}, ref) =>{
-    const [isSticky, setIsSticky] = useState(false);
-    useScrollPosition(({ prevPos, currPos }) => {
-         const currIsScrollingDown =  currPos.y < prevPos.y;
-        if(!currIsScrollingDown && currPos.y < 0 + 50) {
-            setIsSticky(false);
-        } else {
-            setIsSticky(true);
-        }
-    }, []);
-return <Header  ref={ref} sx={{ position:'relative', p: 'large', backgroundColor: 'white', boxShadow: 1 }}>
-    <Text textAlign="center" fontWeight="black" fontSize="14px" color="primary500">{isSticky ?  'Header 2' : 'Content Header 2' }</Text>
-  
-</Header>})
-;
-export const TwoLevels = () => {
+
+export const TwoLevelsWaypoint = () => {
     const headerAnimationCtrls = useAnimation();
-    const [headerHeight, setHeaderHeight] = useState({
-        motion: 0,
-        primary: 0,
-        secondary: 0,
-    });
-    const primaryHeaderRef = useRef(null);
-    const secondaryHeaderRef = useRef(null);
-    const motionHeaderRef = useRef(null);
-
-    const prevIsScrollingDown = useRef(false);
-
-    useScrollPosition(({ prevPos, currPos }) => {
-        const currIsScrollingDown =  currPos.y < prevPos.y;
-        
-        if(currIsScrollingDown !== prevIsScrollingDown.current) {
-
-            if(currIsScrollingDown) {
-                headerAnimationCtrls.start('sticky');
-            } else {
-                headerAnimationCtrls.start('initial');
-            }
-            prevIsScrollingDown.current = currIsScrollingDown;
-        }
-    }, []);
-
-    useEffect(() => {
-        setHeaderHeight({
-            primary: primaryHeaderRef.current.getBoundingClientRect().height,
-            secondary: secondaryHeaderRef.current.getBoundingClientRect().height,
-            motion: motionHeaderRef.current.getBoundingClientRect().height,
-        });
-    }, []);
 
     let variants = {
-        initial: { position: 'fixed',  width: '100%', top: [0 , 0] },
-        sticky: { position: 'fixed', width: '100%', top: [ 0, -headerHeight.primary] },
+        hidden: { position: 'fixed', width: '100%', top: -100 },
+        visible: { position: 'fixed', width: '100%', top: [-100, 0] },
     }
 
-    // const handleWaypointOnEnter = () => {
-    //     headerAnimationCtrls.start('initial');
-    // };
-
-    // const handleWaypointOnLeave = () => {
-    //     headerAnimationCtrls.start('sticky');
-    // }
     return (
-        
-        <Box height="100vh" pt={headerHeight.motion}>
-            {/* <Waypoint onEnter={handleWaypointOnEnter} onLeave={handleWaypointOnLeave} /> */}
-            <MotionBox ref={motionHeaderRef} duration={0.3} animate={headerAnimationCtrls} initial="initial" variants={variants} transition={{ duration: 0.3 }}>
-                <Header ref={primaryHeaderRef} sx={{ p: 'large', height: "100px", backgroundColor: 'white', borderBottom: "1px solid", borderBottomColor: 'gray500', boxShadow: 1 }}>
-                    <Text textAlign="center" fontWeight="black" fontSize="14px" color="primary500">Header 1</Text>
+
+        <Box height="100vh">
+
+
+            <MotionBox  duration={0.3} animate={headerAnimationCtrls} initial="hidden" variants={variants} transition={{ duration: 0.3 }}>
+                <Header  sx={{ p: 'large', backgroundColor: 'white', boxShadow: 1 }}>
+                    <Text textAlign="center" fontWeight="black" fontSize="14px" color="primary500">Header 2</Text>
                 </Header>
-               <SecondaryHeaderContent ref={secondaryHeaderRef}  />
             </MotionBox>
+
+            <Header  sx={{  p: 'large', height: "100px", backgroundColor: 'white', borderBottom: "1px solid", borderBottomColor: 'gray500', boxShadow: 1 }}>
+                <Text textAlign="center" fontWeight="black" fontSize="14px" color="primary500">Header 1</Text>
+            </Header>
+            <Waypoint bottomOffset={100} onEnter={() => headerAnimationCtrls.start("hidden")} onLeave={() => headerAnimationCtrls.start("visible") } />
 
 
             <Box py="150px" bg="gray200" px="32px"></Box>
