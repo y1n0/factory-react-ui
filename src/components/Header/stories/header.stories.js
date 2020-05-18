@@ -190,7 +190,6 @@ export const Sticky = () => {
         </Box>);
 }
 
-let count = 0;
 
 const MotionHeader = motion.custom(Header);
 export const StickyTwoLevels = () => {
@@ -203,8 +202,6 @@ export const StickyTwoLevels = () => {
 
     useScrollPosition(({ prevPos, currPos }) => {
         const currIsScrollingDown = currPos.y < prevPos.y;
-        // console.log('currIsScrollingDown ', currIsScrollingDown );
-
 
         if (currIsScrollingDown !== prevIsScrollingDown.current) {
 
@@ -215,53 +212,11 @@ export const StickyTwoLevels = () => {
             }
             prevIsScrollingDown.current = currIsScrollingDown;
         }
-
-
-        // console.log('ref.current.dir ', ref.current.prevIsScrollingDown );
-        // if(lastDir === null) {
-        //     setLastDir(currDir);
-        // }
-        // // up
-        // if ( lastDir === 'down') {
-        //     headerAnimationCtrls.start('initial');
-        //     setLastDir('up');
-        // } else if (lastDir === 'up'){
-        //     headerAnimationCtrls.start('sticky');
-        //     setLastDir('up');
-        // }
     }, []);
 
     useEffect(() => {
-        // headerRef.current.getBoundingClientRect().height = headerRef.current.getBoundingClientRect().height;
         setHeaderHeight(headerRef.current.getBoundingClientRect().height);
     }, []);
-
-    // const [bodyOffset, setBodyOffset] = useState(
-    //     typeof window === "undefined" || !window.document ? 0 : document.body.getBoundingClientRect()
-    // );
-    // const [lastYPos, setLastYPos] = useState(0);
-    // const [scrollDirection, setScrollDirection] = useState();
-    // const {scrollY, scrollDirection} = useScroll()
-    // const scrollListener = e => {
-    //     // console.log("scrolling :", scrollY);
-    //     return ;
-    //     setBodyOffset(typeof window === "undefined" || !window.document ? 0 : document.body.getBoundingClientRect());
-
-    //     if(lastYPos > -bodyOffset.top) {
-    //     } else {
-    //         console.log("scrolling up")
-    //     }
-    //     setScrollDirection(lastYPos > -bodyOffset.top ? "down" : "up");
-    //     setLastYPos(-bodyOffset.top);
-    // }
-
-    // useEffect(() => {
-
-    //     window.addEventListener('scroll', scrollListener);
-    //     return () => {
-    //         window.removeEventListener('scroll', scrollListener)
-    //     }
-    // });
 
     let variants = {
         initial: { position: 'fixed', width: '100%', top: [-headerHeight, 0] },
