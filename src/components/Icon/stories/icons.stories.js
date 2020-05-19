@@ -1,35 +1,121 @@
 import React from 'react';
-import { withKnobs } from "@storybook/addon-knobs";
-import { Box } from '../../Box';
+import styled from 'styled-components'
+import toast from "cogo-toast";
+import copy from "copy-to-clipboard";
+import {withKnobs} from "@storybook/addon-knobs";
+import {Box, Flex} from '../../Box';
 
-import Icon from '../Icon';
+import Icon, {mergeIcons, iconSet} from '../Icon';
 
+import customIconSet from './custom-icons.json';
+import {VactoryIconProvider} from '../context'
 
+const iconNameList = (list) => list.icons.map(icon => icon.properties.name);
+
+const copyToClipboard = (name) => {
+    copy(name);
+    toast.success(`Copied '${name}' to clipboard`, {
+        position: "bottom-center"
+    });
+};
+
+const IconBox = styled(Flex)`
+  &:focus {
+    outline: none;
+    border-color: ${props => props.theme.colors.danger400};
+    ${Icon} {
+        fill: ${props => props.theme.colors.danger400};
+    }
+    
+    ${Box}.iconName {
+        color: ${props => props.theme.colors.danger400};
+    }
+  }
+`
 
 export const Sizes = () => {
     return (
-        <Box>
-            <Box display="flex" flexDirection="column">
-                <Box display="flex" flexDirection="row">
-                    <Box border="gray" m="small" p="medium" display="flex" alignItems="center" justifyContent="center" color="black500">
-                        <Icon name="add-simple"  color="primary500" size="small" />
-                        <Box>add-simple</Box>
-                    </Box>
-                    <Box border="gray" m="small" p="medium" display="flex" alignItems="center" justifyContent="center" color="black500">
-                        <Icon name="arrows-left" color="primary500" size="medium" />
-                        <Box>arrows-left</Box>
-                    </Box>
-                    <Box border="gray" m="small" p="medium" display="flex" alignItems="center" justifyContent="center" color="black500">
-                        <Icon name="chevron-top" color="primary500" size="large" />
-                        <Box>chevron-top</Box>
-                    </Box>
-                    <Box border="gray" m="small" p="medium" display="flex" alignItems="center" justifyContent="center" color="black500">
-                        <Icon name="chevron-down"color="primary500"  size="xlarge" />
-                        <Box>chevron-down</Box>
-                    </Box>
+        <VactoryIconProvider value={iconSet}>
+            <Box>
+                <Box display="flex" flexDirection="column">
+                    <Flex sx={{
+                        flexDirection: 'row',
+                        flexWrap: 'wrap'
+                    }}>
+                        {
+                            iconNameList(iconSet).map((iconName, key) => (
+                                <IconBox
+                                    key={key}
+                                    tabIndex={0}
+                                    sx={{
+                                        border: '2px solid',
+                                        borderColor: 'gray200',
+                                        borderRadius: 'small',
+                                        m: 'small',
+                                        p: 'small',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexDirection: 'column',
+                                        color: 'black500',
+                                        height: "100px",
+                                        width: "130px",
+                                        cursor: 'pointer',
+                                    }}
+                                    onClick={() => copyToClipboard(iconName)}
+                                >
+                                    <Icon name={iconName} color="primary" size="large"/>
+                                    <Box className={'iconName'} mt="medium">{iconName}</Box>
+                                </IconBox>
+                            ))
+                        }
+                    </Flex>
                 </Box>
             </Box>
-        </Box>
+        </VactoryIconProvider>
+    )
+}
+
+export const Custom = () => {
+    const customIcons = mergeIcons(iconSet, customIconSet)
+
+    return (
+        <VactoryIconProvider value={customIcons}>
+            <Box>
+                <Box display="flex" flexDirection="column">
+                    <Flex sx={{
+                        flexDirection: 'row',
+                        flexWrap: 'wrap'
+                    }}>
+                        {
+                            iconNameList(customIcons).map((iconName, key) => (
+                                <IconBox
+                                    key={key}
+                                    tabIndex={0}
+                                    sx={{
+                                        border: '2px solid',
+                                        borderColor: 'gray200',
+                                        borderRadius: 'small',
+                                        m: 'small',
+                                        p: 'small',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        flexDirection: 'column',
+                                        color: 'black500',
+                                        height: "100px",
+                                        width: "130px",
+                                        cursor: 'pointer',
+                                    }}
+                                    onClick={() => copyToClipboard(iconName)}
+                                >
+                                    <Icon name={iconName} color="primary" size="large"/>
+                                    <Box className={'iconName'} mt="medium">{iconName}</Box>
+                                </IconBox>
+                            ))
+                        }
+                    </Flex>
+                </Box>
+            </Box>
+        </VactoryIconProvider>
     )
 }
 

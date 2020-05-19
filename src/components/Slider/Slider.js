@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import SlickSlider from 'react-slick';
+import { Box } from '../Box';
 
 
 const SliderWrapper = styled.div`
@@ -91,8 +92,10 @@ const SliderWrapper = styled.div`
 `;
 
 
-export const Slider = props => {
+export const Slider = React.forwardRef(({children, ...rest}, ref) => {
     return (<SliderWrapper>
-            <SlickSlider {...props}>{props.children}</SlickSlider>
+        <Box ref={ref} as={SlickSlider} {...rest}>
+            {children}
+        </Box>
     </SliderWrapper>)
-}
+});
