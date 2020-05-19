@@ -506,6 +506,74 @@ var IntersectionObserver = function IntersectionObserver(_ref) {
   }, children));
 };
 
+var useIsomorphicLayoutEffect = typeof window !== 'undefined' ? React.useLayoutEffect : React.useEffect;
+var isBrowser = typeof window !== "undefined";
+
+function getScrollPosition(_ref) {
+  var element = _ref.element,
+      useWindow = _ref.useWindow;
+  if (!isBrowser) return {
+    x: 0,
+    y: 0
+  };
+  var target = element ? element.current : document.body;
+  var position = target.getBoundingClientRect();
+  return useWindow ? {
+    x: window.scrollX,
+    y: window.scrollY
+  } : {
+    x: position.left,
+    y: position.top
+  };
+}
+
+function useScrollPosition(effect, deps, element, useWindow, wait) {
+  var position = React.useRef(getScrollPosition({
+    useWindow: useWindow
+  }));
+  var throttleTimeout = null;
+
+  var callBack = function callBack() {
+    var currPos = getScrollPosition({
+      element: element,
+      useWindow: useWindow
+    });
+    effect({
+      prevPos: position.current,
+      currPos: currPos
+    });
+    position.current = currPos;
+    throttleTimeout = null;
+  };
+
+  useIsomorphicLayoutEffect(function () {
+    if (!isBrowser) {
+      return;
+    }
+
+    var handleScroll = function handleScroll() {
+      if (wait) {
+        if (throttleTimeout === null) {
+          throttleTimeout = setTimeout(callBack, wait);
+        }
+      } else {
+        callBack();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return function () {
+      return window.removeEventListener('scroll', handleScroll);
+    };
+  }, deps);
+}
+useScrollPosition.defaultProps = {
+  deps: [],
+  element: false,
+  useWindow: false,
+  wait: null
+};
+
 var Box = styled__default('div', {
   shouldForwardProp: shouldForwardProp__default
 })({
@@ -2076,6 +2144,13 @@ var iconSet = {
 	preferences: preferences
 };
 
+var VactoryIconContext = React__default.createContext(iconSet);
+var VactoryIconProvider = VactoryIconContext.Provider;
+var VactoryIconConsumer = VactoryIconContext.Consumer;
+var useVactoryIcon = function useVactoryIcon() {
+  return React__default.useContext(VactoryIconContext);
+};
+
 function _templateObject$3() {
   var data = _taggedTemplateLiteralLoose(["\n    display: inline-block;\n    stroke: currentcolor;\n    fill: currentcolor;\n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n  "]);
 
@@ -2085,12 +2160,24 @@ function _templateObject$3() {
 
   return data;
 }
-var Icon = styled__default(IcoMoon, {
+var mergeIcons = function mergeIcons(source, target) {
+  return _extends(_extends({}, source), {}, {
+    icons: source.icons.concat(target.icons)
+  });
+};
+var WrapperIcon = function WrapperIcon(_ref) {
+  var rest = _extends({}, _ref);
+
+  var icons = useVactoryIcon();
+  return /*#__PURE__*/React__default.createElement(IcoMoon, _extends({
+    iconSet: icons
+  }, rest));
+};
+var Icon = styled__default(WrapperIcon, {
   shouldForwardProp: shouldForwardProp__default
 }).attrs(function (props) {
   return {
     removeInlineStyle: true,
-    iconSet: iconSet,
     icon: props.name || props.icon
   };
 })(_templateObject$3(), styledSystem.color, styledSystem.size, styledSystem.space, base, sx);
@@ -4297,9 +4384,15 @@ function _templateObject$b() {
   return data;
 }
 var SliderWrapper = styled__default.div(_templateObject$b());
-var Slider = function Slider(props) {
-  return /*#__PURE__*/React__default.createElement(SliderWrapper, null, /*#__PURE__*/React__default.createElement(SlickSlider, props, props.children));
-};
+var Slider = React__default.forwardRef(function (_ref, ref) {
+  var children = _ref.children,
+      rest = _objectWithoutPropertiesLoose(_ref, ["children"]);
+
+  return /*#__PURE__*/React__default.createElement(SliderWrapper, null, /*#__PURE__*/React__default.createElement(Box, _extends({
+    ref: ref,
+    as: SlickSlider
+  }, rest), children));
+});
 
 var colors = {
   black: '#000',
@@ -5179,8 +5272,8 @@ exports.IntersectionObserver = IntersectionObserver;
 exports.Label = Label;
 exports.Layer = Layer;
 exports.Link = Link;
-exports.MotionBox = MotionBox$1;
-exports.MotionFlex = MotionFlex$1;
+exports.MotionBox = MotionBox;
+exports.MotionFlex = MotionFlex;
 exports.Nav = Nav;
 exports.Navs = Navs;
 exports.Pagination = Pagination;
@@ -5196,7 +5289,11 @@ exports.TABINDEX_STATE = TABINDEX_STATE;
 exports.Tab = Tab;
 exports.Tabs = Tabs;
 exports.Text = Text;
+exports.VactoryIconConsumer = VactoryIconConsumer;
+exports.VactoryIconContext = VactoryIconContext;
+exports.VactoryIconProvider = VactoryIconProvider;
 exports.VactoryThemeContext = VactoryThemeContext;
+exports.WrapperIcon = WrapperIcon;
 exports.base = base;
 exports.findScrollParents = findScrollParents;
 exports.findVisibleParent = findVisibleParent;
@@ -5210,9 +5307,11 @@ exports.getSizeProps = getSizeProps;
 exports.getSpaceProps = getSpaceProps;
 exports.getSystemProps = getSystemProps;
 exports.getVariant = getVariant;
+exports.iconSet = iconSet;
 exports.isNotAncestorOf = isNotAncestorOf;
 exports.makeNodeFocusable = makeNodeFocusable;
 exports.makeNodeUnfocusable = makeNodeUnfocusable;
+exports.mergeIcons = mergeIcons;
 exports.omitLayoutProps = omitLayoutProps;
 exports.omitMarginProps = omitMarginProps;
 exports.omitProps = omitProps;
@@ -5223,6 +5322,9 @@ exports.setFocusWithoutScroll = setFocusWithoutScroll;
 exports.sx = sx;
 exports.theme = theme;
 exports.useColorMode = useColorMode;
+exports.useIsomorphicLayoutEffect = useIsomorphicLayoutEffect;
+exports.useScrollPosition = useScrollPosition;
+exports.useVactoryIcon = useVactoryIcon;
 exports.useVactoryTheme = useVactoryTheme;
 exports.variant = variant;
 exports.variantReducer = variantReducer;

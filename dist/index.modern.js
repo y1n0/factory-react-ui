@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, forwardRef, Children, cloneElement, Fragment as Fragment$1, useMemo, useRef } from 'react';
+import React, { createContext, useContext, useState, useEffect, useLayoutEffect, useRef, forwardRef, Children, cloneElement, Fragment as Fragment$1, useMemo } from 'react';
 import styled, { ThemeContext, ThemeProvider, StyleSheetManager, css, createGlobalStyle } from 'styled-components';
 import { get, space as space$1, margin, size, layout, compose, color, flexbox, border, typography, boxShadow, variant as variant$1, system, position, buttonStyle, width, height as height$1, display, background, shadow, padding } from 'styled-system';
 import shouldForwardProp, { props } from '@styled-system/should-forward-prop';
@@ -497,6 +497,74 @@ var IntersectionObserver = function IntersectionObserver(_ref) {
   }, /*#__PURE__*/React.createElement("div", {
     ref: intersectionRef
   }, children));
+};
+
+var useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+var isBrowser = typeof window !== "undefined";
+
+function getScrollPosition(_ref) {
+  var element = _ref.element,
+      useWindow = _ref.useWindow;
+  if (!isBrowser) return {
+    x: 0,
+    y: 0
+  };
+  var target = element ? element.current : document.body;
+  var position = target.getBoundingClientRect();
+  return useWindow ? {
+    x: window.scrollX,
+    y: window.scrollY
+  } : {
+    x: position.left,
+    y: position.top
+  };
+}
+
+function useScrollPosition(effect, deps, element, useWindow, wait) {
+  var position = useRef(getScrollPosition({
+    useWindow: useWindow
+  }));
+  var throttleTimeout = null;
+
+  var callBack = function callBack() {
+    var currPos = getScrollPosition({
+      element: element,
+      useWindow: useWindow
+    });
+    effect({
+      prevPos: position.current,
+      currPos: currPos
+    });
+    position.current = currPos;
+    throttleTimeout = null;
+  };
+
+  useIsomorphicLayoutEffect(function () {
+    if (!isBrowser) {
+      return;
+    }
+
+    var handleScroll = function handleScroll() {
+      if (wait) {
+        if (throttleTimeout === null) {
+          throttleTimeout = setTimeout(callBack, wait);
+        }
+      } else {
+        callBack();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return function () {
+      return window.removeEventListener('scroll', handleScroll);
+    };
+  }, deps);
+}
+useScrollPosition.defaultProps = {
+  deps: [],
+  element: false,
+  useWindow: false,
+  wait: null
 };
 
 var Box = styled('div', {
@@ -2069,6 +2137,13 @@ var iconSet = {
 	preferences: preferences
 };
 
+var VactoryIconContext = React.createContext(iconSet);
+var VactoryIconProvider = VactoryIconContext.Provider;
+var VactoryIconConsumer = VactoryIconContext.Consumer;
+var useVactoryIcon = function useVactoryIcon() {
+  return React.useContext(VactoryIconContext);
+};
+
 function _templateObject$3() {
   var data = _taggedTemplateLiteralLoose(["\n    display: inline-block;\n    stroke: currentcolor;\n    fill: currentcolor;\n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n  "]);
 
@@ -2078,12 +2153,24 @@ function _templateObject$3() {
 
   return data;
 }
-var Icon = styled(IcoMoon, {
+var mergeIcons = function mergeIcons(source, target) {
+  return _extends(_extends({}, source), {}, {
+    icons: source.icons.concat(target.icons)
+  });
+};
+var WrapperIcon = function WrapperIcon(_ref) {
+  var rest = _extends({}, _ref);
+
+  var icons = useVactoryIcon();
+  return /*#__PURE__*/React.createElement(IcoMoon, _extends({
+    iconSet: icons
+  }, rest));
+};
+var Icon = styled(WrapperIcon, {
   shouldForwardProp: shouldForwardProp
 }).attrs(function (props) {
   return {
     removeInlineStyle: true,
-    iconSet: iconSet,
     icon: props.name || props.icon
   };
 })(_templateObject$3(), color, size, space$1, base, sx);
@@ -4290,9 +4377,15 @@ function _templateObject$b() {
   return data;
 }
 var SliderWrapper = styled.div(_templateObject$b());
-var Slider = function Slider(props) {
-  return /*#__PURE__*/React.createElement(SliderWrapper, null, /*#__PURE__*/React.createElement(SlickSlider, props, props.children));
-};
+var Slider = React.forwardRef(function (_ref, ref) {
+  var children = _ref.children,
+      rest = _objectWithoutPropertiesLoose(_ref, ["children"]);
+
+  return /*#__PURE__*/React.createElement(SliderWrapper, null, /*#__PURE__*/React.createElement(Box, _extends({
+    ref: ref,
+    as: SlickSlider
+  }, rest), children));
+});
 
 var colors = {
   black: '#000',
@@ -5145,5 +5238,5 @@ var componentsTheme = {
 };
 var theme = _extends(_extends({}, baseTheme), componentsTheme);
 
-export { Accordion, AccordionPanel, Anchor, Box, Breadcrumb, BreadcrumbItem, Button, Checkbox, Col, ColorModeProvider, Container, DEFAULT_BREAKPOINTS, DirectionManager, Drop, Flex, Footer, GlobalStyle, Header, Heading, Icon, Image, Input, IntersectionContext, IntersectionObserver, Label, Layer, Link, MotionBox$1 as MotionBox, MotionFlex$1 as MotionFlex, Nav, Navs, Pagination, Paragraph, ParallaxBox, Radio, Row, Select, Slider, StyledChildren, TABINDEX, TABINDEX_STATE, Tab, Tabs, Text, VactoryThemeContext, base, findScrollParents, findVisibleParent, generateMedia, getBodyChildElements, getLayoutProps, getMarginProps, getNewContainer, getProps, getSizeProps, getSpaceProps, getSystemProps, getVariant, isNotAncestorOf, makeNodeFocusable, makeNodeUnfocusable, omitLayoutProps, omitMarginProps, omitProps, omitSizeProps, omitSpaceProps, parseMetricToNum, setFocusWithoutScroll, sx, theme, useColorMode, useVactoryTheme, variant, variantReducer };
+export { Accordion, AccordionPanel, Anchor, Box, Breadcrumb, BreadcrumbItem, Button, Checkbox, Col, ColorModeProvider, Container, DEFAULT_BREAKPOINTS, DirectionManager, Drop, Flex, Footer, GlobalStyle, Header, Heading, Icon, Image, Input, IntersectionContext, IntersectionObserver, Label, Layer, Link, MotionBox, MotionFlex, Nav, Navs, Pagination, Paragraph, ParallaxBox, Radio, Row, Select, Slider, StyledChildren, TABINDEX, TABINDEX_STATE, Tab, Tabs, Text, VactoryIconConsumer, VactoryIconContext, VactoryIconProvider, VactoryThemeContext, WrapperIcon, base, findScrollParents, findVisibleParent, generateMedia, getBodyChildElements, getLayoutProps, getMarginProps, getNewContainer, getProps, getSizeProps, getSpaceProps, getSystemProps, getVariant, iconSet, isNotAncestorOf, makeNodeFocusable, makeNodeUnfocusable, mergeIcons, omitLayoutProps, omitMarginProps, omitProps, omitSizeProps, omitSpaceProps, parseMetricToNum, setFocusWithoutScroll, sx, theme, useColorMode, useIsomorphicLayoutEffect, useScrollPosition, useVactoryIcon, useVactoryTheme, variant, variantReducer };
 //# sourceMappingURL=index.modern.js.map
