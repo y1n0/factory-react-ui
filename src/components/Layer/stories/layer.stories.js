@@ -15,7 +15,7 @@ export const Default = () => {
         <Box p="3rem" >
             <Button borderRadius="rounded" outline="primary" onClick={() => setShow(true)}>show</Button>
             {show && (
-                <Layer onClickOutside={() => setShow(false)} >
+                <Layer animation={'fadeIn'} onClickOutside={() => setShow(false)} >
                      <Box px="3rem" py="2rem" bg="white" borderRadius="medium" >
                          <Button onClick={() => setShow(false)} >close</Button>
                      </Box>
@@ -160,7 +160,7 @@ export const Modal = () => {
 
 
 export const Cookie = () => {
-    
+
     const [showCookie, setShowCookie] = React.useState();
     const [showModal, setShowModal] = React.useState();
 
@@ -168,7 +168,7 @@ export const Cookie = () => {
         const timer = setTimeout(() => {
 
             setShowCookie(true)
-          
+
         }, 300);
         return () => clearTimeout(timer);
       }, []);
@@ -213,7 +213,7 @@ export const Cookie = () => {
                                 borderRadius: 'small',
                                 maxWidth: '400px'
                         }}>
-                            
+
                             <Flex mb="medium"><Text level="1" fontSize="18px">Les cookies Google Analytics</Text></Flex>
                             <Flex>
                                 <Text>
