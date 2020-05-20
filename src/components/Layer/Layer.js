@@ -3,14 +3,11 @@ import { createPortal } from 'react-dom';
 
 import { LayerContainer } from './LayerContainer';
 import { getNewContainer } from '../../core';
+import { animationDuration } from './StyledLayer';
 
 const ContainerTargetContext = React.createContext(
     typeof document === 'object' ? document.body : undefined,
 );
-
-
-
-const animationDuration = 200;
 
 export const Layer = forwardRef((props, ref) => {
 
@@ -47,11 +44,13 @@ export const Layer = forwardRef((props, ref) => {
           // animate out and remove later
           const layerClone = layerContainer.cloneNode(true);
           layerClone.id = 'layerClone';
+
           containerTarget.appendChild(layerClone);
-          const clonedContainer = layerClone.querySelector(
-            '[class*="StyledLayer__StyledContainer"]',
+            const clonedContainer = layerClone.querySelector(
+            '[data-s="StyledContainer"]',
           );
-          if (clonedContainer && clonedContainer.style) {
+
+            if (clonedContainer && clonedContainer.style) {
             clonedContainer.style.animationDirection = 'reverse';
           }
           setTimeout(() => {
