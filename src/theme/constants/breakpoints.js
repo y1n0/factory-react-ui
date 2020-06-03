@@ -12,9 +12,9 @@ const breakpoints = [
     '1920px'
 ];
 
-breakpoints.md = '960px';
-breakpoints.sm = '500px'; 
 breakpoints.xs = '0px';
+breakpoints.sm = '500px'; 
+breakpoints.md = '960px';
 breakpoints.lg = '1280px'; 
 breakpoints.xl = '1920px';
 
