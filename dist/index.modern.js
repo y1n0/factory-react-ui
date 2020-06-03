@@ -6,13 +6,13 @@ import deepmerge from 'deepmerge';
 import stylisRTLPlugin from 'stylis-plugin-rtl';
 import css$1, { get as get$1 } from '@styled-system/css';
 import { useIntersection } from 'react-use';
-import { motion, useViewportScroll, useTransform } from 'framer-motion';
 import ReactDOM, { createPortal } from 'react-dom';
 import IcoMoon from 'react-icomoon';
 import Headroom from 'react-headroom';
 import RCPagination from 'rc-pagination';
 import frFR from 'rc-pagination/lib/locale/fr_FR';
 import { themeGet } from '@styled-system/theme-get';
+import { motion, useViewportScroll, useTransform } from 'framer-motion';
 import SlickSlider from 'react-slick';
 
 function _extends() {
@@ -567,6 +567,50 @@ useScrollPosition.defaultProps = {
   wait: null
 };
 
+var useMedia = function useMedia(mediaQuery) {
+  var _useState = useState(false),
+      doesMatch = _useState[0],
+      onSetDoesMatch = _useState[1];
+
+  var _ref = useContext(ThemeContext) || {},
+      breakpoints = _ref.breakpoints;
+
+  var breakpointsKeys = Object.keys(breakpoints).map(function (bp) {
+    return isNaN(bp) ? bp : +bp;
+  });
+  var _query = mediaQuery;
+
+  if (breakpointsKeys.includes(mediaQuery)) {
+    _query = "screen and (min-width: " + breakpoints[mediaQuery] + ")";
+  }
+
+  useEffect(function () {
+    var onUpdateMatch = function onUpdateMatch(_ref2) {
+      var matches = _ref2.matches;
+      onSetDoesMatch(matches);
+    };
+
+    var matcher = window.matchMedia(_query);
+    var isModern = ('addEventListener' in matcher);
+
+    if (isModern) {
+      matcher.addEventListener('change', onUpdateMatch);
+    } else {
+      matcher.addListener(onUpdateMatch);
+    }
+
+    onUpdateMatch(matcher);
+    return function () {
+      if (isModern) {
+        matcher.removeEventListener('change', onUpdateMatch);
+      } else {
+        matcher.removeListener(onUpdateMatch);
+      }
+    };
+  }, [_query, onSetDoesMatch]);
+  return doesMatch;
+};
+
 var Box = styled('div', {
   shouldForwardProp: shouldForwardProp
 })({
@@ -581,8 +625,6 @@ var Box = styled('div', {
 var Flex = styled(Box)({
   display: 'flex'
 });
-var MotionBox = motion.custom(Box);
-var MotionFlex = motion.custom(Flex);
 
 var activeAsArray = function activeAsArray(active) {
   return typeof active === 'number' ? [active] : active;
@@ -2635,10 +2677,10 @@ var DEFAULT_CONFIG = {
   gutterWidth: 16,
   outerMargin: 8,
   container: {
-    sm: '450px',
-    md: '900px',
-    lg: '1200px',
-    xl: '1900px'
+    sm: '540px',
+    md: '720px',
+    lg: '960px',
+    xl: '1140px'
   }
 };
 
@@ -2751,7 +2793,7 @@ function _templateObject3$1() {
 }
 
 function _templateObject2$1() {
-  var data = _taggedTemplateLiteralLoose(["\n                        width: ", ";\n                    "]);
+  var data = _taggedTemplateLiteralLoose(["\n                        max-width: ", ";\n                    "]);
 
   _templateObject2$1 = function _templateObject2() {
     return data;
@@ -4762,12 +4804,12 @@ var Layer = forwardRef(function (props, ref) {
 });
 Layer.displayName = 'Layer';
 
-var MotionBox$1 = motion.custom(Box);
-var MotionFlex$1 = motion.custom(Flex);
+var MotionBox = motion.custom(Box);
+var MotionFlex = motion.custom(Flex);
 
 var ParallaxBox = function ParallaxBox(_ref) {
   var _ref$as = _ref.as,
-      as = _ref$as === void 0 ? MotionBox$1 : _ref$as,
+      as = _ref$as === void 0 ? MotionBox : _ref$as,
       children = _ref.children,
       _ref$easing = _ref.easing,
       easing = _ref$easing === void 0 ? [0.42, 0, 0.58, 1] : _ref$easing,
@@ -4914,12 +4956,23 @@ var colors = {
   }
 };
 
-var breakpoints = ['500px', '960px', '1280px', '1920px'];
-breakpoints.md = '960px';
-breakpoints.sm = '500px';
+var breakpoints = ['576px', '768px', '992px', '1200px'];
 breakpoints.xs = '0px';
-breakpoints.lg = '1280px';
-breakpoints.xl = '1920px';
+breakpoints.sm = '576px';
+breakpoints.md = '768px';
+breakpoints.lg = '992px';
+breakpoints.xl = '1200px';
+var gridSystem = {
+  gridSize: 12,
+  gutterWidth: 16,
+  outerMargin: 8,
+  container: {
+    sm: '540px',
+    md: '720px',
+    lg: '960px',
+    xl: '1140px'
+  }
+};
 
 var space = {
   none: '0px',
@@ -5666,7 +5719,8 @@ var baseTheme = {
   borders: borders,
   radii: radii,
   borderWidths: borderWidths,
-  borderStyles: borderStyles
+  borderStyles: borderStyles,
+  gridSystem: gridSystem
 };
 var componentsTheme = {
   buttons: buttons,
@@ -5684,5 +5738,5 @@ var componentsTheme = {
 };
 var theme = _extends(_extends({}, baseTheme), componentsTheme);
 
-export { Accordion, AccordionPanel, Anchor, Box, Breadcrumb, BreadcrumbItem, Button, Checkbox, Col, ColorModeProvider, Container, DEFAULT_BREAKPOINTS, DirectionManager, Drop, Flex, Footer, GlobalStyle, Header, Heading, Icon, Image, Input, IntersectionContext, IntersectionObserver, Label, Layer, Link, MotionBox, MotionFlex, Nav, Navs, Pagination, Paragraph, ParallaxBox, Radio, Row, Select, Slider, StyledChildren, TABINDEX, TABINDEX_STATE, Tab, Tabs, Text, VactoryIconConsumer, VactoryIconContext, VactoryIconProvider, VactoryThemeContext, WrapperIcon, base, findScrollParents, findVisibleParent, generateMedia, getBodyChildElements, getLayoutProps, getMarginProps, getNewContainer, getProps, getSizeProps, getSpaceProps, getSystemProps, getVariant, iconSet, isNotAncestorOf, makeNodeFocusable, makeNodeUnfocusable, mergeIcons, omitLayoutProps, omitMarginProps, omitProps, omitSizeProps, omitSpaceProps, parseMetricToNum, setFocusWithoutScroll, sx, theme, useColorMode, useIsomorphicLayoutEffect, useScrollPosition, useVactoryIcon, useVactoryTheme, variant, variantReducer };
+export { Accordion, AccordionPanel, Anchor, Box, Breadcrumb, BreadcrumbItem, Button, Checkbox, Col, ColorModeProvider, Container, DEFAULT_BREAKPOINTS, DirectionManager, Drop, Flex, Footer, GlobalStyle, Header, Heading, Icon, Image, Input, IntersectionContext, IntersectionObserver, Label, Layer, Link, MotionBox, MotionFlex, Nav, Navs, Pagination, Paragraph, ParallaxBox, Radio, Row, Select, Slider, StyledChildren, TABINDEX, TABINDEX_STATE, Tab, Tabs, Text, VactoryIconConsumer, VactoryIconContext, VactoryIconProvider, VactoryThemeContext, WrapperIcon, base, findScrollParents, findVisibleParent, generateMedia, getBodyChildElements, getLayoutProps, getMarginProps, getNewContainer, getProps, getSizeProps, getSpaceProps, getSystemProps, getVariant, iconSet, isNotAncestorOf, makeNodeFocusable, makeNodeUnfocusable, mergeIcons, omitLayoutProps, omitMarginProps, omitProps, omitSizeProps, omitSpaceProps, parseMetricToNum, setFocusWithoutScroll, sx, theme, useColorMode, useIsomorphicLayoutEffect, useMedia, useScrollPosition, useVactoryIcon, useVactoryTheme, variant, variantReducer };
 //# sourceMappingURL=index.modern.js.map

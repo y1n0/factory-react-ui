@@ -12,7 +12,6 @@ var stylisRTLPlugin = _interopDefault(require('stylis-plugin-rtl'));
 var css = require('@styled-system/css');
 var css__default = _interopDefault(css);
 var reactUse = require('react-use');
-var framerMotion = require('framer-motion');
 var ReactDOM = require('react-dom');
 var ReactDOM__default = _interopDefault(ReactDOM);
 var IcoMoon = _interopDefault(require('react-icomoon'));
@@ -20,6 +19,7 @@ var Headroom = _interopDefault(require('react-headroom'));
 var RCPagination = _interopDefault(require('rc-pagination'));
 var frFR = _interopDefault(require('rc-pagination/lib/locale/fr_FR'));
 var themeGet = require('@styled-system/theme-get');
+var framerMotion = require('framer-motion');
 var SlickSlider = _interopDefault(require('react-slick'));
 
 function _extends() {
@@ -574,6 +574,50 @@ useScrollPosition.defaultProps = {
   wait: null
 };
 
+var useMedia = function useMedia(mediaQuery) {
+  var _useState = React.useState(false),
+      doesMatch = _useState[0],
+      onSetDoesMatch = _useState[1];
+
+  var _ref = React.useContext(styled.ThemeContext) || {},
+      breakpoints = _ref.breakpoints;
+
+  var breakpointsKeys = Object.keys(breakpoints).map(function (bp) {
+    return isNaN(bp) ? bp : +bp;
+  });
+  var _query = mediaQuery;
+
+  if (breakpointsKeys.includes(mediaQuery)) {
+    _query = "screen and (min-width: " + breakpoints[mediaQuery] + ")";
+  }
+
+  React.useEffect(function () {
+    var onUpdateMatch = function onUpdateMatch(_ref2) {
+      var matches = _ref2.matches;
+      onSetDoesMatch(matches);
+    };
+
+    var matcher = window.matchMedia(_query);
+    var isModern = ('addEventListener' in matcher);
+
+    if (isModern) {
+      matcher.addEventListener('change', onUpdateMatch);
+    } else {
+      matcher.addListener(onUpdateMatch);
+    }
+
+    onUpdateMatch(matcher);
+    return function () {
+      if (isModern) {
+        matcher.removeEventListener('change', onUpdateMatch);
+      } else {
+        matcher.removeListener(onUpdateMatch);
+      }
+    };
+  }, [_query, onSetDoesMatch]);
+  return doesMatch;
+};
+
 var Box = styled__default('div', {
   shouldForwardProp: shouldForwardProp__default
 })({
@@ -588,8 +632,6 @@ var Box = styled__default('div', {
 var Flex = styled__default(Box)({
   display: 'flex'
 });
-var MotionBox = framerMotion.motion.custom(Box);
-var MotionFlex = framerMotion.motion.custom(Flex);
 
 var activeAsArray = function activeAsArray(active) {
   return typeof active === 'number' ? [active] : active;
@@ -2642,10 +2684,10 @@ var DEFAULT_CONFIG = {
   gutterWidth: 16,
   outerMargin: 8,
   container: {
-    sm: '450px',
-    md: '900px',
-    lg: '1200px',
-    xl: '1900px'
+    sm: '540px',
+    md: '720px',
+    lg: '960px',
+    xl: '1140px'
   }
 };
 
@@ -2758,7 +2800,7 @@ function _templateObject3$1() {
 }
 
 function _templateObject2$1() {
-  var data = _taggedTemplateLiteralLoose(["\n                        width: ", ";\n                    "]);
+  var data = _taggedTemplateLiteralLoose(["\n                        max-width: ", ";\n                    "]);
 
   _templateObject2$1 = function _templateObject2() {
     return data;
@@ -4769,12 +4811,12 @@ var Layer = React.forwardRef(function (props, ref) {
 });
 Layer.displayName = 'Layer';
 
-var MotionBox$1 = framerMotion.motion.custom(Box);
-var MotionFlex$1 = framerMotion.motion.custom(Flex);
+var MotionBox = framerMotion.motion.custom(Box);
+var MotionFlex = framerMotion.motion.custom(Flex);
 
 var ParallaxBox = function ParallaxBox(_ref) {
   var _ref$as = _ref.as,
-      as = _ref$as === void 0 ? MotionBox$1 : _ref$as,
+      as = _ref$as === void 0 ? MotionBox : _ref$as,
       children = _ref.children,
       _ref$easing = _ref.easing,
       easing = _ref$easing === void 0 ? [0.42, 0, 0.58, 1] : _ref$easing,
@@ -4921,12 +4963,23 @@ var colors = {
   }
 };
 
-var breakpoints = ['500px', '960px', '1280px', '1920px'];
-breakpoints.md = '960px';
-breakpoints.sm = '500px';
+var breakpoints = ['576px', '768px', '992px', '1200px'];
 breakpoints.xs = '0px';
-breakpoints.lg = '1280px';
-breakpoints.xl = '1920px';
+breakpoints.sm = '576px';
+breakpoints.md = '768px';
+breakpoints.lg = '992px';
+breakpoints.xl = '1200px';
+var gridSystem = {
+  gridSize: 12,
+  gutterWidth: 16,
+  outerMargin: 8,
+  container: {
+    sm: '540px',
+    md: '720px',
+    lg: '960px',
+    xl: '1140px'
+  }
+};
 
 var space = {
   none: '0px',
@@ -5673,7 +5726,8 @@ var baseTheme = {
   borders: borders,
   radii: radii,
   borderWidths: borderWidths,
-  borderStyles: borderStyles
+  borderStyles: borderStyles,
+  gridSystem: gridSystem
 };
 var componentsTheme = {
   buttons: buttons,
@@ -5769,6 +5823,7 @@ exports.sx = sx;
 exports.theme = theme;
 exports.useColorMode = useColorMode;
 exports.useIsomorphicLayoutEffect = useIsomorphicLayoutEffect;
+exports.useMedia = useMedia;
 exports.useScrollPosition = useScrollPosition;
 exports.useVactoryIcon = useVactoryIcon;
 exports.useVactoryTheme = useVactoryTheme;
