@@ -3,9 +3,9 @@ export const DEFAULT_CONFIG = {
   gutterWidth: 16,
   outerMargin: 8,
   container: {
-    sm: '450px', 
-    md: '900px', 
-    lg: '1200px',  
-    xl: '1900px',
+    sm: '540px', 
+    md: '720px', 
+    lg: '960px',  
+    xl: '1140px',
   }
 };

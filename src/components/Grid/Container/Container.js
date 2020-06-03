@@ -10,7 +10,7 @@ const generateMediaforContainer = props => {
             ${breakpointsName.map(breakpoint => {
                 if(getContainer(props)(breakpoint)) {
                     return generateMedia(props.theme.breakpoints).greaterThan(breakpoint)`
-                        width: ${(props) => getContainer(props)(breakpoint)};
+                        max-width: ${(props) => getContainer(props)(breakpoint)};
                     `
                 } else {
                     return null;

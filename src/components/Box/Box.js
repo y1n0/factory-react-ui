@@ -10,8 +10,6 @@ import {
   typography } from 'styled-system';
 import shouldForwardProp from '@styled-system/should-forward-prop';
 import { variant, base, sx } from '../../core';
-import { motion } from 'framer-motion';
-
 
 export const Box = styled('div', {shouldForwardProp})(
   {
@@ -37,10 +35,7 @@ export const Box = styled('div', {shouldForwardProp})(
 
 export const Flex = styled(Box)({
   display: 'flex'
-})
+});
 
-
-export const MotionBox = motion.custom(Box);
-export const MotionFlex= motion.custom(Flex);
 export default Box;
 
