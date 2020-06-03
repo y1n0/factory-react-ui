@@ -19,3 +19,15 @@ breakpoints.lg = '1280px';
 breakpoints.xl = '1920px';
 
 export default breakpoints;
+
+export const gridSystem =  {
+    gridSize: 12,
+    gutterWidth: 16,
+    outerMargin: 8,
+    container: {
+        sm: '450px', 
+        md: '900px', 
+        lg: '1200px',  
+        xl: '1900px',
+    }
+}
