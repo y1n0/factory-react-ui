@@ -16,7 +16,7 @@ const Panel = (props) => {
 export const EqualWidth = () => {
 
     return (
-        <Container fluid={boolean('fluid', true, 'props')}>
+        <Container fluid={false}>
             <Row>
                 <Col><Panel>1</Panel></Col>
             </Row>
