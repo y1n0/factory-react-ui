@@ -13,7 +13,11 @@ export const Default = () => {
         <Box p="3rem" >
             <Button borderRadius="rounded" outline="primary" onClick={() => setShow(true)}>show</Button>
                 { query && <Box>Searching for: {query}</Box>}
-            <SearchOverlay onSubmit={q => {setQuery(q);  setShow(false)} } onClose={() => setShow(false) } open={show}>Search Overlay</SearchOverlay>
+
+            <SearchOverlay onSubmit={q => {setQuery(q);  setShow(false)} }
+                          onClose={() => setShow(false) }
+                          open={show} />
+
         </Box>);
 }
 export default {

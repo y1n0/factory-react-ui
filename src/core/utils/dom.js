@@ -1,10 +1,25 @@
 
 
+
+
+export const findVisibleParentByClassName = (element, className) => {
+
+  if(element) {
+    const offsetParent = element.parentNode ;
+    if( offsetParent &&  offsetParent.classList &&  offsetParent.classList.contains(className)) {
+      return offsetParent;
+    } else {
+      return findVisibleParentByClassName(offsetParent, className);
+    }
+  }
+
+  return undefined;
+} 
+
+
 export const findVisibleParent = element => {
     if (element) {
-      return element.offsetParent
-        ? element
-        : findVisibleParent(element.parentElement) || element;
+      return element.offsetParent ? element : findVisibleParent(element.parentElement) || element;
     }
     return undefined;
   };

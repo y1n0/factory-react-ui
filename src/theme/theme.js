@@ -54,6 +54,19 @@ const componentsTheme = {
     accordion,
     breadcrumb,
     navs,
+
+    search: {
+
+        overlay: {
+            // css
+        },
+
+        input: {
+            
+        }
+
+
+    }
 }
 
 

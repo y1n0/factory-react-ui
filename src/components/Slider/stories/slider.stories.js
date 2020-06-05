@@ -1,9 +1,11 @@
 import React from 'react';
 import { Box, Flex } from '../../Box';
-import { Slider } from '../Slider';
+import { Slider, Slide } from '../Slider';
 import { Icon } from '../../Icon';
 import { useInterval } from 'react-use';
-import {Tab, Tabs} from '../../Tabs'; 
+import { Tab, Tabs } from '../../Tabs';
+import { Container } from '../../Grid';
+import { RevealBox } from '../../Animation';
 
 const SampleNextArrow = props => {
   const { className, onClick } = props;
@@ -53,7 +55,7 @@ const SamplePrevArrow = props => {
   );
 }
 
-const Slide = ({ children, ...rest }) => <Box sx={{
+const Slide1 = ({ children, ...rest }) => <Box sx={{
   backgroundColor: 'gray100',
   height: '100px',
   display: 'flex !important',
@@ -68,6 +70,7 @@ export const Simple = () => {
   var settings = {
     dots: false,
     infinite: true,
+    autoplay: true,
     speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -78,15 +81,15 @@ export const Simple = () => {
   return (
     <Box mx="50px">
       <Slider {...settings}>
-        <Slide>
+        <Slide1>
           <span>1</span>
-        </Slide>
-        <Slide>
+        </Slide1>
+        <Slide1>
           <span>2</span>
-        </Slide>
-        <Slide>
+        </Slide1>
+        <Slide1>
           <span>3</span>
-        </Slide>
+        </Slide1>
       </Slider>
     </Box>
   );
@@ -115,7 +118,7 @@ export const SlideWithTabs = () => {
 
   const goToSlide = index => {
     sliderRef.current.slickGoTo(index);
-    
+
   }
   useInterval(() => {
     goToSlide(activeSlide + 1);
@@ -131,9 +134,9 @@ export const SlideWithTabs = () => {
   };
 
   return (
-    <Box  sx={{position: 'relative'}}>
+    <Box sx={{ position: 'relative' }}>
 
-      <Slider ref={sliderRef} {...settings} beforeChange={(oldIndex, newIndex) =>setActiveSlide(newIndex) }>
+      <Slider ref={sliderRef} {...settings} beforeChange={(oldIndex, newIndex) => setActiveSlide(newIndex)}>
         <Slide2>
           <span>0</span>
         </Slide2>
@@ -145,15 +148,89 @@ export const SlideWithTabs = () => {
         </Slide2>
       </Slider>
 
-      <Box sx={{position: 'absolute', right:'10%', top: '40%', maxWidth:'534px'}}>
-         <Tabs onTabClick={index => goToSlide(index)} activeTab={activeSlide}>
-                <Tab bg={activeSlide === 0 ? "primary400" : "white"} title="slide 0"><Box bg="white" p="large" borderTop="1px solid" borderColor="gray500">Content tab 0</Box></Tab>
-                <Tab bg={activeSlide === 1 ? "primary400" : "white"} title="slide 1"><Box bg="white" p="large" borderTop="1px solid" borderColor="gray500">Content tab 1</Box></Tab>
-                <Tab bg={activeSlide === 2 ? "primary400" : "white"} title="slide 2"><Box bg="white" p="large" borderTop="1px solid" borderColor="gray500">Content tab 2</Box></Tab>
-            </Tabs>
+      <Box sx={{ position: 'absolute', right: '10%', top: '40%', maxWidth: '534px' }}>
+        <Tabs onTabClick={index => goToSlide(index)} activeTab={activeSlide}>
+          <Tab bg={activeSlide === 0 ? "primary400" : "white"} title="slide 0"><Box bg="white" p="large" borderTop="1px solid" borderColor="gray500">Content tab 0</Box></Tab>
+          <Tab bg={activeSlide === 1 ? "primary400" : "white"} title="slide 1"><Box bg="white" p="large" borderTop="1px solid" borderColor="gray500">Content tab 1</Box></Tab>
+          <Tab bg={activeSlide === 2 ? "primary400" : "white"} title="slide 2"><Box bg="white" p="large" borderTop="1px solid" borderColor="gray500">Content tab 2</Box></Tab>
+        </Tabs>
       </Box>
     </Box>
   );
+}
+
+
+
+
+const SlideContent = props => <Flex sx={{
+  alignItems: 'center',
+  justofyContent: 'center',
+  width: '100%',
+  height: '100%',
+}}>
+  <Container>
+    <RevealBox>
+      <Box sx={{ textAlign: 'center' }}>
+        <Box as="span"
+          sx={{
+            color: 'white',
+            display: ['none', null, 'inline-block'],
+            position: 'relative',
+            textTransform: 'uppercase',
+            fontSize: '1.125rem',
+            lineHeight: '1.5rem',
+            marginBottom: '.3125rem',
+
+          }}>Offre du moment</Box>
+        <Box as="h2"
+          sx={{
+            color: 'white',
+            fontSize: ['1.25rem', null, '2.5rem'],
+            lineHeight: ['1.5rem', null, '2.375rem'],
+            marginBottom: ['1.5625rem', null, '.4375rem'],
+            fontWeight: 800,
+          }}>Restez chez vous, nous venons vers vous !</Box>
+        <Box as="p" sx={{
+          color: "white",
+          width: ['100%'],
+          fontSize: ['16px', null, '1.25rem'],
+          lineHeight: [null, null, '1.4375rem']
+        }}>
+          Car votre santé est notre priorité.
+      </Box>
+      </Box>
+    </RevealBox>
+  </Container>
+</Flex>
+
+
+
+export const RichSlider = () => {
+
+
+  const [activeSlide, setActiveSlide] = React.useState(0);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: true
+  }
+
+  return <Box>
+
+    <Slider {...settings} afterChange={index => setActiveSlide(index)}>
+      <Slide isActive='' image="https://images.unsplash.com/photo-1588613254750-cf5d89a29b66?ixlib=rb-1.2.1&auto=format&fit=crop&w=1357&q=80"
+        content={<SlideContent />}
+      />
+      <Slide image="https://images.unsplash.com/photo-1588776844919-5ed4449a8fd7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3200&q=80"
+        content={<SlideContent />}
+      />
+    </Slider>
+
+  </Box>
 }
 
 
