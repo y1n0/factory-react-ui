@@ -188,15 +188,15 @@ const SlideContent = props => <Flex sx={{
         <Box as="h2"
           sx={{
             color: 'white',
-            fontSize: ['1.25rem', null, '2.5rem'],
-            lineHeight: ['1.5rem', null, '2.375rem'],
+            fontSize: ['2rem', null, '2.5rem'],
+            lineHeight: ['2.25rem', null, '2.375rem'],
             marginBottom: ['1.5625rem', null, '.4375rem'],
             fontWeight: 800,
           }}>Restez chez vous, nous venons vers vous !</Box>
         <Box as="p" sx={{
           color: "white",
           width: ['100%'],
-          fontSize: ['16px', null, '1.25rem'],
+          fontSize: ['1.2rem', null, '1.25rem'],
           lineHeight: [null, null, '1.4375rem']
         }}>
           Car votre santé est notre priorité.
@@ -224,8 +224,9 @@ export const RichSlider = () => {
       {
         breakpoint: theme.breakpoints.md,
         settings: {
-          centerPadding: '80px',
+          centerPadding: '40px',
           centerMode: true,
+          arrows: false,
         },
 
       }
