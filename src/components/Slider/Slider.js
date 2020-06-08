@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import SlickSlider from 'react-slick';
 import { Box } from '../Box';
 
+import { Icon } from '../Icon';
 
 const SliderWrapper = styled.div`
 .slick-list,
@@ -92,6 +93,34 @@ const SliderWrapper = styled.div`
 `;
 
 
+export const Arrow = ({children, ...rest}) => <Box  as='button'
+                                        __css={{
+                                            fontSize: 0,
+                                            lineHeight: 0,
+                                            position: 'absolute',
+                                            top: '50%',
+                                            display: 'block',
+                                            padding: 0,
+                                            transform:' translate(0,-50%)',
+                                            cursor: 'pointer',
+                                            color: '#fff',
+                                            border: '0 solid transparent',
+                                            width: '64px',
+                                            height: '64px',
+                                            outline: 0,
+                                            background: 'transparent',
+                                            zIndex: 1,
+                                        }}
+                                        {...rest}>
+                                            {children}
+                                        </Box>
+
+export const PrevArrow = props => <Arrow sx={{left: ['calc((100% - 960px)/2 + 10px)',null,'calc((100% - 760px)/2 + 10px)','calc((100% - 960px)/2 + 10px)','calc((100% - 1140px)/2 + 10px)']}}  {...props}  >
+  <Icon name="chevron-left" size="xxlarge" />
+</Arrow>
+export const NextArrow = props => <Arrow sx={{right: ['calc((100% - 960px)/2 + 10px)',null,'calc((100% - 760px)/2 + 10px)','calc((100% - 960px)/2 + 10px)','calc((100% - 1140px)/2 + 10px)']}}  {...props}  >
+<Icon name="chevron-right" size="xxlarge" />
+</Arrow>
 
 export const Slider = React.forwardRef(({children, ...rest}, ref) => {
     return (<SliderWrapper>
