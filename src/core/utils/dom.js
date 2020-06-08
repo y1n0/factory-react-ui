@@ -2,14 +2,14 @@
 
 
 
-export const findVisibleParentByClassName = (element, className) => {
+export const findParentByMatchedQuery = (element, className) => {
 
   if(element) {
     const offsetParent = element.parentNode ;
-    if( offsetParent &&  offsetParent.classList &&  offsetParent.classList.contains(className)) {
+    if( offsetParent &&  offsetParent.classList && offsetParent.classList.contains(className) ) {
       return offsetParent;
     } else {
-      return findVisibleParentByClassName(offsetParent, className);
+      return findParentByMatchedQuery(offsetParent, className);
     }
   }
 

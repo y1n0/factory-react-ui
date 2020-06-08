@@ -1,8 +1,7 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import SlickSlider from 'react-slick';
 import { Box } from '../Box';
-import { findVisibleParent, findVisibleParentByClassName } from '../../core';
 
 
 const SliderWrapper = styled.div`
@@ -94,79 +93,18 @@ const SliderWrapper = styled.div`
 
 
 
-const SlideSubtitle = ({subtitle}) => {
-    if(typeof subtitle === 'string') {
-        return <Box>{subtitle}</Box>
-    }
-    else {
-        return subtitle;
-    }
-}
-
-const SlideIamge =  ({imageSrc, ...rest}) => {
-
-    return <Box
-        __css={{
-            height: '100%',
-            width: '100%',
-            objectFit: 'cover'
-        }}
-        as="img"
-        src={imageSrc} 
-        {...rest} />
-}
-
-
-
 export const Slider = React.forwardRef(({children, ...rest}, ref) => {
     return (<SliderWrapper>
-        <Box ref={ref} as={SlickSlider} {...rest}>
+        <Box    ref={ref}
+                as={SlickSlider}
+                __css={{
+                    '& .slick-slide': {
+                            px: ['8px', null, '0px']
+                        }
+                    }}
+                {...rest}>
             {children}
         </Box>
     </SliderWrapper>)
 });
 
-export const Slide = ({ children, subtitle = null, content= null, image = null, video, ...rest }) =>{
-    
-    const ref = useRef(null);
-
-    useEffect(() => {
-        console.log("---------------------");
-        console.log('parent: ',findVisibleParentByClassName(ref.current, 'slick-slide'));
-        console.log("---------------------");
-    })
-
-    // findVisibleParent()
-    
-    return <Box ref={ref} __css={{
-    minHeight: '1px',
-    height: '500px',
-    width: '100%',
-    display: 'flex !important',
-    position: 'relative',
-    '&:before': {
-        content: '""',
-        display: 'block',
-        position: 'absolute',
-        top:0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(0,0,0,.35)',
-    }
-  }} {...rest}>
-
-      {subtitle && <SlideSubtitle subtitle={subtitle} />}
-      {image && <SlideIamge imageSrc={image} />}
-      {content &&  <Box sx={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          top: 0,
-          left: 0,
-      }}>
-        {content}
-      </Box> }
-     
-      
-  </Box>}

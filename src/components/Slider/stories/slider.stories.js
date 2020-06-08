@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, Flex } from '../../Box';
-import { Slider, Slide } from '../Slider';
 import { Icon } from '../../Icon';
 import { useInterval } from 'react-use';
 import { Tab, Tabs } from '../../Tabs';
 import { Container } from '../../Grid';
-import { RevealBox } from '../../Animation';
+import { MotionBox } from '../../Animation';
+import { Slider } from '../Slider';
+import { Slide } from '../Slide';
+import {theme} from '../../../theme'
+
 
 const SampleNextArrow = props => {
   const { className, onClick } = props;
@@ -169,7 +172,7 @@ const SlideContent = props => <Flex sx={{
   height: '100%',
 }}>
   <Container>
-    <RevealBox>
+    <MotionBox animate={props.isActive ? 'show' : 'hide'} initial='hide' transition={{ ease: "easeOut", duration: .5 }} variants={{show:{opacity:1, y:0}, hide:{opacity:0, y:100}}}>
       <Box sx={{ textAlign: 'center' }}>
         <Box as="span"
           sx={{
@@ -199,16 +202,14 @@ const SlideContent = props => <Flex sx={{
           Car votre santé est notre priorité.
       </Box>
       </Box>
-    </RevealBox>
+    </MotionBox>
   </Container>
 </Flex>
 
 
-
 export const RichSlider = () => {
 
-
-  const [activeSlide, setActiveSlide] = React.useState(0);
+   const [activeSlide, setActiveSlide] = React.useState(0);
 
   const settings = {
     dots: true,
@@ -216,17 +217,29 @@ export const RichSlider = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: true
+    arrows: true,
+    centerPadding: '0px',
+    centerMode: false,
+    responsive: [
+      {
+        breakpoint: theme.breakpoints.md,
+        settings: {
+          centerPadding: '80px',
+          centerMode: true,
+        },
+
+      }
+    ]
+
   }
 
   return <Box>
-
     <Slider {...settings} afterChange={index => setActiveSlide(index)}>
-      <Slide isActive='' image="https://images.unsplash.com/photo-1588613254750-cf5d89a29b66?ixlib=rb-1.2.1&auto=format&fit=crop&w=1357&q=80"
-        content={<SlideContent />}
+      <Slide image="https://images.unsplash.com/photo-1588613254750-cf5d89a29b66?ixlib=rb-1.2.1&auto=format&fit=crop&w=1357&q=80"
+              content={<SlideContent isActive={activeSlide === 0} />}
       />
       <Slide image="https://images.unsplash.com/photo-1588776844919-5ed4449a8fd7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3200&q=80"
-        content={<SlideContent />}
+              content={<SlideContent isActive={activeSlide === 1}/>}
       />
     </Slider>
 
