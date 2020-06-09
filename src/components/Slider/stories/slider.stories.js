@@ -135,16 +135,17 @@ export const RichSlider = () => {
   }
 
   return <Box>
-    <Slider sx={{
-      marginTop: '30px'
-    }}  {...settings} afterChange={index => setActiveSlide(index)}>
-      <Slide  image="https://images.unsplash.com/photo-1588613254750-cf5d89a29b66?ixlib=rb-1.2.1&auto=format&fit=crop&w=1357&q=80"
-              content={<SlideContent isActive={activeSlide === 0}
-              />}
-      />
-      <Slide  image="https://images.unsplash.com/photo-1588776844919-5ed4449a8fd7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3200&q=80"
-              content={<SlideContent isActive={activeSlide === 1}/>}
-      />
+    <Slider {...settings} afterChange={index => setActiveSlide(index)}>
+      <Slide  isActive={activeSlide === 0}
+              videoId="hwXhgwBbUO8"/>
+
+      <Slide  isActive={activeSlide === 1}
+              bgImage="https://images.unsplash.com/photo-1588613254750-cf5d89a29b66?ixlib=rb-1.2.1&auto=format&fit=crop&w=1357&q=80"
+              content={<SlideContent isActive={activeSlide === 1}/>} />
+
+      <Slide  isActive={activeSlide === 2}
+              bgImage="https://images.unsplash.com/photo-1588776844919-5ed4449a8fd7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3200&q=80"
+              content={<SlideContent isActive={activeSlide === 2}/>} />
     </Slider>
 
   </Box>
