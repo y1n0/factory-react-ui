@@ -5,7 +5,7 @@ import { useInterval } from 'react-use';
 import { Tab, Tabs } from '../../Tabs';
 import { Container } from '../../Grid';
 import { MotionBox } from '../../Animation';
-import { Slider, PrevArrow, NextArrow } from '../Slider';
+import { Slider, PrevArrow, NextArrow, appendDots } from '../Slider';
 import { Slide } from '../Slide';
 import {theme} from '../../../theme'
 
@@ -107,7 +107,7 @@ export const RichSlider = () => {
    const [activeSlide, setActiveSlide] = React.useState(0);
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -125,17 +125,22 @@ export const RichSlider = () => {
           centerPadding: '40px',
           centerMode: true,
           arrows: false,
+          dots: true,
+          dotsClass: 'slick-dots',
+          appendDots: appendDots
         },
 
       }
     ]
-
   }
 
   return <Box>
-    <Slider {...settings} afterChange={index => setActiveSlide(index)}>
+    <Slider sx={{
+      marginTop: '30px'
+    }}  {...settings} afterChange={index => setActiveSlide(index)}>
       <Slide  image="https://images.unsplash.com/photo-1588613254750-cf5d89a29b66?ixlib=rb-1.2.1&auto=format&fit=crop&w=1357&q=80"
-              content={<SlideContent isActive={activeSlide === 0} />}
+              content={<SlideContent isActive={activeSlide === 0}
+              />}
       />
       <Slide  image="https://images.unsplash.com/photo-1588776844919-5ed4449a8fd7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=3200&q=80"
               content={<SlideContent isActive={activeSlide === 1}/>}

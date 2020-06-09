@@ -31,6 +31,7 @@ export const Paragraph = ({
 export const Heading = ({
     children,
     level = '1',
+    variant="heading.default",
     ...rest
 }) => {
 
@@ -41,6 +42,7 @@ export const Heading = ({
                 lineHeight: `heading${level}`,
                 mb: "small",
             }}
+            variant={variant}
             {...rest}
             as={`h${level}`}>{children}</Text>
     );
