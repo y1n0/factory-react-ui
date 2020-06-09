@@ -6,7 +6,7 @@ import { SearchOverlay } from '../Search';
 
 export const Default = () => {
 
-    const [show, setShow] = React.useState(false);
+    const [show, setShow] = React.useState(true);
     const [query, setQuery] = React.useState(null);
 
     return (
@@ -16,7 +16,7 @@ export const Default = () => {
 
             <SearchOverlay onSubmit={q => {setQuery(q);  setShow(false)} }
                           onClose={() => setShow(false) }
-                          open={show} />
+                          open={show}/>
 
         </Box>);
 }
