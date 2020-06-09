@@ -12,7 +12,6 @@ var stylisRTLPlugin = _interopDefault(require('stylis-plugin-rtl'));
 var css = require('@styled-system/css');
 var css__default = _interopDefault(css);
 var reactUse = require('react-use');
-var framerMotion = require('framer-motion');
 var ReactDOM = require('react-dom');
 var ReactDOM__default = _interopDefault(ReactDOM);
 var IcoMoon = _interopDefault(require('react-icomoon'));
@@ -20,7 +19,9 @@ var Headroom = _interopDefault(require('react-headroom'));
 var RCPagination = _interopDefault(require('rc-pagination'));
 var frFR = _interopDefault(require('rc-pagination/lib/locale/fr_FR'));
 var themeGet = require('@styled-system/theme-get');
+var framerMotion = require('framer-motion');
 var SlickSlider = _interopDefault(require('react-slick'));
+var ReactPlayer = _interopDefault(require('react-player/youtube'));
 
 function _extends() {
   _extends = Object.assign || function (target) {
@@ -354,6 +355,19 @@ var getVariant = function getVariant(variant) {
   return variant.reduce(variantReducer);
 };
 
+var findParentByMatchedQuery = function findParentByMatchedQuery(element, className) {
+  if (element) {
+    var offsetParent = element.parentNode;
+
+    if (offsetParent && offsetParent.classList && offsetParent.classList.contains(className)) {
+      return offsetParent;
+    } else {
+      return findParentByMatchedQuery(offsetParent, className);
+    }
+  }
+
+  return undefined;
+};
 var findVisibleParent = function findVisibleParent(element) {
   if (element) {
     return element.offsetParent ? element : findVisibleParent(element.parentElement) || element;
@@ -506,6 +520,118 @@ var IntersectionObserver = function IntersectionObserver(_ref) {
   }, children));
 };
 
+var useIsomorphicLayoutEffect = typeof window !== 'undefined' ? React.useLayoutEffect : React.useEffect;
+var isBrowser = typeof window !== "undefined";
+
+function getScrollPosition(_ref) {
+  var element = _ref.element,
+      useWindow = _ref.useWindow;
+  if (!isBrowser) return {
+    x: 0,
+    y: 0
+  };
+  var target = element ? element.current : document.body;
+  var position = target.getBoundingClientRect();
+  return useWindow ? {
+    x: window.scrollX,
+    y: window.scrollY
+  } : {
+    x: position.left,
+    y: position.top
+  };
+}
+
+function useScrollPosition(effect, deps, element, useWindow, wait) {
+  var position = React.useRef(getScrollPosition({
+    useWindow: useWindow
+  }));
+  var throttleTimeout = null;
+
+  var callBack = function callBack() {
+    var currPos = getScrollPosition({
+      element: element,
+      useWindow: useWindow
+    });
+    effect({
+      prevPos: position.current,
+      currPos: currPos
+    });
+    position.current = currPos;
+    throttleTimeout = null;
+  };
+
+  useIsomorphicLayoutEffect(function () {
+    if (!isBrowser) {
+      return;
+    }
+
+    var handleScroll = function handleScroll() {
+      if (wait) {
+        if (throttleTimeout === null) {
+          throttleTimeout = setTimeout(callBack, wait);
+        }
+      } else {
+        callBack();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return function () {
+      return window.removeEventListener('scroll', handleScroll);
+    };
+  }, deps);
+}
+useScrollPosition.defaultProps = {
+  deps: [],
+  element: false,
+  useWindow: false,
+  wait: null
+};
+
+var useMedia = function useMedia(mediaQuery) {
+  var _useState = React.useState(false),
+      doesMatch = _useState[0],
+      onSetDoesMatch = _useState[1];
+
+  var _ref = React.useContext(styled.ThemeContext) || {},
+      breakpoints = _ref.breakpoints;
+
+  var breakpointsKeys = Object.keys(breakpoints).map(function (bp) {
+    return isNaN(bp) ? bp : +bp;
+  });
+  var _query = mediaQuery;
+
+  if (breakpointsKeys.includes(mediaQuery)) {
+    _query = "screen and (min-width: " + breakpoints[mediaQuery] + ")";
+  }
+
+  React.useEffect(function () {
+    var onUpdateMatch = function onUpdateMatch(_ref2) {
+      var matches = _ref2.matches;
+      onSetDoesMatch(matches);
+    };
+
+    var matcher = window.matchMedia(_query);
+    var isModern = ('addEventListener' in matcher);
+
+    if (isModern) {
+      matcher.addEventListener('change', onUpdateMatch);
+    } else {
+      matcher.addListener(onUpdateMatch);
+    }
+
+    onUpdateMatch(matcher);
+    return function () {
+      if (isModern) {
+        matcher.removeEventListener('change', onUpdateMatch);
+      } else {
+        matcher.removeListener(onUpdateMatch);
+      }
+    };
+  }, [_query, onSetDoesMatch]);
+  return doesMatch;
+};
+
 var Box = styled__default('div', {
   shouldForwardProp: shouldForwardProp__default
 })({
@@ -520,8 +646,6 @@ var Box = styled__default('div', {
 var Flex = styled__default(Box)({
   display: 'flex'
 });
-var MotionBox = framerMotion.motion.custom(Box);
-var MotionFlex = framerMotion.motion.custom(Flex);
 
 var activeAsArray = function activeAsArray(active) {
   return typeof active === 'number' ? [active] : active;
@@ -2032,6 +2156,97 @@ var icons = [
 		setIdx: 3,
 		setId: 1,
 		iconIdx: 453
+	},
+	{
+		icon: {
+			paths: [
+				"M898.32 791.904l-193.504-193.488c29.184-47.856 45.984-104.192 45.984-164.352 0-174.944-151.616-326.496-326.56-326.496-174.944-0.048-316.72 141.776-316.72 316.736 0 174.896 151.6 326.496 326.496 326.496 58.208 0 112.64-15.824 159.472-43.2l194.512 194.592c19.040 19.008 49.92 19.008 68.928 0l48.288-48.288c19.008-18.976 12.080-42.992-6.896-62zM205.008 424.304c0-121.136 98.144-219.296 219.232-219.296 121.136 0 229.072 107.872 229.072 229.056 0 121.088-98.208 219.296-219.296 219.296-121.136-0.048-229.008-107.984-229.008-229.056z"
+			],
+			attrs: [
+				{
+				}
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
+			grid: 0,
+			tags: [
+				"recherche"
+			],
+			colorPermutations: {
+				"1111233124392301252423125525525513331": [
+					{
+					}
+				],
+				"111125525525513331": [
+					{
+					}
+				]
+			}
+		},
+		attrs: [
+			{
+			}
+		],
+		properties: {
+			order: 231,
+			id: 20,
+			name: "recherche",
+			prevSize: 32,
+			code: 59764
+		},
+		setIdx: 0,
+		setId: 1,
+		iconIdx: 36
+	},
+	{
+		icon: {
+			paths: [
+				"M855.37 103.828l57.992 57-748.634 761.663-57.992-57 748.634-761.663z",
+				"M921.316 857.287l-57 57.992-761.652-748.623 57-57.992 761.652 748.623z"
+			],
+			attrs: [
+				{
+				},
+				{
+				}
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
+			grid: 0,
+			tags: [
+				"close-mobile"
+			],
+			colorPermutations: {
+				"1111233124392301252423125525525513331": [
+					{
+					},
+					{
+					}
+				],
+				"111125525525513331": [
+					{
+					},
+					{
+					}
+				]
+			}
+		},
+		attrs: [
+			{
+			},
+			{
+			}
+		],
+		properties: {
+			order: 185,
+			id: 71,
+			name: "close-mobile",
+			prevSize: 32,
+			code: 59717
+		},
+		setIdx: 0,
+		setId: 1,
+		iconIdx: 39
 	}
 ];
 var height = 1024;
@@ -2076,6 +2291,13 @@ var iconSet = {
 	preferences: preferences
 };
 
+var VactoryIconContext = React__default.createContext(iconSet);
+var VactoryIconProvider = VactoryIconContext.Provider;
+var VactoryIconConsumer = VactoryIconContext.Consumer;
+var useVactoryIcon = function useVactoryIcon() {
+  return React__default.useContext(VactoryIconContext);
+};
+
 function _templateObject$3() {
   var data = _taggedTemplateLiteralLoose(["\n    display: inline-block;\n    stroke: currentcolor;\n    fill: currentcolor;\n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n  "]);
 
@@ -2085,12 +2307,24 @@ function _templateObject$3() {
 
   return data;
 }
-var Icon = styled__default(IcoMoon, {
+var mergeIcons = function mergeIcons(source, target) {
+  return _extends(_extends({}, source), {}, {
+    icons: source.icons.concat(target.icons)
+  });
+};
+var WrapperIcon = function WrapperIcon(_ref) {
+  var rest = _extends({}, _ref);
+
+  var icons = useVactoryIcon();
+  return /*#__PURE__*/React__default.createElement(IcoMoon, _extends({
+    iconSet: icons
+  }, rest));
+};
+var Icon = styled__default(WrapperIcon, {
   shouldForwardProp: shouldForwardProp__default
 }).attrs(function (props) {
   return {
     removeInlineStyle: true,
-    iconSet: iconSet,
     icon: props.name || props.icon
   };
 })(_templateObject$3(), styledSystem.color, styledSystem.size, styledSystem.space, base, sx);
@@ -2220,7 +2454,7 @@ var Checkbox = React.forwardRef(function (_ref3, ref) {
 });
 
 function _templateObject$4() {
-  var data = _taggedTemplateLiteralLoose(["\n    display: block;\n    padding: 2px;\n    appearance: none;\n    font-size: inherit;\n    line-height: inherit;\n    border: 1px solid;\n    color: inherit;\n    background: transparent;\n\n    &:focus {\n        outline: none;\n        box-shadow: 0 0 0 2px;\n    }\n\n    ", "\n    ", "\n    ", "\n\n\n    ", "\n    ", "\n    ", "\n"]);
+  var data = _taggedTemplateLiteralLoose(["\n    display: block;\n    padding: 2px;\n    appearance: none;\n    font-size: inherit;\n    line-height: inherit;\n    border: 1px solid;\n    color: inherit;\n    background: transparent;\n    width: auto;\n    &:focus {\n        outline: none;\n        box-shadow: 0 0 0 2px;\n    }\n\n    ", "\n    ", "\n    ", "\n\n\n    ", "\n    ", "\n    ", "\n"]);
 
   _templateObject$4 = function _templateObject() {
     return data;
@@ -2270,7 +2504,7 @@ var Input = React__default.forwardRef(function (_ref, ref) {
       position: 'relative',
       width: 'fit-content'
     }
-  }, getProps([].concat(styledSystem.margin.propNames, styledSystem.width.propNames))), props.icon && /*#__PURE__*/React__default.createElement(Flex, {
+  }, getMarginProps(props), getLayoutProps(props)), props.icon && /*#__PURE__*/React__default.createElement(Flex, {
     __css: {
       color: 'inherit',
       position: 'absolute',
@@ -2555,10 +2789,10 @@ var DEFAULT_CONFIG = {
   gutterWidth: 16,
   outerMargin: 8,
   container: {
-    sm: '450px',
-    md: '900px',
-    lg: '1200px',
-    xl: '1900px'
+    sm: '540px',
+    md: '720px',
+    lg: '960px',
+    xl: '1140px'
   }
 };
 
@@ -2671,7 +2905,7 @@ function _templateObject3$1() {
 }
 
 function _templateObject2$1() {
-  var data = _taggedTemplateLiteralLoose(["\n                        width: ", ";\n                    "]);
+  var data = _taggedTemplateLiteralLoose(["\n                        max-width: ", ";\n                    "]);
 
   _templateObject2$1 = function _templateObject2() {
     return data;
@@ -3195,21 +3429,324 @@ var Heading = function Heading(_ref3) {
   var children = _ref3.children,
       _ref3$level = _ref3.level,
       level = _ref3$level === void 0 ? '1' : _ref3$level,
-      rest = _objectWithoutPropertiesLoose(_ref3, ["children", "level"]);
+      _ref3$variant = _ref3.variant,
+      variant = _ref3$variant === void 0 ? "heading.default" : _ref3$variant,
+      rest = _objectWithoutPropertiesLoose(_ref3, ["children", "level", "variant"]);
 
   return /*#__PURE__*/React__default.createElement(Text, _extends({
     __css: {
       fontSize: "heading" + level,
       lineHeight: "heading" + level,
       mb: "small"
-    }
+    },
+    variant: variant
   }, rest, {
     as: "h" + level
   }), children);
 };
 
-function _templateObject46() {
+function _templateObject76() {
   var data = _taggedTemplateLiteralLoose(["\n                position: relative;\n                max-height: none;\n                max-width: none;\n                border-radius: 0;\n                top: 0;\n                bottom: 0;\n                left: 0;\n                right: 0;\n                transform: none;\n                animation: none;\n                height: 100vh;\n                width: 100vw;\n            "]);
+
+  _templateObject76 = function _templateObject76() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject75() {
+  var data = _taggedTemplateLiteralLoose(["\n    display: flex;\n    min-height: ", ";\n    flex-direction: column;\n    outline: none;\n    align-items: baseline;\n    pointer-events: all;\n    z-index: ", ";\n\n    position: ", ";\n    max-height: ", ";\n    max-width: ", ";\n    border-radius: ", ";\n    ", ";\n    ", "\n\n"]);
+
+  _templateObject75 = function _templateObject75() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject74() {
+  var data = _taggedTemplateLiteralLoose(["\n        bottom: ", "px;\n        left: ", "px;\n        transform: translateY(0);\n        ", "\n      "]);
+
+  _templateObject74 = function _templateObject74() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject73() {
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        right: ", "px;\n        transform: translateX(0);\n        ", "\n      "]);
+
+  _templateObject73 = function _templateObject73() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject72() {
+  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        right: ", "px;\n        bottom: ", "px;\n        transform: translateY(0);\n        ", "\n      "]);
+
+  _templateObject72 = function _templateObject72() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject71() {
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        transform: translateX(0);\n        ", "\n      "]);
+
+  _templateObject71 = function _templateObject71() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject70() {
+  var data = _taggedTemplateLiteralLoose(["\n        bottom: ", "px;\n        right: ", "px;\n        transform: translateY(0);\n        ", "\n      "]);
+
+  _templateObject70 = function _templateObject70() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject69() {
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        right: ", "px;\n        transform: translateX(0);\n        ", "\n      "]);
+
+  _templateObject69 = function _templateObject69() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject68() {
+  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        right: ", "px;\n        bottom: ", "px;\n        transform: translateY(0);\n        ", "\n      "]);
+
+  _templateObject68 = function _templateObject68() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject67() {
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        right: ", "px;\n        transform: translateX(0);\n        ", "\n      "]);
+
+  _templateObject67 = function _templateObject67() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject66() {
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        left: ", "px;\n        transform: translateY(0);\n        ", "\n      "]);
+
+  _templateObject66 = function _templateObject66() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject65() {
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        right: ", "px;\n        transform: translateX(0);\n        ", "\n      "]);
+
+  _templateObject65 = function _templateObject65() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject64() {
+  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        right: ", "px;\n        top: 0;\n        transform: translateX(0);\n        ", " \n      "]);
+
+  _templateObject64 = function _templateObject64() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject63() {
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        transform: translateX(0);\n        ", "\n      "]);
+
+  _templateObject63 = function _templateObject63() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject62() {
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        right: ", "px;\n        transform: translateY(0);\n        ", ";\n      "]);
+
+  _templateObject62 = function _templateObject62() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject61() {
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        right: ", "px;\n        transform: translateX(0);\n        ", ";\n      "]);
+
+  _templateObject61 = function _templateObject61() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject60() {
+  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        right: ", "px;\n        top: 0;\n        transform: translateX(0);\n        ", ";\n      "]);
+
+  _templateObject60 = function _templateObject60() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject59() {
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        right: ", "px;\n        transform: translateX(0);\n        ", ";\n      "]);
+
+  _templateObject59 = function _templateObject59() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject58() {
+  var data = _taggedTemplateLiteralLoose(["\n        inset-inline-end: ", "px;\n        top: 50%;\n        transform: translate(0, -50%);\n        ", "\n      "]);
+
+  _templateObject58 = function _templateObject58() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject57() {
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        inset-inline-start: ", "px;\n        inset-inline-end: ", "px;\n        transform: translateX(0);\n        ", "\n      "]);
+
+  _templateObject57 = function _templateObject57() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject56() {
+  var data = _taggedTemplateLiteralLoose(["\n        inset-inline-start: ", "px;\n        inset-inline-end: ", "px;\n        top: 50%;\n        transform: translate(0, -50%);\n        ", "\n      "]);
+
+  _templateObject56 = function _templateObject56() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject55() {
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        inset-inline-end: ", "px;\n        transform: translateX(0);\n        ", "\n      "]);
+
+  _templateObject55 = function _templateObject55() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject54() {
+  var data = _taggedTemplateLiteralLoose(["\n        inset-inline-start: ", "px;\n        top: 50%;\n        transform: translate(0, -50%);\n        ", "\n      "]);
+
+  _templateObject54 = function _templateObject54() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject53() {
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        inset-inline-start: ", "px;\n        inset-inline-end: ", "px;\n        transform: translateX(0);\n        ", "\n      "]);
+
+  _templateObject53 = function _templateObject53() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject52() {
+  var data = _taggedTemplateLiteralLoose(["\n        inset-inline-start: ", "px;\n        inset-inline-end: ", "px;\n        top: 50%;\n        transform: translate(0, -50%);\n        ", "\n      "]);
+
+  _templateObject52 = function _templateObject52() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject51() {
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        inset-inline-start: ", "px;\n        transform: translateX(0);\n        ", "\n      "]);
+
+  _templateObject51 = function _templateObject51() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject50() {
+  var data = _taggedTemplateLiteralLoose(["\n        right: ", "px;\n        top: 50%;\n        transform: translate(0, -50%);\n        ", "\n      "]);
+
+  _templateObject50 = function _templateObject50() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject49() {
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        right: ", "px;\n        transform: translateX(0);\n        ", "\n      "]);
+
+  _templateObject49 = function _templateObject49() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject48() {
+  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        right: ", "px;\n        top: 50%;\n        transform: translate(0, -50%);\n        ", "\n      "]);
+
+  _templateObject48 = function _templateObject48() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject47() {
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        right: ", "px;\n        transform: translateX(0);\n        ", "\n      "]);
+
+  _templateObject47 = function _templateObject47() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject46() {
+  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        top: 50%;\n        transform: translate(0, -50%);\n        ", "\n      "]);
 
   _templateObject46 = function _templateObject46() {
     return data;
@@ -3219,7 +3756,7 @@ function _templateObject46() {
 }
 
 function _templateObject45() {
-  var data = _taggedTemplateLiteralLoose(["\n    display: flex;\n    min-height: ", ";\n    flex-direction: column;\n    outline: none;\n    align-items: baseline;\n    pointer-events: all;\n    z-index: ", ";\n\n    position: ", ";\n    max-height: ", ";\n    max-width: ", ";\n    border-radius: ", ";\n    ", ";\n    ", "\n\n"]);
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        right: ", "px;\n        transform: translateX(0);\n        ", "\n      "]);
 
   _templateObject45 = function _templateObject45() {
     return data;
@@ -3229,7 +3766,7 @@ function _templateObject45() {
 }
 
 function _templateObject44() {
-  var data = _taggedTemplateLiteralLoose(["\n        bottom: ", "px;\n        left: ", "px;\n        transform: translateY(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        right: ", "px;\n        top: 50%;\n        transform: translate(0, -50%);\n        ", "\n      "]);
 
   _templateObject44 = function _templateObject44() {
     return data;
@@ -3239,7 +3776,7 @@ function _templateObject44() {
 }
 
 function _templateObject43() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        right: ", "px;\n        transform: translateX(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        transform: translateX(0);\n        ", "\n      "]);
 
   _templateObject43 = function _templateObject43() {
     return data;
@@ -3249,7 +3786,7 @@ function _templateObject43() {
 }
 
 function _templateObject42() {
-  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        right: ", "px;\n        bottom: ", "px;\n        transform: translateY(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n        bottom: ", "px;\n        left: 50%;\n        transform: translate(-50%, 0);\n        ", "\n      "]);
 
   _templateObject42 = function _templateObject42() {
     return data;
@@ -3259,7 +3796,7 @@ function _templateObject42() {
 }
 
 function _templateObject41() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        transform: translateX(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        right: ", "px;\n        transform: translateY(0);\n        ", "\n      "]);
 
   _templateObject41 = function _templateObject41() {
     return data;
@@ -3269,7 +3806,7 @@ function _templateObject41() {
 }
 
 function _templateObject40() {
-  var data = _taggedTemplateLiteralLoose(["\n        bottom: ", "px;\n        right: ", "px;\n        transform: translateY(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        right: ", "px;\n        bottom: ", "px;\n        transform: translateY(0);\n        ", "\n      "]);
 
   _templateObject40 = function _templateObject40() {
     return data;
@@ -3279,7 +3816,7 @@ function _templateObject40() {
 }
 
 function _templateObject39() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        right: ", "px;\n        transform: translateX(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: 50%;\n        transform: translate(-50%, 0);\n        ", "\n      "]);
 
   _templateObject39 = function _templateObject39() {
     return data;
@@ -3289,7 +3826,7 @@ function _templateObject39() {
 }
 
 function _templateObject38() {
-  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        right: ", "px;\n        bottom: ", "px;\n        transform: translateY(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        left: 50%;\n        transform: translate(-50%, 0);\n        ", "\n      "]);
 
   _templateObject38 = function _templateObject38() {
     return data;
@@ -3299,7 +3836,7 @@ function _templateObject38() {
 }
 
 function _templateObject37() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        right: ", "px;\n        transform: translateX(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        right: ", "px;\n        transform: translateY(0);\n        ", "\n      "]);
 
   _templateObject37 = function _templateObject37() {
     return data;
@@ -3309,7 +3846,7 @@ function _templateObject37() {
 }
 
 function _templateObject36() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        left: ", "px;\n        transform: translateY(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        right: ", "px;\n        top: ", "px;\n        transform: translateY(0);\n        ", "\n      "]);
 
   _templateObject36 = function _templateObject36() {
     return data;
@@ -3319,7 +3856,7 @@ function _templateObject36() {
 }
 
 function _templateObject35() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        right: ", "px;\n        transform: translateX(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: 50%;\n        transform: translate(-50%, 0%);\n        ", "\n      "]);
 
   _templateObject35 = function _templateObject35() {
     return data;
@@ -3329,7 +3866,7 @@ function _templateObject35() {
 }
 
 function _templateObject34() {
-  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        right: ", "px;\n        top: 0;\n        transform: translateX(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n        top: 50%;\n        left: 50%;\n        transform: translate(-50%, -50%);\n        ", "\n      "]);
 
   _templateObject34 = function _templateObject34() {
     return data;
@@ -3339,7 +3876,7 @@ function _templateObject34() {
 }
 
 function _templateObject33() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        transform: translateX(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        right: ", "px;\n        ", "\n      "]);
 
   _templateObject33 = function _templateObject33() {
     return data;
@@ -3349,7 +3886,7 @@ function _templateObject33() {
 }
 
 function _templateObject32() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        right: ", "px;\n        transform: translateY(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        right: ", "px;\n        top: 50%;\n        transform: translateY(-50%);\n        ", "\n      "]);
 
   _templateObject32 = function _templateObject32() {
     return data;
@@ -3359,7 +3896,7 @@ function _templateObject32() {
 }
 
 function _templateObject31() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        right: ", "px;\n        transform: translateX(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: 50%;\n        transform: translateX(-50%);\n        ", "\n      "]);
 
   _templateObject31 = function _templateObject31() {
     return data;
@@ -3369,7 +3906,7 @@ function _templateObject31() {
 }
 
 function _templateObject30() {
-  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        right: ", "px;\n        top: 0;\n        transform: translateX(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n        animation: ", " ", "s ease-in-out forwards;\n      "]);
 
   _templateObject30 = function _templateObject30() {
     return data;
@@ -3379,7 +3916,7 @@ function _templateObject30() {
 }
 
 function _templateObject29() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        right: ", "px;\n        transform: translateX(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["0% { opacity: 0 } 100% { opacity: 1 }"]);
 
   _templateObject29 = function _templateObject29() {
     return data;
@@ -3389,7 +3926,7 @@ function _templateObject29() {
 }
 
 function _templateObject28() {
-  var data = _taggedTemplateLiteralLoose(["\n        inset-inline-end: ", "px;\n        top: 50%;\n        transform: translate(0, -50%);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translate(100%, -50%); }\n      100% { transform: translate(0, -50%); }\n    "]);
 
   _templateObject28 = function _templateObject28() {
     return data;
@@ -3399,7 +3936,7 @@ function _templateObject28() {
 }
 
 function _templateObject27() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        inset-inline-start: ", "px;\n        inset-inline-end: ", "px;\n        transform: translateX(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translateX(100%); }\n      100% { transform: translateX(0); }\n    "]);
 
   _templateObject27 = function _templateObject27() {
     return data;
@@ -3409,7 +3946,7 @@ function _templateObject27() {
 }
 
 function _templateObject26() {
-  var data = _taggedTemplateLiteralLoose(["\n        inset-inline-start: ", "px;\n        inset-inline-end: ", "px;\n        top: 50%;\n        transform: translate(0, -50%);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translate(100%, -50%); }\n      100% { transform: translate(0, -50%); }\n    "]);
 
   _templateObject26 = function _templateObject26() {
     return data;
@@ -3419,7 +3956,7 @@ function _templateObject26() {
 }
 
 function _templateObject25() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        inset-inline-end: ", "px;\n        transform: translateX(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translateX(100%); }\n      100% { transform: translateX(0); }\n    "]);
 
   _templateObject25 = function _templateObject25() {
     return data;
@@ -3429,7 +3966,7 @@ function _templateObject25() {
 }
 
 function _templateObject24() {
-  var data = _taggedTemplateLiteralLoose(["\n        inset-inline-start: ", "px;\n        top: 50%;\n        transform: translate(0, -50%);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translate(-100%, -50%); }\n      100% { transform: translate(0, -50%); }\n    "]);
 
   _templateObject24 = function _templateObject24() {
     return data;
@@ -3439,7 +3976,7 @@ function _templateObject24() {
 }
 
 function _templateObject23() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        inset-inline-start: ", "px;\n        inset-inline-end: ", "px;\n        transform: translateX(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translateX(-100%); }\n      100% { transform: translateX(0); }\n    "]);
 
   _templateObject23 = function _templateObject23() {
     return data;
@@ -3449,7 +3986,7 @@ function _templateObject23() {
 }
 
 function _templateObject22() {
-  var data = _taggedTemplateLiteralLoose(["\n        inset-inline-start: ", "px;\n        inset-inline-end: ", "px;\n        top: 50%;\n        transform: translate(0, -50%);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translate(-100%, -50%); }\n      100% { transform: translate(0, -50%); }\n    "]);
 
   _templateObject22 = function _templateObject22() {
     return data;
@@ -3459,7 +3996,7 @@ function _templateObject22() {
 }
 
 function _templateObject21() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        inset-inline-start: ", "px;\n        transform: translateX(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translateX(-100%); }\n      100% { transform: translateX(0); }\n    "]);
 
   _templateObject21 = function _templateObject21() {
     return data;
@@ -3469,7 +4006,7 @@ function _templateObject21() {
 }
 
 function _templateObject20() {
-  var data = _taggedTemplateLiteralLoose(["\n        right: ", "px;\n        top: 50%;\n        transform: translate(0, -50%);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translate(100%, -50%); }\n      100% { transform: translate(0, -50%); }\n    "]);
 
   _templateObject20 = function _templateObject20() {
     return data;
@@ -3479,7 +4016,7 @@ function _templateObject20() {
 }
 
 function _templateObject19() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        right: ", "px;\n        transform: translateX(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translateX(100%); }\n      100% { transform: translateX(0); }\n    "]);
 
   _templateObject19 = function _templateObject19() {
     return data;
@@ -3489,7 +4026,7 @@ function _templateObject19() {
 }
 
 function _templateObject18() {
-  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        right: ", "px;\n        top: 50%;\n        transform: translate(0, -50%);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translate(100%, -50%); }\n      100% { transform: translate(0, -50%); }\n    "]);
 
   _templateObject18 = function _templateObject18() {
     return data;
@@ -3499,7 +4036,7 @@ function _templateObject18() {
 }
 
 function _templateObject17() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        right: ", "px;\n        transform: translateX(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translateX(100%); }\n      100% { transform: translateX(0); }\n    "]);
 
   _templateObject17 = function _templateObject17() {
     return data;
@@ -3509,7 +4046,7 @@ function _templateObject17() {
 }
 
 function _templateObject16() {
-  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        top: 50%;\n        transform: translate(0, -50%);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translate(-100%, -50%); }\n      100% { transform: translate(0, -50%); }\n    "]);
 
   _templateObject16 = function _templateObject16() {
     return data;
@@ -3519,7 +4056,7 @@ function _templateObject16() {
 }
 
 function _templateObject15() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        right: ", "px;\n        transform: translateX(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translateX(-100%); }\n      100% { transform: translateX(0); }\n    "]);
 
   _templateObject15 = function _templateObject15() {
     return data;
@@ -3529,7 +4066,7 @@ function _templateObject15() {
 }
 
 function _templateObject14() {
-  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        right: ", "px;\n        top: 50%;\n        transform: translate(0, -50%);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translate(-100%, -50%); }\n      100% { transform: translate(0, -50%); }\n    "]);
 
   _templateObject14 = function _templateObject14() {
     return data;
@@ -3539,7 +4076,7 @@ function _templateObject14() {
 }
 
 function _templateObject13() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        transform: translateX(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translateX(-100%); }\n      100% { transform: translateX(0); }\n    "]);
 
   _templateObject13 = function _templateObject13() {
     return data;
@@ -3549,7 +4086,7 @@ function _templateObject13() {
 }
 
 function _templateObject12() {
-  var data = _taggedTemplateLiteralLoose(["\n        bottom: ", "px;\n        left: 50%;\n        transform: translate(-50%, 0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translate(-50%, 100%); }\n      100% { transform: translate(-50%, 0); }\n    "]);
 
   _templateObject12 = function _templateObject12() {
     return data;
@@ -3559,7 +4096,7 @@ function _templateObject12() {
 }
 
 function _templateObject11() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        right: ", "px;\n        transform: translateY(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translateY(100%); }\n      100% { transform: translateY(0); }\n    "]);
 
   _templateObject11 = function _templateObject11() {
     return data;
@@ -3569,7 +4106,7 @@ function _templateObject11() {
 }
 
 function _templateObject10() {
-  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        right: ", "px;\n        bottom: ", "px;\n        transform: translateY(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translateY(100%); }\n      100% { transform: translateY(0); }\n    "]);
 
   _templateObject10 = function _templateObject10() {
     return data;
@@ -3579,7 +4116,7 @@ function _templateObject10() {
 }
 
 function _templateObject9() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: 50%;\n        transform: translate(-50%, 0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translate(-50%, 100%); }\n      100% { transform: translate(-50%, 0); }\n    "]);
 
   _templateObject9 = function _templateObject9() {
     return data;
@@ -3589,7 +4126,7 @@ function _templateObject9() {
 }
 
 function _templateObject8() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        left: 50%;\n        transform: translate(-50%, 0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translate(-50%, -100%); }\n      100% { transform: translate(-50%, 0); }\n    "]);
 
   _templateObject8 = function _templateObject8() {
     return data;
@@ -3599,7 +4136,7 @@ function _templateObject8() {
 }
 
 function _templateObject7() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        right: ", "px;\n        transform: translateY(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translateY(-100%); }\n      100% { transform: translateY(0); }\n    "]);
 
   _templateObject7 = function _templateObject7() {
     return data;
@@ -3609,7 +4146,7 @@ function _templateObject7() {
 }
 
 function _templateObject6() {
-  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        right: ", "px;\n        top: ", "px;\n        transform: translateY(0);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translateY(-100%); }\n      100% { transform: translateY(0); }\n    "]);
 
   _templateObject6 = function _templateObject6() {
     return data;
@@ -3619,7 +4156,7 @@ function _templateObject6() {
 }
 
 function _templateObject5() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: 50%;\n        transform: translate(-50%, 0%);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translate(-50%, -100%); }\n      100% { transform: translate(-50%, 0); }\n    "]);
 
   _templateObject5 = function _templateObject5() {
     return data;
@@ -3629,7 +4166,7 @@ function _templateObject5() {
 }
 
 function _templateObject4() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: 50%;\n        left: 50%;\n        transform: translate(-50%, -50%);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translate(-50%, -50%) scale(0.8); }\n      100% { transform: translate(-50%, -50%) scale(1); }\n    "]);
 
   _templateObject4 = function _templateObject4() {
     return data;
@@ -3639,7 +4176,7 @@ function _templateObject4() {
 }
 
 function _templateObject3$2() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: ", "px;\n        right: ", "px;\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: scale(0.8); }\n      100% { transform: scale(1); }\n    "]);
 
   _templateObject3$2 = function _templateObject3() {
     return data;
@@ -3649,7 +4186,7 @@ function _templateObject3$2() {
 }
 
 function _templateObject2$3() {
-  var data = _taggedTemplateLiteralLoose(["\n        left: ", "px;\n        right: ", "px;\n        top: 50%;\n        transform: translateY(-50%);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translateY(-50%) scale(0.8); }\n      100% { transform: translateY(-50) scale(1); }\n    "]);
 
   _templateObject2$3 = function _templateObject2() {
     return data;
@@ -3659,7 +4196,7 @@ function _templateObject2$3() {
 }
 
 function _templateObject$9() {
-  var data = _taggedTemplateLiteralLoose(["\n        top: ", "px;\n        bottom: ", "px;\n        left: 50%;\n        transform: translateX(-50%);\n         \n      "]);
+  var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translateX(-50%) scale(0.8); }\n      100% { transform: translateX(-50%) scale(1); }\n    "]);
 
   _templateObject$9 = function _templateObject() {
     return data;
@@ -3803,165 +4340,312 @@ var getBounds = function getBounds(bounds, margin, theme, position) {
   };
 };
 
+var KEYFRAMES = {
+  center: {
+    vertical: styled.keyframes(_templateObject$9()),
+    horizontal: styled.keyframes(_templateObject2$3()),
+    "true": styled.keyframes(_templateObject3$2()),
+    "false": styled.keyframes(_templateObject4())
+  },
+  top: {
+    vertical: styled.keyframes(_templateObject5()),
+    horizontal: styled.keyframes(_templateObject6()),
+    "true": styled.keyframes(_templateObject7()),
+    "false": styled.keyframes(_templateObject8())
+  },
+  bottom: {
+    vertical: styled.keyframes(_templateObject9()),
+    horizontal: styled.keyframes(_templateObject10()),
+    "true": styled.keyframes(_templateObject11()),
+    "false": styled.keyframes(_templateObject12())
+  },
+  left: {
+    vertical: styled.keyframes(_templateObject13()),
+    horizontal: styled.keyframes(_templateObject14()),
+    "true": styled.keyframes(_templateObject15()),
+    "false": styled.keyframes(_templateObject16())
+  },
+  right: {
+    vertical: styled.keyframes(_templateObject17()),
+    horizontal: styled.keyframes(_templateObject18()),
+    "true": styled.keyframes(_templateObject19()),
+    "false": styled.keyframes(_templateObject20())
+  },
+  start: {
+    vertical: styled.keyframes(_templateObject21()),
+    horizontal: styled.keyframes(_templateObject22()),
+    "true": styled.keyframes(_templateObject23()),
+    "false": styled.keyframes(_templateObject24())
+  },
+  end: {
+    vertical: styled.keyframes(_templateObject25()),
+    horizontal: styled.keyframes(_templateObject26()),
+    "true": styled.keyframes(_templateObject27()),
+    "false": styled.keyframes(_templateObject28())
+  }
+};
+var animationDuration = 200;
+var getAnimationStyle = function getAnimationStyle(props, position, full) {
+  var animation = props.animation !== undefined ? props.animation : props.animate;
+  if (animation === undefined) animation = 'slide';
+  var keys;
+
+  if (animation === 'slide' || animation === true) {
+    keys = KEYFRAMES[position][full];
+  } else if (animation === 'fadeIn') {
+    keys = styled.keyframes(_templateObject29());
+  }
+
+  console.log(keys);
+  return keys ? styled.css(_templateObject30(), keys, animationDuration / 1000.0) : '';
+};
 var POSITIONS = {
   center: {
     vertical: function vertical(bounds) {
-      return styled.css(_templateObject$9(), bounds.top, bounds.bottom);
+      return styled.css(_templateObject31(), bounds.top, bounds.bottom, function (props) {
+        return getAnimationStyle(props, 'center', 'vertical');
+      });
     },
     horizontal: function horizontal(bounds) {
-      return styled.css(_templateObject2$3(), bounds.left, bounds.right);
+      return styled.css(_templateObject32(), bounds.left, bounds.right, function (props) {
+        return getAnimationStyle(props, 'center', 'horizontal');
+      });
     },
     "true": function _true(bounds) {
-      return styled.css(_templateObject3$2(), bounds.top, bounds.bottom, bounds.left, bounds.right);
+      return styled.css(_templateObject33(), bounds.top, bounds.bottom, bounds.left, bounds.right, function (props) {
+        return getAnimationStyle(props, 'center', 'true');
+      });
     },
     "false": function _false() {
-      return styled.css(_templateObject4());
+      return styled.css(_templateObject34(), function (props) {
+        return getAnimationStyle(props, 'center', 'false');
+      });
     }
   },
   top: {
     vertical: function vertical(bounds) {
-      return styled.css(_templateObject5(), bounds.top, bounds.bottom);
+      return styled.css(_templateObject35(), bounds.top, bounds.bottom, function (props) {
+        return getAnimationStyle(props, 'top', 'vertical');
+      });
     },
     horizontal: function horizontal(bounds) {
-      return styled.css(_templateObject6(), bounds.left, bounds.right, bounds.top);
+      return styled.css(_templateObject36(), bounds.left, bounds.right, bounds.top, function (props) {
+        return getAnimationStyle(props, 'top', 'horizontal');
+      });
     },
     "true": function _true(bounds) {
-      return styled.css(_templateObject7(), bounds.top, bounds.bottom, bounds.left, bounds.right);
+      return styled.css(_templateObject37(), bounds.top, bounds.bottom, bounds.left, bounds.right, function (props) {
+        return getAnimationStyle(props, 'top', 'true');
+      });
     },
     "false": function _false(bounds) {
-      return styled.css(_templateObject8(), bounds.top);
+      return styled.css(_templateObject38(), bounds.top, function (props) {
+        return getAnimationStyle(props, 'top', 'false');
+      });
     }
   },
   bottom: {
     vertical: function vertical(bounds) {
-      return styled.css(_templateObject9(), bounds.top, bounds.bottom);
+      return styled.css(_templateObject39(), bounds.top, bounds.bottom, function (props) {
+        return getAnimationStyle(props, 'bottom', 'vertical');
+      });
     },
     horizontal: function horizontal(bounds) {
-      return styled.css(_templateObject10(), bounds.left, bounds.top, bounds.bottom);
+      return styled.css(_templateObject40(), bounds.left, bounds.top, bounds.bottom, function (props) {
+        return getAnimationStyle(props, 'bottom', 'horizontal');
+      });
     },
     "true": function _true(bounds) {
-      return styled.css(_templateObject11(), bounds.top, bounds.bottom, bounds.left, bounds.right);
+      return styled.css(_templateObject41(), bounds.top, bounds.bottom, bounds.left, bounds.right, function (props) {
+        return getAnimationStyle(props, 'bottom', 'true');
+      });
     },
     "false": function _false(bounds) {
-      return styled.css(_templateObject12(), bounds.bottom);
+      return styled.css(_templateObject42(), bounds.bottom, function (props) {
+        return getAnimationStyle(props, 'bottom', 'false');
+      });
     }
   },
   left: {
     vertical: function vertical(bounds) {
-      return styled.css(_templateObject13(), bounds.top, bounds.bottom, bounds.left);
+      return styled.css(_templateObject43(), bounds.top, bounds.bottom, bounds.left, function (props) {
+        return getAnimationStyle(props, 'left', 'vertical');
+      });
     },
     horizontal: function horizontal(bounds) {
-      return styled.css(_templateObject14(), bounds.left, bounds.right);
+      return styled.css(_templateObject44(), bounds.left, bounds.right, function (props) {
+        return getAnimationStyle(props, 'left', 'horizontal');
+      });
     },
     "true": function _true(bounds) {
-      return styled.css(_templateObject15(), bounds.top, bounds.bottom, bounds.left, bounds.right);
+      return styled.css(_templateObject45(), bounds.top, bounds.bottom, bounds.left, bounds.right, function (props) {
+        return getAnimationStyle(props, 'left', 'true');
+      });
     },
     "false": function _false(bounds) {
-      return styled.css(_templateObject16(), bounds.left);
+      return styled.css(_templateObject46(), bounds.left, function (props) {
+        return getAnimationStyle(props, 'left', 'false');
+      });
     }
   },
   right: {
     vertical: function vertical(bounds) {
-      return styled.css(_templateObject17(), bounds.top, bounds.bottom, bounds.right);
+      return styled.css(_templateObject47(), bounds.top, bounds.bottom, bounds.right, function (props) {
+        return getAnimationStyle(props, 'right', 'vertical');
+      });
     },
     horizontal: function horizontal(bounds) {
-      return styled.css(_templateObject18(), bounds.left, bounds.right);
+      return styled.css(_templateObject48(), bounds.left, bounds.right, function (props) {
+        return getAnimationStyle(props, 'right', 'horizontal');
+      });
     },
     "true": function _true(bounds) {
-      return styled.css(_templateObject19(), bounds.top, bounds.bottom, bounds.left, bounds.right);
+      return styled.css(_templateObject49(), bounds.top, bounds.bottom, bounds.left, bounds.right, function (props) {
+        return getAnimationStyle(props, 'right', 'true');
+      });
     },
     "false": function _false(bounds) {
-      return styled.css(_templateObject20(), bounds.right);
+      return styled.css(_templateObject50(), bounds.right, function (props) {
+        return getAnimationStyle(props, 'right', 'false');
+      });
     }
   },
   start: {
     vertical: function vertical(bounds) {
-      return styled.css(_templateObject21(), bounds.top, bounds.bottom, bounds.start);
+      return styled.css(_templateObject51(), bounds.top, bounds.bottom, bounds.start, function (props) {
+        return getAnimationStyle(props, 'start', 'vertical');
+      });
     },
     horizontal: function horizontal(bounds) {
-      return styled.css(_templateObject22(), bounds.start, bounds.end);
+      return styled.css(_templateObject52(), bounds.start, bounds.end, function (props) {
+        return getAnimationStyle(props, 'start', 'horizontal');
+      });
     },
     "true": function _true(bounds) {
-      return styled.css(_templateObject23(), bounds.top, bounds.bottom, bounds.start, bounds.end);
+      return styled.css(_templateObject53(), bounds.top, bounds.bottom, bounds.start, bounds.end, function (props) {
+        return getAnimationStyle(props, 'start', 'true');
+      });
     },
     "false": function _false(bounds) {
-      return styled.css(_templateObject24(), bounds.start);
+      return styled.css(_templateObject54(), bounds.start, function (props) {
+        return getAnimationStyle(props, 'start', 'false');
+      });
     }
   },
   end: {
     vertical: function vertical(bounds) {
-      return styled.css(_templateObject25(), bounds.top, bounds.bottom, bounds.end);
+      return styled.css(_templateObject55(), bounds.top, bounds.bottom, bounds.end, function (props) {
+        return getAnimationStyle(props, 'end', 'vertical');
+      });
     },
     horizontal: function horizontal(bounds) {
-      return styled.css(_templateObject26(), bounds.start, bounds.end);
+      return styled.css(_templateObject56(), bounds.start, bounds.end, function (props) {
+        return getAnimationStyle(props, 'end', 'horizontal');
+      });
     },
     "true": function _true(bounds) {
-      return styled.css(_templateObject27(), bounds.top, bounds.bottom, bounds.start, bounds.end);
+      return styled.css(_templateObject57(), bounds.top, bounds.bottom, bounds.start, bounds.end, function (props) {
+        return getAnimationStyle(props, 'end', 'true');
+      });
     },
     "false": function _false(bounds) {
-      return styled.css(_templateObject28(), bounds.end);
+      return styled.css(_templateObject58(), bounds.end, function (props) {
+        return getAnimationStyle(props, 'end', 'false');
+      });
     }
   },
   'top-right': {
     vertical: function vertical(bounds) {
-      return styled.css(_templateObject29(), bounds.top, bounds.bottom, bounds.right);
+      return styled.css(_templateObject59(), bounds.top, bounds.bottom, bounds.right, function (props) {
+        return getAnimationStyle(props, 'top', 'true');
+      });
     },
     horizontal: function horizontal(bounds) {
-      return styled.css(_templateObject30(), bounds.left, bounds.right);
+      return styled.css(_templateObject60(), bounds.left, bounds.right, function (props) {
+        return getAnimationStyle(props, 'top', 'true');
+      });
     },
     "true": function _true(bounds) {
-      return styled.css(_templateObject31(), bounds.top, bounds.bottom, bounds.left, bounds.right);
+      return styled.css(_templateObject61(), bounds.top, bounds.bottom, bounds.left, bounds.right, function (props) {
+        return getAnimationStyle(props, 'top', 'true');
+      });
     },
     "false": function _false(bounds) {
-      return styled.css(_templateObject32(), bounds.top, bounds.right);
+      return styled.css(_templateObject62(), bounds.top, bounds.right, function (props) {
+        return getAnimationStyle(props, 'top', 'true');
+      });
     }
   },
   'top-left': {
     vertical: function vertical(bounds) {
-      return styled.css(_templateObject33(), bounds.top, bounds.bottom, bounds.left);
+      return styled.css(_templateObject63(), bounds.top, bounds.bottom, bounds.left, function (props) {
+        return getAnimationStyle(props, 'top', 'true');
+      });
     },
     horizontal: function horizontal(bounds) {
-      return styled.css(_templateObject34(), bounds.left, bounds.right);
+      return styled.css(_templateObject64(), bounds.left, bounds.right, function (props) {
+        return getAnimationStyle(props, 'top', 'true');
+      });
     },
     "true": function _true(bounds) {
-      return styled.css(_templateObject35(), bounds.top, bounds.bottom, bounds.left, bounds.right);
+      return styled.css(_templateObject65(), bounds.top, bounds.bottom, bounds.left, bounds.right, function (props) {
+        return getAnimationStyle(props, 'top', 'true');
+      });
     },
     "false": function _false(bounds) {
-      return styled.css(_templateObject36(), bounds.top, bounds.left);
+      return styled.css(_templateObject66(), bounds.top, bounds.left, function (props) {
+        return getAnimationStyle(props, 'top', 'true');
+      });
     }
   },
   'bottom-right': {
     vertical: function vertical(bounds) {
-      return styled.css(_templateObject37(), bounds.top, bounds.bottom, bounds.right);
+      return styled.css(_templateObject67(), bounds.top, bounds.bottom, bounds.right, function (props) {
+        return getAnimationStyle(props, 'bottom', 'true');
+      });
     },
     horizontal: function horizontal(bounds) {
-      return styled.css(_templateObject38(), bounds.left, bounds.right, bounds.bottom);
+      return styled.css(_templateObject68(), bounds.left, bounds.right, bounds.bottom, function (props) {
+        return getAnimationStyle(props, 'bottom', 'true');
+      });
     },
     "true": function _true(bounds) {
-      return styled.css(_templateObject39(), bounds.top, bounds.bottom, bounds.left, bounds.right);
+      return styled.css(_templateObject69(), bounds.top, bounds.bottom, bounds.left, bounds.right, function (props) {
+        return getAnimationStyle(props, 'bottom', 'true');
+      });
     },
     "false": function _false(bounds) {
-      return styled.css(_templateObject40(), bounds.bottom, bounds.right);
+      return styled.css(_templateObject70(), bounds.bottom, bounds.right, function (props) {
+        return getAnimationStyle(props, 'bottom', 'true');
+      });
     }
   },
   'bottom-left': {
     vertical: function vertical(bounds) {
-      return styled.css(_templateObject41(), bounds.top, bounds.bottom, bounds.left);
+      return styled.css(_templateObject71(), bounds.top, bounds.bottom, bounds.left, function (props) {
+        return getAnimationStyle(props, 'bottom', 'true');
+      });
     },
     horizontal: function horizontal(bounds) {
-      return styled.css(_templateObject42(), bounds.left, bounds.right, bounds.bottom);
+      return styled.css(_templateObject72(), bounds.left, bounds.right, bounds.bottom, function (props) {
+        return getAnimationStyle(props, 'bottom', 'true');
+      });
     },
     "true": function _true(bounds) {
-      return styled.css(_templateObject43(), bounds.top, bounds.bottom, bounds.left, bounds.right);
+      return styled.css(_templateObject73(), bounds.top, bounds.bottom, bounds.left, bounds.right, function (props) {
+        return getAnimationStyle(props, 'bottom', 'true');
+      });
     },
     "false": function _false(bounds) {
-      return styled.css(_templateObject44(), bounds.bottom, bounds.left);
+      return styled.css(_templateObject74(), bounds.bottom, bounds.left, function (props) {
+        return getAnimationStyle(props, 'bottom', 'true');
+      });
     }
   }
 };
 var StyledContainer = styled__default.div.attrs({
   'data-s': 'StyledContainer'
-})(_templateObject45(), themeGet.themeGet('sizes.xsmall'), themeGet.themeGet('layer.container.zIndex'), function (props) {
+})(_templateObject75(), themeGet.themeGet('sizes.xsmall'), themeGet.themeGet('layer.container.zIndex'), function (props) {
   return props.modal ? 'absolute' : 'fixed';
 }, function (props) {
   return "calc(100% - " + getBounds(props.targetBounds, props.margin, props.theme, 'top') + "px - " + getBounds(props.targetBounds, props.margin, props.theme, 'bottom') + "px)";
@@ -3975,7 +4659,7 @@ var StyledContainer = styled__default.div.attrs({
   var responsiveBreakpoint = themeGet.themeGet('layer.responsiveBreakpoint', false)(props);
 
   if (props.responsive && responsiveBreakpoint) {
-    return generateMedia(themeGet.themeGet('breakpoints')(props)).lessThan(responsiveBreakpoint)(_templateObject46());
+    return generateMedia(themeGet.themeGet('breakpoints')(props)).lessThan(responsiveBreakpoint)(_templateObject76());
   } else {
     return null;
   }
@@ -4170,7 +4854,6 @@ var LayerContainer = React.forwardRef(function (_ref, ref) {
 });
 
 var ContainerTargetContext$1 = React__default.createContext(typeof document === 'object' ? document.body : undefined);
-var animationDuration = 200;
 var Layer = React.forwardRef(function (props, ref) {
   var animate = props.animate,
       animation = props.animation;
@@ -4210,7 +4893,7 @@ var Layer = React.forwardRef(function (props, ref) {
           var layerClone = layerContainer.cloneNode(true);
           layerClone.id = 'layerClone';
           containerTarget.appendChild(layerClone);
-          var clonedContainer = layerClone.querySelector('[class*="StyledLayer__StyledContainer"]');
+          var clonedContainer = layerClone.querySelector('[data-s="StyledContainer"]');
 
           if (clonedContainer && clonedContainer.style) {
             clonedContainer.style.animationDirection = 'reverse';
@@ -4236,12 +4919,12 @@ var Layer = React.forwardRef(function (props, ref) {
 });
 Layer.displayName = 'Layer';
 
-var MotionBox$1 = framerMotion.motion.custom(Box);
-var MotionFlex$1 = framerMotion.motion.custom(Flex);
+var MotionBox = framerMotion.motion.custom(Box);
+var MotionFlex = framerMotion.motion.custom(Flex);
 
 var ParallaxBox = function ParallaxBox(_ref) {
   var _ref$as = _ref.as,
-      as = _ref$as === void 0 ? MotionBox$1 : _ref$as,
+      as = _ref$as === void 0 ? MotionBox : _ref$as,
       children = _ref.children,
       _ref$easing = _ref.easing,
       easing = _ref$easing === void 0 ? [0.42, 0, 0.58, 1] : _ref$easing,
@@ -4287,6 +4970,74 @@ var ParallaxBox = function ParallaxBox(_ref) {
   }, rest), children);
 };
 
+var defaultHidden = {
+  opacity: 0
+};
+var defaultVisible = {
+  opacity: 1
+};
+var RevealBox = React__default.forwardRef(function (_ref, ref) {
+  var delayOrder = _ref.delayOrder,
+      _ref$duration = _ref.duration,
+      duration = _ref$duration === void 0 ? 0.4 : _ref$duration,
+      _ref$easing = _ref.easing,
+      easing = _ref$easing === void 0 ? [0.42, 0, 0.58, 1] : _ref$easing,
+      children = _ref.children,
+      _ref$threshold = _ref.threshold,
+      threshold = _ref$threshold === void 0 ? 0.04 : _ref$threshold,
+      _ref$hidden = _ref.hidden,
+      hidden = _ref$hidden === void 0 ? defaultHidden : _ref$hidden,
+      _ref$visible = _ref.visible,
+      visible = _ref$visible === void 0 ? defaultVisible : _ref$visible,
+      _ref$reset = _ref.reset,
+      reset = _ref$reset === void 0 ? false : _ref$reset,
+      rest = _objectWithoutPropertiesLoose(_ref, ["delayOrder", "duration", "easing", "children", "threshold", "hidden", "visible", "reset"]);
+
+  var _React$useState = React__default.useState(false),
+      inView = _React$useState[0],
+      setInView = _React$useState[1];
+
+  var intersectionRef = React__default.useRef(null);
+  var intersection = reactUse.useIntersection(intersectionRef, {
+    threshold: threshold
+  });
+  React__default.useEffect(function () {
+    var inViewNow = intersection && intersection.intersectionRatio > 0;
+
+    if (inViewNow) {
+      return setInView(inViewNow);
+    } else if (reset) {
+      return setInView(false);
+    }
+  }, [intersection, reset]);
+  var transition = React__default.useMemo(function () {
+    return {
+      duration: duration,
+      delay: delayOrder / 5,
+      ease: easing
+    };
+  }, [duration, delayOrder, easing]);
+  var variants = {
+    hidden: _extends(_extends({}, hidden), {}, {
+      transition: transition
+    }),
+    show: _extends(_extends({}, visible), {}, {
+      transition: transition
+    })
+  };
+  return /*#__PURE__*/React__default.createElement(Box, {
+    ref: intersectionRef
+  }, /*#__PURE__*/React__default.createElement(Box, _extends({
+    initial: "hidden",
+    animate: inView ? "show" : "hidden",
+    exit: "hidden",
+    variants: variants,
+    ref: ref
+  }, rest, {
+    as: MotionBox
+  }), children));
+});
+
 function _templateObject$b() {
   var data = _taggedTemplateLiteralLoose(["\n.slick-list,\n.slick-slider,\n.slick-track {\n    position: relative;\n    display: block;\n}\n.slick-loading .slick-slide,\n.slick-loading .slick-track {\n    visibility: hidden;\n}\n.slick-slider {\n    box-sizing: border-box;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    -webkit-touch-callout: none;\n    -khtml-user-select: none;\n    -ms-touch-action: pan-y;\n    touch-action: pan-y;\n    -webkit-tap-highlight-color: transparent;\n}\n.slick-list {\n    overflow: hidden;\n    margin: 0;\n    padding: 0;\n}\n.slick-list:focus {\n    outline: 0;\n}\n.slick-list.dragging {\n    cursor: pointer;\n    cursor: hand;\n}\n.slick-slider .slick-list,\n.slick-slider .slick-track {\n    -webkit-transform: translate3d(0, 0, 0);\n    -moz-transform: translate3d(0, 0, 0);\n    -ms-transform: translate3d(0, 0, 0);\n    -o-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n}\n.slick-track {\n    top: 0;\n    left: 0;\n}\n.slick-track:after,\n.slick-track:before {\n    display: table;\n    content: \"\";\n}\n.slick-track:after {\n    clear: both;\n}\n.slick-slide {\n    display: none;\n    float: left;\n    height: 100%;\n    min-height: 1px;\n}\n[dir=\"rtl\"] .slick-slide {\n    float: right;\n}\n.slick-slide img {\n    display: block;\n}\n.slick-slide.slick-loading img {\n    display: none;\n}\n.slick-slide.dragging img {\n    pointer-events: none;\n}\n.slick-initialized .slick-slide {\n    display: block;\n}\n.slick-vertical .slick-slide {\n    display: block;\n    height: auto;\n    border: 1px solid transparent;\n}\n.slick-arrow.slick-hidden {\n    display: none;\n}\n\n"]);
 
@@ -4297,8 +5048,222 @@ function _templateObject$b() {
   return data;
 }
 var SliderWrapper = styled__default.div(_templateObject$b());
-var Slider = function Slider(props) {
-  return /*#__PURE__*/React__default.createElement(SliderWrapper, null, /*#__PURE__*/React__default.createElement(SlickSlider, props, props.children));
+var Arrow = function Arrow(_ref) {
+  var children = _ref.children,
+      rest = _objectWithoutPropertiesLoose(_ref, ["children"]);
+
+  return /*#__PURE__*/React__default.createElement(Box, _extends({
+    as: "button",
+    __css: {
+      fontSize: 0,
+      lineHeight: 0,
+      position: 'absolute',
+      top: '50%',
+      display: 'block',
+      padding: 0,
+      transform: ' translate(0,-50%)',
+      cursor: 'pointer',
+      color: '#fff',
+      border: '0 solid transparent',
+      width: '64px',
+      height: '64px',
+      outline: 0,
+      background: 'transparent',
+      zIndex: 1
+    }
+  }, rest), children);
+};
+var PrevArrow = function PrevArrow(props) {
+  return /*#__PURE__*/React__default.createElement(Arrow, _extends({
+    sx: {
+      left: ['calc((100% - 960px)/2 + 10px)', null, 'calc((100% - 760px)/2 + 10px)', 'calc((100% - 960px)/2 + 10px)', 'calc((100% - 1140px)/2 + 10px)']
+    }
+  }, props), /*#__PURE__*/React__default.createElement(Icon, {
+    name: "chevron-left",
+    size: "xxlarge"
+  }));
+};
+var NextArrow = function NextArrow(props) {
+  return /*#__PURE__*/React__default.createElement(Arrow, _extends({
+    sx: {
+      right: ['calc((100% - 960px)/2 + 10px)', null, 'calc((100% - 760px)/2 + 10px)', 'calc((100% - 960px)/2 + 10px)', 'calc((100% - 1140px)/2 + 10px)']
+    }
+  }, props), /*#__PURE__*/React__default.createElement(Icon, {
+    name: "chevron-right",
+    size: "xxlarge"
+  }));
+};
+var appendDots = function appendDots(dots) {
+  return /*#__PURE__*/React__default.createElement(Box, {
+    as: "ul",
+    __css: {
+      bottom: 'auto',
+      display: 'block',
+      listStyle: 'none',
+      textAlign: 'center',
+      padding: 0,
+      margin: '1rem auto 0',
+      '& > li': {
+        position: 'relative',
+        display: 'inline-block',
+        margin: '0 5px',
+        width: '12px',
+        height: '12px',
+        cursor: 'pointer'
+      },
+      '& > li > button': {
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        outline: 0,
+        borderRadius: '50%',
+        backgroundColor: 'transparent',
+        textIndent: '-999em',
+        cursor: 'pointer',
+        position: 'absolute',
+        border: '1px solid',
+        borderColor: 'primary500',
+        padding: 0
+      },
+      '& > li > button::after': {
+        content: '""',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: ' 100%',
+        height: '100%',
+        visibility: 'hidden',
+        background: 'primary500',
+        borderRadius: '50%',
+        boxShadow: '0 0 1px #02afbc',
+        opacity: 0,
+        transform: ' scale(2.5)',
+        transition: 'opacity .3s ease, transform .3s ease, visibility 0s .3s'
+      },
+      '& > li.slick-active > button::after': {
+        visibility: 'visible',
+        opacity: 1,
+        transform: 'scale(1.5)',
+        transition: 'opacity .3s ease,transform .3s ease'
+      }
+    }
+  }, dots);
+};
+var Slider = React__default.forwardRef(function (_ref2, ref) {
+  var children = _ref2.children,
+      rest = _objectWithoutPropertiesLoose(_ref2, ["children"]);
+
+  return /*#__PURE__*/React__default.createElement(SliderWrapper, null, /*#__PURE__*/React__default.createElement(Box, _extends({
+    ref: ref,
+    as: SlickSlider,
+    __css: {
+      '& .slick-slide': {
+        px: ['8px', null, '0px']
+      }
+    }
+  }, rest), children));
+});
+
+var SlideSubtitle = function SlideSubtitle(_ref) {
+  var subtitle = _ref.subtitle;
+
+  if (typeof subtitle === 'string') {
+    return /*#__PURE__*/React__default.createElement(Box, null, subtitle);
+  } else {
+    return subtitle;
+  }
+};
+
+var SlideIamge = function SlideIamge(_ref2) {
+  var imageSrc = _ref2.imageSrc,
+      rest = _objectWithoutPropertiesLoose(_ref2, ["imageSrc"]);
+
+  return /*#__PURE__*/React__default.createElement(Box, _extends({
+    __css: {
+      height: '100%',
+      width: '100%',
+      objectFit: 'cover'
+    },
+    as: "img",
+    src: imageSrc
+  }, rest));
+};
+
+var SlideVideo = function SlideVideo(_ref3) {
+  var videoUrl = _ref3.videoUrl,
+      variant = _ref3.variant,
+      rest = _objectWithoutPropertiesLoose(_ref3, ["videoUrl", "sx", "variant"]);
+
+  return /*#__PURE__*/React__default.createElement(Box, {
+    __css: {
+      width: '100%',
+      height: '100%',
+      background: '0 0',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      bottom: 0,
+      overflow: 'hidden'
+    },
+    variant: variant,
+    sx: variant
+  }, /*#__PURE__*/React__default.createElement(ReactPlayer, _extends({}, rest, {
+    url: videoUrl,
+    playing: true,
+    loop: true,
+    width: "100%",
+    height: "100%"
+  })));
+};
+
+var Slide = function Slide(_ref4) {
+  var _ref4$subtitle = _ref4.subtitle,
+      subtitle = _ref4$subtitle === void 0 ? null : _ref4$subtitle,
+      _ref4$content = _ref4.content,
+      content = _ref4$content === void 0 ? null : _ref4$content,
+      _ref4$bgImage = _ref4.bgImage,
+      bgImage = _ref4$bgImage === void 0 ? null : _ref4$bgImage,
+      _ref4$bgVideoUrl = _ref4.bgVideoUrl,
+      bgVideoUrl = _ref4$bgVideoUrl === void 0 ? null : _ref4$bgVideoUrl,
+      rest = _objectWithoutPropertiesLoose(_ref4, ["children", "subtitle", "content", "bgImage", "bgVideoUrl"]);
+
+  var ref = React.useRef(null);
+  React.useEffect(function () {});
+  return /*#__PURE__*/React__default.createElement(Box, _extends({
+    ref: ref,
+    __css: {
+      minHeight: '1px',
+      height: ['300px', null, '500px'],
+      width: '100%',
+      display: 'flex !important',
+      position: 'relative',
+      '&:before': {
+        content: '""',
+        display: 'block',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0,0,0,.25)'
+      }
+    }
+  }, rest), bgVideoUrl && /*#__PURE__*/React__default.createElement(SlideVideo, {
+    videoUrl: bgVideoUrl
+  }), subtitle && /*#__PURE__*/React__default.createElement(SlideSubtitle, {
+    subtitle: subtitle
+  }), bgImage && /*#__PURE__*/React__default.createElement(SlideIamge, {
+    imageSrc: bgImage
+  }), content && /*#__PURE__*/React__default.createElement(Box, {
+    sx: {
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      top: 0,
+      left: 0
+    }
+  }, content));
 };
 
 var colors = {
@@ -4382,12 +5347,23 @@ var colors = {
   }
 };
 
-var breakpoints = ['500px', '960px', '1280px', '1920px'];
-breakpoints.md = '960px';
-breakpoints.sm = '500px';
+var breakpoints = ['576px', '768px', '992px', '1200px'];
 breakpoints.xs = '0px';
-breakpoints.lg = '1280px';
-breakpoints.xl = '1920px';
+breakpoints.sm = '576px';
+breakpoints.md = '768px';
+breakpoints.lg = '992px';
+breakpoints.xl = '1200px';
+var gridSystem = {
+  gridSize: 12,
+  gutterWidth: 16,
+  outerMargin: 8,
+  container: {
+    sm: '540px',
+    md: '720px',
+    lg: '960px',
+    xl: '1140px'
+  }
+};
 
 var space = {
   none: '0px',
@@ -5134,7 +6110,8 @@ var baseTheme = {
   borders: borders,
   radii: radii,
   borderWidths: borderWidths,
-  borderStyles: borderStyles
+  borderStyles: borderStyles,
+  gridSystem: gridSystem
 };
 var componentsTheme = {
   buttons: buttons,
@@ -5148,13 +6125,18 @@ var componentsTheme = {
   tabs: tabs,
   accordion: accordion,
   breadcrumb: breadcrumb,
-  navs: navs
+  navs: navs,
+  search: {
+    overlay: {},
+    input: {}
+  }
 };
 var theme = _extends(_extends({}, baseTheme), componentsTheme);
 
 exports.Accordion = Accordion;
 exports.AccordionPanel = AccordionPanel;
 exports.Anchor = Anchor;
+exports.Arrow = Arrow;
 exports.Box = Box;
 exports.Breadcrumb = Breadcrumb;
 exports.BreadcrumbItem = BreadcrumbItem;
@@ -5179,16 +6161,20 @@ exports.IntersectionObserver = IntersectionObserver;
 exports.Label = Label;
 exports.Layer = Layer;
 exports.Link = Link;
-exports.MotionBox = MotionBox$1;
-exports.MotionFlex = MotionFlex$1;
+exports.MotionBox = MotionBox;
+exports.MotionFlex = MotionFlex;
 exports.Nav = Nav;
 exports.Navs = Navs;
+exports.NextArrow = NextArrow;
 exports.Pagination = Pagination;
 exports.Paragraph = Paragraph;
 exports.ParallaxBox = ParallaxBox;
+exports.PrevArrow = PrevArrow;
 exports.Radio = Radio;
+exports.RevealBox = RevealBox;
 exports.Row = Row;
 exports.Select = Select;
+exports.Slide = Slide;
 exports.Slider = Slider;
 exports.StyledChildren = StyledChildren;
 exports.TABINDEX = TABINDEX;
@@ -5196,8 +6182,14 @@ exports.TABINDEX_STATE = TABINDEX_STATE;
 exports.Tab = Tab;
 exports.Tabs = Tabs;
 exports.Text = Text;
+exports.VactoryIconConsumer = VactoryIconConsumer;
+exports.VactoryIconContext = VactoryIconContext;
+exports.VactoryIconProvider = VactoryIconProvider;
 exports.VactoryThemeContext = VactoryThemeContext;
+exports.WrapperIcon = WrapperIcon;
+exports.appendDots = appendDots;
 exports.base = base;
+exports.findParentByMatchedQuery = findParentByMatchedQuery;
 exports.findScrollParents = findScrollParents;
 exports.findVisibleParent = findVisibleParent;
 exports.generateMedia = generateMedia;
@@ -5210,9 +6202,11 @@ exports.getSizeProps = getSizeProps;
 exports.getSpaceProps = getSpaceProps;
 exports.getSystemProps = getSystemProps;
 exports.getVariant = getVariant;
+exports.iconSet = iconSet;
 exports.isNotAncestorOf = isNotAncestorOf;
 exports.makeNodeFocusable = makeNodeFocusable;
 exports.makeNodeUnfocusable = makeNodeUnfocusable;
+exports.mergeIcons = mergeIcons;
 exports.omitLayoutProps = omitLayoutProps;
 exports.omitMarginProps = omitMarginProps;
 exports.omitProps = omitProps;
@@ -5223,6 +6217,10 @@ exports.setFocusWithoutScroll = setFocusWithoutScroll;
 exports.sx = sx;
 exports.theme = theme;
 exports.useColorMode = useColorMode;
+exports.useIsomorphicLayoutEffect = useIsomorphicLayoutEffect;
+exports.useMedia = useMedia;
+exports.useScrollPosition = useScrollPosition;
+exports.useVactoryIcon = useVactoryIcon;
 exports.useVactoryTheme = useVactoryTheme;
 exports.variant = variant;
 exports.variantReducer = variantReducer;
