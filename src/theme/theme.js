@@ -23,6 +23,8 @@ import tabs from './components/tabs';
 import accordion from './components/accordion';
 import breadcrumb from './components/breadcrumb';
 import navs from './components/navs';
+import {heading} from './components/text';
+import {searchOverlay} from './components/search-overlay';
 
 const baseTheme = {
     colors,
@@ -54,19 +56,8 @@ const componentsTheme = {
     accordion,
     breadcrumb,
     navs,
-
-    search: {
-
-        overlay: {
-            // css
-        },
-
-        input: {
-            
-        }
-
-
-    }
+    heading,
+    searchOverlay,
 }
 
 

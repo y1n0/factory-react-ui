@@ -92,7 +92,7 @@ const SearchOverlayContainer = ({
     searchInfo = "Appuyer sur la touche \"Entrée\" du clavier pour lancer la recherche",
     topContent = null,
     closeIcon = null,
-    variant="searchOverlay",
+    variant="searchOverlay.default",
 
     ...rest}) => {
 

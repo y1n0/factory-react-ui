@@ -6,7 +6,7 @@ import { SearchOverlay } from '../Search';
 
 export const Default = () => {
 
-    const [show, setShow] = React.useState(true);
+    const [show, setShow] = React.useState(false);
     const [query, setQuery] = React.useState(null);
 
     return (

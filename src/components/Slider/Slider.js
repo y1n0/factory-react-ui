@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import SlickSlider from 'react-slick';
-import { Box, Flex } from '../Box';
+import { Box } from '../Box';
 
 import { Icon } from '../Icon';
 

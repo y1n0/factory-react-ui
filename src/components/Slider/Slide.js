@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Box } from '../Box';
 import YouTube from 'react-youtube';
 import { findParentByMatchedQuery } from '../../core';

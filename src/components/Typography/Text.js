@@ -31,22 +31,19 @@ export const Paragraph = ({
 export const Heading = ({
     children,
     level = '1',
-    variant="heading.default",
+    variant = "heading.default",
     ...rest
-}) => {
+}) => <Text
+    __css={{
+        fontSize: `heading${level}`,
+        lineHeight: `heading${level}`,
+        mb: "small",
+    }}
+    variant={variant}
+    {...rest}
+    as={`h${level}`}>{children}</Text>
 
-    return (
-        <Text
-            __css={{
-                fontSize: `heading${level}`,
-                lineHeight: `heading${level}`,
-                mb: "small",
-            }}
-            variant={variant}
-            {...rest}
-            as={`h${level}`}>{children}</Text>
-    );
-}
+
 
 export default Text;
 
