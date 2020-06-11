@@ -37,8 +37,8 @@ export const FooterVariant2 = ({
 				mt: "xxlarge",
 				flex: "1",
 				justifyContent: "space-between",
-				alignItems: ["center", ,"start"],
-				flexDirection: ["column", ,"row"],
+				alignItems: ["center", null, "start"],
+				flexDirection: ["column", null, "row"],
 			}} >
 				{ logo ? logo :
 				<Anchor>
@@ -76,8 +76,8 @@ export const FooterVariant2 = ({
 				mt: "large",
 				flex: "1",
 				justifyContent: "space-between",
-				alignItems: ["center", ,"start"],
-				flexDirection: ["column", ,"row"],
+				alignItems: ["center", null, "start"],
+				flexDirection: ["column", null, "row"],
 				borderBottom: "1px dashed gray",
 			}} >
 				{ phoneNumber ? phoneNumber :
@@ -98,11 +98,11 @@ export const FooterVariant2 = ({
 			</Flex>
 
 			<Flex __css={{
-				mt: "large",
+				marginY: "large",
 				flex: "1",
 				justifyContent: "space-between",
-				alignItems: ["center", ,"start"],
-				flexDirection: ["column", ,"row"],
+				alignItems: ["center", null, "start"],
+				flexDirection: ["column", null, "row"],
 			}} >
 				<Text mb={[ 'medium', null, 0 ]}>
 					conception et développement:
