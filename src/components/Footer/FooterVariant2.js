@@ -76,7 +76,7 @@ export const FooterVariant2 = ({
 				mt: "large",
 				flex: "1",
 				justifyContent: "space-between",
-				alignItems: ["center", null, "start"],
+				alignItems: ["center"],
 				flexDirection: ["column", null, "row"],
 				borderBottom: "1px dashed gray",
 			}} >
