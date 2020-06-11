@@ -6,6 +6,7 @@ import { Text } from '../../Typography';
 import { Anchor } from '../../Anchor/Anchor';
 import { Navs, Nav } from '../../Navs';
 import { Icon} from '../../Icon';
+import { FooterVariant2 } from "../FooterVariant2"
 
 export const Simple = () => {
 
@@ -145,6 +146,9 @@ export const AWFFooter = () => {
             </Footer>
         </Box>);
 }
+
+export { FooterVariant2 };
+
 export default {
     title: 'Footer'
 }
