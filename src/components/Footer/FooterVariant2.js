@@ -33,13 +33,21 @@ export const FooterVariant2 = ({
 		}}>
 		<Container>
 
-			<Flex mt="xxlarge" flex="1" justifyContent="space-between" alignItems="start">
+			<Flex __css={{
+				mt: "xxlarge",
+				flex: "1",
+				justifyContent: "space-between",
+				alignItems: ["center", ,"start"],
+				flexDirection: ["column", ,"row"],
+			}} >
 				{ logo ? logo :
 				<Anchor>
 					<Image width="130px" src={vactory_logo} />
 				</Anchor>}
 
-				<Box>
+				<Box __css={{
+					marginY: ['xxlarge', null, 0],
+				}} >
 					<Label for="e-mail-input" fontWeight="bold">Restez informés</Label>
 					<Input id="e-mail-input" type="text" placeholder="Votre e-mail*"
 						reverse={true}
@@ -64,7 +72,14 @@ export const FooterVariant2 = ({
 				
 			</Flex>
 
-			<Flex mt="large" flex="1" justifyContent="space-between" alignItems="center" borderBottom="1px dashed gray">
+			<Flex __css={{
+				mt: "large",
+				flex: "1",
+				justifyContent: "space-between",
+				alignItems: ["center", ,"start"],
+				flexDirection: ["column", ,"row"],
+				borderBottom: "1px dashed gray",
+			}} >
 				{ phoneNumber ? phoneNumber :
 				<Flex>
 					<Text mr="small">Nous contacter: </Text>
@@ -82,8 +97,14 @@ export const FooterVariant2 = ({
 		        </Navs>}
 			</Flex>
 
-			<Flex my="large" justifyContent="space-between" alignItems="center">
-				<Text>
+			<Flex __css={{
+				mt: "large",
+				flex: "1",
+				justifyContent: "space-between",
+				alignItems: ["center", ,"start"],
+				flexDirection: ["column", ,"row"],
+			}} >
+				<Text mb={[ 'medium', null, 0 ]}>
 					conception et développement:
 					<Anchor href="//void.fr" target="_blank" ml="small">
 						<Image src={void_logo} alt="void logo" height="15px" verticalAlign="middle" />
