@@ -107,8 +107,12 @@ export const FooterVariant4 = ({
 			borderColor: 'gray',
 			// backgroundColor: 'black800',
 			color: 'gray',
+		}}
+
+		sx={{
 			flexDirection: ['column', 'column','column'],
-		}}>
+		}}
+		>
 
 
 		<Box backgroundColor="black800" flex={1} width="100%">
@@ -123,8 +127,8 @@ export const FooterVariant4 = ({
 			}} >
 
 				{ logo ? logo :
-				<Anchor>
-					<Image size="64px" src="http://place-hold.it/64x64" mr="large" />
+				<Anchor mr="large" >
+					<Image size="64px" src="http://place-hold.it/64x64" />
 				</Anchor>}
 
 				{ about ? about :
