@@ -8,6 +8,7 @@ import { Navs, Nav } from '../../Navs';
 import { Icon} from '../../Icon';
 import { FooterVariant1 as _FooterVariant1 } from "../FooterVariant1"
 import { FooterVariant2 as _FooterVariant2 } from "../FooterVariant2"
+import { FooterVariant3 as _FooterVariant3 } from "../FooterVariant3"
 
 export const Simple = () => {
 
@@ -82,6 +83,12 @@ export const FooterVariant1 = () => (
 export const FooterVariant2 = () => (
     <Box height="100vh" display="flex" flexDirection="column" justifyContent="flex-end">
         <_FooterVariant2 />
+    </Box>
+    );
+
+export const FooterVariant3 = () => (
+    <Box height="100vh" display="flex" flexDirection="column" justifyContent="flex-end">
+        <_FooterVariant3 />
     </Box>
     );
 
