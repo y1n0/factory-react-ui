@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 
 import {
 	Anchor,
@@ -13,15 +12,12 @@ import {
 	Image,
 	Input,
 	Heading,
-	Label,
 	Nav,
 	Navs,
 	Paragraph,
 	Row,
 	Text,
 } from '../../components';
-import vactory_logo from '../../assets/images/vactory.png';
-import void_logo from '../../assets/images/void-logo.png';
 
 const FooterHeadingsCss = {
 	textTransform:"uppercase",
