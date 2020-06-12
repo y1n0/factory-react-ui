@@ -76,18 +76,18 @@ export const AWFFooter = () => {
 }
 
 export const FooterVariant1 = () => (
-    <Box height="100vh" display="flex" flexDirection="column" justifyContent="flex-end">
+    <Box minHeight="100vh" display="flex" flexDirection="column" justifyContent="flex-end">
         <_FooterVariant1 />
     </Box>);
 
 export const FooterVariant2 = () => (
-    <Box height="100vh" display="flex" flexDirection="column" justifyContent="flex-end">
+    <Box minHeight="100vh" display="flex" flexDirection="column" justifyContent="flex-end">
         <_FooterVariant2 />
     </Box>
     );
 
 export const FooterVariant3 = () => (
-    <Box height="100vh" display="flex" flexDirection="column" justifyContent="flex-end">
+    <Box minHeight="100vh" display="flex" flexDirection="column" justifyContent="flex-end">
         <_FooterVariant3 />
     </Box>
     );

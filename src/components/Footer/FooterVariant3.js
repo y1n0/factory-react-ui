@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
 	Anchor,
 	Box,
+	Button,
 	Col,
 	Container,
 	Flex,
@@ -27,16 +28,31 @@ export const FooterVariant3 = ({
 	mainAction,
 	...rest
 }) => {
-	let setOpen, isNavOpen;
+	const [isNavOpen, setNavOpen] = useState(false);
 	return (
 		<Footer>
 			<Container>
+			<Flex __css={{
+				display: ['flex', null, 'none'],
+				justifyContent: 'space-between',
+				alignItems: 'center',
+				paddingX: 'medium',
+			}} >
+				<Heading level={3} mb={0}>
+					Footer Menu
+				</Heading>
+
+				<Button fill="basic" onClick={() => setNavOpen(!isNavOpen)}>
+					<Icon name="menu" color="gray" size="large" __css={{}}/>
+				</Button>
+				
+			</Flex>
 			<Flex __css={{
 				marginBottom: "xsmall",
 				justifyContent: "space-between",
 				alignItems: ["start", null, "center"],
 				flexDirection: ['column', null, 'row'],
-				display: [ isNavOpen ? 'flex' : 'none', null, 'flex'],
+				display: [ isNavOpen ? 'flex' : 'none !important', null, 'flex'],
 			}}
 			>
 				{ navs ? navs :
@@ -110,8 +126,8 @@ export const FooterVariant3 = ({
 						{/*</address>*/}
 					</Col>
 					
-					<Col xs={12} md={6}>
-						<Heading level={5} mb={0}>
+					<Col xs={12} md={6} >
+						<Heading level={5} mb={0} mt={['xlarge', null, 'none']}>
 							Services we Offer
 						</Heading>
 
