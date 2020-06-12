@@ -10,9 +10,7 @@ import {
 	Footer,
 	Icon,
 	Image,
-	Input,
 	Heading,
-	Label,
 	Nav,
 	Navs,
 	Paragraph,
@@ -20,11 +18,15 @@ import {
 	Row,
 } from '../../components';
 import vactory_logo from '../../assets/images/vactory.png';
-import void_logo from '../../assets/images/void-logo.png';
 
 export const FooterVariant3 = ({
 	navs,
 	logo,
+	about,
+	services,
+	address='134, Cornish Building, Some Near by area, New York, USA - 34556',
+	phoneNumber='+212 5 22 545 151',
+	mailAddress='contact@void.fr',
 	mainAction,
 	...rest
 }) => {
@@ -45,7 +47,7 @@ export const FooterVariant3 = ({
 				<Button fill="basic" onClick={() => setNavOpen(!isNavOpen)}>
 					<Icon name="menu" color="gray" size="large" __css={{}}/>
 				</Button>
-				
+
 			</Flex>
 			<Flex __css={{
 				marginBottom: "xsmall",
@@ -83,10 +85,11 @@ export const FooterVariant3 = ({
 							<Image width="130px" src={vactory_logo} />
 						</Anchor>}
 
+						{ about ? about :
 						<Paragraph>
 							You can relay on our amazing features list and also our customer services will be great experience.<br />
 							our amazing features list and also our customer services is great.
-						</Paragraph>
+						</Paragraph>}
 					</Col>
 
 					<Col xs={12} md={3}>
@@ -100,9 +103,7 @@ export const FooterVariant3 = ({
 				        	</Text>
 
 							<Text pl="xxlarge" mb="large">
-								134, Cornish Building, Some
-								Near by area, New York,
-								USA - 34556
+								{address}
 							</Text>
 
 							<Text mb="large" fontSize="medium">
@@ -110,8 +111,8 @@ export const FooterVariant3 = ({
 					        		verticalAlign: "middle",
 					        		marginRight: "medium",
 					        	}}/>
-					        	<Anchor href="tel:0522545151" sx={{
-								}}>+212 5 22 545 151</Anchor>
+					        	<Anchor href={"tel:"+phoneNumber} sx={{
+								}}>{phoneNumber}</Anchor>
 				        	</Text>
 
 							<Text mb="large" fontSize="medium">
@@ -119,8 +120,8 @@ export const FooterVariant3 = ({
 					        		verticalAlign: "middle",
 					        		marginRight: "medium",
 					        	}}/>
-					        	<Anchor href="mailto:contact@void.fr" sx={{
-								}}>contact@void.fr</Anchor>
+					        	<Anchor href="mailto:{{mailAddress}}" sx={{
+								}}>{mailAddress}</Anchor>
 				        	</Text>
 
 						{/*</address>*/}
@@ -131,6 +132,7 @@ export const FooterVariant3 = ({
 							Services we Offer
 						</Heading>
 
+						{ services ? services :
 						<Navs sx={{
 							flexDirection: ["column", "column", "column" ],
 							alignItems: 'start',
@@ -169,7 +171,8 @@ export const FooterVariant3 = ({
 									Php Development
 								</Col>
 							</Row>
-						</Navs>
+						</Navs>}
+
 					</Col>
 				</Row>
 			</Box>
