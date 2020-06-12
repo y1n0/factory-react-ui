@@ -1,0 +1,254 @@
+import React from 'react';
+import styled from 'styled-components';
+
+import {
+	Anchor,
+	Box,
+	Button,
+	Col,
+	Container,
+	Flex,
+	Footer,
+	Icon,
+	Image,
+	Input,
+	Heading,
+	Label,
+	Nav,
+	Navs,
+	Paragraph,
+	Row,
+	Text,
+} from '../../components';
+import vactory_logo from '../../assets/images/vactory.png';
+import void_logo from '../../assets/images/void-logo.png';
+
+const FooterHeadingsCss = {
+	textTransform:"uppercase",
+	fontSize: 'medium',
+	color: 'white',
+}
+
+const FooterNavs = () => <Navs sx={{
+	flexDirection: ["column", "column", "column" ],
+	alignItems: 'start',
+	paddingX: 0,
+	'.nav-item:hover': {
+		pl: 'small',
+	},
+	'.nav-item': {
+		transition: '.2s',
+	},
+	'.icon': {
+		size: "medium",
+		transform: "scale(-1)",
+		verticalAlign: "middle",
+		marginRight: "small",
+	}
+
+}}>
+	<Nav className="nav-item" pl={0}>
+		<Icon className="icon" name="arrows-left"/>
+		Website Design
+	</Nav>
+	<Nav className="nav-item" pl={0}>
+		<Icon className="icon" name="arrows-left"/>
+		Mobile App Development
+	</Nav>
+	<Nav className="nav-item" pl={0}>
+		<Icon className="icon" name="arrows-left"/>
+		Search Engine Optimization
+	</Nav>
+	<Nav className="nav-item" pl={0}>
+		<Icon className="icon" name="arrows-left"/>
+		Website Development
+	</Nav>
+</Navs>
+
+
+const Article = ({image, text, link=false, ...rest}) => {
+	return (
+		<Box {...rest}>
+			<Anchor href={link} __css={{
+				'&:hover': {
+					color: 'white',
+				}
+			}}>
+				<Flex alignItems="center">
+					<Image src={image} size="60px" mr='large' flexShrink={0} />
+
+					<Paragraph m={0} fontSize="small" lineHeight="caption">
+						{text}
+					</Paragraph>
+				</Flex>
+			</Anchor>
+		</Box>
+	);
+}
+
+
+
+
+export const FooterVariant4 = ({
+	logo,
+	about,
+	footerNavs=<FooterNavs />,
+	socialMedia,
+	address='134, Cornish Building, Some Near by area, New York, USA - 34556',
+	phoneNumber='+212 5 22 545 151',
+	mailAddress='contact@void.fr',
+	...rest
+}) => {
+	return (
+		<Footer __css={{
+			mt: 'large',
+			width: '100%',
+			borderTop: '1px solid',
+			borderColor: 'gray',
+			// backgroundColor: 'black800',
+			color: 'gray',
+			flexDirection: ['column', 'column','column'],
+		}}>
+
+
+		<Box backgroundColor="black800" flex={1} width="100%">
+		<Container>
+			<Flex __css={{
+				justifyContent: "center",
+				alignItems: "center",
+				flexWrap: "wrap",
+				py: "medium",
+				borderBottom: '1px solid',
+				borderColor: 'gray900',
+			}} >
+
+				{ logo ? logo :
+				<Anchor>
+					<Image size="64px" src="http://place-hold.it/64x64" mr="large" />
+				</Anchor>}
+
+				{ about ? about :
+				<Paragraph mr='auto' fontSize="small" maxWidth={['calc(100% - 64px - 24px)', null, "50%"]}>
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+					tempor incididunt ut labore et dolore magna ad minim.					
+				</Paragraph>}
+
+				<Flex __css={{
+					// flexShrink: 0,
+					marginLeft: [0, null, 'auto'],
+					// width: ['100%', null, 'auto'],
+				}} >
+					<Input id="e-mail-input" type="text" placeholder="Votre e-mail*" sx={{
+						borderTopRightRadius: 0,
+						borderBottomRightRadius: 0,
+						color: 'gray',
+					}} />
+					<Button __css={{
+						borderTopLeftRadius: 0,
+						borderBottomLeftRadius: 0,
+					}} >GO!</Button>
+				</Flex>
+
+			</Flex>
+
+			<Box py="medium">
+				<Row>
+					<Col xs={12} md={6} lg={3}>
+						<Heading level={3} __css={FooterHeadingsCss}>Services</Heading>
+						<Box>
+							{footerNavs}
+						</Box>
+					</Col>
+					
+					<Col xs={12} md={6} lg={3}>
+						<Heading level={3} __css={FooterHeadingsCss}>Projects</Heading>
+						<Box py="large">
+							<Article
+								mb="medium"
+								image="https://www.wrappixel.com/demos/ui-kit/wrapkit/assets/images/footer/img1.jpg"
+								text="Hotel nira inn got bigger heding you ever seen." />
+
+							<Article
+								image="https://www.wrappixel.com/demos/ui-kit/wrapkit/assets/images/footer/img2.jpg"
+								text="Hotel nira inn got bigger heding you ever seen." />
+						</Box>
+					</Col>
+					
+					<Col xs={12} md={6} lg={3}>
+						<Heading level={3} __css={FooterHeadingsCss}>Blog</Heading>
+						<Box py="large">
+							<Article
+								mb="medium"
+								image="https://www.wrappixel.com/demos/ui-kit/wrapkit/assets/images/footer/img3.jpg"
+								text="Hotel nira inn got bigger heding you ever seen." />
+
+							<Article
+								image="https://www.wrappixel.com/demos/ui-kit/wrapkit/assets/images/footer/img4.jpg"
+								text="Hotel nira inn got bigger heding you ever seen." />
+						</Box>
+					</Col>
+					
+					<Col xs={12} md={6} lg={3}>
+						<Heading level={3} __css={FooterHeadingsCss}>Contact</Heading>
+
+						<Box py="large" fontSize="s">
+								<Flex mb="large">
+									<Icon name="position-pin" color="gray" size="large" __css={{
+						        		verticalAlign: "middle",
+						        		marginRight: "medium",
+						        		flexShrink: 0,
+						        	}}/>
+						        	<Box>
+						        	{address}
+						        	</Box>
+					        	</Flex>
+
+								<Text mb="large">
+									<Icon name="headset" color="gray" size="large" __css={{
+						        		verticalAlign: "middle",
+						        		marginRight: "medium",
+						        	}}/>
+						        	<Anchor href={"tel:"+phoneNumber} sx={{
+									}}>{phoneNumber}</Anchor>
+					        	</Text>
+
+								<Text mb="large">
+									<Icon name="envelope" color="gray" size="large" __css={{
+						        		verticalAlign: "middle",
+						        		marginRight: "medium",
+						        	}}/>
+						        	<Anchor href="mailto:{{mailAddress}}" sx={{
+									}}>{mailAddress}</Anchor>
+					        	</Text>
+						</Box>
+						
+					</Col>
+					
+				</Row>
+			</Box>
+
+		</Container>
+		</Box>
+
+
+		<Box backgroundColor="black900" flex={1} width="100%">
+		<Container>
+			<Flex alignItems="center" justifyContent="space-between" py="large">
+				<Text>Copyright {new Date().getFullYear()}. All Rights Reserved.</Text>
+
+				{ socialMedia ? socialMedia :
+	                <Flex>
+	                    <Anchor ml="medium"><Icon name="facebook" size="small" color="#017CFE" /></Anchor>
+	                    <Anchor ml="medium"><Icon name="instagram" size="small" color="#017CFE" /></Anchor>
+	                    <Anchor ml="medium"><Icon name="twitter" size="small" color="#017CFE" /></Anchor>
+	                </Flex>
+				}
+				
+			</Flex>
+		</Container>
+		</Box>
+
+
+
+		</Footer>);
+}

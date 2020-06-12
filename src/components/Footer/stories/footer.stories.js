@@ -9,6 +9,7 @@ import { Icon} from '../../Icon';
 import { FooterVariant1 as _FooterVariant1 } from "../FooterVariant1"
 import { FooterVariant2 as _FooterVariant2 } from "../FooterVariant2"
 import { FooterVariant3 as _FooterVariant3 } from "../FooterVariant3"
+import { FooterVariant4 as _FooterVariant4 } from "../FooterVariant4"
 
 export const Simple = () => {
 
@@ -89,6 +90,12 @@ export const FooterVariant2 = () => (
 export const FooterVariant3 = () => (
     <Box minHeight="100vh" display="flex" flexDirection="column" justifyContent="flex-end">
         <_FooterVariant3 />
+    </Box>
+    );
+
+export const FooterVariant4 = () => (
+    <Box minHeight="100vh" display="flex" flexDirection="column" justifyContent="flex-end">
+        <_FooterVariant4 />
     </Box>
     );
 
