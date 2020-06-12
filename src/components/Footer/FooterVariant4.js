@@ -85,31 +85,19 @@ const Article = ({image, text, link=false, ...rest}) => {
 
 
 
-export const FooterVariant4 = ({
-	logo,
-	about,
-	footerNavs=<FooterNavs />,
-	socialMedia,
-	address='134, Cornish Building, Some Near by area, New York, USA - 34556',
-	phoneNumber='+212 5 22 545 151',
-	mailAddress='contact@void.fr',
-	...rest
-}) => {
+export const FooterVariant4 = (props) => {
 	return (
 		<Footer __css={{
 			mt: 'large',
 			width: '100%',
 			borderTop: '1px solid',
 			borderColor: 'gray',
-			// backgroundColor: 'black800',
 			color: 'gray',
 		}}
-
 		sx={{
 			flexDirection: ['column', 'column','column'],
 		}}
-		>
-
+		{...props} >
 
 		<Box backgroundColor="black800" flex={1} width="100%">
 		<Container>
@@ -122,16 +110,14 @@ export const FooterVariant4 = ({
 				borderColor: 'gray900',
 			}} >
 
-				{ logo ? logo :
 				<Anchor mr="large" >
 					<Image size="64px" src="http://place-hold.it/64x64" />
-				</Anchor>}
+				</Anchor>
 
-				{ about ? about :
 				<Paragraph mr='auto' fontSize="small" maxWidth={['calc(100% - 64px - 24px)', null, "50%"]}>
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
 					tempor incididunt ut labore et dolore magna ad minim.					
-				</Paragraph>}
+				</Paragraph>
 
 				<Flex __css={{
 					// flexShrink: 0,
@@ -156,7 +142,7 @@ export const FooterVariant4 = ({
 					<Col xs={12} md={6} lg={3}>
 						<Heading level={3} __css={FooterHeadingsCss}>Services</Heading>
 						<Box>
-							{footerNavs}
+							<FooterNavs />
 						</Box>
 					</Col>
 					
@@ -199,7 +185,7 @@ export const FooterVariant4 = ({
 						        		flexShrink: 0,
 						        	}}/>
 						        	<Box>
-						        	{address}
+						        	134, Cornish Building, Some Near by area, New York, USA - 34556
 						        	</Box>
 					        	</Flex>
 
@@ -208,8 +194,8 @@ export const FooterVariant4 = ({
 						        		verticalAlign: "middle",
 						        		marginRight: "medium",
 						        	}}/>
-						        	<Anchor href={"tel:"+phoneNumber} sx={{
-									}}>{phoneNumber}</Anchor>
+						        	<Anchor href={"tel:+212 5 22 545 151"} sx={{
+									}}>+212 5 22 545 151</Anchor>
 					        	</Text>
 
 								<Text mb="large">
@@ -217,8 +203,7 @@ export const FooterVariant4 = ({
 						        		verticalAlign: "middle",
 						        		marginRight: "medium",
 						        	}}/>
-						        	<Anchor href="mailto:{{mailAddress}}" sx={{
-									}}>{mailAddress}</Anchor>
+						        	<Anchor href="mailto:contact@void.fr">contact@void.fr</Anchor>
 					        	</Text>
 						</Box>
 						
@@ -236,13 +221,11 @@ export const FooterVariant4 = ({
 			<Flex alignItems="center" justifyContent="space-between" py="large">
 				<Text>Copyright {new Date().getFullYear()}. All Rights Reserved.</Text>
 
-				{ socialMedia ? socialMedia :
-	                <Flex>
-	                    <Anchor ml="medium"><Icon name="facebook" size="small" color="#017CFE" /></Anchor>
-	                    <Anchor ml="medium"><Icon name="instagram" size="small" color="#017CFE" /></Anchor>
-	                    <Anchor ml="medium"><Icon name="twitter" size="small" color="#017CFE" /></Anchor>
-	                </Flex>
-				}
+                <Flex>
+                    <Anchor ml="medium"><Icon name="facebook" size="small" color="#017CFE" /></Anchor>
+                    <Anchor ml="medium"><Icon name="instagram" size="small" color="#017CFE" /></Anchor>
+                    <Anchor ml="medium"><Icon name="twitter" size="small" color="#017CFE" /></Anchor>
+                </Flex>
 				
 			</Flex>
 		</Container>

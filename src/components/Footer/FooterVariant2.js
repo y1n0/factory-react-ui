@@ -18,19 +18,12 @@ import vactory_logo from '../../assets/images/vactory.png';
 import void_logo from '../../assets/images/void-logo.png';
 
 
-export const FooterVariant2 = ({
-	navs,
-	copyright,
-	logo,
-	socialMedia,
-	phoneNumber,
-	...props
-}) => {
+export const FooterVariant2 = (props) => {
 	return (
-		<Footer mt='large' __css={{
+		<Footer __css={{
 			width: '100%',
 			borderTop: '1px solid gray',
-		}}>
+		}} {...props} >
 		<Container>
 
 			<Flex __css={{
@@ -40,10 +33,10 @@ export const FooterVariant2 = ({
 				alignItems: ["center", null, "start"],
 				flexDirection: ["column", null, "row"],
 			}} >
-				{ logo ? logo :
+
 				<Anchor>
 					<Image width="130px" src={vactory_logo} />
-				</Anchor>}
+				</Anchor>
 
 				<Box __css={{
 					marginY: ['xxlarge', null, 0],
@@ -63,12 +56,11 @@ export const FooterVariant2 = ({
 						}} />
 				</Box>
 
-				{ socialMedia ? socialMedia :
                 <Flex>
                     <Anchor ml="16px"><Icon name="facebook" size="24px" color="#017CFE" /></Anchor>
                     <Anchor ml="16px"><Icon name="instagram" size="24px" color="#017CFE" /></Anchor>
                     <Anchor ml="16px"><Icon name="twitter" size="24px" color="#017CFE" /></Anchor>
-                </Flex>}
+                </Flex>
 				
 			</Flex>
 
@@ -80,21 +72,20 @@ export const FooterVariant2 = ({
 				flexDirection: ["column", null, "row"],
 				borderBottom: "1px dashed gray",
 			}} >
-				{ phoneNumber ? phoneNumber :
+
 				<Flex>
 					<Text mr="small">Nous contacter: </Text>
 					<Anchor href="tel:0522545151" sx={{
 						color: 'primary500',
 						fontWeight: 'bold',
 					}}>05 22 54 51 51</Anchor>
-				</Flex>}
+				</Flex>
 
-				{ navs ? navs :
 		        <Navs>
 		            <Nav href="#">Acceuil</Nav>
 		            <Nav href="#">Produits & Service</Nav>
 		            <Nav href="#" active={true}>Assurance</Nav>
-		        </Navs>}
+		        </Navs>
 			</Flex>
 
 			<Flex __css={{
@@ -111,10 +102,9 @@ export const FooterVariant2 = ({
 					</Anchor>
 				</Text>
 
-				{ copyright ? copyright :
 				<Text>
 					Vactory {new Date().getFullYear()} © Tous droits réservés
-				</Text>}
+				</Text>
 			</Flex>
 
 			

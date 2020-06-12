@@ -19,20 +19,10 @@ import {
 } from '../../components';
 import vactory_logo from '../../assets/images/vactory.png';
 
-export const FooterVariant3 = ({
-	navs,
-	logo,
-	about,
-	services,
-	address='134, Cornish Building, Some Near by area, New York, USA - 34556',
-	phoneNumber='+212 5 22 545 151',
-	mailAddress='contact@void.fr',
-	mainAction,
-	...rest
-}) => {
+export const FooterVariant3 = (props) => {
 	const [isNavOpen, setNavOpen] = useState(false);
 	return (
-		<Footer>
+		<Footer {...props}>
 			<Container>
 			<Flex __css={{
 				display: ['flex', null, 'none'],
@@ -57,7 +47,7 @@ export const FooterVariant3 = ({
 				display: [ isNavOpen ? 'flex' : 'none !important', null, 'flex'],
 			}}
 			>
-				{ navs ? navs :
+
 		        <Navs padding="none" alignItems={["start", null, "center"]} >
 		            <Nav href="#">Acceuil</Nav>
 		            <Nav href="#">About</Nav>
@@ -65,37 +55,34 @@ export const FooterVariant3 = ({
 		            <Nav href="#">Blog</Nav>
 		            <Nav href="#">Work</Nav>
 		            <Nav href="#">Contact</Nav>
-		        </Navs>}
+		        </Navs>
 
-		        { mainAction ? mainAction :
 		        <Anchor textTransform="uppercase" padding="small">
 		        	<Icon name="opened-envelope" color="danger" size="large" __css={{
 		        		verticalAlign: "bottom",
 		        		marginRight: "small",
 		        	}}/>
 		        	Prendre un rendez-vous
-		        </Anchor>}
+		        </Anchor>
 			</Flex>
 
 			<Box borderTop="1px solid" borderColor="gray400" paddingTop="xxlarge">
 				<Row>
 					<Col xs={12} md={3}>
-						{ logo ? logo :
+
 						<Anchor>
 							<Image width="130px" src={vactory_logo} />
-						</Anchor>}
+						</Anchor>
 
-						{ about ? about :
 						<Paragraph>
 							You can relay on our amazing features list and also our customer services will be great experience.<br />
 							our amazing features list and also our customer services is great.
-						</Paragraph>}
+						</Paragraph>
 					</Col>
 
 					<Col xs={12} md={3}>
-						{/*<address>*/}
 							<Text mb="large" fontSize="medium" lineHeight="heading5">
-								<Icon name="headset" color="gray" size="large" __css={{
+								<Icon name="position-pin" color="gray" size="large" __css={{
 					        		verticalAlign: "middle",
 					        		marginRight: "medium",
 					        	}}/>
@@ -103,7 +90,7 @@ export const FooterVariant3 = ({
 				        	</Text>
 
 							<Text pl="xxlarge" mb="large">
-								{address}
+								134, Cornish Building, Some Near by area, New York, USA - 34556
 							</Text>
 
 							<Text mb="large" fontSize="medium">
@@ -111,8 +98,8 @@ export const FooterVariant3 = ({
 					        		verticalAlign: "middle",
 					        		marginRight: "medium",
 					        	}}/>
-					        	<Anchor href={"tel:"+phoneNumber} sx={{
-								}}>{phoneNumber}</Anchor>
+					        	<Anchor href="tel:+212 5 22 545 151" sx={{
+								}}>+212 5 22 545 151</Anchor>
 				        	</Text>
 
 							<Text mb="large" fontSize="medium">
@@ -120,11 +107,9 @@ export const FooterVariant3 = ({
 					        		verticalAlign: "middle",
 					        		marginRight: "medium",
 					        	}}/>
-					        	<Anchor href="mailto:{{mailAddress}}" sx={{
-								}}>{mailAddress}</Anchor>
+					        	<Anchor href="mailto:contact@void.fr" sx={{
+								}}>contact@void.fr</Anchor>
 				        	</Text>
-
-						{/*</address>*/}
 					</Col>
 					
 					<Col xs={12} md={6} >
@@ -132,7 +117,6 @@ export const FooterVariant3 = ({
 							Services we Offer
 						</Heading>
 
-						{ services ? services :
 						<Navs sx={{
 							flexDirection: ["column", "column", "column" ],
 							alignItems: 'start',
@@ -171,7 +155,7 @@ export const FooterVariant3 = ({
 									Php Development
 								</Col>
 							</Row>
-						</Navs>}
+						</Navs>
 
 					</Col>
 				</Row>

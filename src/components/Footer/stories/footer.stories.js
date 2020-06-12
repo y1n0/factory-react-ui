@@ -6,10 +6,10 @@ import { Text } from '../../Typography';
 import { Anchor } from '../../Anchor/Anchor';
 import { Navs, Nav } from '../../Navs';
 import { Icon} from '../../Icon';
-import { FooterVariant1 as _FooterVariant1 } from "../FooterVariant1"
-import { FooterVariant2 as _FooterVariant2 } from "../FooterVariant2"
-import { FooterVariant3 as _FooterVariant3 } from "../FooterVariant3"
-import { FooterVariant4 as _FooterVariant4 } from "../FooterVariant4"
+import { FooterVariant1 } from "../FooterVariant1"
+import { FooterVariant2 } from "../FooterVariant2"
+import { FooterVariant3 } from "../FooterVariant3"
+import { FooterVariant4 } from "../FooterVariant4"
 
 export const Simple = () => {
 
@@ -76,26 +76,26 @@ export const AWFFooter = () => {
         </Box>);
 }
 
-export const FooterVariant1 = () => (
+export const FooterVariantOne = () => (
     <Box minHeight="100vh" display="flex" flexDirection="column" justifyContent="flex-end">
-        <_FooterVariant1 />
+        <FooterVariant1 />
     </Box>);
 
-export const FooterVariant2 = () => (
+export const FooterVariantTwo = () => (
     <Box minHeight="100vh" display="flex" flexDirection="column" justifyContent="flex-end">
-        <_FooterVariant2 />
+        <FooterVariant2 />
     </Box>
     );
 
-export const FooterVariant3 = () => (
+export const FooterVariantThree = () => (
     <Box minHeight="100vh" display="flex" flexDirection="column" justifyContent="flex-end">
-        <_FooterVariant3 />
+        <FooterVariant3 />
     </Box>
     );
 
-export const FooterVariant4 = () => (
+export const FooterVariantFour = () => (
     <Box minHeight="100vh" display="flex" flexDirection="column" justifyContent="flex-end">
-        <_FooterVariant4 />
+        <FooterVariant4 />
     </Box>
     );
 
