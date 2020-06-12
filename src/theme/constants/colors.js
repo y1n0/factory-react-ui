@@ -98,4 +98,14 @@ const colors = {
 
 };
 
-export default colors;
+const defaultColorVariants = {
+    primary :  colors.primary500,
+    black   :  colors.black500,
+    gray    :  colors.gray500,
+    success :  colors.success500,
+    info    :  colors.info500,
+    warning :  colors.warning500,
+    danger  :  colors.danger500
+}
+
+export default {...colors, ...defaultColorVariants};
