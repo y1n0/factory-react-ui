@@ -10,7 +10,6 @@ export const Variant1 = () => {
             <Breadcrumb>
                 <BreadcrumbItem href="#">Acceuil</BreadcrumbItem>
                 <BreadcrumbItem href="#">Produits & Service</BreadcrumbItem>
-
                 <BreadcrumbItem href="#" active={true}>Assurance</BreadcrumbItem>
             </Breadcrumb>
         </Box>
