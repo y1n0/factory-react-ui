@@ -1,26 +1,27 @@
 
 
 const breadcrumb = {
+
+    default: {
+
+        '& .vf-breadcrumb__item': {
+        },
+        '& vf-breadcrumb__item.vf-breadcrumb__item--active': {
     
-
-    item: {
-
+        },
     },
-    activeItem: {
-
-    },
-
-    // variants
-
+    
+    // variants goes here
+    // TODO replace this capitalAzur variant with another one
     capitalazur: {
         backgroundColor: 'transparent',
         padding: 'small',
         fontFamily: 'montserrat',
         fontSize: '16px',
-        item: {
+        '& .vf-breadcrumb__item': {
 
         },
-        activeItem: {
+        '& vf-breadcrumb__item.vf-breadcrumb__item--active': {
             color: 'primary900',
             ':hover': {
                 color: 'primary500'

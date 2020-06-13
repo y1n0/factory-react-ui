@@ -1,50 +1,42 @@
 
 import React, { forwardRef, Children, cloneElement, Fragment } from "react";
-import {Box} from '../Box';
+import { Box } from '../Box';
 import { getVariant, getSystemProps } from "../../core";
 
 
+
+const renderBreadcrumbItems = (children, separator) => Children.toArray(children)
+    .filter(child => child)
+    .map((child, index) => {
+
+        const childrenCount = Children.count(children);
+        const isLastItem = childrenCount === index + 1;
+
+        return (<Fragment key={index}>
+            {child}
+            {isLastItem || (
+                typeof separator === 'string'
+                    ?
+                    (<Box mx="medium" className="vf-breadcrumb__separator">{separator}</Box>)
+                    :
+                    cloneElement(separator, { className: 'vf-breadcrumb__separator' })
+            )}
+        </Fragment>);
+    })
+
 export const Breadcrumb = forwardRef(({
-    variant='breadcrumb',
+    variant = 'breadcrumb.default',
     children,
     separator = '/',
     sx,
     ...rest
-}, ref)=> {
+}, ref) => {
 
-
-
-    const items = Children.toArray(children)
-                          .filter(child => child)
-                          .map((child, index) => {
-
-        const childrenCount = Children.count(children); 
-        const isLastItem = childrenCount === index+1;
-    
-
-        const item = cloneElement(child, {
-            variant: child.props.variant || variant,
-        })
-
-        return (<Fragment key={index}>
-            {item}
-            {isLastItem || (
-                typeof separator === 'string'
-                ? 
-                (<Box mx="medium">{separator}</Box>)
-                :
-                (separator)
-            )}
-        </Fragment>)
-
-
-        
-
-    })
-
+    const items = renderBreadcrumbItems(children, separator);
 
     return (
         <Box
+            className="vf-breadcrumb"
             ref={ref}
             sx={sx}
             {...getSystemProps(rest)}
@@ -57,7 +49,7 @@ export const Breadcrumb = forwardRef(({
                 alignItems: 'center',
             }}
         >
-                {items}
+            {items}
         </Box>
     );
 

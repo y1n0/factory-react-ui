@@ -1,12 +1,10 @@
 import React from 'react';
 import {Box} from '../../components';
 
-
 export const Anchor = React.forwardRef(({
         variant = "anchor.default",
         ...rest
     }, ref) => {
-
 
     return <Box as="a" ref={ref}  variant={variant} {...rest} __css={{
         boxSizing: 'border-box',
