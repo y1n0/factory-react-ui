@@ -7,7 +7,7 @@ export const Variant1 = () => {
     return (
         <Box>
             <CardVariant1>
-                ssss
+                TODO
             </CardVariant1>
         </Box>
     )
