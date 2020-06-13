@@ -1,8 +1,8 @@
 import React, { forwardRef, useContext, cloneElement } from 'react';
-import { Box } from '../Box';
 import { AccordionContext } from './AccordionContext';
 import { getVariant, getSystemProps } from '../../core';
 
+import { Box, MotionBox } from '../../components';
 
 
 const PanelHeaderBaseStyle = {
@@ -10,9 +10,12 @@ const PanelHeaderBaseStyle = {
   alignItems: 'center',
   flexDirection: 'row',
   justifyContent: 'space-between',
-  borderBottom: '1px solid',
-  borderColor: 'gray400',
+  borderBottom: '2px solid',
+  borderColor: 'gray300',
   marginBottom: '-1px',
+  backgroundColor: 'transparent',
+  py: ['medium', null, 'large'],
+  px: 0
 };
 
 export const AccordionPanel = forwardRef(
@@ -21,42 +24,52 @@ export const AccordionPanel = forwardRef(
       children,
       header,
       title,
-      variant="accordion",
+      variant,
       key,
       sx,
+      animationTransition = { ease: "easeInOut", duration: 0.3 },
       ...rest
     },
     ref,
   ) => {
 
-    // let Header;
-    // if (header) {
-    //   Header = cloneElement(header, {
-    //     __css: { marginBottom: '-1px' },
-    //   });
-    // }
-
     const { active, variant: variantAccordion, onPanelChange } = useContext(AccordionContext);
+
+
+    const motionVariantsContent = {
+      active: {
+        height:"unset",
+        display:"block",
+        transition: animationTransition
+      },
+      inactive: {
+        height:"0px",
+        transitionEnd: {
+          display: "none",
+        },
+      }
+    }
 
     if (variant === undefined) {
       variant = variantAccordion;
     }
 
     return (
-      <Box ref={ref}
+      <MotionBox
+        className={`vf-accordion-panel ${ active ? 'vf-accordion-panel--active': ''}`}
+        ref={ref}
         __css={{
-          border: '1px solid',
-          borderColor: 'gray300',
+          border:0,
           '&:not(:last-of-type)': {
             borderBottom: 0,
           }
         }}
         sx={sx}
-        variant={getVariant([variant, 'panel'])}
         {...getSystemProps(rest)}
       >
 
-        <Box
+        <MotionBox
+          className="vf-accordion-panel__title-container"
           role="tab"
           aria-selected={active}
           aria-expanded={active}
@@ -76,30 +89,39 @@ export const AccordionPanel = forwardRef(
           {typeof title === 'string' ?
             (
               <Box
+                className="vf-accordion-panel__title"
                 __css={PanelHeaderBaseStyle}
-                variant={getVariant([variant, 'header'])}
               >
                 {title}
               </Box>
             ) :
-            cloneElement(title, { __css: PanelHeaderBaseStyle }) 
-            }
-        </Box>
+            cloneElement(title, { __css: PanelHeaderBaseStyle, className:'vf-accordion-panel__title' })
+          }
+        </MotionBox>
 
 
-        <Box
+        <MotionBox
+          initial="inactive"
+          animate={active ? 'active': 'inactive'}        
+          variants={motionVariantsContent}
           __css={{
-            maxHeight: active ? 'unset' : '0px',
-            visibility: active ? 'visible' : 'hidden',
-            overflow: active ? null : 'hidden',
-            display: active ? null : 'none',
+             overflow: 'hidden',
           }}
-          variant={getVariant([variant, 'content'])}
         >
-          {children}
-        </Box>
+          <Box
+            __css={{
+              py: ['medium', null, 'large'],
+              px: 0
+            }}
+            className="vf-accordion__panel-content"
+            variant={getVariant([variant, 'content'])}
+          >
 
-      </Box>
+          {children}
+          </Box>
+        </MotionBox>
+
+      </MotionBox>
     );
 
 
