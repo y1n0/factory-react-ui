@@ -13,6 +13,7 @@ export const Text = ({ children, as = 'p', ...rest }) => <Box {...rest} as={as} 
 
 export const Paragraph = ({
     children,
+    variant = "paragraph.default",
     ...rest
 }) => {
 
@@ -22,6 +23,7 @@ export const Paragraph = ({
             lineHeight: "paragraph",
             mb: "xsmall",
         }}
+        variant={variant}
             {...rest}>
             {children}
         </Text>

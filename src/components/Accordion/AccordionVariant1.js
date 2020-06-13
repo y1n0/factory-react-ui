@@ -7,7 +7,7 @@ import { Icon } from '../Icon';
 import { MotionFlex } from '../Animation';
 
 
-// Todo : enable icon customization
+// TODO : enable icon customization
 const AccordionPanelTitleVariant1 = ({ title, active, ...rest }) => {
     const motionVariants = {
         active: {
@@ -29,6 +29,8 @@ const AccordionPanelTitleVariant1 = ({ title, active, ...rest }) => {
         </Box>
     </Flex>
 }
+
+
 export const AccordionPanelVariant1 = ({
     children,
     title,
