@@ -1,5 +1,4 @@
 import React from 'react';
-// import { Box, Flex } from '../../Box';
 import { Box, Container, Text } from '../../../components';
 
 import { AccordionPanelVariant1, AccordionVariant1 } from '../AccordionVariant1';
