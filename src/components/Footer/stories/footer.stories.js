@@ -6,10 +6,6 @@ import { Text } from '../../Typography';
 import { Anchor } from '../../Anchor/Anchor';
 import { Navs, Nav } from '../../Navs';
 import { Icon} from '../../Icon';
-import { FooterVariant1 } from "../FooterVariant1"
-import { FooterVariant2 } from "../FooterVariant2"
-import { FooterVariant3 } from "../FooterVariant3"
-import { FooterVariant4 } from "../FooterVariant4"
 
 export const Simple = () => {
 
@@ -75,29 +71,6 @@ export const AWFFooter = () => {
             </Footer>
         </Box>);
 }
-
-export const FooterVariantOne = () => (
-    <Box minHeight="100vh" display="flex" flexDirection="column" justifyContent="flex-end">
-        <FooterVariant1 />
-    </Box>);
-
-export const FooterVariantTwo = () => (
-    <Box minHeight="100vh" display="flex" flexDirection="column" justifyContent="flex-end">
-        <FooterVariant2 />
-    </Box>
-    );
-
-export const FooterVariantThree = () => (
-    <Box minHeight="100vh" display="flex" flexDirection="column" justifyContent="flex-end">
-        <FooterVariant3 />
-    </Box>
-    );
-
-export const FooterVariantFour = () => (
-    <Box minHeight="100vh" display="flex" flexDirection="column" justifyContent="flex-end">
-        <FooterVariant4 />
-    </Box>
-    );
 
 export default {
     title: 'Footer'

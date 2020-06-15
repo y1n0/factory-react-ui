@@ -17,7 +17,7 @@ import {
 	Paragraph,
 	Row,
 	Text,
-} from '../../components';
+} from '../../../components';
 
 const FooterHeadingsCss = {
 	textTransform:"uppercase",
@@ -88,7 +88,7 @@ const Article = ({image, text, link=false, ...rest}) => {
 export const FooterVariant4 = (props) => {
 	return (
 		<Footer __css={{
-			mt: 'large',
+            mt: 'xxxlarge',
 			width: '100%',
 			borderTop: '1px solid',
 			borderColor: 'gray',
@@ -234,4 +234,8 @@ export const FooterVariant4 = (props) => {
 
 
 		</Footer>);
+}
+
+export default {
+    title: 'Footer'
 }

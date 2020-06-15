@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Footer } from './Footer';
-import { Box, Flex } from '../Box';
-import { Navs, Nav } from '../Navs';
-import { Icon} from '../Icon';
+import { Footer } from '../Footer';
+import { Box, Flex } from '../../Box';
+import { Navs, Nav } from '../../Navs';
+import { Icon} from '../../Icon';
 
 
 const FooterNav = props =>  <Nav sx={{
@@ -33,7 +33,8 @@ export const FooterVariant1 = () => {
             backgroundColor: '#fff',
             fontFamily: 'montserrat',
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            mt: 'xxxlarge'
         }}>
             <Flex sx={{
                 width: ['100%', '100%', '900px', '100%', '100%'],
@@ -78,4 +79,8 @@ export const FooterVariant1 = () => {
             </Flex>
         </Footer>
     )
+}
+
+export default {
+    title: 'Footer'
 }

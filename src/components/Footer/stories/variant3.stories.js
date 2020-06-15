@@ -16,13 +16,13 @@ import {
 	Paragraph,
 	Text,
 	Row,
-} from '../../components';
-import vactory_logo from '../../assets/images/vactory.png';
+} from '../../../components';
+import vactory_logo from '../../../assets/images/vactory.png';
 
 export const FooterVariant3 = (props) => {
 	const [isNavOpen, setNavOpen] = useState(false);
 	return (
-		<Footer {...props}>
+		<Footer mt='xxxlarge' {...props}>
 			<Container>
 			<Flex __css={{
 				display: ['flex', null, 'none'],
@@ -164,4 +164,8 @@ export const FooterVariant3 = (props) => {
 			
 		</Container>
 	</Footer>);
+}
+
+export default {
+    title: 'Footer'
 }

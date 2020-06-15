@@ -13,9 +13,9 @@ import {
 	Nav,
 	Navs,
 	Text,
-} from '../../components';
-import vactory_logo from '../../assets/images/vactory.png';
-import void_logo from '../../assets/images/void-logo.png';
+} from '../../../components';
+import vactory_logo from '../../../assets/images/vactory.png';
+import void_logo from '../../../assets/images/void-logo.png';
 
 
 export const FooterVariant2 = (props) => {
@@ -23,6 +23,7 @@ export const FooterVariant2 = (props) => {
 		<Footer __css={{
 			width: '100%',
 			borderTop: '1px solid gray',
+            mt: 'xxxlarge',
 		}} {...props} >
 		<Container>
 
@@ -110,4 +111,8 @@ export const FooterVariant2 = (props) => {
 			
 		</Container>
 		</Footer>);
+}
+
+export default {
+    title: 'Footer'
 }
