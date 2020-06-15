@@ -1,6 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
-
+import { action } from '@storybook/addon-actions';
 
 import {
 	Anchor,
@@ -21,6 +21,7 @@ import void_logo from '../../../assets/images/void-logo.png';
 
 
 export const FooterVariant2 = ({className, ...props}) => {
+	const formSubmitted = action('form-submit');
 	return (
 		<Footer __css={{
 			width: '100%',
@@ -41,7 +42,7 @@ export const FooterVariant2 = ({className, ...props}) => {
 					<Image width="130px" src={vactory_logo} />
 				</Anchor>
 
-				<Box __css={{
+				<Box as="form" onSubmit={(e) => {formSubmitted(e); e.preventDefault()}} __css={{
 					marginY: ['xxlarge', null, 0],
 				}} className="vf-footer2__maillist">
 					<Label for="e-mail-input" fontWeight="bold">Restez informés</Label>
