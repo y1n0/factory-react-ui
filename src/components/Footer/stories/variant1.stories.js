@@ -35,7 +35,7 @@ export const FooterVariant1 = () => {
             display: 'flex',
             flexDirection: 'column',
             mt: 'xxxlarge'
-        }}>
+        }} className="vf-footer1">
             <Flex sx={{
                 width: ['100%', '100%', '900px', '100%', '100%'],
                 display: 'flex',
@@ -49,12 +49,12 @@ export const FooterVariant1 = () => {
                     alignItems: ['baseline', 'center'],
                     p: '23px 12px',
                 }}>
-                    <Flex mb={['16px', '0px']}>
+                    <Flex mb={['16px', '0px']} className="vf-footer1__social-media">
                         <Box mr="16px"><Icon name="facebook" size="24px" color="#017CFE" /></Box>
                         <Box mr="16px"><Icon name="instagram" size="24px" color="#017CFE" /></Box>
                         <Box mr="16px"><Icon name="twitter" size="24px" color="#017CFE" /></Box>
                     </Flex>
-                    <Flex>
+                    <Flex className="vf-footer1__nav-menu">
                         <FooterNavs>
                            <FooterNav>Nous Contacter</FooterNav>
                            <FooterNav>Mentions Légales</FooterNav>
@@ -71,7 +71,7 @@ export const FooterVariant1 = () => {
                     p: '23px 12px',
                     borderTop: '1px solid',
                     borderTopColor: 'gray400',
-                }}>
+                }} className="vf-footer1__copytight">
                     <Box mb={['12px', '0']}>©2020 CAPITAL AZUR</Box>
                     <Box>Conception et Développement: VOID</Box>
                 </Flex>

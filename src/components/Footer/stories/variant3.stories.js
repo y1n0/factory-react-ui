@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import classnames from 'classnames';
 
 import {
 	Anchor,
@@ -19,10 +20,10 @@ import {
 } from '../../../components';
 import vactory_logo from '../../../assets/images/vactory.png';
 
-export const FooterVariant3 = (props) => {
+export const FooterVariant3 = ({className, ...props}) => {
 	const [isNavOpen, setNavOpen] = useState(false);
 	return (
-		<Footer mt='xxxlarge' {...props}>
+		<Footer mt='xxxlarge' className={classnames("vf-footer3", className)} {...props} >
 			<Container>
 			<Flex __css={{
 				display: ['flex', null, 'none'],
@@ -48,7 +49,7 @@ export const FooterVariant3 = (props) => {
 			}}
 			>
 
-		        <Navs padding="none" alignItems={["start", null, "center"]} >
+		        <Navs className="vf-footer3__nav-menu" padding="none" alignItems={["start", null, "center"]} >
 		            <Nav href="#">Acceuil</Nav>
 		            <Nav href="#">About</Nav>
 		            <Nav href="#">Services</Nav>
@@ -57,7 +58,7 @@ export const FooterVariant3 = (props) => {
 		            <Nav href="#">Contact</Nav>
 		        </Navs>
 
-		        <Anchor textTransform="uppercase" padding="small">
+		        <Anchor className="vf-footer3__action" textTransform="uppercase" padding="small">
 		        	<Icon name="opened-envelope" color="danger" size="large" __css={{
 		        		verticalAlign: "bottom",
 		        		marginRight: "small",
@@ -66,11 +67,11 @@ export const FooterVariant3 = (props) => {
 		        </Anchor>
 			</Flex>
 
-			<Box borderTop="1px solid" borderColor="gray400" paddingTop="xxlarge">
+			<Box className="vf-footer3__services" borderTop="1px solid" borderColor="gray400" paddingTop="xxlarge">
 				<Row>
 					<Col xs={12} md={3}>
 
-						<Anchor>
+						<Anchor className="vf-footer3__logo">
 							<Image width="130px" src={vactory_logo} />
 						</Anchor>
 
@@ -80,7 +81,7 @@ export const FooterVariant3 = (props) => {
 						</Paragraph>
 					</Col>
 
-					<Col xs={12} md={3}>
+					<Col xs={12} md={3} className="vf-footer3__contact">
 							<Text mb="large" fontSize="medium" lineHeight="heading5">
 								<Icon name="position-pin" color="gray" size="large" __css={{
 					        		verticalAlign: "middle",

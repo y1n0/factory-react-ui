@@ -1,4 +1,6 @@
 import React from 'react';
+import classnames from 'classnames';
+
 
 import {
 	Anchor,
@@ -18,13 +20,13 @@ import vactory_logo from '../../../assets/images/vactory.png';
 import void_logo from '../../../assets/images/void-logo.png';
 
 
-export const FooterVariant2 = (props) => {
+export const FooterVariant2 = ({className, ...props}) => {
 	return (
 		<Footer __css={{
 			width: '100%',
 			borderTop: '1px solid gray',
             mt: 'xxxlarge',
-		}} {...props} >
+		}} {...props} className={classnames("vf-footer2", className)}>
 		<Container>
 
 			<Flex __css={{
@@ -35,13 +37,13 @@ export const FooterVariant2 = (props) => {
 				flexDirection: ["column", null, "row"],
 			}} >
 
-				<Anchor>
+				<Anchor className="vf-footer2__logo">
 					<Image width="130px" src={vactory_logo} />
 				</Anchor>
 
 				<Box __css={{
 					marginY: ['xxlarge', null, 0],
-				}} >
+				}} className="vf-footer2__maillist">
 					<Label for="e-mail-input" fontWeight="bold">Restez informés</Label>
 					<Input id="e-mail-input" type="text" placeholder="Votre e-mail*"
 						reverse={true}
@@ -57,7 +59,7 @@ export const FooterVariant2 = (props) => {
 						}} />
 				</Box>
 
-                <Flex>
+                <Flex className="vf-footer2__social-media">
                     <Anchor ml="16px"><Icon name="facebook" size="24px" color="#017CFE" /></Anchor>
                     <Anchor ml="16px"><Icon name="instagram" size="24px" color="#017CFE" /></Anchor>
                     <Anchor ml="16px"><Icon name="twitter" size="24px" color="#017CFE" /></Anchor>
@@ -74,7 +76,7 @@ export const FooterVariant2 = (props) => {
 				borderBottom: "1px dashed gray",
 			}} >
 
-				<Flex>
+				<Flex className="vf-footer2__phone">
 					<Text mr="small">Nous contacter: </Text>
 					<Anchor href="tel:0522545151" sx={{
 						color: 'primary500',
@@ -82,7 +84,7 @@ export const FooterVariant2 = (props) => {
 					}}>05 22 54 51 51</Anchor>
 				</Flex>
 
-		        <Navs>
+		        <Navs className="vf-footer2__nav-menu">
 		            <Nav href="#">Acceuil</Nav>
 		            <Nav href="#">Produits & Service</Nav>
 		            <Nav href="#" active={true}>Assurance</Nav>
@@ -96,14 +98,14 @@ export const FooterVariant2 = (props) => {
 				alignItems: ["center", null, "start"],
 				flexDirection: ["column", null, "row"],
 			}} >
-				<Text mb={[ 'medium', null, 0 ]}>
+				<Text mb={[ 'medium', null, 0 ]} className="vf-footer2__creator">
 					conception et développement:
 					<Anchor href="//void.fr" target="_blank" ml="small">
 						<Image src={void_logo} alt="void logo" height="15px" verticalAlign="middle" />
 					</Anchor>
 				</Text>
 
-				<Text>
+				<Text className="vf-footer2__copyright">
 					Vactory {new Date().getFullYear()} © Tous droits réservés
 				</Text>
 			</Flex>

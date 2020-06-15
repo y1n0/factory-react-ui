@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 
 import {
 	Anchor,
@@ -85,7 +86,7 @@ const Article = ({image, text, link=false, ...rest}) => {
 
 
 
-export const FooterVariant4 = (props) => {
+export const FooterVariant4 = ({className, ...props}) => {
 	return (
 		<Footer __css={{
             mt: 'xxxlarge',
@@ -97,6 +98,7 @@ export const FooterVariant4 = (props) => {
 		sx={{
 			flexDirection: ['column', 'column','column'],
 		}}
+		className={classnames("vf-footer4", className)}
 		{...props} >
 
 		<Box backgroundColor="black800" flex={1} width="100%">
@@ -110,11 +112,13 @@ export const FooterVariant4 = (props) => {
 				borderColor: 'gray900',
 			}} >
 
-				<Anchor mr="large" >
+				<Anchor mr="large" className="vf-footer4__logo">
 					<Image size="64px" src="http://place-hold.it/64x64" />
 				</Anchor>
 
-				<Paragraph mr='auto' fontSize="small" maxWidth={['calc(100% - 64px - 24px)', null, "50%"]}>
+				<Paragraph mr='auto' fontSize="small"
+					maxWidth={['calc(100% - 64px - 24px)', null, "50%"]}
+				 	className="vf-footer4__about" >
 					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
 					tempor incididunt ut labore et dolore magna ad minim.					
 				</Paragraph>
@@ -123,7 +127,7 @@ export const FooterVariant4 = (props) => {
 					// flexShrink: 0,
 					marginLeft: [0, null, 'auto'],
 					// width: ['100%', null, 'auto'],
-				}} >
+				}} className="vf-footer4__maillist">
 					<Input id="e-mail-input" type="text" placeholder="Votre e-mail*" sx={{
 						borderTopRightRadius: 0,
 						borderBottomRightRadius: 0,
@@ -137,11 +141,11 @@ export const FooterVariant4 = (props) => {
 
 			</Flex>
 
-			<Box py="medium">
+			<Box py="medium" className="vf-footer4__blocks">
 				<Row>
 					<Col xs={12} md={6} lg={3}>
 						<Heading level={3} __css={FooterHeadingsCss}>Services</Heading>
-						<Box>
+						<Box className="vf-footer4__nav-menu">
 							<FooterNavs />
 						</Box>
 					</Col>
@@ -177,7 +181,7 @@ export const FooterVariant4 = (props) => {
 					<Col xs={12} md={6} lg={3}>
 						<Heading level={3} __css={FooterHeadingsCss}>Contact</Heading>
 
-						<Box py="large" fontSize="s">
+						<Box py="large" fontSize="s" className="vf-footer4__contact">
 								<Flex mb="large">
 									<Icon name="position-pin" color="gray" size="large" __css={{
 						        		verticalAlign: "middle",
@@ -219,9 +223,9 @@ export const FooterVariant4 = (props) => {
 		<Box backgroundColor="black900" flex={1} width="100%">
 		<Container>
 			<Flex alignItems="center" justifyContent="space-between" py="large">
-				<Text>Copyright {new Date().getFullYear()}. All Rights Reserved.</Text>
+				<Text className="vf-footer4__copyright">Copyright {new Date().getFullYear()}. All Rights Reserved.</Text>
 
-                <Flex>
+                <Flex className="vf-footer4__social-media">
                     <Anchor ml="medium"><Icon name="facebook" size="small" color="#017CFE" /></Anchor>
                     <Anchor ml="medium"><Icon name="instagram" size="small" color="#017CFE" /></Anchor>
                     <Anchor ml="medium"><Icon name="twitter" size="small" color="#017CFE" /></Anchor>
