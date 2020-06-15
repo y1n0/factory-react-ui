@@ -1,5 +1,6 @@
 import React from 'react';
 import classnames from 'classnames';
+import { action } from '@storybook/addon-actions';
 
 import {
 	Anchor,
@@ -87,6 +88,8 @@ const Article = ({image, text, link=false, ...rest}) => {
 
 
 export const FooterVariant4 = ({className, ...props}) => {
+	const formSubmitted = action('form-submit');
+	
 	return (
 		<Footer __css={{
             mt: 'xxxlarge',
@@ -123,7 +126,9 @@ export const FooterVariant4 = ({className, ...props}) => {
 					tempor incididunt ut labore et dolore magna ad minim.					
 				</Paragraph>
 
-				<Flex __css={{
+				<Flex as="form"
+				onSubmit={(e) => {formSubmitted(e); e.preventDefault()}}
+				__css={{
 					// flexShrink: 0,
 					marginLeft: [0, null, 'auto'],
 					// width: ['100%', null, 'auto'],
@@ -133,7 +138,7 @@ export const FooterVariant4 = ({className, ...props}) => {
 						borderBottomRightRadius: 0,
 						color: 'gray',
 					}} />
-					<Button __css={{
+					<Button type="submit" __css={{
 						borderTopLeftRadius: 0,
 						borderBottomLeftRadius: 0,
 					}} >GO!</Button>
