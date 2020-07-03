@@ -1,35 +1,24 @@
 
-import React, { forwardRef, useContext } from "react";
+import React from "react";
 import { Box } from '../Box';
-import { get } from '@styled-system/css';
-import { ThemeContext } from "styled-components";
-import { getVariant } from "../../core";
 
-
-
-export const BreadcrumbItem = forwardRef(({
+export const BreadcrumbItem = React.forwardRef(({
     variant='breadcrumb',
     children,
     href,
     active,
     as = 'a',
-    sx,
     key,
     ...rest
 }, ref) => {
-
-    let isActiveStyle = null;
-    if (active) {
-        const theme = useContext(ThemeContext);
-        isActiveStyle = get(theme, getVariant([variant, 'activeItem']))
-    }
+    
     return (
         <Box
+            className={`vf-breadcrumb__item ${active && 'vf-breadcrumb__item--active'}`}
             as={as}
             ref={ref}
             href={href}
             {...rest}
-            variant={getVariant([variant, 'item'])}
             __css={{
                 color: active ? 'gray900' : 'primary500',
                 textDecoration: 'none',
@@ -38,10 +27,7 @@ export const BreadcrumbItem = forwardRef(({
                     color: active ? 'gray900' : 'primary700',
                 },
             }}
-            sx={{
-                ...isActiveStyle,
-                ...sx,
-            }}
+            {...rest}
         >
             {children}
         </Box>

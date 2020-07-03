@@ -69,6 +69,7 @@ export const Accordion = forwardRef(
 
         return (
             <Box
+                className="vf-accordion"
                 ref={ref}
                 variant={getVariant([variant])}
                 {...rest}>

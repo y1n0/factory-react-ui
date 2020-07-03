@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import SlickSlider from 'react-slick';
 import { Box } from '../Box';
 
+import { Icon } from '../Icon';
 
 const SliderWrapper = styled.div`
 .slick-list,
@@ -92,10 +93,106 @@ const SliderWrapper = styled.div`
 `;
 
 
+export const Arrow = ({children, ...rest}) => <Box  as='button'
+                                        __css={{
+                                            fontSize: 0,
+                                            lineHeight: 0,
+                                            position: 'absolute',
+                                            top: '50%',
+                                            display: 'block',
+                                            padding: 0,
+                                            transform:' translate(0,-50%)',
+                                            cursor: 'pointer',
+                                            color: '#fff',
+                                            border: '0 solid transparent',
+                                            width: '64px',
+                                            height: '64px',
+                                            outline: 0,
+                                            background: 'transparent',
+                                            zIndex: 1,
+                                        }}
+                                        {...rest}>
+                                            {children}
+                                        </Box>
+
+export const PrevArrow = props => <Arrow sx={{left: ['calc((100% - 960px)/2 + 10px)',null,'calc((100% - 760px)/2 + 10px)','calc((100% - 960px)/2 + 10px)','calc((100% - 1140px)/2 + 10px)']}}  {...props}  >
+  <Icon name="chevron-left" size="xxlarge" />
+</Arrow>
+export const NextArrow = props => <Arrow sx={{right: ['calc((100% - 960px)/2 + 10px)',null,'calc((100% - 760px)/2 + 10px)','calc((100% - 960px)/2 + 10px)','calc((100% - 1140px)/2 + 10px)']}}  {...props}  >
+<Icon name="chevron-right" size="xxlarge" />
+</Arrow>
+
+
+export const appendDots = dots => <Box
+    as="ul"
+    __css={{
+        bottom: 'auto',
+        display: 'block',
+        listStyle: 'none',
+        textAlign: 'center',
+        padding: 0,
+        margin: '1rem auto 0',
+
+        '& > li' : {
+            position: 'relative',
+            display: 'inline-block',
+            margin: '0 5px',
+            width: '12px',
+            height: '12px',
+            cursor: 'pointer',
+        },
+
+        '& > li > button' : {
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            outline: 0,
+            borderRadius: '50%',
+            backgroundColor: 'transparent',
+            textIndent: '-999em',
+            cursor: 'pointer',
+            position: 'absolute',
+            border: '1px solid',
+            borderColor: 'primary500',
+            padding: 0,
+        },
+        '& > li > button::after' : {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width:' 100%',
+            height: '100%',
+            visibility: 'hidden',
+            background: 'primary500',
+            borderRadius: '50%',
+            boxShadow: '0 0 1px #02afbc',
+            opacity: 0,
+            transform:' scale(2.5)',
+            transition: 'opacity .3s ease, transform .3s ease, visibility 0s .3s',
+        },
+        '& > li.slick-active > button::after' :{
+            visibility: 'visible',
+            opacity: 1,
+            transform: 'scale(1.5)',
+            transition: 'opacity .3s ease,transform .3s ease',
+        }
+    }}
+>{dots}</Box>
+
 export const Slider = React.forwardRef(({children, ...rest}, ref) => {
     return (<SliderWrapper>
-        <Box ref={ref} as={SlickSlider} {...rest}>
+        <Box    ref={ref}
+                as={SlickSlider}
+                __css={{
+                    '& .slick-slide': {
+                            px: ['8px', null, '0px']
+                        }
+                    }}
+                {...rest}>
             {children}
         </Box>
     </SliderWrapper>)
 });
+

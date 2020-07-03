@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 import { Header } from '../Header';
-import { Box, Flex, MotionBox } from '../../Box';
+import { Box, Flex } from '../../Box';
+import {MotionBox} from '../../Animation';
 import { Text } from '../../Typography';
 import { Layer } from '../../Layer';
 import { Button } from '../../Button';

@@ -61,7 +61,7 @@ export const RevealY = () => {
         <RevealBox hidden={{ y: 50, opacity: 0 }} visible={{ y: 0, opacity: 1 }}>
             <Flex justifyContent="space-between" alignItems="center" >
                 {
-                    [1, 2, 3, 4, 5, 6, 7, 8].map(e =>
+                    [1, 2, 3, 4, 5, 6].map(e =>
 
                         <Flex key={e} sx={{
                             width: '150px',

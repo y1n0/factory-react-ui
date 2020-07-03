@@ -14,6 +14,7 @@ import frFR from 'rc-pagination/lib/locale/fr_FR';
 import { themeGet } from '@styled-system/theme-get';
 import { motion, useViewportScroll, useTransform } from 'framer-motion';
 import SlickSlider from 'react-slick';
+import ReactPlayer from 'react-player/youtube';
 
 function _extends() {
   _extends = Object.assign || function (target) {
@@ -347,6 +348,19 @@ var getVariant = function getVariant(variant) {
   return variant.reduce(variantReducer);
 };
 
+var findParentByMatchedQuery = function findParentByMatchedQuery(element, className) {
+  if (element) {
+    var offsetParent = element.parentNode;
+
+    if (offsetParent && offsetParent.classList && offsetParent.classList.contains(className)) {
+      return offsetParent;
+    } else {
+      return findParentByMatchedQuery(offsetParent, className);
+    }
+  }
+
+  return undefined;
+};
 var findVisibleParent = function findVisibleParent(element) {
   if (element) {
     return element.offsetParent ? element : findVisibleParent(element.parentElement) || element;
@@ -2135,6 +2149,97 @@ var icons = [
 		setIdx: 3,
 		setId: 1,
 		iconIdx: 453
+	},
+	{
+		icon: {
+			paths: [
+				"M898.32 791.904l-193.504-193.488c29.184-47.856 45.984-104.192 45.984-164.352 0-174.944-151.616-326.496-326.56-326.496-174.944-0.048-316.72 141.776-316.72 316.736 0 174.896 151.6 326.496 326.496 326.496 58.208 0 112.64-15.824 159.472-43.2l194.512 194.592c19.040 19.008 49.92 19.008 68.928 0l48.288-48.288c19.008-18.976 12.080-42.992-6.896-62zM205.008 424.304c0-121.136 98.144-219.296 219.232-219.296 121.136 0 229.072 107.872 229.072 229.056 0 121.088-98.208 219.296-219.296 219.296-121.136-0.048-229.008-107.984-229.008-229.056z"
+			],
+			attrs: [
+				{
+				}
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
+			grid: 0,
+			tags: [
+				"recherche"
+			],
+			colorPermutations: {
+				"1111233124392301252423125525525513331": [
+					{
+					}
+				],
+				"111125525525513331": [
+					{
+					}
+				]
+			}
+		},
+		attrs: [
+			{
+			}
+		],
+		properties: {
+			order: 231,
+			id: 20,
+			name: "recherche",
+			prevSize: 32,
+			code: 59764
+		},
+		setIdx: 0,
+		setId: 1,
+		iconIdx: 36
+	},
+	{
+		icon: {
+			paths: [
+				"M855.37 103.828l57.992 57-748.634 761.663-57.992-57 748.634-761.663z",
+				"M921.316 857.287l-57 57.992-761.652-748.623 57-57.992 761.652 748.623z"
+			],
+			attrs: [
+				{
+				},
+				{
+				}
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
+			grid: 0,
+			tags: [
+				"close-mobile"
+			],
+			colorPermutations: {
+				"1111233124392301252423125525525513331": [
+					{
+					},
+					{
+					}
+				],
+				"111125525525513331": [
+					{
+					},
+					{
+					}
+				]
+			}
+		},
+		attrs: [
+			{
+			},
+			{
+			}
+		],
+		properties: {
+			order: 185,
+			id: 71,
+			name: "close-mobile",
+			prevSize: 32,
+			code: 59717
+		},
+		setIdx: 0,
+		setId: 1,
+		iconIdx: 39
 	}
 ];
 var height = 1024;
@@ -2342,7 +2447,7 @@ var Checkbox = forwardRef(function (_ref3, ref) {
 });
 
 function _templateObject$4() {
-  var data = _taggedTemplateLiteralLoose(["\n    display: block;\n    padding: 2px;\n    appearance: none;\n    font-size: inherit;\n    line-height: inherit;\n    border: 1px solid;\n    color: inherit;\n    background: transparent;\n\n    &:focus {\n        outline: none;\n        box-shadow: 0 0 0 2px;\n    }\n\n    ", "\n    ", "\n    ", "\n\n\n    ", "\n    ", "\n    ", "\n"]);
+  var data = _taggedTemplateLiteralLoose(["\n    display: block;\n    padding: 2px;\n    appearance: none;\n    font-size: inherit;\n    line-height: inherit;\n    border: 1px solid;\n    color: inherit;\n    background: transparent;\n    width: auto;\n    &:focus {\n        outline: none;\n        box-shadow: 0 0 0 2px;\n    }\n\n    ", "\n    ", "\n    ", "\n\n\n    ", "\n    ", "\n    ", "\n"]);
 
   _templateObject$4 = function _templateObject() {
     return data;
@@ -2392,7 +2497,7 @@ var Input = React.forwardRef(function (_ref, ref) {
       position: 'relative',
       width: 'fit-content'
     }
-  }, getProps([].concat(margin.propNames, width.propNames))), props.icon && /*#__PURE__*/React.createElement(Flex, {
+  }, getMarginProps(props), getLayoutProps(props)), props.icon && /*#__PURE__*/React.createElement(Flex, {
     __css: {
       color: 'inherit',
       position: 'absolute',
@@ -3317,14 +3422,17 @@ var Heading = function Heading(_ref3) {
   var children = _ref3.children,
       _ref3$level = _ref3.level,
       level = _ref3$level === void 0 ? '1' : _ref3$level,
-      rest = _objectWithoutPropertiesLoose(_ref3, ["children", "level"]);
+      _ref3$variant = _ref3.variant,
+      variant = _ref3$variant === void 0 ? "heading.default" : _ref3$variant,
+      rest = _objectWithoutPropertiesLoose(_ref3, ["children", "level", "variant"]);
 
   return /*#__PURE__*/React.createElement(Text, _extends({
     __css: {
       fontSize: "heading" + level,
       lineHeight: "heading" + level,
       mb: "small"
-    }
+    },
+    variant: variant
   }, rest, {
     as: "h" + level
   }), children);
@@ -4855,6 +4963,74 @@ var ParallaxBox = function ParallaxBox(_ref) {
   }, rest), children);
 };
 
+var defaultHidden = {
+  opacity: 0
+};
+var defaultVisible = {
+  opacity: 1
+};
+var RevealBox = React.forwardRef(function (_ref, ref) {
+  var delayOrder = _ref.delayOrder,
+      _ref$duration = _ref.duration,
+      duration = _ref$duration === void 0 ? 0.4 : _ref$duration,
+      _ref$easing = _ref.easing,
+      easing = _ref$easing === void 0 ? [0.42, 0, 0.58, 1] : _ref$easing,
+      children = _ref.children,
+      _ref$threshold = _ref.threshold,
+      threshold = _ref$threshold === void 0 ? 0.04 : _ref$threshold,
+      _ref$hidden = _ref.hidden,
+      hidden = _ref$hidden === void 0 ? defaultHidden : _ref$hidden,
+      _ref$visible = _ref.visible,
+      visible = _ref$visible === void 0 ? defaultVisible : _ref$visible,
+      _ref$reset = _ref.reset,
+      reset = _ref$reset === void 0 ? false : _ref$reset,
+      rest = _objectWithoutPropertiesLoose(_ref, ["delayOrder", "duration", "easing", "children", "threshold", "hidden", "visible", "reset"]);
+
+  var _React$useState = React.useState(false),
+      inView = _React$useState[0],
+      setInView = _React$useState[1];
+
+  var intersectionRef = React.useRef(null);
+  var intersection = useIntersection(intersectionRef, {
+    threshold: threshold
+  });
+  React.useEffect(function () {
+    var inViewNow = intersection && intersection.intersectionRatio > 0;
+
+    if (inViewNow) {
+      return setInView(inViewNow);
+    } else if (reset) {
+      return setInView(false);
+    }
+  }, [intersection, reset]);
+  var transition = React.useMemo(function () {
+    return {
+      duration: duration,
+      delay: delayOrder / 5,
+      ease: easing
+    };
+  }, [duration, delayOrder, easing]);
+  var variants = {
+    hidden: _extends(_extends({}, hidden), {}, {
+      transition: transition
+    }),
+    show: _extends(_extends({}, visible), {}, {
+      transition: transition
+    })
+  };
+  return /*#__PURE__*/React.createElement(Box, {
+    ref: intersectionRef
+  }, /*#__PURE__*/React.createElement(Box, _extends({
+    initial: "hidden",
+    animate: inView ? "show" : "hidden",
+    exit: "hidden",
+    variants: variants,
+    ref: ref
+  }, rest, {
+    as: MotionBox
+  }), children));
+});
+
 function _templateObject$b() {
   var data = _taggedTemplateLiteralLoose(["\n.slick-list,\n.slick-slider,\n.slick-track {\n    position: relative;\n    display: block;\n}\n.slick-loading .slick-slide,\n.slick-loading .slick-track {\n    visibility: hidden;\n}\n.slick-slider {\n    box-sizing: border-box;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    -webkit-touch-callout: none;\n    -khtml-user-select: none;\n    -ms-touch-action: pan-y;\n    touch-action: pan-y;\n    -webkit-tap-highlight-color: transparent;\n}\n.slick-list {\n    overflow: hidden;\n    margin: 0;\n    padding: 0;\n}\n.slick-list:focus {\n    outline: 0;\n}\n.slick-list.dragging {\n    cursor: pointer;\n    cursor: hand;\n}\n.slick-slider .slick-list,\n.slick-slider .slick-track {\n    -webkit-transform: translate3d(0, 0, 0);\n    -moz-transform: translate3d(0, 0, 0);\n    -ms-transform: translate3d(0, 0, 0);\n    -o-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n}\n.slick-track {\n    top: 0;\n    left: 0;\n}\n.slick-track:after,\n.slick-track:before {\n    display: table;\n    content: \"\";\n}\n.slick-track:after {\n    clear: both;\n}\n.slick-slide {\n    display: none;\n    float: left;\n    height: 100%;\n    min-height: 1px;\n}\n[dir=\"rtl\"] .slick-slide {\n    float: right;\n}\n.slick-slide img {\n    display: block;\n}\n.slick-slide.slick-loading img {\n    display: none;\n}\n.slick-slide.dragging img {\n    pointer-events: none;\n}\n.slick-initialized .slick-slide {\n    display: block;\n}\n.slick-vertical .slick-slide {\n    display: block;\n    height: auto;\n    border: 1px solid transparent;\n}\n.slick-arrow.slick-hidden {\n    display: none;\n}\n\n"]);
 
@@ -4865,15 +5041,223 @@ function _templateObject$b() {
   return data;
 }
 var SliderWrapper = styled.div(_templateObject$b());
-var Slider = React.forwardRef(function (_ref, ref) {
+var Arrow = function Arrow(_ref) {
   var children = _ref.children,
       rest = _objectWithoutPropertiesLoose(_ref, ["children"]);
 
+  return /*#__PURE__*/React.createElement(Box, _extends({
+    as: "button",
+    __css: {
+      fontSize: 0,
+      lineHeight: 0,
+      position: 'absolute',
+      top: '50%',
+      display: 'block',
+      padding: 0,
+      transform: ' translate(0,-50%)',
+      cursor: 'pointer',
+      color: '#fff',
+      border: '0 solid transparent',
+      width: '64px',
+      height: '64px',
+      outline: 0,
+      background: 'transparent',
+      zIndex: 1
+    }
+  }, rest), children);
+};
+var PrevArrow = function PrevArrow(props) {
+  return /*#__PURE__*/React.createElement(Arrow, _extends({
+    sx: {
+      left: ['calc((100% - 960px)/2 + 10px)', null, 'calc((100% - 760px)/2 + 10px)', 'calc((100% - 960px)/2 + 10px)', 'calc((100% - 1140px)/2 + 10px)']
+    }
+  }, props), /*#__PURE__*/React.createElement(Icon, {
+    name: "chevron-left",
+    size: "xxlarge"
+  }));
+};
+var NextArrow = function NextArrow(props) {
+  return /*#__PURE__*/React.createElement(Arrow, _extends({
+    sx: {
+      right: ['calc((100% - 960px)/2 + 10px)', null, 'calc((100% - 760px)/2 + 10px)', 'calc((100% - 960px)/2 + 10px)', 'calc((100% - 1140px)/2 + 10px)']
+    }
+  }, props), /*#__PURE__*/React.createElement(Icon, {
+    name: "chevron-right",
+    size: "xxlarge"
+  }));
+};
+var appendDots = function appendDots(dots) {
+  return /*#__PURE__*/React.createElement(Box, {
+    as: "ul",
+    __css: {
+      bottom: 'auto',
+      display: 'block',
+      listStyle: 'none',
+      textAlign: 'center',
+      padding: 0,
+      margin: '1rem auto 0',
+      '& > li': {
+        position: 'relative',
+        display: 'inline-block',
+        margin: '0 5px',
+        width: '12px',
+        height: '12px',
+        cursor: 'pointer'
+      },
+      '& > li > button': {
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        outline: 0,
+        borderRadius: '50%',
+        backgroundColor: 'transparent',
+        textIndent: '-999em',
+        cursor: 'pointer',
+        position: 'absolute',
+        border: '1px solid',
+        borderColor: 'primary500',
+        padding: 0
+      },
+      '& > li > button::after': {
+        content: '""',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: ' 100%',
+        height: '100%',
+        visibility: 'hidden',
+        background: 'primary500',
+        borderRadius: '50%',
+        boxShadow: '0 0 1px #02afbc',
+        opacity: 0,
+        transform: ' scale(2.5)',
+        transition: 'opacity .3s ease, transform .3s ease, visibility 0s .3s'
+      },
+      '& > li.slick-active > button::after': {
+        visibility: 'visible',
+        opacity: 1,
+        transform: 'scale(1.5)',
+        transition: 'opacity .3s ease,transform .3s ease'
+      }
+    }
+  }, dots);
+};
+var Slider = React.forwardRef(function (_ref2, ref) {
+  var children = _ref2.children,
+      rest = _objectWithoutPropertiesLoose(_ref2, ["children"]);
+
   return /*#__PURE__*/React.createElement(SliderWrapper, null, /*#__PURE__*/React.createElement(Box, _extends({
     ref: ref,
-    as: SlickSlider
+    as: SlickSlider,
+    __css: {
+      '& .slick-slide': {
+        px: ['8px', null, '0px']
+      }
+    }
   }, rest), children));
 });
+
+var SlideSubtitle = function SlideSubtitle(_ref) {
+  var subtitle = _ref.subtitle;
+
+  if (typeof subtitle === 'string') {
+    return /*#__PURE__*/React.createElement(Box, null, subtitle);
+  } else {
+    return subtitle;
+  }
+};
+
+var SlideIamge = function SlideIamge(_ref2) {
+  var imageSrc = _ref2.imageSrc,
+      rest = _objectWithoutPropertiesLoose(_ref2, ["imageSrc"]);
+
+  return /*#__PURE__*/React.createElement(Box, _extends({
+    __css: {
+      height: '100%',
+      width: '100%',
+      objectFit: 'cover'
+    },
+    as: "img",
+    src: imageSrc
+  }, rest));
+};
+
+var SlideVideo = function SlideVideo(_ref3) {
+  var videoUrl = _ref3.videoUrl,
+      variant = _ref3.variant,
+      rest = _objectWithoutPropertiesLoose(_ref3, ["videoUrl", "sx", "variant"]);
+
+  return /*#__PURE__*/React.createElement(Box, {
+    __css: {
+      width: '100%',
+      height: '100%',
+      background: '0 0',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      bottom: 0,
+      overflow: 'hidden'
+    },
+    variant: variant,
+    sx: variant
+  }, /*#__PURE__*/React.createElement(ReactPlayer, _extends({}, rest, {
+    url: videoUrl,
+    playing: true,
+    loop: true,
+    width: "100%",
+    height: "100%"
+  })));
+};
+
+var Slide = function Slide(_ref4) {
+  var _ref4$subtitle = _ref4.subtitle,
+      subtitle = _ref4$subtitle === void 0 ? null : _ref4$subtitle,
+      _ref4$content = _ref4.content,
+      content = _ref4$content === void 0 ? null : _ref4$content,
+      _ref4$bgImage = _ref4.bgImage,
+      bgImage = _ref4$bgImage === void 0 ? null : _ref4$bgImage,
+      _ref4$bgVideoUrl = _ref4.bgVideoUrl,
+      bgVideoUrl = _ref4$bgVideoUrl === void 0 ? null : _ref4$bgVideoUrl,
+      rest = _objectWithoutPropertiesLoose(_ref4, ["children", "subtitle", "content", "bgImage", "bgVideoUrl"]);
+
+  var ref = useRef(null);
+  useEffect(function () {});
+  return /*#__PURE__*/React.createElement(Box, _extends({
+    ref: ref,
+    __css: {
+      minHeight: '1px',
+      height: ['300px', null, '500px'],
+      width: '100%',
+      display: 'flex !important',
+      position: 'relative',
+      '&:before': {
+        content: '""',
+        display: 'block',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0,0,0,.25)'
+      }
+    }
+  }, rest), bgVideoUrl && /*#__PURE__*/React.createElement(SlideVideo, {
+    videoUrl: bgVideoUrl
+  }), subtitle && /*#__PURE__*/React.createElement(SlideSubtitle, {
+    subtitle: subtitle
+  }), bgImage && /*#__PURE__*/React.createElement(SlideIamge, {
+    imageSrc: bgImage
+  }), content && /*#__PURE__*/React.createElement(Box, {
+    sx: {
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      top: 0,
+      left: 0
+    }
+  }, content));
+};
 
 var colors = {
   black: '#000',
@@ -5734,9 +6118,13 @@ var componentsTheme = {
   tabs: tabs,
   accordion: accordion,
   breadcrumb: breadcrumb,
-  navs: navs
+  navs: navs,
+  search: {
+    overlay: {},
+    input: {}
+  }
 };
 var theme = _extends(_extends({}, baseTheme), componentsTheme);
 
-export { Accordion, AccordionPanel, Anchor, Box, Breadcrumb, BreadcrumbItem, Button, Checkbox, Col, ColorModeProvider, Container, DEFAULT_BREAKPOINTS, DirectionManager, Drop, Flex, Footer, GlobalStyle, Header, Heading, Icon, Image, Input, IntersectionContext, IntersectionObserver, Label, Layer, Link, MotionBox, MotionFlex, Nav, Navs, Pagination, Paragraph, ParallaxBox, Radio, Row, Select, Slider, StyledChildren, TABINDEX, TABINDEX_STATE, Tab, Tabs, Text, VactoryIconConsumer, VactoryIconContext, VactoryIconProvider, VactoryThemeContext, WrapperIcon, base, findScrollParents, findVisibleParent, generateMedia, getBodyChildElements, getLayoutProps, getMarginProps, getNewContainer, getProps, getSizeProps, getSpaceProps, getSystemProps, getVariant, iconSet, isNotAncestorOf, makeNodeFocusable, makeNodeUnfocusable, mergeIcons, omitLayoutProps, omitMarginProps, omitProps, omitSizeProps, omitSpaceProps, parseMetricToNum, setFocusWithoutScroll, sx, theme, useColorMode, useIsomorphicLayoutEffect, useMedia, useScrollPosition, useVactoryIcon, useVactoryTheme, variant, variantReducer };
+export { Accordion, AccordionPanel, Anchor, Arrow, Box, Breadcrumb, BreadcrumbItem, Button, Checkbox, Col, ColorModeProvider, Container, DEFAULT_BREAKPOINTS, DirectionManager, Drop, Flex, Footer, GlobalStyle, Header, Heading, Icon, Image, Input, IntersectionContext, IntersectionObserver, Label, Layer, Link, MotionBox, MotionFlex, Nav, Navs, NextArrow, Pagination, Paragraph, ParallaxBox, PrevArrow, Radio, RevealBox, Row, Select, Slide, Slider, StyledChildren, TABINDEX, TABINDEX_STATE, Tab, Tabs, Text, VactoryIconConsumer, VactoryIconContext, VactoryIconProvider, VactoryThemeContext, WrapperIcon, appendDots, base, findParentByMatchedQuery, findScrollParents, findVisibleParent, generateMedia, getBodyChildElements, getLayoutProps, getMarginProps, getNewContainer, getProps, getSizeProps, getSpaceProps, getSystemProps, getVariant, iconSet, isNotAncestorOf, makeNodeFocusable, makeNodeUnfocusable, mergeIcons, omitLayoutProps, omitMarginProps, omitProps, omitSizeProps, omitSpaceProps, parseMetricToNum, setFocusWithoutScroll, sx, theme, useColorMode, useIsomorphicLayoutEffect, useMedia, useScrollPosition, useVactoryIcon, useVactoryTheme, variant, variantReducer };
 //# sourceMappingURL=index.modern.js.map

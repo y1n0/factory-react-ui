@@ -1,8 +1,8 @@
 import React from 'react';
 import styled  from 'styled-components';
-import { color, typography, background, border, position, shadow, variant as StyledVariant, compose, width, height, display, padding, margin, } from 'styled-system';
+import { color, typography, background, border, position, shadow, variant as StyledVariant, compose, width, height, display, padding } from 'styled-system';
 
-import { sx, variant, getProps } from "../../core";
+import { sx, variant, getLayoutProps, getMarginProps } from "../../core";
 import { Flex } from '../Box';
 
 const variantVariants = StyledVariant({
@@ -46,7 +46,7 @@ const StyledInput = styled.input`
     border: 1px solid;
     color: inherit;
     background: transparent;
-
+    width: auto;
     &:focus {
         outline: none;
         box-shadow: 0 0 0 2px;
@@ -87,7 +87,7 @@ export const Input  = React.forwardRef(({as,size,reverse,  ...props}, ref) => {
         <Flex __css={{
             position: 'relative',
             width: 'fit-content'
-        }} {...getProps([...margin.propNames, ...width.propNames])} >
+        }} {...getMarginProps(props)}  {...getLayoutProps(props)}  >
             {props.icon && 
 
                     <Flex

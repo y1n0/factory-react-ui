@@ -13,6 +13,7 @@ export const Text = ({ children, as = 'p', ...rest }) => <Box {...rest} as={as} 
 
 export const Paragraph = ({
     children,
+    variant = "paragraph.default",
     ...rest
 }) => {
 
@@ -22,6 +23,7 @@ export const Paragraph = ({
             lineHeight: "paragraph",
             mb: "xsmall",
         }}
+        variant={variant}
             {...rest}>
             {children}
         </Text>
@@ -31,20 +33,19 @@ export const Paragraph = ({
 export const Heading = ({
     children,
     level = '1',
+    variant = "heading.default",
     ...rest
-}) => {
+}) => <Text
+    __css={{
+        fontSize: `heading${level}`,
+        lineHeight: `heading${level}`,
+        mb: "small",
+    }}
+    variant={variant}
+    {...rest}
+    as={`h${level}`}>{children}</Text>
 
-    return (
-        <Text
-            __css={{
-                fontSize: `heading${level}`,
-                lineHeight: `heading${level}`,
-                mb: "small",
-            }}
-            {...rest}
-            as={`h${level}`}>{children}</Text>
-    );
-}
+
 
 export default Text;
 
