@@ -5594,7 +5594,8 @@ var SearchOverlayContainer = function SearchOverlayContainer(_ref4) {
       opacity: 0,
       pointerEvents: open ? 'auto' : 'none',
       visible: open ? 'visible' : 'hidden',
-      backgroundColor: 'black500'
+      backgroundColor: 'black500',
+      zIndex: 20
     }
   }, rest, {
     initial: "hidden",
