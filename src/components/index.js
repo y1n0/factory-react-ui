@@ -18,3 +18,4 @@ export * from './Typography';
 export * from './Layer';
 export * from './Animation';
 export * from './Slider';
+export * from './Search';
