@@ -128,6 +128,7 @@ const SearchOverlayContainer = ({
             pointerEvents: open ? 'auto' : 'none',
             visible: open ? 'visible' : 'hidden',
             backgroundColor: 'black500',
+            zIndex: 20
 
         }} {...rest}
         initial="hidden"
