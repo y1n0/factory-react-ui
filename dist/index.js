@@ -3161,8 +3161,12 @@ var Header = React__default.forwardRef(function (_ref, ref) {
     };
   }
 
-  var Wrapper = sticky ? Headroom : React__default.Fragment;
-  return /*#__PURE__*/React__default.createElement(Wrapper, null, /*#__PURE__*/React__default.createElement(Box, _extends({
+  var Wrapper = sticky ? Headroom : 'div';
+  return /*#__PURE__*/React__default.createElement(Wrapper, {
+    style: {
+      zIndex: 10
+    }
+  }, /*#__PURE__*/React__default.createElement(Box, _extends({
     ref: ref,
     as: "header",
     variant: getVariant([variant]),
