@@ -5440,6 +5440,196 @@ var Slide = function Slide(_ref4) {
   }, content));
 };
 
+var SearchOverlayTop = function SearchOverlayTop(_ref) {
+  var closeIcon = _ref.closeIcon,
+      topContent = _ref.topContent,
+      onClose = _ref.onClose;
+  return /*#__PURE__*/React.createElement(Flex, {
+    className: "vf-search-overlay__top-wrapper",
+    __css: {
+      padding: "16px",
+      justifyContent: 'space-between',
+      width: "100%",
+      alignItems: "center"
+    }
+  }, topContent ? topContent : /*#__PURE__*/React.createElement(Button, {
+    className: "vf-search-overlay__close-btn",
+    onClick: onClose,
+    sx: {
+      marginLeft: 'auto',
+      backgroundColor: 'transparent',
+      padding: "8px",
+      border: 0,
+      '&:hover, &:focus': {
+        backgroundColor: 'transparent',
+        border: 0
+      }
+    }
+  }, closeIcon ? closeIcon : /*#__PURE__*/React.createElement(Icon, {
+    className: "vf-search-overlay__close-icon",
+    icon: "close-mobile",
+    size: "32px"
+  })));
+};
+
+var SearchOverlayForm = function SearchOverlayForm(_ref2) {
+  var onSubmit = _ref2.onSubmit,
+      inputRef = _ref2.inputRef,
+      inputPlaceholder = _ref2.inputPlaceholder,
+      inputTitle = _ref2.inputTitle;
+  return /*#__PURE__*/React.createElement(Box, {
+    className: "vf-search-overlay__form-wrapper",
+    __css: {
+      padding: ['50px 10px', null, '100px 100px 20px']
+    }
+  }, /*#__PURE__*/React.createElement("form", {
+    className: "vf-search-overlay__form",
+    onSubmit: onSubmit
+  }, /*#__PURE__*/React.createElement(Input, {
+    className: "vf-search-overlay__form-input",
+    sx: {
+      backgroud: 'transparent',
+      border: 0,
+      padding: ['1rem 2.5rem .125rem 0', null, '1rem 5rem 1rem 0'],
+      lineHeight: ['1', null, '36px'],
+      fontSize: ['20px', null, '2.25rem'],
+      color: 'white',
+      borderRadius: 0,
+      borderBottom: '3px solid #fff',
+      '&:focus,&:hover': {
+        backgroundColor: 'transparent',
+        border: 0,
+        borderBottom: '3px solid #fff',
+        boxShadow: 0
+      },
+      '&::placeholder': {
+        color: 'black100',
+        opacity: 1
+      }
+    },
+    ref: inputRef,
+    icon: /*#__PURE__*/React.createElement(Icon, {
+      color: "white",
+      name: "recherche",
+      size: "large",
+      sx: {
+        marginLeft: "8px"
+      }
+    }),
+    reverse: true,
+    width: "100%",
+    placeholder: inputPlaceholder,
+    title: inputTitle
+  })));
+};
+
+var SearchOverlayInfo = function SearchOverlayInfo(_ref3) {
+  var searchInfo = _ref3.searchInfo;
+  return /*#__PURE__*/React.createElement(Box, {
+    className: "vf-search-overlay__info-wrapper",
+    __css: {
+      color: 'white',
+      margin: '5px 0',
+      padding: [0, null, '10px 100px'],
+      fontSize: ['.8rem', null, '1rem'],
+      lineHeight: '18px',
+      textAlign: 'right'
+    }
+  }, searchInfo);
+};
+
+var SearchOverlayContainer = function SearchOverlayContainer(_ref4) {
+  var _ref4$open = _ref4.open,
+      open = _ref4$open === void 0 ? false : _ref4$open,
+      onClose = _ref4.onClose,
+      onSubmit = _ref4.onSubmit,
+      _ref4$inputTitle = _ref4.inputTitle,
+      inputTitle = _ref4$inputTitle === void 0 ? "Veuillez tapez quelques chose" : _ref4$inputTitle,
+      _ref4$inputPlaceholde = _ref4.inputPlaceholder,
+      inputPlaceholder = _ref4$inputPlaceholde === void 0 ? "Que recherchez-vous ?" : _ref4$inputPlaceholde,
+      _ref4$searchInfo = _ref4.searchInfo,
+      searchInfo = _ref4$searchInfo === void 0 ? "Appuyer sur la touche \"Entrée\" du clavier pour lancer la recherche" : _ref4$searchInfo,
+      _ref4$topContent = _ref4.topContent,
+      topContent = _ref4$topContent === void 0 ? null : _ref4$topContent,
+      _ref4$closeIcon = _ref4.closeIcon,
+      closeIcon = _ref4$closeIcon === void 0 ? null : _ref4$closeIcon,
+      _ref4$variant = _ref4.variant,
+      variant = _ref4$variant === void 0 ? "searchOverlay.default" : _ref4$variant,
+      rest = _objectWithoutPropertiesLoose(_ref4, ["children", "open", "onClose", "onSubmit", "inputTitle", "inputPlaceholder", "searchInfo", "topContent", "closeIcon", "variant"]);
+
+  var motionVariants = {
+    visible: {
+      opacity: 1
+    },
+    hidden: {
+      opacity: 0
+    }
+  };
+  var inputRef = React.createRef();
+  React.useEffect(function () {
+    if (open) {
+      inputRef.current.value = '';
+    }
+  });
+
+  var handleSubmitForm = function handleSubmitForm(e) {
+    e.preventDefault();
+    onSubmit(inputRef.current.value || null);
+  };
+
+  return /*#__PURE__*/React.createElement(MotionFlex, _extends({
+    className: "vf-search-overlay " + (open ? 'vf-search-overlay--open' : 'vf-search-overlay--close'),
+    __css: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: '100%',
+      height: '100%',
+      opacity: 0,
+      pointerEvents: open ? 'auto' : 'none',
+      visible: open ? 'visible' : 'hidden',
+      backgroundColor: 'black500'
+    }
+  }, rest, {
+    initial: "hidden",
+    variants: motionVariants,
+    variant: variant,
+    animate: open ? 'visible' : 'hidden'
+  }), /*#__PURE__*/React.createElement(Flex, {
+    className: "vf-search-overlay__content-wrapper",
+    __css: {
+      flexDirection: "column",
+      position: 'relative',
+      color: 'white',
+      width: ['90%', null, '75%']
+    }
+  }, /*#__PURE__*/React.createElement(SearchOverlayTop, {
+    variant: variant + ".",
+    topContent: topContent,
+    closeIcon: closeIcon,
+    onClose: onClose
+  }), /*#__PURE__*/React.createElement(SearchOverlayForm, {
+    onSubmit: handleSubmitForm,
+    inputRef: inputRef,
+    inputPlaceholder: inputPlaceholder,
+    inputTitle: inputTitle
+  }), /*#__PURE__*/React.createElement(SearchOverlayInfo, {
+    searchInfo: searchInfo
+  })));
+};
+
+var SearchOverlay = function SearchOverlay(_ref5) {
+  var _ref5$open = _ref5.open,
+      open = _ref5$open === void 0 ? false : _ref5$open,
+      rest = _objectWithoutPropertiesLoose(_ref5, ["open", "children"]);
+
+  return ReactDOM.createPortal( /*#__PURE__*/React.createElement(SearchOverlayContainer, _extends({}, rest, {
+    open: open
+  })), document.body);
+};
+
 var colors = {
   black: '#000',
   white: '#fff',
@@ -6321,5 +6511,5 @@ var componentsTheme = {
 };
 var theme = _extends(_extends({}, baseTheme), componentsTheme);
 
-export { Accordion, AccordionPanel, Anchor, Arrow, Box, Breadcrumb, BreadcrumbItem, Button, Checkbox, Col, ColorModeProvider, Container, DEFAULT_BREAKPOINTS, DirectionManager, Drop, Flex, Footer, GlobalStyle, Header, Heading, Icon, Image, Input, IntersectionContext, IntersectionObserver, Label, Layer, Link, MotionBox, MotionFlex, Nav, Navs, NextArrow, Pagination, Paragraph, ParallaxBox, PrevArrow, Radio, RevealBox, Row, Select, Slide, Slider, StyledChildren, TABINDEX, TABINDEX_STATE, Tab, Tabs, Text, VactoryIconConsumer, VactoryIconContext, VactoryIconProvider, VactoryThemeContext, WrapperIcon, appendDots, base, findParentByMatchedQuery, findScrollParents, findVisibleParent, generateMedia, getBodyChildElements, getLayoutProps, getMarginProps, getNewContainer, getProps, getSizeProps, getSpaceProps, getSystemProps, getVariant, iconSet, isNotAncestorOf, makeNodeFocusable, makeNodeUnfocusable, mergeIcons, omitLayoutProps, omitMarginProps, omitProps, omitSizeProps, omitSpaceProps, parseMetricToNum, setFocusWithoutScroll, sx, theme, useColorMode, useIsomorphicLayoutEffect, useMedia, useScrollPosition, useVactoryIcon, useVactoryTheme, variant, variantReducer };
+export { Accordion, AccordionPanel, Anchor, Arrow, Box, Breadcrumb, BreadcrumbItem, Button, Checkbox, Col, ColorModeProvider, Container, DEFAULT_BREAKPOINTS, DirectionManager, Drop, Flex, Footer, GlobalStyle, Header, Heading, Icon, Image, Input, IntersectionContext, IntersectionObserver, Label, Layer, Link, MotionBox, MotionFlex, Nav, Navs, NextArrow, Pagination, Paragraph, ParallaxBox, PrevArrow, Radio, RevealBox, Row, SearchOverlay, Select, Slide, Slider, StyledChildren, TABINDEX, TABINDEX_STATE, Tab, Tabs, Text, VactoryIconConsumer, VactoryIconContext, VactoryIconProvider, VactoryThemeContext, WrapperIcon, appendDots, base, findParentByMatchedQuery, findScrollParents, findVisibleParent, generateMedia, getBodyChildElements, getLayoutProps, getMarginProps, getNewContainer, getProps, getSizeProps, getSpaceProps, getSystemProps, getVariant, iconSet, isNotAncestorOf, makeNodeFocusable, makeNodeUnfocusable, mergeIcons, omitLayoutProps, omitMarginProps, omitProps, omitSizeProps, omitSpaceProps, parseMetricToNum, setFocusWithoutScroll, sx, theme, useColorMode, useIsomorphicLayoutEffect, useMedia, useScrollPosition, useVactoryIcon, useVactoryTheme, variant, variantReducer };
 //# sourceMappingURL=index.modern.js.map
