@@ -21,7 +21,7 @@ var frFR = _interopDefault(require('rc-pagination/lib/locale/fr_FR'));
 var themeGet = require('@styled-system/theme-get');
 var framerMotion = require('framer-motion');
 var SlickSlider = _interopDefault(require('react-slick'));
-var ReactPlayer = _interopDefault(require('react-player/youtube'));
+var YouTube = _interopDefault(require('react-youtube'));
 
 function _extends() {
   _extends = Object.assign || function (target) {
@@ -588,6 +588,54 @@ useScrollPosition.defaultProps = {
   wait: null
 };
 
+var cssRegex = /^([+-]?(?:\d+|\d*\.\d+))([a-z]*|%)$/;
+/**
+ * Returns a given CSS value minus its unit of measure.
+ *
+ * @deprecated - stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getUnitAndValue.
+ *
+ * @example
+ * // Styles as object usage
+ * const styles = {
+ *   '--dimension': stripUnit('100px')
+ * }
+ *
+ * // styled-components usage
+ * const div = styled.div`
+ *   --dimension: ${stripUnit('100px')};
+ * `
+ *
+ * // CSS in JS Output
+ *
+ * element {
+ *   '--dimension': 100
+ * }
+ */
+
+function stripUnit(value, unitReturn) {
+  if (typeof value !== 'string') return unitReturn ? [value, undefined] : value;
+  var matchedValue = value.match(cssRegex);
+
+  if (unitReturn) {
+    // eslint-disable-next-line no-console
+    console.warn("stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getUnitAndValue.");
+    if (matchedValue) return [parseFloat(value), matchedValue[2]];
+    return [value, undefined];
+  }
+
+  if (matchedValue) return parseFloat(value);
+  return value;
+}
+
+var getClosestValue = function getClosestValue(val, arr) {
+  var index = arr.sort(function (a, b) {
+    return a - b;
+  }).findIndex(function (el) {
+    return val < el;
+  });
+  return index > 0 ? arr[index] : null;
+};
+
 var useMedia = function useMedia(mediaQuery) {
   var _useState = React.useState(false),
       doesMatch = _useState[0],
@@ -602,7 +650,12 @@ var useMedia = function useMedia(mediaQuery) {
   var _query = mediaQuery;
 
   if (breakpointsKeys.includes(mediaQuery)) {
-    _query = "screen and (min-width: " + breakpoints[mediaQuery] + ")";
+    var sortedBreakpointsValues = breakpoints.map(function (e) {
+      return stripUnit(e);
+    });
+    var minWidth = breakpoints[mediaQuery];
+    var maxWidth = getClosestValue(stripUnit(minWidth), sortedBreakpointsValues);
+    _query = "(min-width: " + minWidth + ")" + (maxWidth !== null ? "and (max-width: " + maxWidth + "px)" : '');
   }
 
   React.useEffect(function () {
@@ -710,6 +763,7 @@ var Accordion = React.forwardRef(function (_ref, ref) {
     }, child);
   });
   return /*#__PURE__*/React__default.createElement(Box, _extends({
+    className: "vf-accordion",
     ref: ref,
     variant: getVariant([variant])
   }, rest), panels);
@@ -720,39 +774,60 @@ var PanelHeaderBaseStyle = {
   alignItems: 'center',
   flexDirection: 'row',
   justifyContent: 'space-between',
-  borderBottom: '1px solid',
-  borderColor: 'gray400',
-  marginBottom: '-1px'
+  borderBottom: '2px solid',
+  borderColor: 'gray300',
+  marginBottom: '-1px',
+  backgroundColor: 'transparent',
+  py: ['medium', null, 'large'],
+  px: 0
 };
 var AccordionPanel = React.forwardRef(function (_ref, ref) {
   var children = _ref.children,
       title = _ref.title,
-      _ref$variant = _ref.variant,
-      variant = _ref$variant === void 0 ? "accordion" : _ref$variant,
+      variant = _ref.variant,
       sx = _ref.sx,
-      rest = _objectWithoutPropertiesLoose(_ref, ["children", "header", "title", "variant", "key", "sx"]);
+      _ref$animationTransit = _ref.animationTransition,
+      animationTransition = _ref$animationTransit === void 0 ? {
+    ease: "easeInOut",
+    duration: 0.3
+  } : _ref$animationTransit,
+      rest = _objectWithoutPropertiesLoose(_ref, ["children", "header", "title", "variant", "key", "sx", "animationTransition"]);
 
   var _useContext = React.useContext(AccordionContext),
       active = _useContext.active,
       variantAccordion = _useContext.variant,
       onPanelChange = _useContext.onPanelChange;
 
+  var motionVariantsContent = {
+    active: {
+      height: "unset",
+      display: "block",
+      transition: animationTransition
+    },
+    inactive: {
+      height: "0px",
+      transitionEnd: {
+        display: "none"
+      }
+    }
+  };
+
   if (variant === undefined) {
     variant = variantAccordion;
   }
 
-  return /*#__PURE__*/React__default.createElement(Box, _extends({
+  return /*#__PURE__*/React__default.createElement(MotionBox, _extends({
+    className: "vf-accordion-panel " + (active ? 'vf-accordion-panel--active' : ''),
     ref: ref,
     __css: {
-      border: '1px solid',
-      borderColor: 'gray300',
+      border: 0,
       '&:not(:last-of-type)': {
         borderBottom: 0
       }
     },
-    sx: sx,
-    variant: getVariant([variant, 'panel'])
-  }, getSystemProps(rest)), /*#__PURE__*/React__default.createElement(Box, {
+    sx: sx
+  }, getSystemProps(rest)), /*#__PURE__*/React__default.createElement(MotionBox, {
+    className: "vf-accordion-panel__title-container",
     role: "tab",
     "aria-selected": active,
     "aria-expanded": active,
@@ -769,69 +844,80 @@ var AccordionPanel = React.forwardRef(function (_ref, ref) {
       }
     }
   }, typeof title === 'string' ? /*#__PURE__*/React__default.createElement(Box, {
-    __css: PanelHeaderBaseStyle,
-    variant: getVariant([variant, 'header'])
-  }, title) : React.cloneElement(title, {
+    className: "vf-accordion-panel__title",
     __css: PanelHeaderBaseStyle
-  })), /*#__PURE__*/React__default.createElement(Box, {
+  }, title) : React.cloneElement(title, {
+    __css: PanelHeaderBaseStyle,
+    className: 'vf-accordion-panel__title'
+  })), /*#__PURE__*/React__default.createElement(MotionBox, {
+    initial: "inactive",
+    animate: active ? 'active' : 'inactive',
+    variants: motionVariantsContent,
     __css: {
-      maxHeight: active ? 'unset' : '0px',
-      visibility: active ? 'visible' : 'hidden',
-      overflow: active ? null : 'hidden',
-      display: active ? null : 'none'
+      overflow: 'hidden'
+    }
+  }, /*#__PURE__*/React__default.createElement(Box, {
+    __css: {
+      py: ['medium', null, 'large'],
+      px: 0
     },
+    className: "vf-accordion__panel-content",
     variant: getVariant([variant, 'content'])
-  }, children));
+  }, children)));
 });
 
-function _templateObject$1() {
-  var data = _taggedTemplateLiteralLoose(["\n    box-sizing: border-box;\n    cursor: pointer;\n    outline: none;\n    font-size: inherit;\n    line-height: inherit;\n    color: inherit;\n    text-decoration: none;\n\n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n"]);
+var Anchor = React__default.forwardRef(function (_ref, ref) {
+  var _ref$variant = _ref.variant,
+      variant = _ref$variant === void 0 ? "anchor.default" : _ref$variant,
+      rest = _objectWithoutPropertiesLoose(_ref, ["variant"]);
 
-  _templateObject$1 = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-var outlineVariants = styledSystem.variant({
-  scale: 'buttons.outline',
-  prop: 'outline',
-  variants: {
-    primary: {}
-  }
+  return /*#__PURE__*/React__default.createElement(Box, _extends({
+    as: "a",
+    ref: ref,
+    variant: variant
+  }, rest, {
+    __css: {
+      boxSizing: 'border-box',
+      cursor: 'pointer',
+      outline: 'none',
+      fontSize: 'inherit',
+      lineHeight: 'inherit',
+      color: 'inherit',
+      textDecoration: 'none'
+    },
+    className: "vf-anchor"
+  }));
 });
-var Anchor = styled__default.a(_templateObject$1(), styledSystem.system({
-  prop: 'textDecoration',
-  cssProperty: 'textDecoration',
-  scale: 'textDecoration',
-  defaultScale: ['inherit']
-}), outlineVariants, variant, sx, styledSystem.compose(styledSystem.space, styledSystem.color, styledSystem.typography, styledSystem.position));
-Anchor.defaultProps = {};
+
+var renderBreadcrumbItems = function renderBreadcrumbItems(children, separator) {
+  return React.Children.toArray(children).filter(function (child) {
+    return child;
+  }).map(function (child, index) {
+    var childrenCount = React.Children.count(children);
+    var isLastItem = childrenCount === index + 1;
+    return /*#__PURE__*/React__default.createElement(React.Fragment, {
+      key: index
+    }, child, isLastItem || (typeof separator === 'string' ? /*#__PURE__*/React__default.createElement(Box, {
+      mx: "medium",
+      className: "vf-breadcrumb__separator"
+    }, separator) : React.cloneElement(separator, {
+      className: 'vf-breadcrumb__separator'
+    })));
+  });
+};
 
 var Breadcrumb = React.forwardRef(function (_ref, ref) {
   var _ref$variant = _ref.variant,
-      variant = _ref$variant === void 0 ? 'breadcrumb' : _ref$variant,
+      variant = _ref$variant === void 0 ? 'breadcrumb.default' : _ref$variant,
       children = _ref.children,
       _ref$separator = _ref.separator,
       separator = _ref$separator === void 0 ? '/' : _ref$separator,
       sx = _ref.sx,
       rest = _objectWithoutPropertiesLoose(_ref, ["variant", "children", "separator", "sx"]);
 
-  var items = React.Children.toArray(children).filter(function (child) {
-    return child;
-  }).map(function (child, index) {
-    var childrenCount = React.Children.count(children);
-    var isLastItem = childrenCount === index + 1;
-    var item = React.cloneElement(child, {
-      variant: child.props.variant || variant
-    });
-    return /*#__PURE__*/React__default.createElement(React.Fragment, {
-      key: index
-    }, item, isLastItem || (typeof separator === 'string' ? /*#__PURE__*/React__default.createElement(Box, {
-      mx: "medium"
-    }, separator) : separator));
-  });
+  var items = renderBreadcrumbItems(children, separator);
   return /*#__PURE__*/React__default.createElement(Box, _extends({
+    className: "vf-breadcrumb",
     ref: ref,
     sx: sx
   }, getSystemProps(rest), {
@@ -846,30 +932,20 @@ var Breadcrumb = React.forwardRef(function (_ref, ref) {
   }), items);
 });
 
-var BreadcrumbItem = React.forwardRef(function (_ref, ref) {
-  var _ref$variant = _ref.variant,
-      variant = _ref$variant === void 0 ? 'breadcrumb' : _ref$variant,
-      children = _ref.children,
+var BreadcrumbItem = React__default.forwardRef(function (_ref, ref) {
+  var children = _ref.children,
       href = _ref.href,
       active = _ref.active,
       _ref$as = _ref.as,
       as = _ref$as === void 0 ? 'a' : _ref$as,
-      sx = _ref.sx,
-      rest = _objectWithoutPropertiesLoose(_ref, ["variant", "children", "href", "active", "as", "sx", "key"]);
-
-  var isActiveStyle = null;
-
-  if (active) {
-    var theme = React.useContext(styled.ThemeContext);
-    isActiveStyle = css.get(theme, getVariant([variant, 'activeItem']));
-  }
+      rest = _objectWithoutPropertiesLoose(_ref, ["variant", "children", "href", "active", "as", "key"]);
 
   return /*#__PURE__*/React__default.createElement(Box, _extends({
+    className: "vf-breadcrumb__item " + (active && 'vf-breadcrumb__item--active'),
     as: as,
     ref: ref,
     href: href
   }, rest, {
-    variant: getVariant([variant, 'item']),
     __css: {
       color: active ? 'gray900' : 'primary500',
       textDecoration: 'none',
@@ -877,15 +953,14 @@ var BreadcrumbItem = React.forwardRef(function (_ref, ref) {
         cursor: 'pointer',
         color: active ? 'gray900' : 'primary700'
       }
-    },
-    sx: _extends(_extends({}, isActiveStyle), sx)
-  }), children);
+    }
+  }, rest), children);
 });
 
-function _templateObject$2() {
+function _templateObject$1() {
   var data = _taggedTemplateLiteralLoose(["\n\n    display: inline-flex;\n    align-items: center;\n    flex-direction: row;\n    box-sizing: border-box;\n    cursor: pointer;\n    outline: none;\n    font: inherit;\n    text-decoration: none;\n    margin: 0;\n    background: transparent;\n    overflow: visible;\n    text-transform: none;\n    border-style: solid;\n\n    \n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n\n\n    &:disabled {\n       cursor: not-allowed;\n       pointer-events: all !important;\n    }\n\n"]);
 
-  _templateObject$2 = function _templateObject() {
+  _templateObject$1 = function _templateObject() {
     return data;
   };
 
@@ -905,14 +980,14 @@ var sizeVariants = styledSystem.variant({
     medium: {}
   }
 });
-var outlineVariants$1 = styledSystem.variant({
+var outlineVariants = styledSystem.variant({
   scale: 'buttons.outline',
   prop: 'outline',
   variants: {
     primary: {}
   }
 });
-var Button = styled__default.button(_templateObject$2(), styledSystem.buttonStyle, fillVariants, outlineVariants$1, sizeVariants, variant, sx, styledSystem.compose(styledSystem.width, styledSystem.height, styledSystem.display, styledSystem.space, styledSystem.color, styledSystem.typography, styledSystem.flexbox, styledSystem.background, styledSystem.border, styledSystem.position, styledSystem.shadow));
+var Button = styled__default.button(_templateObject$1(), styledSystem.buttonStyle, fillVariants, outlineVariants, sizeVariants, variant, sx, styledSystem.compose(styledSystem.width, styledSystem.height, styledSystem.display, styledSystem.space, styledSystem.color, styledSystem.typography, styledSystem.flexbox, styledSystem.background, styledSystem.border, styledSystem.position, styledSystem.shadow));
 Button.defaultProps = {
   fill: 'primary',
   size: 'medium',
@@ -1279,6 +1354,233 @@ var icons = [
 	{
 		icon: {
 			paths: [
+				"M485.053-0.001c27.782-0.139 51.117 20.863 53.895 48.506l-0.001 382.651 382.654 0.001c29.765 0 53.895 24.129 53.895 53.895s-24.129 53.895-53.895 53.895l-382.654-0.001 0.001 382.654c0 29.765-24.129 53.895-53.895 53.895s-53.895-24.129-53.895-53.895l-0.001-382.654-382.651 0.001c-27.643-2.778-48.644-26.113-48.506-53.895-0.139-27.782 20.863-51.117 48.506-53.895l382.651-0.001 0.001-382.651c2.778-27.643 26.113-48.644 53.895-48.506z"
+			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
+			tags: [
+				"actions"
+			],
+			grid: 0
+		},
+		attrs: [
+		],
+		properties: {
+			order: 7,
+			id: 0,
+			name: "add-simple",
+			prevSize: 32,
+			code: 59648
+		},
+		setIdx: 0,
+		setId: 7,
+		iconIdx: 0
+	},
+	{
+		icon: {
+			paths: [
+				"M794.531 338.851c15.962 18.768 14.534 46.724-3.258 63.767l-341.644 319.767c-22.746 19.688-57.048 17.622-77.265-4.655l-139.636-124.742c-19.28-17.095-21.051-46.582-3.956-65.862s46.582-21.051 65.862-3.956l124.276 105.193 310.924-293.236c19.031-16.441 47.68-14.792 64.698 3.724z",
+				"M512 93.091c-231.357 0-418.909 187.552-418.909 418.909s187.552 418.909 418.909 418.909c231.357 0 418.909-187.552 418.909-418.909s-187.552-418.909-418.909-418.909zM0 512c0-282.77 229.23-512 512-512s512 229.23 512 512c0 282.77-229.23 512-512 512-135.791 0-266.020-53.943-362.039-149.961s-149.961-226.248-149.961-362.039z"
+			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
+			tags: [
+				"actions"
+			],
+			grid: 0
+		},
+		attrs: [
+		],
+		properties: {
+			order: 5,
+			id: 1,
+			name: "actions-check",
+			prevSize: 32,
+			code: 59649
+		},
+		setIdx: 0,
+		setId: 7,
+		iconIdx: 1
+	},
+	{
+		icon: {
+			paths: [
+				"M231.538 787.342c19.539 24.4 55.104 28.465 79.644 9.102 11.889-9.399 19.536-23.154 21.244-38.212s-2.662-30.177-12.142-42.001l-109.796-136.533h726.471c31.419 0 56.889-25.47 56.889-56.889s-25.47-56.889-56.889-56.889h-743.538l126.862-158.151c9.48-11.824 13.851-26.942 12.142-42.001s-9.356-28.813-21.244-38.212c-24.54-19.363-60.106-15.298-79.644 9.102l-186.596 232.676c-19.968 24.94-19.968 60.393 0 85.333l186.596 232.676z"
+			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
+			tags: [
+				"arrows"
+			],
+			grid: 0
+		},
+		attrs: [
+		],
+		properties: {
+			order: 4,
+			id: 2,
+			name: "arrows-left",
+			prevSize: 32,
+			code: 59650
+		},
+		setIdx: 0,
+		setId: 7,
+		iconIdx: 2
+	},
+	{
+		icon: {
+			paths: [
+				"M463.36 754.347c39.282 35.398 98.958 35.398 138.24 0l375.467-357.547c33.086-33.283 33.086-87.037 0-120.32-16.023-16.155-37.834-25.241-60.587-25.241s-44.564 9.087-60.587 25.241l-313.173 295.253c-8.053 7.075-20.107 7.075-28.16 0l-352.427-306.347c-35.582-31.105-89.642-27.475-120.747 8.107s-27.475 89.642 8.107 120.747l413.867 360.107z"
+			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
+			tags: [
+				"chevron"
+			],
+			grid: 0
+		},
+		attrs: [
+		],
+		properties: {
+			order: 3,
+			id: 3,
+			name: "chevron-down",
+			prevSize: 32,
+			code: 59651
+		},
+		setIdx: 0,
+		setId: 7,
+		iconIdx: 3
+	},
+	{
+		icon: {
+			paths: [
+				"M164.693 753.493l316.587-301.227c8.053-7.075 20.107-7.075 28.16 0l352.427 307.2c35.582 31.105 89.642 27.475 120.747-8.107s27.475-89.642-8.107-120.747l-413.867-360.96c-39.282-35.398-98.958-35.398-138.24 0l-375.467 357.547c-33.086 33.283-33.086 87.037 0 120.32 31.345 33.151 83.221 35.783 117.76 5.973z"
+			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
+			tags: [
+				"chevron"
+			],
+			grid: 0
+		},
+		attrs: [
+		],
+		properties: {
+			order: 2,
+			id: 4,
+			name: "chevron-top",
+			prevSize: 32,
+			code: 59652
+		},
+		setIdx: 0,
+		setId: 7,
+		iconIdx: 4
+	},
+	{
+		icon: {
+			paths: [
+				"M898.32 791.904l-193.504-193.488c29.184-47.856 45.984-104.192 45.984-164.352 0-174.944-151.616-326.496-326.56-326.496-174.944-0.048-316.72 141.776-316.72 316.736 0 174.896 151.6 326.496 326.496 326.496 58.208 0 112.64-15.824 159.472-43.2l194.512 194.592c19.040 19.008 49.92 19.008 68.928 0l48.288-48.288c19.008-18.976 12.080-42.992-6.896-62zM205.008 424.304c0-121.136 98.144-219.296 219.232-219.296 121.136 0 229.072 107.872 229.072 229.056 0 121.088-98.208 219.296-219.296 219.296-121.136-0.048-229.008-107.984-229.008-229.056z"
+			],
+			attrs: [
+				{
+				}
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
+			colorPermutations: {
+				"1111233124392301252423125525525513331": [
+					{
+					}
+				],
+				"111125525525513331": [
+					{
+					}
+				]
+			},
+			tags: [
+				"recherche"
+			],
+			grid: 0
+		},
+		attrs: [
+			{
+			}
+		],
+		properties: {
+			order: 231,
+			id: 5,
+			name: "recherche",
+			prevSize: 32,
+			code: 59764
+		},
+		setIdx: 0,
+		setId: 7,
+		iconIdx: 5
+	},
+	{
+		icon: {
+			paths: [
+				"M855.37 103.828l57.992 57-748.634 761.663-57.992-57 748.634-761.663z",
+				"M921.316 857.287l-57 57.992-761.652-748.623 57-57.992 761.652 748.623z"
+			],
+			attrs: [
+				{
+				},
+				{
+				}
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
+			colorPermutations: {
+				"1111233124392301252423125525525513331": [
+					{
+					},
+					{
+					}
+				],
+				"111125525525513331": [
+					{
+					},
+					{
+					}
+				]
+			},
+			tags: [
+				"close-mobile"
+			],
+			grid: 0
+		},
+		attrs: [
+			{
+			},
+			{
+			}
+		],
+		properties: {
+			order: 185,
+			id: 6,
+			name: "close-mobile",
+			prevSize: 32,
+			code: 59718
+		},
+		setIdx: 0,
+		setId: 7,
+		iconIdx: 6
+	},
+	{
+		icon: {
+			paths: [
 				"M670.165 737.835l-225.835-225.835 225.835-225.835c16.683-16.683 16.683-43.691 0-60.331s-43.691-16.683-60.331 0l-256 256c-16.683 16.683-16.683 43.691 0 60.331l256 256c16.683 16.683 43.691 16.683 60.331 0s16.683-43.691 0-60.331z"
 			],
 			attrs: [
@@ -1293,15 +1595,15 @@ var icons = [
 		attrs: [
 		],
 		properties: {
-			id: 48,
+			id: 0,
 			order: 31,
 			prevSize: 24,
 			code: 59654,
 			name: "chevron-left"
 		},
-		setIdx: 0,
-		setId: 4,
-		iconIdx: 47
+		setIdx: 1,
+		setId: 6,
+		iconIdx: 0
 	},
 	{
 		icon: {
@@ -1320,15 +1622,15 @@ var icons = [
 		attrs: [
 		],
 		properties: {
-			id: 49,
+			id: 1,
 			order: 30,
 			prevSize: 24,
 			code: 59655,
 			name: "chevron-right"
 		},
-		setIdx: 0,
-		setId: 4,
-		iconIdx: 48
+		setIdx: 1,
+		setId: 6,
+		iconIdx: 1
 	},
 	{
 		icon: {
@@ -1347,15 +1649,15 @@ var icons = [
 		attrs: [
 		],
 		properties: {
-			id: 52,
+			id: 2,
 			order: 33,
 			prevSize: 24,
 			code: 59656,
 			name: "chevrons-left"
 		},
-		setIdx: 0,
-		setId: 4,
-		iconIdx: 51
+		setIdx: 1,
+		setId: 6,
+		iconIdx: 2
 	},
 	{
 		icon: {
@@ -1374,15 +1676,15 @@ var icons = [
 		attrs: [
 		],
 		properties: {
-			id: 53,
+			id: 3,
 			order: 32,
 			prevSize: 24,
 			code: 59657,
 			name: "chevrons-right"
 		},
-		setIdx: 0,
-		setId: 4,
-		iconIdx: 52
+		setIdx: 1,
+		setId: 6,
+		iconIdx: 3
 	},
 	{
 		icon: {
@@ -1406,140 +1708,68 @@ var icons = [
 		],
 		properties: {
 			order: 1,
-			id: 0,
+			id: 4,
 			name: "menu",
 			prevSize: 24,
 			code: 59653
 		},
 		setIdx: 1,
-		setId: 3,
-		iconIdx: 0
-	},
-	{
-		icon: {
-			paths: [
-				"M485.053-0.001c27.782-0.139 51.117 20.863 53.895 48.506l-0.001 382.651 382.654 0.001c29.765 0 53.895 24.129 53.895 53.895s-24.129 53.895-53.895 53.895l-382.654-0.001 0.001 382.654c0 29.765-24.129 53.895-53.895 53.895s-53.895-24.129-53.895-53.895l-0.001-382.654-382.651 0.001c-27.643-2.778-48.644-26.113-48.506-53.895-0.139-27.782 20.863-51.117 48.506-53.895l382.651-0.001 0.001-382.651c2.778-27.643 26.113-48.644 53.895-48.506z"
-			],
-			attrs: [
-			],
-			grid: 0,
-			tags: [
-				"actions"
-			]
-		},
-		attrs: [
-		],
-		properties: {
-			order: 7,
-			id: 4,
-			name: "add-simple",
-			prevSize: 32,
-			code: 59648
-		},
-		setIdx: 2,
-		setId: 2,
-		iconIdx: 0
-	},
-	{
-		icon: {
-			paths: [
-				"M794.531 338.851c15.962 18.768 14.534 46.724-3.258 63.767l-341.644 319.767c-22.746 19.688-57.048 17.622-77.265-4.655l-139.636-124.742c-19.28-17.095-21.051-46.582-3.956-65.862s46.582-21.051 65.862-3.956l124.276 105.193 310.924-293.236c19.031-16.441 47.68-14.792 64.698 3.724z",
-				"M512 93.091c-231.357 0-418.909 187.552-418.909 418.909s187.552 418.909 418.909 418.909c231.357 0 418.909-187.552 418.909-418.909s-187.552-418.909-418.909-418.909zM0 512c0-282.77 229.23-512 512-512s512 229.23 512 512c0 282.77-229.23 512-512 512-135.791 0-266.020-53.943-362.039-149.961s-149.961-226.248-149.961-362.039z"
-			],
-			attrs: [
-			],
-			grid: 0,
-			tags: [
-				"actions"
-			]
-		},
-		attrs: [
-		],
-		properties: {
-			order: 5,
-			id: 3,
-			name: "actions-check",
-			prevSize: 32,
-			code: 59649
-		},
-		setIdx: 2,
-		setId: 2,
-		iconIdx: 1
-	},
-	{
-		icon: {
-			paths: [
-				"M231.538 787.342c19.539 24.4 55.104 28.465 79.644 9.102 11.889-9.399 19.536-23.154 21.244-38.212s-2.662-30.177-12.142-42.001l-109.796-136.533h726.471c31.419 0 56.889-25.47 56.889-56.889s-25.47-56.889-56.889-56.889h-743.538l126.862-158.151c9.48-11.824 13.851-26.942 12.142-42.001s-9.356-28.813-21.244-38.212c-24.54-19.363-60.106-15.298-79.644 9.102l-186.596 232.676c-19.968 24.94-19.968 60.393 0 85.333l186.596 232.676z"
-			],
-			attrs: [
-			],
-			grid: 0,
-			tags: [
-				"arrows"
-			]
-		},
-		attrs: [
-		],
-		properties: {
-			order: 4,
-			id: 2,
-			name: "arrows-left",
-			prevSize: 32,
-			code: 59650
-		},
-		setIdx: 2,
-		setId: 2,
-		iconIdx: 2
-	},
-	{
-		icon: {
-			paths: [
-				"M463.36 754.347c39.282 35.398 98.958 35.398 138.24 0l375.467-357.547c33.086-33.283 33.086-87.037 0-120.32-16.023-16.155-37.834-25.241-60.587-25.241s-44.564 9.087-60.587 25.241l-313.173 295.253c-8.053 7.075-20.107 7.075-28.16 0l-352.427-306.347c-35.582-31.105-89.642-27.475-120.747 8.107s-27.475 89.642 8.107 120.747l413.867 360.107z"
-			],
-			attrs: [
-			],
-			grid: 0,
-			tags: [
-				"chevron"
-			]
-		},
-		attrs: [
-		],
-		properties: {
-			order: 3,
-			id: 1,
-			name: "chevron-down",
-			prevSize: 32,
-			code: 59651
-		},
-		setIdx: 2,
-		setId: 2,
-		iconIdx: 3
-	},
-	{
-		icon: {
-			paths: [
-				"M164.693 753.493l316.587-301.227c8.053-7.075 20.107-7.075 28.16 0l352.427 307.2c35.582 31.105 89.642 27.475 120.747-8.107s27.475-89.642-8.107-120.747l-413.867-360.96c-39.282-35.398-98.958-35.398-138.24 0l-375.467 357.547c-33.086 33.283-33.086 87.037 0 120.32 31.345 33.151 83.221 35.783 117.76 5.973z"
-			],
-			attrs: [
-			],
-			grid: 0,
-			tags: [
-				"chevron"
-			]
-		},
-		attrs: [
-		],
-		properties: {
-			order: 2,
-			id: 0,
-			name: "chevron-top",
-			prevSize: 32,
-			code: 59652
-		},
-		setIdx: 2,
-		setId: 2,
+		setId: 6,
 		iconIdx: 4
+	},
+	{
+		icon: {
+			paths: [
+				"M213.333 554.667h597.333c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-597.333c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667z"
+			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
+			tags: [
+				"minus"
+			],
+			grid: 24
+		},
+		attrs: [
+		],
+		properties: {
+			id: 160,
+			order: 37,
+			prevSize: 24,
+			code: 59658,
+			name: "minus1"
+		},
+		setIdx: 3,
+		setId: 4,
+		iconIdx: 159
+	},
+	{
+		icon: {
+			paths: [
+				"M213.333 554.667h256v256c0 23.552 19.115 42.667 42.667 42.667s42.667-19.115 42.667-42.667v-256h256c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-256v-256c0-23.552-19.115-42.667-42.667-42.667s-42.667 19.115-42.667 42.667v256h-256c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667z"
+			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
+			tags: [
+				"plus"
+			],
+			grid: 24
+		},
+		attrs: [
+		],
+		properties: {
+			id: 189,
+			order: 36,
+			prevSize: 24,
+			code: 59659,
+			name: "plus1"
+		},
+		setIdx: 3,
+		setId: 4,
+		iconIdx: 188
 	},
 	{
 		icon: {
@@ -1548,6 +1778,10 @@ var icons = [
 				"M832 288c0 53.020-42.98 96-96 96s-96-42.98-96-96 42.98-96 96-96 96 42.98 96 96z",
 				"M896 832h-768v-128l224-384 256 320h64l224-192z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"image",
 				"picture",
@@ -1555,9 +1789,7 @@ var icons = [
 				"graphic"
 			],
 			defaultCode: 59661,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -1565,13 +1797,13 @@ var icons = [
 			ligatures: "image, picture",
 			name: "image",
 			order: 21,
-			id: 14,
+			id: 0,
 			prevSize: 32,
 			code: 59661
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 13
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 0
 	},
 	{
 		icon: {
@@ -1580,6 +1812,10 @@ var icons = [
 				"M736 576c-17.602 0-32 14.4-32 32v384c0 17.6 14.398 32 32 32h64v-448h-64z",
 				"M1024 512c0-282.77-229.23-512-512-512s-512 229.23-512 512c0 61.412 10.83 120.29 30.656 174.848-19.478 33.206-30.656 71.87-30.656 113.152 0 112.846 83.448 206.188 192 221.716v-443.418c-31.914 4.566-61.664 15.842-87.754 32.378-5.392-26.718-8.246-54.364-8.246-82.676 0-229.75 186.25-416 416-416s416 186.25 416 416c0 28.314-2.83 55.968-8.22 82.696-26.1-16.546-55.854-27.848-87.78-32.418v443.44c108.548-15.532 192-108.874 192-221.714 0-41.274-11.178-79.934-30.648-113.138 19.828-54.566 30.648-113.452 30.648-174.866z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"headphones",
 				"headset",
@@ -1587,9 +1823,7 @@ var icons = [
 				"audio"
 			],
 			defaultCode: 59664,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -1597,19 +1831,23 @@ var icons = [
 			ligatures: "headphones, headset",
 			name: "headphones",
 			order: 25,
-			id: 17,
+			id: 1,
 			prevSize: 32,
 			code: 59664
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 16
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 1
 	},
 	{
 		icon: {
 			paths: [
 				"M960 0h64v736c0 88.366-100.29 160-224 160s-224-71.634-224-160c0-88.368 100.29-160 224-160 62.684 0 119.342 18.4 160 48.040v-368.040l-512 113.778v494.222c0 88.366-100.288 160-224 160s-224-71.634-224-160c0-88.368 100.288-160 224-160 62.684 0 119.342 18.4 160 48.040v-624.040l576-128z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"music",
 				"song",
@@ -1618,9 +1856,7 @@ var icons = [
 				"note"
 			],
 			defaultCode: 59665,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -1628,28 +1864,30 @@ var icons = [
 			ligatures: "music, song",
 			name: "music",
 			order: 22,
-			id: 18,
+			id: 2,
 			prevSize: 32,
 			code: 59665
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 17
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 2
 	},
 	{
 		icon: {
 			paths: [
 				"M981.188 160.108c-143.632-20.65-302.332-32.108-469.186-32.108-166.86 0-325.556 11.458-469.194 32.108-27.53 107.726-42.808 226.75-42.808 351.892 0 125.14 15.278 244.166 42.808 351.89 143.638 20.652 302.336 32.11 469.194 32.11 166.854 0 325.552-11.458 469.186-32.11 27.532-107.724 42.812-226.75 42.812-351.89 0-125.142-15.28-244.166-42.812-351.892zM384.002 704v-384l320 192-320 192z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"play",
 				"video",
 				"movie"
 			],
 			defaultCode: 59666,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -1657,19 +1895,23 @@ var icons = [
 			ligatures: "play, video",
 			name: "play",
 			order: 24,
-			id: 19,
+			id: 3,
 			prevSize: 32,
 			code: 59666
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 18
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 3
 	},
 	{
 		icon: {
 			paths: [
 				"M0 128v768h1024v-768h-1024zM192 832h-128v-128h128v128zM192 576h-128v-128h128v128zM192 320h-128v-128h128v128zM768 832h-512v-640h512v640zM960 832h-128v-128h128v128zM960 576h-128v-128h128v128zM960 320h-128v-128h128v128zM384 320v384l256-192z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"film",
 				"video",
@@ -1678,9 +1920,7 @@ var icons = [
 				"play"
 			],
 			defaultCode: 59667,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -1688,13 +1928,13 @@ var icons = [
 			ligatures: "film, video2",
 			name: "film",
 			order: 23,
-			id: 20,
+			id: 4,
 			prevSize: 32,
 			code: 59667
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 19
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 4
 	},
 	{
 		icon: {
@@ -1702,6 +1942,10 @@ var icons = [
 				"M917.806 357.076c-22.21-30.292-53.174-65.7-87.178-99.704s-69.412-64.964-99.704-87.178c-51.574-37.82-76.592-42.194-90.924-42.194h-368c-44.114 0-80 35.888-80 80v736c0 44.112 35.886 80 80 80h608c44.112 0 80-35.888 80-80v-496c0-14.332-4.372-39.35-42.194-90.924zM785.374 302.626c30.7 30.7 54.8 58.398 72.58 81.374h-153.954v-153.946c22.982 17.78 50.678 41.878 81.374 72.572v0zM896 944c0 8.672-7.328 16-16 16h-608c-8.672 0-16-7.328-16-16v-736c0-8.672 7.328-16 16-16 0 0 367.956-0.002 368 0v224c0 17.672 14.324 32 32 32h224v496z",
 				"M602.924 42.196c-51.574-37.822-76.592-42.196-90.924-42.196h-368c-44.112 0-80 35.888-80 80v736c0 38.632 27.528 70.958 64 78.39v-814.39c0-8.672 7.328-16 16-16h486.876c-9.646-7.92-19.028-15.26-27.952-21.804z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"files-empty",
 				"files",
@@ -1710,9 +1954,7 @@ var icons = [
 				"pages"
 			],
 			defaultCode: 59685,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -1720,13 +1962,13 @@ var icons = [
 			ligatures: "files-empty, files",
 			name: "files-empty",
 			order: 14,
-			id: 38,
+			id: 5,
 			prevSize: 32,
 			code: 59685
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 37
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 5
 	},
 	{
 		icon: {
@@ -1736,6 +1978,10 @@ var icons = [
 				"M736 704h-448c-17.672 0-32-14.326-32-32s14.328-32 32-32h448c17.674 0 32 14.326 32 32s-14.326 32-32 32z",
 				"M736 576h-448c-17.672 0-32-14.326-32-32s14.328-32 32-32h448c17.674 0 32 14.326 32 32s-14.326 32-32 32z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"file-text",
 				"file",
@@ -1745,9 +1991,7 @@ var icons = [
 				"page"
 			],
 			defaultCode: 59686,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -1755,19 +1999,23 @@ var icons = [
 			ligatures: "file-text2, file4",
 			name: "file-text2",
 			order: 20,
-			id: 39,
+			id: 6,
 			prevSize: 32,
 			code: 59686
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 38
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 6
 	},
 	{
 		icon: {
 			paths: [
 				"M832 960l192-512h-832l-192 512zM128 384l-128 576v-832h288l128 128h416v128z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"folder-open",
 				"directory",
@@ -1775,9 +2023,7 @@ var icons = [
 				"browse"
 			],
 			defaultCode: 59696,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -1785,19 +2031,23 @@ var icons = [
 			ligatures: "folder-open, directory2",
 			name: "folder-open",
 			order: 19,
-			id: 49,
+			id: 7,
 			prevSize: 32,
 			code: 59696
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 48
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 7
 	},
 	{
 		icon: {
 			paths: [
 				"M928 128h-832c-52.8 0-96 43.2-96 96v640c0 52.8 43.2 96 96 96h832c52.8 0 96-43.2 96-96v-640c0-52.8-43.2-96-96-96zM398.74 550.372l-270.74 210.892v-501.642l270.74 290.75zM176.38 256h671.24l-335.62 252-335.62-252zM409.288 561.698l102.712 110.302 102.71-110.302 210.554 270.302h-626.528l210.552-270.302zM625.26 550.372l270.74-290.75v501.642l-270.74-210.892z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"envelop",
 				"mail",
@@ -1806,9 +2056,7 @@ var icons = [
 				"letter"
 			],
 			defaultCode: 59717,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -1816,27 +2064,29 @@ var icons = [
 			ligatures: "envelop, mail",
 			name: "envelop",
 			order: 18,
-			id: 70,
+			id: 8,
 			prevSize: 32,
 			code: 59717
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 69
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 8
 	},
 	{
 		icon: {
 			paths: [
 				"M896 0h-896v1024h1024v-896l-128-128zM512 128h128v256h-128v-256zM896 896h-768v-768h64v320h576v-320h74.978l53.022 53.018v714.982z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"floppy-disk",
 				"save"
 			],
 			defaultCode: 59746,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -1844,19 +2094,23 @@ var icons = [
 			ligatures: "floppy-disk, save2",
 			name: "floppy-disk",
 			order: 17,
-			id: 99,
+			id: 9,
 			prevSize: 32,
 			code: 59746
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 98
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 9
 	},
 	{
 		icon: {
 			paths: [
 				"M512 192c-54.932 0-107.988 8.662-157.694 25.742-46.712 16.054-88.306 38.744-123.628 67.444-66.214 53.798-102.678 122.984-102.678 194.814 0 40.298 11.188 79.378 33.252 116.152 22.752 37.92 56.982 72.586 98.988 100.252 30.356 19.992 50.78 51.948 56.176 87.894 1.8 11.984 2.928 24.088 3.37 36.124 7.47-6.194 14.75-12.846 21.88-19.976 24.154-24.152 56.78-37.49 90.502-37.49 5.368 0 10.762 0.336 16.156 1.024 20.974 2.666 42.398 4.020 63.676 4.020 54.934 0 107.988-8.66 157.694-25.742 46.712-16.054 88.306-38.744 123.628-67.444 66.214-53.796 102.678-122.984 102.678-194.814s-36.464-141.016-102.678-194.814c-35.322-28.698-76.916-51.39-123.628-67.444-49.706-17.080-102.76-25.742-157.694-25.742zM512 64v0c282.77 0 512 186.25 512 416 0 229.752-229.23 416-512 416-27.156 0-53.81-1.734-79.824-5.044-109.978 109.978-241.25 129.7-368.176 132.596v-26.916c68.536-33.578 128-94.74 128-164.636 0-9.754-0.758-19.33-2.164-28.696-115.796-76.264-189.836-192.754-189.836-323.304 0-229.75 229.23-416 512-416z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"bubble",
 				"comment",
@@ -1864,9 +2118,7 @@ var icons = [
 				"talk"
 			],
 			defaultCode: 59758,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -1874,19 +2126,23 @@ var icons = [
 			ligatures: "bubble2, comment2",
 			name: "bubble2",
 			order: 16,
-			id: 111,
+			id: 10,
 			prevSize: 32,
 			code: 59758
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 110
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 10
 	},
 	{
 		icon: {
 			paths: [
 				"M933.79 610.25c-53.726-93.054-21.416-212.304 72.152-266.488l-100.626-174.292c-28.75 16.854-62.176 26.518-97.846 26.518-107.536 0-194.708-87.746-194.708-195.99h-201.258c0.266 33.41-8.074 67.282-25.958 98.252-53.724 93.056-173.156 124.702-266.862 70.758l-100.624 174.292c28.97 16.472 54.050 40.588 71.886 71.478 53.638 92.908 21.512 211.92-71.708 266.224l100.626 174.292c28.65-16.696 61.916-26.254 97.4-26.254 107.196 0 194.144 87.192 194.7 194.958h201.254c-0.086-33.074 8.272-66.57 25.966-97.218 53.636-92.906 172.776-124.594 266.414-71.012l100.626-174.29c-28.78-16.466-53.692-40.498-71.434-71.228zM512 719.332c-114.508 0-207.336-92.824-207.336-207.334 0-114.508 92.826-207.334 207.336-207.334 114.508 0 207.332 92.826 207.332 207.334-0.002 114.51-92.824 207.334-207.332 207.334z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"cog",
 				"gear",
@@ -1897,9 +2153,7 @@ var icons = [
 				"options"
 			],
 			defaultCode: 59796,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -1907,19 +2161,23 @@ var icons = [
 			ligatures: "cog, gear",
 			name: "cog",
 			order: 15,
-			id: 149,
+			id: 11,
 			prevSize: 32,
 			code: 59796
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 148
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 11
 	},
 	{
 		icon: {
 			paths: [
 				"M512 1024c282.77 0 512-229.23 512-512s-229.23-512-512-512-512 229.23-512 512 229.23 512 512 512zM512 96c229.75 0 416 186.25 416 416s-186.25 416-416 416-416-186.25-416-416 186.25-416 416-416zM512 598.76c115.95 0 226.23-30.806 320-84.92-14.574 178.438-153.128 318.16-320 318.16-166.868 0-305.422-139.872-320-318.304 93.77 54.112 204.050 85.064 320 85.064zM256 352c0-53.019 28.654-96 64-96s64 42.981 64 96c0 53.019-28.654 96-64 96s-64-42.981-64-96zM640 352c0-53.019 28.654-96 64-96s64 42.981 64 96c0 53.019-28.654 96-64 96s-64-42.981-64-96z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"happy",
 				"emoticon",
@@ -1927,9 +2185,7 @@ var icons = [
 				"face"
 			],
 			defaultCode: 59871,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -1937,19 +2193,23 @@ var icons = [
 			ligatures: "happy, emoticon",
 			name: "happy",
 			order: 11,
-			id: 224,
+			id: 12,
 			prevSize: 32,
 			code: 59871
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 223
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 12
 	},
 	{
 		icon: {
 			paths: [
 				"M512 1024c282.77 0 512-229.23 512-512s-229.23-512-512-512-512 229.23-512 512 229.23 512 512 512zM512 96c229.75 0 416 186.25 416 416s-186.25 416-416 416-416-186.25-416-416 186.25-416 416-416zM256 320c0-35.346 28.654-64 64-64s64 28.654 64 64c0 35.346-28.654 64-64 64s-64-28.654-64-64zM640 320c0-35.346 28.654-64 64-64s64 28.654 64 64c0 35.346-28.654 64-64 64s-64-28.654-64-64zM704.098 627.26l82.328 49.396c-55.962 93.070-157.916 155.344-274.426 155.344s-218.464-62.274-274.426-155.344l82.328-49.396c39.174 65.148 110.542 108.74 192.098 108.74s152.924-43.592 192.098-108.74z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"smile",
 				"emoticon",
@@ -1957,9 +2217,7 @@ var icons = [
 				"face"
 			],
 			defaultCode: 59873,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -1967,28 +2225,30 @@ var icons = [
 			ligatures: "smile, emoticon3",
 			name: "smile",
 			order: 10,
-			id: 226,
+			id: 13,
 			prevSize: 32,
 			code: 59873
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 225
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 13
 	},
 	{
 		icon: {
 			paths: [
 				"M992 384h-352v-352c0-17.672-14.328-32-32-32h-192c-17.672 0-32 14.328-32 32v352h-352c-17.672 0-32 14.328-32 32v192c0 17.672 14.328 32 32 32h352v352c0 17.672 14.328 32 32 32h192c17.672 0 32-14.328 32-32v-352h352c17.672 0 32-14.328 32-32v-192c0-17.672-14.328-32-32-32z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"plus",
 				"add",
 				"sum"
 			],
 			defaultCode: 59914,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -1996,19 +2256,23 @@ var icons = [
 			ligatures: "plus, add",
 			name: "plus",
 			order: 9,
-			id: 267,
+			id: 14,
 			prevSize: 32,
 			code: 59914
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 266
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 14
 	},
 	{
 		icon: {
 			paths: [
 				"M0 416v192c0 17.672 14.328 32 32 32h960c17.672 0 32-14.328 32-32v-192c0-17.672-14.328-32-32-32h-960c-17.672 0-32 14.328-32 32z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"minus",
 				"subtract",
@@ -2016,9 +2280,7 @@ var icons = [
 				"line"
 			],
 			defaultCode: 59915,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -2026,28 +2288,30 @@ var icons = [
 			ligatures: "minus, subtract",
 			name: "minus",
 			order: 8,
-			id: 268,
+			id: 15,
 			prevSize: 32,
 			code: 59915
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 267
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 15
 	},
 	{
 		icon: {
 			paths: [
 				"M608 192h160v-192h-160c-123.514 0-224 100.486-224 224v96h-128v192h128v512h192v-512h160l32-192h-192v-96c0-17.346 14.654-32 32-32z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"facebook",
 				"brand",
 				"social"
 			],
 			defaultCode: 60048,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -2055,13 +2319,13 @@ var icons = [
 			ligatures: "facebook, brand10",
 			name: "facebook",
 			order: 26,
-			id: 401,
+			id: 16,
 			prevSize: 32,
 			code: 60048
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 400
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 16
 	},
 	{
 		icon: {
@@ -2070,15 +2334,17 @@ var icons = [
 				"M512 249c-145.2 0-263 117.8-263 263s117.8 263 263 263 263-117.8 263-263c0-145.2-117.8-263-263-263zM512 682.6c-94.2 0-170.6-76.4-170.6-170.6s76.4-170.6 170.6-170.6c94.2 0 170.6 76.4 170.6 170.6s-76.4 170.6-170.6 170.6z",
 				"M846.8 238.6c0 33.91-27.49 61.4-61.4 61.4s-61.4-27.49-61.4-61.4c0-33.91 27.49-61.4 61.4-61.4s61.4 27.49 61.4 61.4z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"instagram",
 				"brand",
 				"social"
 			],
 			defaultCode: 60050,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -2086,19 +2352,23 @@ var icons = [
 			ligatures: "instagram, brand12",
 			name: "instagram",
 			order: 27,
-			id: 403,
+			id: 17,
 			prevSize: 32,
 			code: 60050
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 402
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 17
 	},
 	{
 		icon: {
 			paths: [
 				"M1024 226.4c-37.6 16.8-78.2 28-120.6 33 43.4-26 76.6-67.2 92.4-116.2-40.6 24-85.6 41.6-133.4 51-38.4-40.8-93-66.2-153.4-66.2-116 0-210 94-210 210 0 16.4 1.8 32.4 5.4 47.8-174.6-8.8-329.4-92.4-433-219.6-18 31-28.4 67.2-28.4 105.6 0 72.8 37 137.2 93.4 174.8-34.4-1-66.8-10.6-95.2-26.2 0 0.8 0 1.8 0 2.6 0 101.8 72.4 186.8 168.6 206-17.6 4.8-36.2 7.4-55.4 7.4-13.6 0-26.6-1.4-39.6-3.8 26.8 83.4 104.4 144.2 196.2 146-72 56.4-162.4 90-261 90-17 0-33.6-1-50.2-3 93.2 59.8 203.6 94.4 322.2 94.4 386.4 0 597.8-320.2 597.8-597.8 0-9.2-0.2-18.2-0.6-27.2 41-29.4 76.6-66.4 104.8-108.6z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"twitter",
 				"brand",
@@ -2106,9 +2376,7 @@ var icons = [
 				"social"
 			],
 			defaultCode: 60054,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -2116,13 +2384,13 @@ var icons = [
 			ligatures: "twitter, brand16",
 			name: "twitter",
 			order: 28,
-			id: 407,
+			id: 18,
 			prevSize: 32,
 			code: 60054
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 406
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 18
 	},
 	{
 		icon: {
@@ -2133,15 +2401,17 @@ var icons = [
 				"M592 983c1.6 1 3.4 1.8 5 2.6 1.8-0.4 3.6-0.6 5.4-0.8l-10.4-1.8z",
 				"M987.8 597.2c-0.4 1.8-0.6 3.6-1 5.4l-1.8-10.4c1 1.8 1.8 3.4 2.8 5 5.2-28.8 8-58.2 8-87.6 0-65.2-12.8-128.6-38-188.2-24.4-57.6-59.2-109.4-103.6-153.8s-96.2-79.2-153.6-103.6c-59.6-25.2-123-38-188.2-38-30.8 0-61.6 2.8-91.6 8.6 0 0-0.2 0-0.2 0 1.6 0.8 3.4 1.6 5 2.6l-10.2-1.6c1.8-0.4 3.4-0.6 5.2-1-41.2-21.8-87.4-33.6-134.2-33.6-76.4 0-148.4 29.8-202.4 83.8s-83.8 126-83.8 202.4c0 48.6 12.6 96.6 36 138.8 0.4-1.8 0.6-3.6 0.8-5.2l1.8 10.2c-1-1.6-1.8-3.2-2.6-4.8-4.8 27.4-7.2 55.4-7.2 83.4 0 65.2 12.8 128.6 38 188.2 24.4 57.6 59.2 109.2 103.6 153.6s96.2 79.2 153.8 103.6c59.6 25.2 123 38 188.2 38 28.4 0 56.8-2.6 84.6-7.6-1.6-1-3.2-1.8-5-2.6l10.4 1.8c-1.8 0.4-3.6 0.6-5.4 0.8 42.8 24.2 91.4 37.2 140.8 37.2 76.4 0 148.4-29.8 202.4-83.8s83.8-126 83.8-202.4c-0.2-48.6-12.8-96.6-36.4-139.2zM514.2 805.8c-171.8 0-248.6-84.4-248.6-147.8 0-32.4 24-55.2 57-55.2 73.6 0 54.4 105.6 191.6 105.6 70.2 0 109-38.2 109-77.2 0-23.4-11.6-49.4-57.8-60.8l-152.8-38.2c-123-30.8-145.4-97.4-145.4-160 0-129.8 122.2-178.6 237-178.6 105.8 0 230.4 58.4 230.4 136.4 0 33.4-29 52.8-62 52.8-62.8 0-51.2-86.8-177.6-86.8-62.8 0-97.4 28.4-97.4 69s49.6 53.6 92.6 63.4l113.2 25.2c123.8 27.6 155.2 100 155.2 168 0 105.4-81 184.2-244.4 184.2z"
 			],
+			attrs: [
+			],
+			isMulticolor: false,
+			isMulticolor2: false,
 			tags: [
 				"skype",
 				"brand",
 				"social"
 			],
 			defaultCode: 60101,
-			grid: 16,
-			attrs: [
-			]
+			grid: 16
 		},
 		attrs: [
 		],
@@ -2149,104 +2419,13 @@ var icons = [
 			ligatures: "skype, brand60",
 			name: "skype",
 			order: 29,
-			id: 454,
+			id: 19,
 			prevSize: 32,
 			code: 60101
 		},
-		setIdx: 3,
-		setId: 1,
-		iconIdx: 453
-	},
-	{
-		icon: {
-			paths: [
-				"M898.32 791.904l-193.504-193.488c29.184-47.856 45.984-104.192 45.984-164.352 0-174.944-151.616-326.496-326.56-326.496-174.944-0.048-316.72 141.776-316.72 316.736 0 174.896 151.6 326.496 326.496 326.496 58.208 0 112.64-15.824 159.472-43.2l194.512 194.592c19.040 19.008 49.92 19.008 68.928 0l48.288-48.288c19.008-18.976 12.080-42.992-6.896-62zM205.008 424.304c0-121.136 98.144-219.296 219.232-219.296 121.136 0 229.072 107.872 229.072 229.056 0 121.088-98.208 219.296-219.296 219.296-121.136-0.048-229.008-107.984-229.008-229.056z"
-			],
-			attrs: [
-				{
-				}
-			],
-			isMulticolor: false,
-			isMulticolor2: false,
-			grid: 0,
-			tags: [
-				"recherche"
-			],
-			colorPermutations: {
-				"1111233124392301252423125525525513331": [
-					{
-					}
-				],
-				"111125525525513331": [
-					{
-					}
-				]
-			}
-		},
-		attrs: [
-			{
-			}
-		],
-		properties: {
-			order: 231,
-			id: 20,
-			name: "recherche",
-			prevSize: 32,
-			code: 59764
-		},
-		setIdx: 0,
-		setId: 1,
-		iconIdx: 36
-	},
-	{
-		icon: {
-			paths: [
-				"M855.37 103.828l57.992 57-748.634 761.663-57.992-57 748.634-761.663z",
-				"M921.316 857.287l-57 57.992-761.652-748.623 57-57.992 761.652 748.623z"
-			],
-			attrs: [
-				{
-				},
-				{
-				}
-			],
-			isMulticolor: false,
-			isMulticolor2: false,
-			grid: 0,
-			tags: [
-				"close-mobile"
-			],
-			colorPermutations: {
-				"1111233124392301252423125525525513331": [
-					{
-					},
-					{
-					}
-				],
-				"111125525525513331": [
-					{
-					},
-					{
-					}
-				]
-			}
-		},
-		attrs: [
-			{
-			},
-			{
-			}
-		],
-		properties: {
-			order: 185,
-			id: 71,
-			name: "close-mobile",
-			prevSize: 32,
-			code: 59717
-		},
-		setIdx: 0,
-		setId: 1,
-		iconIdx: 39
+		setIdx: 2,
+		setId: 5,
+		iconIdx: 19
 	}
 ];
 var height = 1024;
@@ -2298,10 +2477,10 @@ var useVactoryIcon = function useVactoryIcon() {
   return React__default.useContext(VactoryIconContext);
 };
 
-function _templateObject$3() {
+function _templateObject$2() {
   var data = _taggedTemplateLiteralLoose(["\n    display: inline-block;\n    stroke: currentcolor;\n    fill: currentcolor;\n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n  "]);
 
-  _templateObject$3 = function _templateObject() {
+  _templateObject$2 = function _templateObject() {
     return data;
   };
 
@@ -2327,7 +2506,7 @@ var Icon = styled__default(WrapperIcon, {
     removeInlineStyle: true,
     icon: props.name || props.icon
   };
-})(_templateObject$3(), styledSystem.color, styledSystem.size, styledSystem.space, base, sx);
+})(_templateObject$2(), styledSystem.color, styledSystem.size, styledSystem.space, base, sx);
 
 var SVG = function SVG(_ref) {
   var props = _objectWithoutPropertiesLoose(_ref, ["size"]);
@@ -2453,10 +2632,10 @@ var Checkbox = React.forwardRef(function (_ref3, ref) {
   })));
 });
 
-function _templateObject$4() {
+function _templateObject$3() {
   var data = _taggedTemplateLiteralLoose(["\n    display: block;\n    padding: 2px;\n    appearance: none;\n    font-size: inherit;\n    line-height: inherit;\n    border: 1px solid;\n    color: inherit;\n    background: transparent;\n    width: auto;\n    &:focus {\n        outline: none;\n        box-shadow: 0 0 0 2px;\n    }\n\n    ", "\n    ", "\n    ", "\n\n\n    ", "\n    ", "\n    ", "\n"]);
 
-  _templateObject$4 = function _templateObject() {
+  _templateObject$3 = function _templateObject() {
     return data;
   };
 
@@ -2487,7 +2666,7 @@ var variantSizes = styledSystem.variant({
     }
   }
 });
-var StyledInput = styled__default.input(_templateObject$4(), variantVariants, variantStatus, variantSizes, variant, sx, styledSystem.compose(styledSystem.padding, styledSystem.color, styledSystem.typography, styledSystem.background, styledSystem.border, styledSystem.position, styledSystem.shadow, styledSystem.width, styledSystem.height, styledSystem.display));
+var StyledInput = styled__default.input(_templateObject$3(), variantVariants, variantStatus, variantSizes, variant, sx, styledSystem.compose(styledSystem.padding, styledSystem.color, styledSystem.typography, styledSystem.background, styledSystem.border, styledSystem.position, styledSystem.shadow, styledSystem.width, styledSystem.height, styledSystem.display));
 StyledInput.defaultProps = {
   type: 'text',
   variant: 'default',
@@ -2767,16 +2946,16 @@ Select.Option = function (_ref4) {
   return /*#__PURE__*/React__default.createElement("option", props, children);
 };
 
-function _templateObject$5() {
+function _templateObject$4() {
   var data = _taggedTemplateLiteralLoose(["\n\n    *,\n    *::before,\n    *::after {\n        box-sizing: border-box;\n    }\n\n    body, h1, h2, h3, h4, h5, h6, p, ol, ul {\n        margin: 0;\n        padding: 0;\n        font-weight: normal;\n    }\n\n    ol, ul {\n        list-style: none;\n    }\n\n\n    html {\n        font-family: ", ";\n        font-size: ", ";;\n        box-sizing: border-box;\n    }\n\n"]);
 
-  _templateObject$5 = function _templateObject() {
+  _templateObject$4 = function _templateObject() {
     return data;
   };
 
   return data;
 }
-var GlobalStyle = styled.createGlobalStyle(_templateObject$5(), function (_ref) {
+var GlobalStyle = styled.createGlobalStyle(_templateObject$4(), function (_ref) {
   var theme = _ref.theme;
   return theme.fonts.sans;
 }, function (_ref2) {
@@ -2795,45 +2974,6 @@ var DEFAULT_CONFIG = {
     xl: '1140px'
   }
 };
-
-var cssRegex = /^([+-]?(?:\d+|\d*\.\d+))([a-z]*|%)$/;
-/**
- * Returns a given CSS value minus its unit of measure.
- *
- * @deprecated - stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getUnitAndValue.
- *
- * @example
- * // Styles as object usage
- * const styles = {
- *   '--dimension': stripUnit('100px')
- * }
- *
- * // styled-components usage
- * const div = styled.div`
- *   --dimension: ${stripUnit('100px')};
- * `
- *
- * // CSS in JS Output
- *
- * element {
- *   '--dimension': 100
- * }
- */
-
-function stripUnit(value, unitReturn) {
-  if (typeof value !== 'string') return unitReturn ? [value, undefined] : value;
-  var matchedValue = value.match(cssRegex);
-
-  if (unitReturn) {
-    // eslint-disable-next-line no-console
-    console.warn("stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getUnitAndValue.");
-    if (matchedValue) return [parseFloat(value), matchedValue[2]];
-    return [value, undefined];
-  }
-
-  if (matchedValue) return parseFloat(value);
-  return value;
-}
 
 var THEME_CONF = 'gridSystem';
 var configCache = [];
@@ -2914,10 +3054,10 @@ function _templateObject2$1() {
   return data;
 }
 
-function _templateObject$6() {
+function _templateObject$5() {
   var data = _taggedTemplateLiteralLoose(["\n            ", "\n        "]);
 
-  _templateObject$6 = function _templateObject() {
+  _templateObject$5 = function _templateObject() {
     return data;
   };
 
@@ -2928,7 +3068,7 @@ var generateMediaforContainer = function generateMediaforContainer(props) {
   var breakpointsName = Object.keys(props.theme.breakpoints);
 
   if (!props.fluid) {
-    return styled.css(_templateObject$6(), breakpointsName.map(function (breakpoint) {
+    return styled.css(_templateObject$5(), breakpointsName.map(function (breakpoint) {
       if (getContainer(props)(breakpoint)) {
         return generateMedia(props.theme.breakpoints).greaterThan(breakpoint)(_templateObject2$1(), function (props) {
           return getContainer(props)(breakpoint);
@@ -2949,16 +3089,16 @@ Container.defaultProps = {
   fluid: false
 };
 
-function _templateObject$7() {
+function _templateObject$6() {
   var data = _taggedTemplateLiteralLoose(["\n    box-sizing: border-box;\n    display: flex;\n    flex: 0 1 auto;\n    flex-wrap: wrap;\n    margin-right: ", "px;\n    margin-left: ", "px;\n    ", "\n"]);
 
-  _templateObject$7 = function _templateObject() {
+  _templateObject$6 = function _templateObject() {
     return data;
   };
 
   return data;
 }
-var Row = styled__default.div(_templateObject$7(), function (props) {
+var Row = styled__default.div(_templateObject$6(), function (props) {
   return getGutterWidth(props) / 2 * -1;
 }, function (props) {
   return getGutterWidth(props) / 2 * -1;
@@ -2975,10 +3115,10 @@ function _templateObject2$2() {
   return data;
 }
 
-function _templateObject$8() {
+function _templateObject$7() {
   var data = _taggedTemplateLiteralLoose(["\n           ", "\n        "]);
 
-  _templateObject$8 = function _templateObject() {
+  _templateObject$7 = function _templateObject() {
     return data;
   };
 
@@ -2987,7 +3127,7 @@ function _templateObject$8() {
 
 var generateMediaForCol = function generateMediaForCol(props) {
   return sortBreakpointProps(props).map(function (bp) {
-    return generateMedia(props.theme.breakpoints).greaterThan(bp)(_templateObject$8(), props[bp] >= 0 ? "\n                    flex-basis: " + 100 / getGridSize(props) * props[bp] + "%;\n                    max-width: " + 100 / getGridSize(props) * props[bp] + "%;\n                    display: block;\n               " : props[bp] ? "\n               flex-grow: 1;\n               flex-basis: 0;\n               max-width: 100%;\n               display: block;\n           " : "\n               display: none;\n           ");
+    return generateMedia(props.theme.breakpoints).greaterThan(bp)(_templateObject$7(), props[bp] >= 0 ? "\n                    flex-basis: " + 100 / getGridSize(props) * props[bp] + "%;\n                    max-width: " + 100 / getGridSize(props) * props[bp] + "%;\n                    display: block;\n               " : props[bp] ? "\n               flex-grow: 1;\n               flex-basis: 0;\n               max-width: 100%;\n               display: block;\n           " : "\n               display: none;\n           ");
   });
 };
 
@@ -3415,14 +3555,17 @@ var Text = function Text(_ref) {
 };
 var Paragraph = function Paragraph(_ref2) {
   var children = _ref2.children,
-      rest = _objectWithoutPropertiesLoose(_ref2, ["children"]);
+      _ref2$variant = _ref2.variant,
+      variant = _ref2$variant === void 0 ? "paragraph.default" : _ref2$variant,
+      rest = _objectWithoutPropertiesLoose(_ref2, ["children", "variant"]);
 
   return /*#__PURE__*/React__default.createElement(Text, _extends({
     __css: {
       fontSize: "paragraph",
       lineHeight: "paragraph",
       mb: "xsmall"
-    }
+    },
+    variant: variant
   }, rest), children);
 };
 var Heading = function Heading(_ref3) {
@@ -4195,10 +4338,10 @@ function _templateObject2$3() {
   return data;
 }
 
-function _templateObject$9() {
+function _templateObject$8() {
   var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translateX(-50%) scale(0.8); }\n      100% { transform: translateX(-50%) scale(1); }\n    "]);
 
-  _templateObject$9 = function _templateObject() {
+  _templateObject$8 = function _templateObject() {
     return data;
   };
 
@@ -4342,7 +4485,7 @@ var getBounds = function getBounds(bounds, margin, theme, position) {
 
 var KEYFRAMES = {
   center: {
-    vertical: styled.keyframes(_templateObject$9()),
+    vertical: styled.keyframes(_templateObject$8()),
     horizontal: styled.keyframes(_templateObject2$3()),
     "true": styled.keyframes(_templateObject3$2()),
     "false": styled.keyframes(_templateObject4())
@@ -4714,16 +4857,16 @@ var FocusedContainer = function FocusedContainer(_ref) {
   }, rest), children);
 };
 
-function _templateObject$a() {
+function _templateObject$9() {
   var data = _taggedTemplateLiteralLoose(["\n  width: 0;\n  height: 0;\n  overflow: hidden;\n  position: absolute;\n"]);
 
-  _templateObject$a = function _templateObject() {
+  _templateObject$9 = function _templateObject() {
     return data;
   };
 
   return data;
 }
-var HiddenAnchor = styled__default.a(_templateObject$a());
+var HiddenAnchor = styled__default.a(_templateObject$9());
 var fullBounds = {
   left: 0,
   right: 0,
@@ -5038,16 +5181,16 @@ var RevealBox = React__default.forwardRef(function (_ref, ref) {
   }), children));
 });
 
-function _templateObject$b() {
+function _templateObject$a() {
   var data = _taggedTemplateLiteralLoose(["\n.slick-list,\n.slick-slider,\n.slick-track {\n    position: relative;\n    display: block;\n}\n.slick-loading .slick-slide,\n.slick-loading .slick-track {\n    visibility: hidden;\n}\n.slick-slider {\n    box-sizing: border-box;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    -webkit-touch-callout: none;\n    -khtml-user-select: none;\n    -ms-touch-action: pan-y;\n    touch-action: pan-y;\n    -webkit-tap-highlight-color: transparent;\n}\n.slick-list {\n    overflow: hidden;\n    margin: 0;\n    padding: 0;\n}\n.slick-list:focus {\n    outline: 0;\n}\n.slick-list.dragging {\n    cursor: pointer;\n    cursor: hand;\n}\n.slick-slider .slick-list,\n.slick-slider .slick-track {\n    -webkit-transform: translate3d(0, 0, 0);\n    -moz-transform: translate3d(0, 0, 0);\n    -ms-transform: translate3d(0, 0, 0);\n    -o-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n}\n.slick-track {\n    top: 0;\n    left: 0;\n}\n.slick-track:after,\n.slick-track:before {\n    display: table;\n    content: \"\";\n}\n.slick-track:after {\n    clear: both;\n}\n.slick-slide {\n    display: none;\n    float: left;\n    height: 100%;\n    min-height: 1px;\n}\n[dir=\"rtl\"] .slick-slide {\n    float: right;\n}\n.slick-slide img {\n    display: block;\n}\n.slick-slide.slick-loading img {\n    display: none;\n}\n.slick-slide.dragging img {\n    pointer-events: none;\n}\n.slick-initialized .slick-slide {\n    display: block;\n}\n.slick-vertical .slick-slide {\n    display: block;\n    height: auto;\n    border: 1px solid transparent;\n}\n.slick-arrow.slick-hidden {\n    display: none;\n}\n\n"]);
 
-  _templateObject$b = function _templateObject() {
+  _templateObject$a = function _templateObject() {
     return data;
   };
 
   return data;
 }
-var SliderWrapper = styled__default.div(_templateObject$b());
+var SliderWrapper = styled__default.div(_templateObject$a());
 var Arrow = function Arrow(_ref) {
   var children = _ref.children,
       rest = _objectWithoutPropertiesLoose(_ref, ["children"]);
@@ -5191,9 +5334,19 @@ var SlideIamge = function SlideIamge(_ref2) {
 };
 
 var SlideVideo = function SlideVideo(_ref3) {
-  var videoUrl = _ref3.videoUrl,
+  var videoId = _ref3.videoId,
       variant = _ref3.variant,
-      rest = _objectWithoutPropertiesLoose(_ref3, ["videoUrl", "sx", "variant"]);
+      opt = _ref3.opt,
+      rest = _objectWithoutPropertiesLoose(_ref3, ["videoId", "sx", "variant", "opt"]);
+
+  var options = _extends({
+    height: '100%',
+    width: '100%',
+    playerVars: {
+      autoplay: 1,
+      loop: 1
+    }
+  }, opt);
 
   return /*#__PURE__*/React__default.createElement(Box, {
     __css: {
@@ -5204,32 +5357,59 @@ var SlideVideo = function SlideVideo(_ref3) {
       top: 0,
       left: 0,
       bottom: 0,
-      overflow: 'hidden'
+      overflow: 'hidden',
+      '& > div:first-child, & iframe': {
+        height: '100%',
+        width: '100%'
+      }
     },
     variant: variant,
     sx: variant
-  }, /*#__PURE__*/React__default.createElement(ReactPlayer, _extends({}, rest, {
-    url: videoUrl,
-    playing: true,
-    loop: true,
-    width: "100%",
-    height: "100%"
+  }, /*#__PURE__*/React__default.createElement(YouTube, _extends({}, rest, {
+    opt: options,
+    videoId: videoId
   })));
 };
 
 var Slide = function Slide(_ref4) {
-  var _ref4$subtitle = _ref4.subtitle,
+  var _ref4$isActive = _ref4.isActive,
+      isActive = _ref4$isActive === void 0 ? false : _ref4$isActive,
+      _ref4$subtitle = _ref4.subtitle,
       subtitle = _ref4$subtitle === void 0 ? null : _ref4$subtitle,
       _ref4$content = _ref4.content,
       content = _ref4$content === void 0 ? null : _ref4$content,
       _ref4$bgImage = _ref4.bgImage,
       bgImage = _ref4$bgImage === void 0 ? null : _ref4$bgImage,
-      _ref4$bgVideoUrl = _ref4.bgVideoUrl,
-      bgVideoUrl = _ref4$bgVideoUrl === void 0 ? null : _ref4$bgVideoUrl,
-      rest = _objectWithoutPropertiesLoose(_ref4, ["children", "subtitle", "content", "bgImage", "bgVideoUrl"]);
+      _ref4$videoId = _ref4.videoId,
+      videoId = _ref4$videoId === void 0 ? null : _ref4$videoId,
+      rest = _objectWithoutPropertiesLoose(_ref4, ["children", "isActive", "subtitle", "content", "bgImage", "videoId"]);
 
   var ref = React.useRef(null);
-  React.useEffect(function () {});
+  var refVideo = React.useRef(null);
+
+  var toggleVideo = function toggleVideo(_isActive) {
+    if (refVideo.current) {
+      if (_isActive) {
+        var el = findParentByMatchedQuery(ref.current, 'slick-slide');
+
+        if (el.classList && !el.classList.contains('slick-cloned')) {
+          refVideo.current.playVideo();
+        }
+      } else {
+        refVideo.current.pauseVideo();
+      }
+    }
+  };
+
+  React.useEffect(function () {
+    toggleVideo(isActive);
+  }, [isActive]);
+
+  var onVideoReady = function onVideoReady(e) {
+    refVideo.current = e.target;
+    toggleVideo(isActive);
+  };
+
   return /*#__PURE__*/React__default.createElement(Box, _extends({
     ref: ref,
     __css: {
@@ -5249,8 +5429,9 @@ var Slide = function Slide(_ref4) {
         backgroundColor: 'rgba(0,0,0,.25)'
       }
     }
-  }, rest), bgVideoUrl && /*#__PURE__*/React__default.createElement(SlideVideo, {
-    videoUrl: bgVideoUrl
+  }, rest), videoId && /*#__PURE__*/React__default.createElement(SlideVideo, {
+    videoId: videoId,
+    onReady: onVideoReady
   }), subtitle && /*#__PURE__*/React__default.createElement(SlideSubtitle, {
     subtitle: subtitle
   }), bgImage && /*#__PURE__*/React__default.createElement(SlideIamge, {
@@ -6037,15 +6218,17 @@ var accordion = {
 };
 
 var breadcrumb = {
-  item: {},
-  activeItem: {},
+  "default": {
+    '& .vf-breadcrumb__item': {},
+    '& vf-breadcrumb__item.vf-breadcrumb__item--active': {}
+  },
   capitalazur: {
     backgroundColor: 'transparent',
     padding: 'small',
     fontFamily: 'montserrat',
     fontSize: '16px',
-    item: {},
-    activeItem: {
+    '& .vf-breadcrumb__item': {},
+    '& vf-breadcrumb__item.vf-breadcrumb__item--active': {
       color: 'primary900',
       ':hover': {
         color: 'primary500'
@@ -6097,6 +6280,20 @@ var navs = {
   }
 };
 
+var heading = {
+  "default": {
+    color: 'black500'
+  }
+};
+
+var searchOverlay = {
+  "default": {
+    '&.vf-search-overlay--open': {},
+    '&.vf-search-overlay--close': {},
+    '& .vf-search-overlay__content-wrapper': {}
+  }
+};
+
 var baseTheme = {
   colors: colors,
   breakpoints: breakpoints,
@@ -6126,10 +6323,8 @@ var componentsTheme = {
   accordion: accordion,
   breadcrumb: breadcrumb,
   navs: navs,
-  search: {
-    overlay: {},
-    input: {}
-  }
+  heading: heading,
+  searchOverlay: searchOverlay
 };
 var theme = _extends(_extends({}, baseTheme), componentsTheme);
 
