@@ -19,9 +19,11 @@ export const Header = React.forwardRef(({
             right: '0px',
         }
     }
-    const Wrapper = sticky ? Headroom : React.Fragment;
+    const Wrapper = sticky ? Headroom : 'div';
     return (
-        <Wrapper>
+        <Wrapper style={{
+            zIndex: 10
+        }}>
             <Box
                 ref={ref}
                 as='header'
