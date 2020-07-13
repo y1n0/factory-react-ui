@@ -20,7 +20,10 @@ const getSizeFromBreakpoint = (breakpointValue, breakpoints = {})  => {
     }
 }
 
-export function generateMedia(breakpoints = DEFAULT_BREAKPOINTS) {
+export const  generateMedia = (props) => {
+  
+    const breakpoints =  props ? props.theme.breakpoints :  DEFAULT_BREAKPOINTS;
+    
     const lessThan = (breakpoint) => (...args) => css`
       @media (max-width: ${getSizeFromBreakpoint(breakpoint, breakpoints)}) {
         ${css(...args)}
@@ -47,4 +50,4 @@ export function generateMedia(breakpoints = DEFAULT_BREAKPOINTS) {
       };
 }
 
-export default generateMedia();
+export default generateMedia;

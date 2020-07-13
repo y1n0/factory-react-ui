@@ -6,7 +6,7 @@ import {generateMedia} from '../../../core';
 
 const generateMediaForCol = props => {
     return sortBreakpointProps(props).map(bp => {
-        return generateMedia(props.theme.breakpoints).greaterThan(bp)`
+        return generateMedia(props).greaterThan(bp)`
            ${
                props[bp] >= 0 ? `
                     flex-basis: ${100 / getGridSize(props) * props[bp]}%;

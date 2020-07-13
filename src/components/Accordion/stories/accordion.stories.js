@@ -1,8 +1,6 @@
 import React from 'react';
 import { Box, Container, Text } from '../../../components';
-
 import { AccordionPanelVariant1, AccordionVariant1 } from '../AccordionVariant1';
-
 
 export const Variant1 = () => {
 
