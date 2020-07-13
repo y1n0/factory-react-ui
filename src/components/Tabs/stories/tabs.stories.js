@@ -23,7 +23,7 @@ export const CardType= () => {
     
     return (
         <Box >
-            <Tabs m="large" variant="cardType">
+            <Tabs m="large" variant="cardType" >
                 <Tab title="tab1">
                     <Box>Content tab 1</Box>
                 </Tab>
