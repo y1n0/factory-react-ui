@@ -33,7 +33,7 @@ const SearchOverlayTop = ({ closeIcon, topContent, onClose }) => <Flex className
 
 </Flex>
 
-const SearchOverlayForm = ({ onSubmit, inputRef, inputPlaceholder, inputTitle }) => <Box className="vf-search-overlay__form-wrapper"
+const SearchOverlayForm = ({ onSubmit, inputRef, inputPlaceholder,onClickSearchIcon, inputTitle }) => <Box className="vf-search-overlay__form-wrapper"
     __css={{
         padding: ['50px 10px', null, '100px 100px 20px'],
     }}>
@@ -60,7 +60,17 @@ const SearchOverlayForm = ({ onSubmit, inputRef, inputPlaceholder, inputTitle })
             }
         }}
             ref={inputRef}
-            icon={<Icon color="white" name="recherche" size="large" sx={{ marginLeft: "8px" }} />}
+            icon={
+                <Button onClick={onSubmit} sx={{
+                        backgroundColor:'transparent',
+                        padding: 'small',
+                        border:0,
+                        '&:hover,&:focus': { 
+                            backgroundColor:'transparent',
+                            border:0,
+                        },
+
+                        }}><Icon color="white" name="recherche" size="large" /></Button>}
             reverse={true}
             width="100%"
             placeholder={inputPlaceholder}
