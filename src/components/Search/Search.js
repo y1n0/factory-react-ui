@@ -5,6 +5,7 @@ import { MotionFlex } from '../Animation';
 import { Button } from '../Button';
 import { Icon } from '../Icon';
 import { Input } from '../Form';
+import { DirectionManagerContext, DirectionManager } from '../../core';
 
 const SearchOverlayTop = ({ closeIcon, topContent, onClose }) => <Flex className="vf-search-overlay__top-wrapper"
     __css={{
@@ -33,7 +34,7 @@ const SearchOverlayTop = ({ closeIcon, topContent, onClose }) => <Flex className
 
 </Flex>
 
-const SearchOverlayForm = ({ onSubmit, inputRef, inputPlaceholder,onClickSearchIcon, inputTitle }) => <Box className="vf-search-overlay__form-wrapper"
+const SearchOverlayForm = ({ onSubmit, inputRef, inputPlaceholder, onClickSearchIcon, inputTitle }) => <Box className="vf-search-overlay__form-wrapper"
     __css={{
         padding: ['50px 10px', null, '100px 100px 20px'],
     }}>
@@ -62,15 +63,15 @@ const SearchOverlayForm = ({ onSubmit, inputRef, inputPlaceholder,onClickSearchI
             ref={inputRef}
             icon={
                 <Button onClick={onSubmit} sx={{
-                        backgroundColor:'transparent',
-                        padding: 'small',
-                        border:0,
-                        '&:hover,&:focus': { 
-                            backgroundColor:'transparent',
-                            border:0,
-                        },
+                    backgroundColor: 'transparent',
+                    padding: 'small',
+                    border: 0,
+                    '&:hover,&:focus': {
+                        backgroundColor: 'transparent',
+                        border: 0,
+                    },
 
-                        }}><Icon color="white" name="recherche" size="large" /></Button>}
+                }}><Icon color="white" name="recherche" size="large" /></Button>}
             reverse={true}
             width="100%"
             placeholder={inputPlaceholder}
@@ -102,10 +103,11 @@ const SearchOverlayContainer = ({
     searchInfo = "Appuyer sur la touche \"Entrée\" du clavier pour lancer la recherche",
     topContent = null,
     closeIcon = null,
-    variant="searchOverlay.default",
+    variant = "searchOverlay.default",
 
-    ...rest}) => {
+    ...rest }) => {
 
+    const dir = React.useContext(DirectionManagerContext);
     const motionVariants = {
         visible: { opacity: 1 },
         hidden: { opacity: 0 }
@@ -125,6 +127,7 @@ const SearchOverlayContainer = ({
     }
 
     return <MotionFlex
+        dir={dir}
         className={`vf-search-overlay ${open ? 'vf-search-overlay--open' : 'vf-search-overlay--close'}`}
         __css={{
             position: 'fixed',
@@ -154,14 +157,14 @@ const SearchOverlayContainer = ({
                 color: 'white',
                 width: ['90%', null, '75%']
             }}>
-            <SearchOverlayTop   variant={`${variant}.`}
-                                topContent={topContent}
-                                closeIcon={closeIcon}
-                                 onClose={onClose} />
-            <SearchOverlayForm  onSubmit={handleSubmitForm}
-                                inputRef={inputRef}
-                                inputPlaceholder={inputPlaceholder}
-                                inputTitle={inputTitle} />
+            <SearchOverlayTop variant={`${variant}.`}
+                topContent={topContent}
+                closeIcon={closeIcon}
+                onClose={onClose} />
+            <SearchOverlayForm onSubmit={handleSubmitForm}
+                inputRef={inputRef}
+                inputPlaceholder={inputPlaceholder}
+                inputTitle={inputTitle} />
             <SearchOverlayInfo searchInfo={searchInfo} />
 
         </Flex>

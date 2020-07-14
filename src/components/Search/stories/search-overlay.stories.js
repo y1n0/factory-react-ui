@@ -1,8 +1,9 @@
 import React from 'react';
 
-import {Box} from '../../Box';
-import {Button} from '../../Button';
+import { Box } from '../../Box';
+import { Button } from '../../Button';
 import { SearchOverlay } from '../Search';
+import { DirectionManager } from '../../../core';
 
 export const Default = () => {
 
@@ -10,15 +11,20 @@ export const Default = () => {
     const [query, setQuery] = React.useState(null);
 
     return (
-        <Box p="3rem" >
-            <Button borderRadius="rounded" outline="primary" onClick={() => setShow(true)}>show</Button>
-                { query && <Box>Searching for: {query}</Box>}
+        <DirectionManager dir="rtl">
+            <Box p="3rem" dir="rtl" >
 
-            <SearchOverlay onSubmit={q => {setQuery(q);  setShow(false)} }
-                          onClose={() => setShow(false) }
-                          open={show}/>
+                <Button borderRadius="rounded" outline="primary" onClick={() => setShow(true)}>show</Button>
+                {query && <Box>Searching for: {query}</Box>}
 
-        </Box>);
+                <SearchOverlay  onSubmit={q => { setQuery(q); setShow(false) }}
+                    onClose={() => setShow(false)}
+                    open={show} />
+
+            </Box>
+        </DirectionManager>
+
+    );
 }
 export default {
     title: 'Search Overlay'
