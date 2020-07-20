@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import styled from 'styled-components';
 
 import {Layer} from '../Layer';
 import {Box, Flex} from '../../Box';
@@ -6,6 +7,7 @@ import {Button} from '../../Button';
 import {Text} from '../../Typography';
 import {Icon} from '../../Icon';
 import {Anchor} from '../../Anchor/Anchor';
+import { useMedia } from '../../../core';
 
 export const Default = () => {
 
@@ -24,46 +26,62 @@ export const Default = () => {
         </Box>);
 }
 
-const ToolboxLink = ({title, icon}) => <Box mb="small">
+const ToolboxLink = ({title, icon}) => <Box mb="small" flex="1">
     <Anchor to="#" sx={{
         'display': 'flex',
+        'flexDirection': ['column', null, 'row'],
         'alignItems': 'center',
         'bg': 'white',
+        'p': ['small', null, 0],
         'transform': 'translateX(0)',
         'transition': 'transform .6s',
         '&:hover': {
-            'transform': 'translateX( calc( -100% + 50px ) )',
+            'transform': ['none', null, 'translateX( calc( -100% + 50px ) )'],
             'color': 'primary500'
         },
         '.icon': {
         }
     }}>
-        <Icon name={icon} size="30px" border='small' bg="primary" color="white" p="small" mr="small" __css={{'boxSizing':"content-box"}} />
+        <Icon name={icon} size="30px" 
+            border='small' 
+            bg="primary" 
+            color="white" 
+            p="small" 
+            mr={[0, null, "small"]} 
+            mb={['small', null, 0]}
+            __css={{'boxSizing':"content-box"}} />
         <Text>{title}</Text>
     </Anchor>
 </Box>
 
+const ToolboxLayer = () => {
+    const isUpMd = useMedia("md");
+
+    return <Layer
+        animation={'fadeIn'}
+        full={ isUpMd ? false : 'horizontal' }
+        position={ isUpMd ? "right" : "bottom"} >
+            <Flex 
+                __css={{
+                    'width': ['100%', null, 'auto'],
+                    'textAlign': 'center',
+                    'transform': ['none', null, 'translateX(calc( 100% - 50px ) )'],
+                    'flexDirection': ['row', null, 'column'],
+                }} >
+                <ToolboxLink title="Ajouter" icon="add-simple" />
+                <ToolboxLink title="Dacebook" icon="facebook" />
+                <ToolboxLink title="Twitter" icon="twitter" />
+                <ToolboxLink title="Config" icon="cog" />
+            </Flex>
+    </Layer>
+}
+
 export const Toolbox = () => {
 
-    return (
-        <Box p="3rem" >
-            <Layer
-                animation={'fadeIn'}
-                position="right"
-                 >
-                    <Box 
-                        __css={{
-                            'textAlign': 'center',
-                            'transform': 'translateX(calc( 100% - 50px ) )',
-                        }} >
-                        <ToolboxLink title="Ajouter" icon="add-simple" />
-                        <ToolboxLink title="Dacebook" icon="facebook" />
-                        <ToolboxLink title="Twitter" icon="twitter" />
-                        <ToolboxLink title="Config" icon="cog" />
-                    </Box>
-            </Layer>
-        </Box>);
-}
+    return <Box p="3rem" >
+            <ToolboxLayer />
+        </Box>;
+};
 
 
 export const TwoLayers = () => {
