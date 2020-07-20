@@ -24,6 +24,47 @@ export const Default = () => {
         </Box>);
 }
 
+const ToolboxLink = ({title, icon}) => <Box mb="small">
+    <Anchor to="#" sx={{
+        'display': 'flex',
+        'alignItems': 'center',
+        'bg': 'white',
+        'transform': 'translateX(0)',
+        'transition': 'transform .6s',
+        '&:hover': {
+            'transform': 'translateX( calc( -100% + 50px ) )',
+            'color': 'primary500'
+        },
+        '.icon': {
+        }
+    }}>
+        <Icon name={icon} size="30px" border='small' bg="primary" color="white" p="small" mr="small" __css={{'boxSizing':"content-box"}} />
+        <Text>{title}</Text>
+    </Anchor>
+</Box>
+
+export const Toolbox = () => {
+
+    return (
+        <Box p="3rem" >
+            <Layer
+                animation={'fadeIn'}
+                position="right"
+                 >
+                    <Box 
+                        __css={{
+                            'textAlign': 'center',
+                            'transform': 'translateX(calc( 100% - 50px ) )',
+                        }} >
+                        <ToolboxLink title="Ajouter" icon="add-simple" />
+                        <ToolboxLink title="Dacebook" icon="facebook" />
+                        <ToolboxLink title="Twitter" icon="twitter" />
+                        <ToolboxLink title="Config" icon="cog" />
+                    </Box>
+            </Layer>
+        </Box>);
+}
+
 
 export const TwoLayers = () => {
 
@@ -196,32 +237,6 @@ export const Cookie = () => {
                             <Flex>
                                 <Text lineHeight="20px">Nous utilisons des cookies afin d’améliorer votre expérience de navigation sur notre site. Vous pouvez obtenir des informations sur ces cookies ou modifier les réglages d’acceptation en cliquant <Anchor variant="primary" onClick={() => setShowModal(true)}>ici</Anchor>. En poursuivant votre navigation sur ce site, vous acceptez l’utilisation de ces cookies.
 </Text>
-                            </Flex>
-                     </Flex>
-                </Layer>
-            )}
-
-{showModal && (
-                <Layer >
-                        <Flex sx={{
-                                padding: "medium",
-                                boxShadow: 3,
-                                flexDirection: 'column',
-                                backgroundColor: 'white',
-                                border: '1px solid',
-                                borderColor: 'gray300',
-                                borderRadius: 'small',
-                                maxWidth: '400px'
-                        }}>
-
-                            <Flex mb="medium"><Text level="1" fontSize="18px">Les cookies Google Analytics</Text></Flex>
-                            <Flex>
-                                <Text>
-                                    Nous utilisons des cookies de Google Analytics, ces cookies nous aident à identifier le contenu qui vous interesse le plus ainsi qu'à repérer certains dysfonctionnements. Vos données de navigations sur ce site sont envoyées à Google Inc
-                                </Text>
-                            </Flex>
-                            <Flex mt="medium" justifyContent="flex-end">
-                                <Button borderRadius="rounded" mx="small" onClick={() => setShowModal(false)}>accepter</Button>
                             </Flex>
                      </Flex>
                 </Layer>
