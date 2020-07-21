@@ -54,8 +54,8 @@ const TabsVariant1 = props => {
 export const Variant1= () => {
     
     return (
-        <DirectionManager dir="rtl">
-            <Box dir="rtl">
+        <DirectionManager>
+            <Box>
                 <TabsVariant1>
                     <Tab title="A chaque moment de la vie">
                         Consequat occaecat ullamco amet non eiusmod nostrud dolore irure incididunt est duis anim sunt officia.

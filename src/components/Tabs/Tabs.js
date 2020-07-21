@@ -41,7 +41,7 @@ export const Tabs = forwardRef(({
         const headerTabBCR = headerTabRef.current.getBoundingClientRect();
 
         inkBarAnimationCtrls.start({
-            x: currentTabBCR.x - headerTabBCR.x,
+            left: (currentTabBCR.x - headerTabBCR.x),
             width: currentTabBCR.width,
         })
     }
