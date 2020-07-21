@@ -18,8 +18,8 @@ var IcoMoon = _interopDefault(require('react-icomoon'));
 var Headroom = _interopDefault(require('react-headroom'));
 var RCPagination = _interopDefault(require('rc-pagination'));
 var frFR = _interopDefault(require('rc-pagination/lib/locale/fr_FR'));
-var themeGet = require('@styled-system/theme-get');
 var framerMotion = require('framer-motion');
+var themeGet = require('@styled-system/theme-get');
 var SlickSlider = _interopDefault(require('react-slick'));
 var YouTube = _interopDefault(require('react-youtube'));
 
@@ -154,13 +154,16 @@ var ColorModeProvider = function ColorModeProvider(_ref) {
   }, children));
 };
 
+var DirectionManagerContext = React__default.createContext("ltr");
 var DirectionManager = function DirectionManager(_ref) {
   var _ref$dir = _ref.dir,
       dir = _ref$dir === void 0 ? "ltr" : _ref$dir,
       children = _ref.children;
-  return /*#__PURE__*/React__default.createElement(styled.StyleSheetManager, {
+  return /*#__PURE__*/React__default.createElement(DirectionManagerContext.Provider, {
+    value: dir
+  }, /*#__PURE__*/React__default.createElement(styled.StyleSheetManager, {
     stylisPlugins: dir === 'rtl' ? [stylisRTLPlugin] : []
-  }, /*#__PURE__*/React__default.createElement(React__default.Fragment, null, children));
+  }, /*#__PURE__*/React__default.createElement(React__default.Fragment, null, children)));
 };
 
 var classnames = function classnames() {
@@ -241,10 +244,8 @@ var getSizeFromBreakpoint = function getSizeFromBreakpoint(breakpointValue, brea
   }
 };
 
-function generateMedia(breakpoints) {
-  if (breakpoints === void 0) {
-    breakpoints = DEFAULT_BREAKPOINTS;
-  }
+var generateMedia = function generateMedia(props) {
+  var breakpoints = props ? props.theme.breakpoints : DEFAULT_BREAKPOINTS;
 
   var lessThan = function lessThan(breakpoint) {
     return function () {
@@ -269,8 +270,7 @@ function generateMedia(breakpoints) {
     greaterThan: greaterThan,
     between: between
   };
-}
-generateMedia();
+};
 
 var PRE = new RegExp("^(" + shouldForwardProp.props.join('|') + ")$");
 
@@ -3070,7 +3070,7 @@ var generateMediaforContainer = function generateMediaforContainer(props) {
   if (!props.fluid) {
     return styled.css(_templateObject$5(), breakpointsName.map(function (breakpoint) {
       if (getContainer(props)(breakpoint)) {
-        return generateMedia(props.theme.breakpoints).greaterThan(breakpoint)(_templateObject2$1(), function (props) {
+        return generateMedia(props).greaterThan(breakpoint)(_templateObject2$1(), function (props) {
           return getContainer(props)(breakpoint);
         });
       } else {
@@ -3127,7 +3127,7 @@ function _templateObject$7() {
 
 var generateMediaForCol = function generateMediaForCol(props) {
   return sortBreakpointProps(props).map(function (bp) {
-    return generateMedia(props.theme.breakpoints).greaterThan(bp)(_templateObject$7(), props[bp] >= 0 ? "\n                    flex-basis: " + 100 / getGridSize(props) * props[bp] + "%;\n                    max-width: " + 100 / getGridSize(props) * props[bp] + "%;\n                    display: block;\n               " : props[bp] ? "\n               flex-grow: 1;\n               flex-basis: 0;\n               max-width: 100%;\n               display: block;\n           " : "\n               display: none;\n           ");
+    return generateMedia(props).greaterThan(bp)(_templateObject$7(), props[bp] >= 0 ? "\n                    flex-basis: " + 100 / getGridSize(props) * props[bp] + "%;\n                    max-width: " + 100 / getGridSize(props) * props[bp] + "%;\n                    display: block;\n               " : props[bp] ? "\n               flex-grow: 1;\n               flex-basis: 0;\n               max-width: 100%;\n               display: block;\n           " : "\n               display: none;\n           ");
   });
 };
 
@@ -3439,6 +3439,7 @@ var Tab = React.forwardRef(function (_ref, ref) {
   }, props, {
     sx: sx,
     variant: getVariant([variant, isActive ? 'activeTab' : 'tab']),
+    className: "vf-tabs__tab " + (isActive ? 'vf-tabs__tab--active' : ''),
     __css: {
       cursor: 'pointer',
       margin: 0,
@@ -3456,26 +3457,175 @@ var Tab = React.forwardRef(function (_ref, ref) {
   }), title);
 });
 
+var MotionBox = framerMotion.motion.custom(Box);
+var MotionFlex = framerMotion.motion.custom(Flex);
+
+var ParallaxBox = function ParallaxBox(_ref) {
+  var _ref$as = _ref.as,
+      as = _ref$as === void 0 ? MotionBox : _ref$as,
+      children = _ref.children,
+      _ref$easing = _ref.easing,
+      easing = _ref$easing === void 0 ? [0.42, 0, 0.58, 1] : _ref$easing,
+      rest = _objectWithoutPropertiesLoose(_ref, ["as", "children", "easing"]);
+
+  var _React$useState = React__default.useState(0),
+      elementTop = _React$useState[0],
+      setElementTop = _React$useState[1];
+
+  var ref = React__default.useRef(null);
+
+  var _useViewportScroll = framerMotion.useViewportScroll(),
+      scrollY = _useViewportScroll.scrollY;
+
+  React__default.useEffect(function () {
+    if (!ref.current) return;
+
+    var setValues = function setValues() {
+      setElementTop(ref.current.offsetTop);
+    };
+
+    setValues();
+    document.addEventListener("load", setValues);
+    window.addEventListener("resize", setValues);
+    return function () {
+      document.removeEventListener("load", setValues);
+      window.removeEventListener("resize", setValues);
+    };
+  }, [ref]);
+  var transformInitialValue = elementTop - 1;
+  var transformFinalValue = elementTop + 1;
+  var yRange = [transformInitialValue, transformFinalValue];
+  var y = framerMotion.useTransform(scrollY, yRange, [0, -1], {
+    clamp: false,
+    easing: easing
+  });
+  return /*#__PURE__*/React__default.createElement(Box, _extends({
+    as: as,
+    ref: ref,
+    style: {
+      y: y
+    }
+  }, rest), children);
+};
+
+var defaultHidden = {
+  opacity: 0
+};
+var defaultVisible = {
+  opacity: 1
+};
+var RevealBox = React__default.forwardRef(function (_ref, ref) {
+  var delayOrder = _ref.delayOrder,
+      _ref$duration = _ref.duration,
+      duration = _ref$duration === void 0 ? 0.4 : _ref$duration,
+      _ref$easing = _ref.easing,
+      easing = _ref$easing === void 0 ? [0.42, 0, 0.58, 1] : _ref$easing,
+      children = _ref.children,
+      _ref$threshold = _ref.threshold,
+      threshold = _ref$threshold === void 0 ? 0.04 : _ref$threshold,
+      _ref$hidden = _ref.hidden,
+      hidden = _ref$hidden === void 0 ? defaultHidden : _ref$hidden,
+      _ref$visible = _ref.visible,
+      visible = _ref$visible === void 0 ? defaultVisible : _ref$visible,
+      _ref$reset = _ref.reset,
+      reset = _ref$reset === void 0 ? false : _ref$reset,
+      rest = _objectWithoutPropertiesLoose(_ref, ["delayOrder", "duration", "easing", "children", "threshold", "hidden", "visible", "reset"]);
+
+  var _React$useState = React__default.useState(false),
+      inView = _React$useState[0],
+      setInView = _React$useState[1];
+
+  var intersectionRef = React__default.useRef(null);
+  var intersection = reactUse.useIntersection(intersectionRef, {
+    threshold: threshold
+  });
+  React__default.useEffect(function () {
+    var inViewNow = intersection && intersection.intersectionRatio > 0;
+
+    if (inViewNow) {
+      return setInView(inViewNow);
+    } else if (reset) {
+      return setInView(false);
+    }
+  }, [intersection, reset]);
+  var transition = React__default.useMemo(function () {
+    return {
+      duration: duration,
+      delay: delayOrder / 5,
+      ease: easing
+    };
+  }, [duration, delayOrder, easing]);
+  var variants = {
+    hidden: _extends(_extends({}, hidden), {}, {
+      transition: transition
+    }),
+    show: _extends(_extends({}, visible), {}, {
+      transition: transition
+    })
+  };
+  return /*#__PURE__*/React__default.createElement(Box, {
+    ref: intersectionRef
+  }, /*#__PURE__*/React__default.createElement(Box, _extends({
+    initial: "hidden",
+    animate: inView ? "show" : "hidden",
+    exit: "hidden",
+    variants: variants,
+    ref: ref
+  }, rest, {
+    as: MotionBox
+  }), children));
+});
+
 var Tabs = React.forwardRef(function (_ref, ref) {
   var children = _ref.children,
       propsActiveKey = _ref.activeTab,
       sx = _ref.sx,
-      variant = _ref.variant,
+      _ref$variant = _ref.variant,
+      variant = _ref$variant === void 0 ? 'tabs' : _ref$variant,
+      _ref$showBar = _ref.showBar,
+      showBar = _ref$showBar === void 0 ? false : _ref$showBar,
       onChange = _ref.onChange,
       onTabClick = _ref.onTabClick,
       onNextClick = _ref.onNextClick,
       onPrevClick = _ref.onPrevClick,
-      rest = _objectWithoutPropertiesLoose(_ref, ["children", "theme", "activeTab", "sx", "variant", "onChange", "onTabClick", "onNextClick", "onPrevClick"]);
+      rest = _objectWithoutPropertiesLoose(_ref, ["children", "theme", "activeTab", "sx", "variant", "showBar", "onChange", "onTabClick", "onNextClick", "onPrevClick"]);
 
   var _useState = React.useState(rest.activeTab || 0),
       activeKey = _useState[0],
       setActiveKey = _useState[1];
 
+  var tabRefs = [];
+  var headerAnimationCtrls = framerMotion.useAnimation();
+  var inkBarAnimationCtrls = framerMotion.useAnimation();
+  var motionVariantsContent = {
+    active: {
+      opacity: [0, 1]
+    }
+  };
+  var headerTabRef = React.useRef(null);
+
+  var animateInkBar = function animateInkBar(key) {
+    var currentTabBCR = tabRefs[key].current.getBoundingClientRect();
+    var headerTabBCR = headerTabRef.current.getBoundingClientRect();
+    inkBarAnimationCtrls.start({
+      x: currentTabBCR.x - headerTabBCR.x,
+      width: currentTabBCR.width
+    });
+  };
+
   if (activeKey !== propsActiveKey && propsActiveKey !== undefined) {
     setActiveKey(propsActiveKey);
   }
 
+  React.useEffect(function () {
+    if (showBar) {
+      animateInkBar(activeKey);
+    }
+  }, [activeKey, showBar]);
+
   var handleClickTab = function handleClickTab(key) {
+    headerAnimationCtrls.start('active');
+
     if (propsActiveKey === undefined) {
       setActiveKey(key);
     }
@@ -3504,25 +3654,29 @@ var Tabs = React.forwardRef(function (_ref, ref) {
     if (!tab) return undefined;
     var tabProps = tab.props || {};
     var isTabActive = index === activeKey;
+    var ref = React.useRef();
+    var key = tab.props.tabKey || index;
+    tabRefs[key] = ref;
 
     if (isTabActive) {
       activeContent = tabProps.children;
     }
 
-    var key = tab.props.tabKey || index;
     return React.cloneElement(tab, {
       index: index,
       isActive: isTabActive,
       variant: variant,
       onClickTab: function onClickTab() {
         return handleClickTab(key);
-      }
+      },
+      ref: ref
     });
   });
   return /*#__PURE__*/React__default.createElement(Box, _extends({
+    className: "vf-tabs-container",
     sx: sx
   }, rest, {
-    variant: getVariant(['tabs', variant]),
+    variant: getVariant([variant]),
     __css: {
       display: 'flex',
       flexDirection: 'column',
@@ -3530,16 +3684,41 @@ var Tabs = React.forwardRef(function (_ref, ref) {
       borderColor: "gray500"
     }
   }), /*#__PURE__*/React__default.createElement(Flex, {
+    className: "vf-tabs__header-container",
+    ref: headerTabRef,
     __css: {
+      position: 'relative',
       backgroundColor: 'gray100'
     },
-    variant: getVariant(['tabs', variant, 'header'])
-  }, tabs), /*#__PURE__*/React__default.createElement(Box, {
+    variant: getVariant([variant, 'header'])
+  }, tabs, showBar && /*#__PURE__*/React__default.createElement(MotionBox, {
+    transition: {
+      ease: 'easeInOut'
+    },
+    animate: inkBarAnimationCtrls,
+    className: "vf-tabs__ink-bar",
+    sx: {
+      backgroundColor: 'primary500',
+      position: 'absolute',
+      bottom: '0',
+      pointerEvents: 'none',
+      width: "0",
+      height: '2px',
+      m: 0,
+      p: 0
+    }
+  })), /*#__PURE__*/React__default.createElement(Box, {
+    className: "vf-tabs__content-container",
     __css: {
       flexGrow: 1
     },
-    variant: getVariant(['tabs', variant, 'content'])
-  }, activeContent));
+    variant: getVariant([variant, 'content'])
+  }, /*#__PURE__*/React__default.createElement(MotionBox, {
+    className: "vf-tabs__animated-content-container",
+    initial: "active",
+    animate: headerAnimationCtrls,
+    variants: motionVariantsContent
+  }, activeContent)));
 });
 
 var Text = function Text(_ref) {
@@ -4806,7 +4985,7 @@ var StyledContainer = styled__default.div.attrs({
   var responsiveBreakpoint = themeGet.themeGet('layer.responsiveBreakpoint', false)(props);
 
   if (props.responsive && responsiveBreakpoint) {
-    return generateMedia(themeGet.themeGet('breakpoints')(props)).lessThan(responsiveBreakpoint)(_templateObject76());
+    return generateMedia(props).lessThan(responsiveBreakpoint)(_templateObject76());
   } else {
     return null;
   }
@@ -5065,125 +5244,6 @@ var Layer = React.forwardRef(function (props, ref) {
   }, props)), layerContainer) : null;
 });
 Layer.displayName = 'Layer';
-
-var MotionBox = framerMotion.motion.custom(Box);
-var MotionFlex = framerMotion.motion.custom(Flex);
-
-var ParallaxBox = function ParallaxBox(_ref) {
-  var _ref$as = _ref.as,
-      as = _ref$as === void 0 ? MotionBox : _ref$as,
-      children = _ref.children,
-      _ref$easing = _ref.easing,
-      easing = _ref$easing === void 0 ? [0.42, 0, 0.58, 1] : _ref$easing,
-      rest = _objectWithoutPropertiesLoose(_ref, ["as", "children", "easing"]);
-
-  var _React$useState = React__default.useState(0),
-      elementTop = _React$useState[0],
-      setElementTop = _React$useState[1];
-
-  var ref = React__default.useRef(null);
-
-  var _useViewportScroll = framerMotion.useViewportScroll(),
-      scrollY = _useViewportScroll.scrollY;
-
-  React__default.useEffect(function () {
-    if (!ref.current) return;
-
-    var setValues = function setValues() {
-      setElementTop(ref.current.offsetTop);
-    };
-
-    setValues();
-    document.addEventListener("load", setValues);
-    window.addEventListener("resize", setValues);
-    return function () {
-      document.removeEventListener("load", setValues);
-      window.removeEventListener("resize", setValues);
-    };
-  }, [ref]);
-  var transformInitialValue = elementTop - 1;
-  var transformFinalValue = elementTop + 1;
-  var yRange = [transformInitialValue, transformFinalValue];
-  var y = framerMotion.useTransform(scrollY, yRange, [0, -1], {
-    clamp: false,
-    easing: easing
-  });
-  return /*#__PURE__*/React__default.createElement(Box, _extends({
-    as: as,
-    ref: ref,
-    style: {
-      y: y
-    }
-  }, rest), children);
-};
-
-var defaultHidden = {
-  opacity: 0
-};
-var defaultVisible = {
-  opacity: 1
-};
-var RevealBox = React__default.forwardRef(function (_ref, ref) {
-  var delayOrder = _ref.delayOrder,
-      _ref$duration = _ref.duration,
-      duration = _ref$duration === void 0 ? 0.4 : _ref$duration,
-      _ref$easing = _ref.easing,
-      easing = _ref$easing === void 0 ? [0.42, 0, 0.58, 1] : _ref$easing,
-      children = _ref.children,
-      _ref$threshold = _ref.threshold,
-      threshold = _ref$threshold === void 0 ? 0.04 : _ref$threshold,
-      _ref$hidden = _ref.hidden,
-      hidden = _ref$hidden === void 0 ? defaultHidden : _ref$hidden,
-      _ref$visible = _ref.visible,
-      visible = _ref$visible === void 0 ? defaultVisible : _ref$visible,
-      _ref$reset = _ref.reset,
-      reset = _ref$reset === void 0 ? false : _ref$reset,
-      rest = _objectWithoutPropertiesLoose(_ref, ["delayOrder", "duration", "easing", "children", "threshold", "hidden", "visible", "reset"]);
-
-  var _React$useState = React__default.useState(false),
-      inView = _React$useState[0],
-      setInView = _React$useState[1];
-
-  var intersectionRef = React__default.useRef(null);
-  var intersection = reactUse.useIntersection(intersectionRef, {
-    threshold: threshold
-  });
-  React__default.useEffect(function () {
-    var inViewNow = intersection && intersection.intersectionRatio > 0;
-
-    if (inViewNow) {
-      return setInView(inViewNow);
-    } else if (reset) {
-      return setInView(false);
-    }
-  }, [intersection, reset]);
-  var transition = React__default.useMemo(function () {
-    return {
-      duration: duration,
-      delay: delayOrder / 5,
-      ease: easing
-    };
-  }, [duration, delayOrder, easing]);
-  var variants = {
-    hidden: _extends(_extends({}, hidden), {}, {
-      transition: transition
-    }),
-    show: _extends(_extends({}, visible), {}, {
-      transition: transition
-    })
-  };
-  return /*#__PURE__*/React__default.createElement(Box, {
-    ref: intersectionRef
-  }, /*#__PURE__*/React__default.createElement(Box, _extends({
-    initial: "hidden",
-    animate: inView ? "show" : "hidden",
-    exit: "hidden",
-    variants: variants,
-    ref: ref
-  }, rest, {
-    as: MotionBox
-  }), children));
-});
 
 function _templateObject$a() {
   var data = _taggedTemplateLiteralLoose(["\n.slick-list,\n.slick-slider,\n.slick-track {\n    position: relative;\n    display: block;\n}\n.slick-loading .slick-slide,\n.slick-loading .slick-track {\n    visibility: hidden;\n}\n.slick-slider {\n    box-sizing: border-box;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    -webkit-touch-callout: none;\n    -khtml-user-select: none;\n    -ms-touch-action: pan-y;\n    touch-action: pan-y;\n    -webkit-tap-highlight-color: transparent;\n}\n.slick-list {\n    overflow: hidden;\n    margin: 0;\n    padding: 0;\n}\n.slick-list:focus {\n    outline: 0;\n}\n.slick-list.dragging {\n    cursor: pointer;\n    cursor: hand;\n}\n.slick-slider .slick-list,\n.slick-slider .slick-track {\n    -webkit-transform: translate3d(0, 0, 0);\n    -moz-transform: translate3d(0, 0, 0);\n    -ms-transform: translate3d(0, 0, 0);\n    -o-transform: translate3d(0, 0, 0);\n    transform: translate3d(0, 0, 0);\n}\n.slick-track {\n    top: 0;\n    left: 0;\n}\n.slick-track:after,\n.slick-track:before {\n    display: table;\n    content: \"\";\n}\n.slick-track:after {\n    clear: both;\n}\n.slick-slide {\n    display: none;\n    float: left;\n    height: 100%;\n    min-height: 1px;\n}\n[dir=\"rtl\"] .slick-slide {\n    float: right;\n}\n.slick-slide img {\n    display: block;\n}\n.slick-slide.slick-loading img {\n    display: none;\n}\n.slick-slide.dragging img {\n    pointer-events: none;\n}\n.slick-initialized .slick-slide {\n    display: block;\n}\n.slick-vertical .slick-slide {\n    display: block;\n    height: auto;\n    border: 1px solid transparent;\n}\n.slick-arrow.slick-hidden {\n    display: none;\n}\n\n"]);
@@ -5519,14 +5579,22 @@ var SearchOverlayForm = function SearchOverlayForm(_ref2) {
       }
     },
     ref: inputRef,
-    icon: /*#__PURE__*/React__default.createElement(Icon, {
+    icon: /*#__PURE__*/React__default.createElement(Button, {
+      onClick: onSubmit,
+      sx: {
+        backgroundColor: 'transparent',
+        padding: 'small',
+        border: 0,
+        '&:hover,&:focus': {
+          backgroundColor: 'transparent',
+          border: 0
+        }
+      }
+    }, /*#__PURE__*/React__default.createElement(Icon, {
       color: "white",
       name: "recherche",
-      size: "large",
-      sx: {
-        marginLeft: "8px"
-      }
-    }),
+      size: "large"
+    })),
     reverse: true,
     width: "100%",
     placeholder: inputPlaceholder,
@@ -5568,6 +5636,7 @@ var SearchOverlayContainer = function SearchOverlayContainer(_ref4) {
       variant = _ref4$variant === void 0 ? "searchOverlay.default" : _ref4$variant,
       rest = _objectWithoutPropertiesLoose(_ref4, ["children", "open", "onClose", "onSubmit", "inputTitle", "inputPlaceholder", "searchInfo", "topContent", "closeIcon", "variant"]);
 
+  var dir = React__default.useContext(DirectionManagerContext);
   var motionVariants = {
     visible: {
       opacity: 1
@@ -5589,6 +5658,7 @@ var SearchOverlayContainer = function SearchOverlayContainer(_ref4) {
   };
 
   return /*#__PURE__*/React__default.createElement(MotionFlex, _extends({
+    dir: dir,
     className: "vf-search-overlay " + (open ? 'vf-search-overlay--open' : 'vf-search-overlay--close'),
     __css: {
       position: 'fixed',
@@ -6537,6 +6607,7 @@ exports.ColorModeProvider = ColorModeProvider;
 exports.Container = Container;
 exports.DEFAULT_BREAKPOINTS = DEFAULT_BREAKPOINTS;
 exports.DirectionManager = DirectionManager;
+exports.DirectionManagerContext = DirectionManagerContext;
 exports.Drop = Drop;
 exports.Flex = Flex;
 exports.Footer = Footer;

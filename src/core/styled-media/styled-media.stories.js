@@ -4,14 +4,14 @@ import styled from 'styled-components';
 import { generateMedia } from './index';
 
 
-const StyledMedia = styled.div`
+const StyledBox = styled.div`
     display: block;
     padding: 18px;
     border: 2px solid;
     margin: 1rem auto;
 `;
 
-const StyledGreaterThan = styled(StyledMedia)`
+const StyledGreaterThan = styled(StyledBox)`
     border-color: red;
     ${
         props => generateMedia(props).greaterThan('md')`
@@ -20,7 +20,7 @@ const StyledGreaterThan = styled(StyledMedia)`
     }
 `;
 
-const StryledLessThan = styled(StyledMedia)`
+const StryledLessThan = styled(StyledBox)`
     border-color: red;
     ${
         props => generateMedia(props).lessThan('md')`
@@ -29,7 +29,7 @@ const StryledLessThan = styled(StyledMedia)`
     }
 `
 
-const StryledBetwwen = styled(StyledMedia)`
+const StryledBetwwen = styled(StyledBox)`
     border-color: red;
     ${
         props => generateMedia(props).between('md', 'lg')`
@@ -48,5 +48,5 @@ export const GenerateMedia = () => {
 }
 
 export default {
-    title: 'Core/StyledMedia',
+    title: 'Core/StyledBox',
 };

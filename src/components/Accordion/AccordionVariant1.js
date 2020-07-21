@@ -5,6 +5,7 @@ import { AccordionContext } from './AccordionContext';
 import { Box, Flex } from '../Box';
 import { Icon } from '../Icon';
 import { MotionFlex } from '../Animation';
+import { useMedia } from '../../core';
 
 
 // TODO : enable icon customization

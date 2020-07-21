@@ -4,8 +4,9 @@ import { AccordionPanelVariant1, AccordionVariant1 } from '../AccordionVariant1'
 
 export const Variant1 = () => {
 
+   
     return <Container>
-        <Box m="large">
+        <Box m="large" bg="primary">
             <AccordionVariant1>
                 <AccordionPanelVariant1 title="Mobile first">
                     Nous basons nos développements sur le Framework Bootstrap et sur les récentes techniques Flexbox afin de créer des interfaces responsives et évolutives en Sass et les automatiser sur Gulp.

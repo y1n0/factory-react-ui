@@ -4,7 +4,10 @@
  * -------------------- 
  * Colors
  */
-const colors = {
+
+
+ 
+const defaultColors = {
 
     black: '#000',
     white: '#fff',
@@ -96,6 +99,12 @@ const colors = {
     }
 
 
+};
+
+
+const colors = {
+    ...defaultColors,
+    primary: defaultColors.primary500
 };
 
 export default colors;
