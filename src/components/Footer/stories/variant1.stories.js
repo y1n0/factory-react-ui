@@ -82,5 +82,5 @@ export const FooterVariant1 = () => {
 }
 
 export default {
-    title: 'Footer'
+    title: 'Components/Footer'
 }

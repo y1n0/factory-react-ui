@@ -8,7 +8,7 @@ export const DirectionManagerContext = React.createContext("ltr");
 export const DirectionManager = ({dir= "ltr", children}) => {
     return <DirectionManagerContext.Provider value={dir}>
             <StyleSheetManager stylisPlugins={dir === 'rtl' ? [stylisRTLPlugin] : []}>
-                 <React.Fragment>{children}</React.Fragment>
+                 <div dir={dir}>{children}</div>
             </StyleSheetManager>
         </DirectionManagerContext.Provider>
             

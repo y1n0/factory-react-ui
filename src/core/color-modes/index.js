@@ -44,15 +44,17 @@ const getColorsByMode = (theme, mode) => {
 
 const useColorModeState = (theme = {}) => {
 
-    const [mode, setMode] = useState('default');
+    const stored = storage.get();
+    const [mode, setMode] = useState(stored || 'default');
 
     // init state
-    useEffect(() => {
-        const stored = storage.get();
-        if (!stored || stored === mode) return;
-        setMode(stored);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [] );
+    // useEffect(() => {
+    //     console.log('init state');
+    //     const stored = storage.get();
+    //     if (!stored || stored === mode) return;
+    //     setMode(stored);
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [] );
 
     useEffect(() => {
         if (!mode) return

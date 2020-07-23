@@ -168,5 +168,5 @@ export const FooterVariant3 = ({className, ...props}) => {
 }
 
 export default {
-    title: 'Footer'
+    title: 'Components/Footer'
 }

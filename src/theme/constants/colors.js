@@ -13,7 +13,6 @@ const colors = {
     disabled: '',
 
     text: '#0a1f44',
-    background: 'white',
 
     primary100:  '#f2f6ff',
     primary200:  '#d9e4ff',
@@ -87,11 +86,27 @@ const colors = {
 
     btnPrimary: '#3366ff',
 
+    backgroundBasic100: '#fff',
+    backgroundBasic200: '#f7f8f9',
+
+    textBasic500: '#30435c',
+    textBasic900: '#30435c',
+ 
+    skeletonBackground: 'rgba(0, 0, 0, 0.08)',
+
     modes: {
         dark: {
             text: 'warning400',
             background: '#0a1f44',
-            btnPrimary: '#ff3d71'
+            btnPrimary: '#ff3d71',
+
+            backgroundBasic100: '#000',
+            backgroundBasic200: '#303030',
+
+            skeletonBackground: 'rgba(255, 255, 255, 0.25)',
+            textBasic500: '#fff',
+            textBasic900: '#fff',
+            
         }
     }
 

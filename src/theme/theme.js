@@ -58,6 +58,20 @@ const componentsTheme = {
     navs,
     heading,
     searchOverlay,
+
+    card: {
+        variant1: {
+            title: {
+                
+            },
+            body: {
+                padding: 'small',
+            },
+            excerpt: {
+                
+            }
+        }
+    }
 }
 
 

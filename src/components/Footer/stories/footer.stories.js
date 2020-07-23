@@ -73,5 +73,5 @@ export const AWFFooter = () => {
 }
 
 export default {
-    title: 'Footer'
+    title: 'Components/Footer'
 }
