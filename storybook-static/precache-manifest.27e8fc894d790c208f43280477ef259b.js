@@ -1,13 +1,17 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2afb0623323ea731399bfcb1c6100e33",
+    "revision": "47581065042f4842b4f7b1710f826cdb",
     "url": "iframe.html"
   },
   {
-    "url": "main.153c3ed01828c634bf6c.bundle.js"
+    "url": "main.7e6109780292ff3c39a9.bundle.js"
   },
   {
-    "url": "runtime~main.153c3ed01828c634bf6c.bundle.js"
+    "url": "runtime~main.7e6109780292ff3c39a9.bundle.js"
+  },
+  {
+    "revision": "97f03f37b409c83b8e49",
+    "url": "static/css/vendors~main.4f7b1714.chunk.css"
   },
   {
     "revision": "5ebb24ee1112dd9562629375c387879a",
@@ -90,17 +94,17 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "static/media/RobotoSlab-Thin.1d26c96a.ttf"
   },
   {
-    "revision": "842da0b9f0eebbcc979ed8d18702dda0",
-    "url": "static/media/capital-azur.842da0b9.png"
-  },
-  {
     "revision": "60c4538ad35ba48b25cfa00bb9c6e13e",
     "url": "static/media/img1.60c4538a.jpg"
   },
   {
-    "url": "vendors~main.153c3ed01828c634bf6c.bundle.js"
+    "revision": "2fa2a8f21b11956eb4c886e78859528a",
+    "url": "static/media/vactory.2fa2a8f2.png"
   },
   {
-    "url": "vendors~main.153c3ed01828c634bf6c.bundle.js.LICENSE.txt"
+    "url": "vendors~main.7e6109780292ff3c39a9.bundle.js"
+  },
+  {
+    "url": "vendors~main.7e6109780292ff3c39a9.bundle.js.LICENSE.txt"
   }
 ]);
