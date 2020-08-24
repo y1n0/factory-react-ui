@@ -5,18 +5,19 @@ import { MotionFlex } from '../Animation';
 import { Button } from '../Button';
 import { Icon } from '../Icon';
 import { Input } from '../Form';
-import { DirectionManagerContext, DirectionManager } from '../../core';
+import { DirectionManagerContext, getVariant } from '../../core';
 
-const SearchOverlayTop = ({ closeIcon, topContent, onClose }) => <Flex className="vf-search-overlay__top-wrapper"
+const SearchOverlayTop = ({ closeIcon, topContent, variant, onClose }) => <Flex className="vf-search-overlay__top-wrapper"
     __css={{
         padding: "16px",
         justifyContent: 'space-between',
         width: "100%",
         alignItems: "center"
-    }}  >
+    }} variant={getVariant([variant])}  >
 
     {topContent ? topContent :
         <Button
+            variant={getVariant([variant, 'closeBtn'])}
             className="vf-search-overlay__close-btn"
             onClick={onClose} sx={{
                 marginLeft: 'auto',
@@ -34,13 +35,13 @@ const SearchOverlayTop = ({ closeIcon, topContent, onClose }) => <Flex className
 
 </Flex>
 
-const SearchOverlayForm = ({ onSubmit, inputRef, inputPlaceholder, onClickSearchIcon, inputTitle }) => <Box className="vf-search-overlay__form-wrapper"
+const SearchOverlayForm = ({ onSubmit, inputRef, inputPlaceholder, variant, onClickSearchIcon, inputTitle }) => <Box variant={getVariant([variant])} className="vf-search-overlay__form-wrapper"
     __css={{
         padding: ['50px 10px', null, '100px 100px 20px'],
     }}>
 
     <form className="vf-search-overlay__form" onSubmit={onSubmit}>
-        <Input className="vf-search-overlay__form-input" sx={{
+        <Input className="vf-search-overlay__form-input" variant={getVariant([variant, 'input'])} sx={{
             backgroud: 'transparent',
             border: 0,
             padding: ['1rem 2.5rem .125rem 0', null, '1rem 5rem 1rem 0'],
@@ -62,7 +63,7 @@ const SearchOverlayForm = ({ onSubmit, inputRef, inputPlaceholder, onClickSearch
         }}
             ref={inputRef}
             icon={
-                <Button onClick={onSubmit} sx={{
+                <Button variant={getVariant([variant, 'searchBtn'])}  onClick={onSubmit} sx={{
                     backgroundColor: 'transparent',
                     padding: 'small',
                     border: 0,
@@ -81,7 +82,7 @@ const SearchOverlayForm = ({ onSubmit, inputRef, inputPlaceholder, onClickSearch
 </Box>
 
 
-const SearchOverlayInfo = ({ searchInfo }) => <Box className="vf-search-overlay__info-wrapper" __css={{
+const SearchOverlayInfo = ({ searchInfo, variant }) => <Box variant={variant} className="vf-search-overlay__info-wrapper" __css={{
     color: 'white',
     margin: '5px 0',
     padding: [0, null, '10px 100px'],
@@ -103,7 +104,7 @@ const SearchOverlayContainer = ({
     searchInfo = "Appuyer sur la touche \"Entrée\" du clavier pour lancer la recherche",
     topContent = null,
     closeIcon = null,
-    variant = "searchOverlay.default",
+    variant = "searchOverlay",
 
     ...rest }) => {
 
@@ -146,26 +147,29 @@ const SearchOverlayContainer = ({
         }} {...rest}
         initial="hidden"
         variants={motionVariants}
-        variant={variant}
+        variant={getVariant([variant])}
         animate={open ? 'visible' : 'hidden'}
     >
         <Flex
             className="vf-search-overlay__content-wrapper"
+            variant={getVariant([variant, 'wrapper'])}
             __css={{
                 flexDirection: "column",
                 position: 'relative',
                 color: 'white',
                 width: ['90%', null, '75%']
             }}>
-            <SearchOverlayTop variant={`${variant}.`}
+            <SearchOverlayTop variant={getVariant([variant, 'top'])}
                 topContent={topContent}
                 closeIcon={closeIcon}
                 onClose={onClose} />
             <SearchOverlayForm onSubmit={handleSubmitForm}
+                variant={getVariant([variant, 'form'])}
                 inputRef={inputRef}
                 inputPlaceholder={inputPlaceholder}
                 inputTitle={inputTitle} />
-            <SearchOverlayInfo searchInfo={searchInfo} />
+            <SearchOverlayInfo searchInfo={searchInfo} 
+                variant={getVariant([variant, 'info'])} />
 
         </Flex>
     </MotionFlex>
