@@ -92,5 +92,5 @@ export const Variant1= () => {
 
 
 export default {
-    title: 'Tabs',
+    title: 'Components/Tabs',
 };

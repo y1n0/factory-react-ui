@@ -15,5 +15,5 @@ export const README = () => {
     );
 }
 export default {
-    title: 'Search Overlay'
+    title: 'Components/Search Overlay'
 }

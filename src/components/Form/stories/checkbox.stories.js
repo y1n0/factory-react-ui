@@ -102,6 +102,6 @@ export const CustomIcon = () => {
 
 
 export default {
-    title: 'Form/Checkbox',
+    title: 'Primitives/Form/Checkbox',
     decorators: [withKnobs],
 }

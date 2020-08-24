@@ -45,7 +45,7 @@ export const RTL = () => {
 
 
 export default {
-  title: 'Direction Manager',
+  title: 'Core/Direction Manager',
   parameters: {
     notes: { markdown },
   },

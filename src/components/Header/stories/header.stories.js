@@ -322,5 +322,5 @@ export const WaypointWithMotion = () => {
 
 
 export default {
-    title: 'Header'
+    title: 'Components/Header'
 }

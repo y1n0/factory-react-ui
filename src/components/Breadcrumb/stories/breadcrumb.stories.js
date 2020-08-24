@@ -17,5 +17,5 @@ export const Variant1 = () => {
 }
 
 export default {
-    title: 'Breadcrumb',
+    title: 'Components/Breadcrumb',
 };

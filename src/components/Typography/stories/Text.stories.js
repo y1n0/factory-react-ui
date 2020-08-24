@@ -38,7 +38,7 @@ export const BaseTextComponent = () => {
 }
 
 export default {
-    title: 'Typography',
+    title: 'Primitives/Typography',
     decorators: [withKnobs],
     parameters: {
         actions: { disabled: true }

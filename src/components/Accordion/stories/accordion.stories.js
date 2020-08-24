@@ -37,5 +37,5 @@ export const Variant1 = () => {
 }
 
 export default {
-    title: 'Accordion',
+    title: 'Components/Accordion',
 };

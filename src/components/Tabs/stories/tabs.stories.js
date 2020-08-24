@@ -58,5 +58,5 @@ export const CardContainerType= () => {
 }
 
 export default {
-    title: 'Tabs',
+    title: 'Components/Tabs',
 };

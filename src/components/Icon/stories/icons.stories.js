@@ -120,6 +120,6 @@ export const Custom = () => {
 }
 
 export default {
-    title: 'Icons',
+    title: 'Primitives/Icons',
     decorators: [withKnobs],
 };

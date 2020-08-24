@@ -30,6 +30,6 @@ export const Default = () => {
 
 
 export default {
-    title: 'Anchor',
+    title: 'Primitives/Anchor',
     decorators: [withKnobs],
 };

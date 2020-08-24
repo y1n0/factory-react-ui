@@ -67,5 +67,5 @@ export const Tooltip = () => {
 
 
 export default {
-    title: 'Drop',
+    title: 'Components/Drop',
 };

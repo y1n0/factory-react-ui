@@ -48,5 +48,5 @@ export const RTL = () => {
 
 
 export default {
-    title: 'Navs',
+    title: 'Components/Navs',
 };

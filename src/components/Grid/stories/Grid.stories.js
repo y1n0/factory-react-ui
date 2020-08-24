@@ -113,7 +113,7 @@ export const Responsive = () => {
 
 
 export default {
-    title: 'Grid',
+    title: 'Primitives/Grid',
     decorators: [withKnobs],
     parameters: {
         actions: { disabled: true }

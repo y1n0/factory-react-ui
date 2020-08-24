@@ -230,5 +230,5 @@ export const Cookie = () => {
 }
 
 export default {
-    title: 'Layer'
+    title: 'Components/Layer'
 }

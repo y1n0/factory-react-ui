@@ -161,6 +161,6 @@ export const AsLink = () => {
 
 
 export default {
-    title: 'Button',
+    title: 'Primitives/Button',
     decorators: [withKnobs],
 };

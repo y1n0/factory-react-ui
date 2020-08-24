@@ -47,5 +47,5 @@ export const RTL = () => {
     );
 }
 export default {
-    title: 'Search Overlay'
+    title: 'Components/Search Overlay'
 }
