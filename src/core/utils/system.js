@@ -54,6 +54,7 @@ export const variant = ({
 
 export const variantReducer = (accumulator, currentValue) => currentValue ? accumulator + '.' + currentValue : accumulator;
 export const getVariant = (variant = []) => {
+    console.log(variant);
     if (typeof variant === 'string') {
         return variant
     }

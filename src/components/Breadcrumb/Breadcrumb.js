@@ -5,7 +5,7 @@ import { getVariant, getSystemProps } from "../../core";
 
 
 
-const renderBreadcrumbItems = (children, separator) => Children.toArray(children)
+const renderBreadcrumbItems = (children, variant, separator) => Children.toArray(children)
     .filter(child => child)
     .map((child, index) => {
 
@@ -17,9 +17,9 @@ const renderBreadcrumbItems = (children, separator) => Children.toArray(children
             {isLastItem || (
                 typeof separator === 'string'
                     ?
-                    (<Box mx="medium" className="vf-breadcrumb__separator">{separator}</Box>)
+                    (<Box mx="medium" variant={getVariant([variant, 'separator'])} className="vf-breadcrumb__separator">{separator}</Box>)
                     :
-                    cloneElement(separator, { className: 'vf-breadcrumb__separator' })
+                    cloneElement(separator, { className: 'vf-breadcrumb__separator', variant: getVariant([variant, 'separator']) })
             )}
         </Fragment>);
     })
@@ -32,7 +32,7 @@ export const Breadcrumb = forwardRef(({
     ...rest
 }, ref) => {
 
-    const items = renderBreadcrumbItems(children, separator);
+    const items = renderBreadcrumbItems(children, variant, separator);
 
     return (
         <Box
