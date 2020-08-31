@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import styled from 'styled-components';
 
 import {Layer} from '../Layer';
 import {Box, Flex} from '../../Box';
@@ -6,6 +7,7 @@ import {Button} from '../../Button';
 import {Text} from '../../Typography';
 import {Icon} from '../../Icon';
 import {Anchor} from '../../Anchor/Anchor';
+import { useMedia } from '../../../core';
 
 export const Default = () => {
 
@@ -23,6 +25,63 @@ export const Default = () => {
             )}
         </Box>);
 }
+
+const ToolboxLink = ({title, icon}) => <Box mb="small" flex="1">
+    <Anchor to="#" sx={{
+        'display': 'flex',
+        'flexDirection': ['column', null, 'row'],
+        'alignItems': 'center',
+        'bg': 'white',
+        'p': ['small', null, 0],
+        'transform': 'translateX(0)',
+        'transition': 'transform .6s',
+        '&:hover': {
+            'transform': ['none', null, 'translateX( calc( -100% + 50px ) )'],
+            'color': 'primary500'
+        },
+        '.icon': {
+        }
+    }}>
+        <Icon name={icon} size="30px" 
+            border='small' 
+            bg="primary" 
+            color="white" 
+            p="small" 
+            mr={[0, null, "small"]} 
+            mb={['small', null, 0]}
+            __css={{'boxSizing':"content-box"}} />
+        <Text>{title}</Text>
+    </Anchor>
+</Box>
+
+const ToolboxLayer = () => {
+    const isUpMd = useMedia("md");
+
+    return <Layer
+        animation={'fadeIn'}
+        full={ isUpMd ? false : 'horizontal' }
+        position={ isUpMd ? "right" : "bottom"} >
+            <Flex 
+                __css={{
+                    'width': ['100%', null, 'auto'],
+                    'textAlign': 'center',
+                    'transform': ['none', null, 'translateX(calc( 100% - 50px ) )'],
+                    'flexDirection': ['row', null, 'column'],
+                }} >
+                <ToolboxLink title="Ajouter" icon="add-simple" />
+                <ToolboxLink title="Dacebook" icon="facebook" />
+                <ToolboxLink title="Twitter" icon="twitter" />
+                <ToolboxLink title="Config" icon="cog" />
+            </Flex>
+    </Layer>
+}
+
+export const Toolbox = () => {
+
+    return <Box p="3rem" >
+            <ToolboxLayer />
+        </Box>;
+};
 
 
 export const TwoLayers = () => {
@@ -196,32 +255,6 @@ export const Cookie = () => {
                             <Flex>
                                 <Text lineHeight="20px">Nous utilisons des cookies afin d’améliorer votre expérience de navigation sur notre site. Vous pouvez obtenir des informations sur ces cookies ou modifier les réglages d’acceptation en cliquant <Anchor variant="primary" onClick={() => setShowModal(true)}>ici</Anchor>. En poursuivant votre navigation sur ce site, vous acceptez l’utilisation de ces cookies.
 </Text>
-                            </Flex>
-                     </Flex>
-                </Layer>
-            )}
-
-{showModal && (
-                <Layer >
-                        <Flex sx={{
-                                padding: "medium",
-                                boxShadow: 3,
-                                flexDirection: 'column',
-                                backgroundColor: 'white',
-                                border: '1px solid',
-                                borderColor: 'gray300',
-                                borderRadius: 'small',
-                                maxWidth: '400px'
-                        }}>
-
-                            <Flex mb="medium"><Text level="1" fontSize="18px">Les cookies Google Analytics</Text></Flex>
-                            <Flex>
-                                <Text>
-                                    Nous utilisons des cookies de Google Analytics, ces cookies nous aident à identifier le contenu qui vous interesse le plus ainsi qu'à repérer certains dysfonctionnements. Vos données de navigations sur ce site sont envoyées à Google Inc
-                                </Text>
-                            </Flex>
-                            <Flex mt="medium" justifyContent="flex-end">
-                                <Button borderRadius="rounded" mx="small" onClick={() => setShowModal(false)}>accepter</Button>
                             </Flex>
                      </Flex>
                 </Layer>
