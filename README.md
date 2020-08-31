@@ -1,7 +1,7 @@
 # Vactory
 
 ## StoryBook
-### `yarn start`
+### `yarn storybook`
 Lancez `yarn storybook` pour démarrer l'environnement Storybook. 
 Storybook est accesible via `http://localhost:9009`
 
