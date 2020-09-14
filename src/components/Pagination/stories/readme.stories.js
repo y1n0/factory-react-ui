@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { Box } from 'components';
+import { Box } from '../../Box';
 import ReactMarkdown from 'react-markdown';
-import readme from './README.md';
-import faq from './FAQ.md';
+import readme from '../README.md';
 import 'github-markdown-css';
 
 export const README = () => {
@@ -15,17 +14,6 @@ export const README = () => {
 
     );
 }
-
-export const FAQ = () => {
-
-    return (
-            <Box p="3rem" className="markdown-body">
-                <ReactMarkdown source={faq} />
-            </Box>
-
-    );
-}
-
 export default {
-    title: 'Getting Started'
+    title:  'Components/Pagination',
 }

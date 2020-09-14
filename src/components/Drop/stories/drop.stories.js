@@ -10,7 +10,7 @@ export const DropButton = () => {
 
         <Flex alignItem="center" justifyContent="center" p="xlarge">
             <Box as={Button} ref={targetRef} onClick={() => setShowDrop(true)} outline="primary">Drop Button</Box>
-            {showDrop && <Drop sx={{ overflow: 'initial' }} onClickOutside={() => setShowDrop(false)} align={{ top: 'bottom', left: 'left' }} target={targetRef.current} stretch={true}>
+            {showDrop && <Drop sx={{ overflow: 'initial' }} onClickOutside={() => setShowDrop(false)} elevation="xsmall" align={{ top: 'bottom', left: 'left' }}  target={targetRef.current} stretch={true}>
                 <Flex sx={{
                     border: '1px solid',
                     borderColor: 'gray200',

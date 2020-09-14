@@ -47,14 +47,13 @@ export const DropContainer = forwardRef((
         },
         children,
         dropTarget,
-        elevation,
         onClickOutside,
-        onEsc,
-        onKeyDown,
+        // onEsc,
+        // onKeyDown,
         plain, // Whether the drop element should have no background nor shadow
         responsive, // Whether the drop element should have no background nor shadow
         restrictFocus, // Whether the drop should control focus
-        stretch = 'width',
+        stretch = true,
         sx,
         ...rest
     },
@@ -309,12 +308,6 @@ export const DropContainer = forwardRef((
             sx={sx}
             ref={ref || dropRef}
             plain={plain}
-            // elevation={
-            //     !plain
-            //         ? elevation || theme.global.drop.shadowSize || 'small'
-            //         : undefined
-            // }
-            elevation={undefined}
             tabIndex="-1"
             alignProp={align}
             data-g-portal-id={portalId}
