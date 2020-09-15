@@ -1,19 +1,19 @@
 # Accordion
+```
+import {Accordion, AccordionPanel} from 'vactyory-ui';
+```
 
-### Description
+## Description
 L'accordion est un composant dynamique qui permet d'optimiser l'affichage d'un contenu dans un espace réduit grâce à un système de **plier/délier** appliqué sur un groupe de panneaux. Il aide les utilisateurs à trouver facilement l'information qu'ils recherchent.
 
 
-### API
+## API
 
 `vactory-ui` expose trois composants pour implémenter l'accordion: `Accordion` , `AccordionPanel` et `AccordionContext`.
 
 Voir le use-case sur storybook `(Storybook/Components/Accordion/Variant 1)`
 
-
-### Props
-
-Les propriétés de **`Accordion`** :
+### Les propriétés de **`Accordion`** :
 
 | props         | Description   | type   | valeur par défaut   |
 |---------------|---------------|
@@ -24,7 +24,7 @@ Les propriétés de **`Accordion`** :
 | Box's props         |    |    |    |
 
 
-Les propriétés de **`AccordionPanel`** :
+### Les propriétés de **`AccordionPanel`** :
 
 | props         | Description   | type   | valeur par défaut   |
 |---------------|---------------|

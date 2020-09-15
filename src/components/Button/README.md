@@ -1,9 +1,11 @@
 # Button
-
-### Description
+```
+import { Button } from 'vactyory-ui';
+```
+## Description
 Les boutons permettent aux utilisateurs d'effectuer une action et de faire des choix en un seul clic.
 
-### API
+## API
 `vactory-ui` expose deux composants `Link` et `Button``
 
 | props         | Description   | type   | valeur par défaut   |

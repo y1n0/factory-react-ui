@@ -1,6 +1,8 @@
 # Drop
-
-### Use case
+```
+import { Drop } from 'vactyory-ui';
+```
+## Use case
 
 Vous pouvez utiliser ce composant pour implémenter: 
 - Tooltip
@@ -8,7 +10,7 @@ Vous pouvez utiliser ce composant pour implémenter:
 - ...
 
 
-### API
+## API
 
 | props         | Description   | type   | valeur par défaut   |
 |---------------|---------------|--------|---------------------|

@@ -1,11 +1,12 @@
 # Anchor
-
-
-### Description
+```
+import {Anchor} from 'vactyory-ui';
+```
+## Description
 Le composant `Anchor` vous permet de créer facilement les éléments de types ancre avec le style de votre thème.
 
 
-### API
+## API
 
 `vactory-ui` expose le composant `Anchor`
 

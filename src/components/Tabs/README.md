@@ -1,14 +1,16 @@
 # Tabs
-
-### Description
+```
+import { Tabs, Tab } from 'vactyory-ui';
+```
+## Description
 Les tabs sont typiquement utilisées pour visualiser :
 - Un contenu de même type;
 - Les aspects différents d'un même objet
 
-### API
+## API
 `vactory-ui` expose deux composants: `Tab` et `Tabs`.
 
-Les propriétés de **`Tabs`** :
+### Les propriétés de **`Tabs`** :
 
 | props         | Description   | type   | valeur par défaut   |
 |---------------|---------------|--------|---------------------|
@@ -18,7 +20,7 @@ Les propriétés de **`Tabs`** :
 | variant       | La nom ou le chemin de `variant` pour styler  le composant via `Theme Object` | `string`   | `tabs`   |
 | sx      | Styler le drop via la prop `sx`  |  `object`  | -   |
 
-Les propriétés de **`Tab`** :
+### Les propriétés de **`Tab`** :
 
 | props         | Description   | type   | valeur par défaut   |
 |---------------|---------------|--------|---------------------|

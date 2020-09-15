@@ -1,10 +1,13 @@
 # Box
 
+```
+import { Box } from 'vactyory-ui';
+```
 
-### Description
+## Description
 Le composant `Box` sert de composant de wrapper.
 
-### API
+## API
 
 ### 1. La propriété `variant`
 

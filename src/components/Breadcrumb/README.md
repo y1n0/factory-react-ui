@@ -1,19 +1,20 @@
 # Breadcrumb
 
-### Description
+```
+import { Breadcrumb, BreadcrumbItem } from 'vactyory-ui';
+```
+## Description
 Breadcrumb permet :
 
 - - D'indiquer la position courante de l’internaute dans l’arborescence du site par rapport à la page d’accueil;
 - - A l’internaute de remonter dans l’arborescence du site;
 
 
-### API
-
+## API
 `vactory-ui` expose deux composants pour implémenter le fil d'Ariane: `Breadcrumb` et `BreadcrumbItem`.
 
-### Props
 
-Les propriétés de **`Breadcrumb`** :
+### Les propriétés de **`Breadcrumb`** :
 
 | props         | Description   | type   | valeur par défaut   |
 |---------------|---------------|
@@ -22,7 +23,7 @@ Les propriétés de **`Breadcrumb`** :
 | Box's props         |    |    |    |
 
 
-Les propriétés de **`BreadcrumbItem`** :
+### Les propriétés de **`BreadcrumbItem`** :
 
 | props         | Description   | type   | valeur par défaut   |
 |---------------|---------------|
@@ -32,7 +33,7 @@ Les propriétés de **`BreadcrumbItem`** :
 | Box's props         |    |    |    |
 
 
-### Theme Object
+## Theme Object
 Le chemin de breadcrumb dans l'objet theme:
 ```
 // theme.js

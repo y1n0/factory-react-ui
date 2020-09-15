@@ -1,6 +1,8 @@
 # Layer
-
-### Use case
+```
+import { Layer } from 'vactyory-ui';
+```
+## Use case
 
 Vous pouvez utiliser ce composant pour implémenter: 
 - Toolbox
@@ -10,7 +12,7 @@ Vous pouvez utiliser ce composant pour implémenter:
 - ...
 
 
-### API
+## API
 
 | props         | Description   | type   | valeur par défaut   |
 |---------------|---------------|--------|---------------------|

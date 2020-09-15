@@ -1,9 +1,11 @@
 # Slider
-
-### Description 
+```
+import { Slider, Slide } from 'vactyory-ui';
+```
+## Description 
 Le composant `Slider` étend le composant `Slider` de `react-slick` . [react-slick](https://react-slick.neostack.com)
 
-### API
+## API
 `vactory-ui` expose deux composants: `Slider` et `Slide`:
 
 Les propriétés de **`Slide`** :

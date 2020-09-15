@@ -1,6 +1,8 @@
 # Footer
-
-### API
+```
+import { Footer } from 'vactyory-ui';
+```
+## API
 `vactory-ui` expose un conteneur `Footer` pour le pied de page.
 
 Créez le contenu de votre Footer on combinant les composants primitives de `vactory-ui` :`Box`, `Button`, `Text` ...

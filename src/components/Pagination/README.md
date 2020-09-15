@@ -1,10 +1,12 @@
 # Pagination
-
-### Description 
+```
+import { Pagination } from 'vactyory-ui';
+```
+## Description 
 Le composant `Pagination` étend le composant `RCPagination` . [RC componants](https://react-component.github.io/pagination/?path=/story/*)
 
 
-### Props
+## Props
 
 | props         | Description   | type   | valeur par défaut   |
 |---------------|---------------|--------|---------------------|

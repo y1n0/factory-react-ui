@@ -1,6 +1,8 @@
 # Search Overlay
-
-### Props
+```
+import { SearchOverlay } from 'vactyory-ui';
+```
+## Props
 | props         | Description   | type   | valeur par défaut   |
 |---------------|---------------|--------|---------------------|
 | open       |  indique si le search overlay est ouvert ou non   | `boolean`   | `false`   |
@@ -14,7 +16,7 @@
 | Box's props         | Vous pouvez utiliser toutes le proporiétés de `Box`   |    | -   |
 
 
-### Theme Object
+## Theme Object
 Le chemin de `search-overlay` dans l'objet theme:
 ```
 // theme.js

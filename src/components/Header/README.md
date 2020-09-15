@@ -1,6 +1,8 @@
 # Header
-
-### API
+```
+import { Header } from 'vactyory-ui';
+```
+## API
 `vactory-ui` expose un conteneur `Header` pour l'en-tête de page.
 
 Créez le contenu de votre Header on combinant les composants primitives de `vactory-ui` :`Box`, `Button`, `Text` ...

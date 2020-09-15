@@ -1,9 +1,11 @@
 # Images
+```
+import { Image } from 'vactyory-ui';
+```
+## Description
+Ce composant sert à afficher des images responsives.
 
-### Description
-Ce composant sert à afficher les images responsive.
-
-### API 
+## API 
 | props         | Description   | type   | valeur par défaut   |
 |---------------|---------------|--------|---------------------|
 | variant         | La nom ou le chemin de `variant` pour styler  le composant via `Theme Object` | `string`   | `radio`   |

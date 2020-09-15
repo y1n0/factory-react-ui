@@ -1,8 +1,8 @@
 # Card
 
-### Description
+## Description
 Les cartes (cards) sont des composants qui regroupent des informations associés dans un conteneur de taille flexible.
 
-### API
+## API
 
 Créez vos composants card on combinant `Box`.
