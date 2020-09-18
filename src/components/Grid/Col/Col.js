@@ -1,8 +1,8 @@
-
+import React from 'react';
 import styled from 'styled-components';
 import {sortBreakpointProps, getGridSize, getGutterWidth} from '../helpers';
 import {generateMedia} from '../../../core';
-
+import {Box} from '../../Box';
 
 const generateMediaForCol = props => {
     return sortBreakpointProps(props).map(bp => {
@@ -24,7 +24,7 @@ const generateMediaForCol = props => {
         `});
 }
 
-const Col = styled.div`
+const StyledCol = styled.div`
     box-sizing: border-box;
     flex: 0 0 auto;
     padding-right: ${props => getGutterWidth(props) / 2}px;
@@ -39,9 +39,8 @@ const Col = styled.div`
     
 `;
 
-Col.defaultProps = {
+const Col = props => <Box as={StyledCol} {...props} />
 
-};
 
 
 export default Col;

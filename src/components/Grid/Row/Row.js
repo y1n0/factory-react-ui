@@ -1,8 +1,10 @@
+import React from 'react';
 import styled from 'styled-components';
 import {getGutterWidth} from '../helpers';
 import { flexbox } from 'styled-system';
+import {Box} from '../../Box';
 
-const Row = styled.div`
+const StyledRow = styled.div`
     box-sizing: border-box;
     display: flex;
     flex: 0 1 auto;
@@ -12,8 +14,6 @@ const Row = styled.div`
     ${flexbox}
 `;
 
-Row.defaultProps = {
-    
-};
+const Row = props => <Box as={StyledRow} {...props}/>
 
 export default Row;
