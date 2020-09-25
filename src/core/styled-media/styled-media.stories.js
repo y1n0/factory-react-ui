@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from '../../components';
 import styled from 'styled-components';
-import { generateMedia } from './index';
+import { greaterThan, between, lessThan } from './index';
 
 
 const StyledBox = styled.div`
@@ -14,7 +14,7 @@ const StyledBox = styled.div`
 const StyledGreaterThan = styled(StyledBox)`
     border-color: red;
     ${
-        props => generateMedia(props).greaterThan('md')`
+        props => greaterThan('md')`
             border-color: blue;
         `
     }
@@ -23,7 +23,7 @@ const StyledGreaterThan = styled(StyledBox)`
 const StryledLessThan = styled(StyledBox)`
     border-color: red;
     ${
-        props => generateMedia(props).lessThan('md')`
+        props => lessThan('md')`
             border-color: blue;
         `
     }
@@ -32,7 +32,7 @@ const StryledLessThan = styled(StyledBox)`
 const StryledBetwwen = styled(StyledBox)`
     border-color: red;
     ${
-        props => generateMedia(props).between('md', 'lg')`
+        props => between('md', 'lg')`
             border-color: blue;
         `
     }

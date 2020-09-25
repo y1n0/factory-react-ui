@@ -7,3 +7,5 @@ export * from './utils';
 export * from './intersection-observer';
 export * from './hook';
 export * from './match-media';
+
+export {default} from './styled-media';

@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import {sortBreakpointProps, getGridSize, getGutterWidth} from '../helpers';
-import {generateMedia} from '../../../core';
+import {greaterThan} from '../../../core';
 import {Box} from '../../Box';
 
 const generateMediaForCol = props => {
     return sortBreakpointProps(props).map(bp => {
-        return generateMedia(props).greaterThan(bp)`
+        return greaterThan(bp)`
            ${
                props[bp] >= 0 ? `
                     flex-basis: ${100 / getGridSize(props) * props[bp]}%;
