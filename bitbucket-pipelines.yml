@@ -14,8 +14,6 @@ pipelines:
           - yarn install
           - yarn build
           - yarn build-storybook
-    - step:
-        script:
           - pipe: atlassian/ssh-run:0.2.2
             variables:
               SSH_USER: 'factoryui'
