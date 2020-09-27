@@ -191,8 +191,68 @@ var StyledChildren = function StyledChildren(_ref) {
 };
 var Space = styled__default(StyledChildren)(styledSystem.space);
 
-function _templateObject3() {
+function _templateObject9() {
   var data = _taggedTemplateLiteralLoose(["\n      @media (min-width: ", ") and\n        (max-width: ", ") {\n        ", "\n      }\n    "]);
+
+  _templateObject9 = function _templateObject9() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject8() {
+  var data = _taggedTemplateLiteralLoose(["\n        @media (min-width: ", ") {\n          ", "\n        }\n      "]);
+
+  _templateObject8 = function _templateObject8() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject7() {
+  var data = _taggedTemplateLiteralLoose(["\n      @media (max-width: ", ") {\n        ", "\n      }\n    "]);
+
+  _templateObject7 = function _templateObject7() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject6() {
+  var data = _taggedTemplateLiteralLoose(["\n                  @media (min-width: ", ") and (max-width: ", ") {\n                    ", "\n                  }\n                "]);
+
+  _templateObject6 = function _templateObject6() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject5() {
+  var data = _taggedTemplateLiteralLoose(["\n    ", "\n  "]);
+
+  _templateObject5 = function _templateObject5() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject4() {
+  var data = _taggedTemplateLiteralLoose(["\n                  @media (min-width: ", ") {\n                    ", "\n                  }\n                "]);
+
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject3() {
+  var data = _taggedTemplateLiteralLoose(["\n    ", "\n  "]);
 
   _templateObject3 = function _templateObject3() {
     return data;
@@ -202,7 +262,7 @@ function _templateObject3() {
 }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteralLoose(["\n      @media (min-width: ", ") {\n        ", "\n      }\n    "]);
+  var data = _taggedTemplateLiteralLoose(["\n                  @media (max-width: ", ") {\n                    ", "\n                  }\n                "]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -212,7 +272,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteralLoose(["\n      @media (max-width: ", ") {\n        ", "\n      }\n    "]);
+  var data = _taggedTemplateLiteralLoose(["\n    ", "\n  "]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -243,24 +303,63 @@ var getSizeFromBreakpoint = function getSizeFromBreakpoint(breakpointValue, brea
   }
 };
 
+var lessThan = function lessThan(breakpoint) {
+  return function () {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return styled.css(_templateObject(), function (props) {
+      var breakpoints = props ? props.theme.breakpoints : DEFAULT_BREAKPOINTS;
+      return styled.css(_templateObject2(), getSizeFromBreakpoint(breakpoint, breakpoints), styled.css.apply(void 0, args));
+    });
+  };
+};
+var greaterThan = function greaterThan(breakpoint) {
+  return function () {
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    return styled.css(_templateObject3(), function (props) {
+      var breakpoints = props ? props.theme.breakpoints : DEFAULT_BREAKPOINTS;
+      return styled.css(_templateObject4(), getSizeFromBreakpoint(breakpoint, breakpoints), styled.css.apply(void 0, args));
+    });
+  };
+};
+var between = function between(firstBreakpoint, secondBreakpoint) {
+  return function () {
+    for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+      args[_key3] = arguments[_key3];
+    }
+
+    return styled.css(_templateObject5(), function (props) {
+      var breakpoints = props ? props.theme.breakpoints : DEFAULT_BREAKPOINTS;
+      return styled.css(_templateObject6(), getSizeFromBreakpoint(firstBreakpoint, breakpoints), getSizeFromBreakpoint(secondBreakpoint, breakpoints), styled.css.apply(void 0, args));
+    });
+  };
+};
 var generateMedia = function generateMedia(props) {
   var breakpoints = props ? props.theme.breakpoints : DEFAULT_BREAKPOINTS;
 
   var lessThan = function lessThan(breakpoint) {
     return function () {
-      return styled.css(_templateObject(), getSizeFromBreakpoint(breakpoint, breakpoints), styled.css.apply(void 0, arguments));
+      console.warn("[vactory-ui] generateMedia(props).lessThan(" + breakpoint + ") ne sera pas prise en charge dans les versions à venir, utiliser plutot lessThan(" + breakpoint + ")");
+      return styled.css(_templateObject7(), getSizeFromBreakpoint(breakpoint, breakpoints), styled.css.apply(void 0, arguments));
     };
   };
 
   var greaterThan = function greaterThan(breakpoint) {
     return function () {
-      return styled.css(_templateObject2(), getSizeFromBreakpoint(breakpoint, breakpoints), styled.css.apply(void 0, arguments));
+      console.warn("[vactory-ui] generateMedia(props).greaterThan(" + breakpoint + ") ne sera pas prise en charge dans les versions à venir, utiliser plutot greaterThan(" + breakpoint + ")");
+      return styled.css(_templateObject8(), getSizeFromBreakpoint(breakpoint, breakpoints), styled.css.apply(void 0, arguments));
     };
   };
 
   var between = function between(firstBreakpoint, secondBreakpoint) {
     return function () {
-      return styled.css(_templateObject3(), getSizeFromBreakpoint(firstBreakpoint, breakpoints), getSizeFromBreakpoint(secondBreakpoint, breakpoints), styled.css.apply(void 0, arguments));
+      console.warn("[vactory-ui] generateMedia(props).between(" + firstBreakpoint + ", " + secondBreakpoint + ") ne sera pas prise en charge dans les versions à venir, utiliser plutot greaterThan(" + firstBreakpoint + ", " + secondBreakpoint + ")");
+      return styled.css(_templateObject9(), getSizeFromBreakpoint(firstBreakpoint, breakpoints), getSizeFromBreakpoint(secondBreakpoint, breakpoints), styled.css.apply(void 0, arguments));
     };
   };
 
@@ -346,8 +445,6 @@ var getVariant = function getVariant(variant) {
   if (variant === void 0) {
     variant = [];
   }
-
-  console.log(variant);
 
   if (typeof variant === 'string') {
     return variant;
@@ -593,7 +690,7 @@ var cssRegex = /^([+-]?(?:\d+|\d*\.\d+))([a-z]*|%)$/;
 /**
  * Returns a given CSS value minus its unit of measure.
  *
- * @deprecated - stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getUnitAndValue.
+ * @deprecated - stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getValueAndUnit.
  *
  * @example
  * // Styles as object usage
@@ -619,7 +716,7 @@ function stripUnit(value, unitReturn) {
 
   if (unitReturn) {
     // eslint-disable-next-line no-console
-    console.warn("stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getUnitAndValue.");
+    console.warn("stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getValueAndUnit.");
     if (matchedValue) return [parseFloat(value), matchedValue[2]];
     return [value, undefined];
   }
@@ -637,7 +734,24 @@ var getClosestValue = function getClosestValue(val, arr) {
   return index > 0 ? arr[index] : null;
 };
 
-var useMedia = function useMedia(mediaQuery) {
+var useMediaLessThan = function useMediaLessThan(breakpoint) {
+  return useMedia([breakpoint], 'max-width');
+};
+var useMediaGreaterThan = function useMediaGreaterThan(breakpoint) {
+  return useMedia([breakpoint], 'min-width');
+};
+var useMediaBetween = function useMediaBetween(bp1, bp2) {
+  return useMedia([bp1, bp2], 'between');
+};
+var useMedia = function useMedia(bp, mediaQuery) {
+  if (mediaQuery === void 0) {
+    mediaQuery = 'default';
+  }
+
+  if (!(bp instanceof Array)) {
+    bp = [bp];
+  }
+
   var _useState = React.useState(false),
       doesMatch = _useState[0],
       onSetDoesMatch = _useState[1];
@@ -645,18 +759,35 @@ var useMedia = function useMedia(mediaQuery) {
   var _ref = React.useContext(styled.ThemeContext) || {},
       breakpoints = _ref.breakpoints;
 
-  var breakpointsKeys = Object.keys(breakpoints).map(function (bp) {
-    return isNaN(bp) ? bp : +bp;
+  var breakpointsKeys = Object.keys(breakpoints).map(function (_bp) {
+    return isNaN(_bp) ? _bp : +_bp;
   });
-  var _query = mediaQuery;
+  var _query = bp[0];
 
-  if (breakpointsKeys.includes(mediaQuery)) {
+  if (breakpointsKeys.includes(bp[0])) {
     var sortedBreakpointsValues = breakpoints.map(function (e) {
       return stripUnit(e);
     });
-    var minWidth = breakpoints[mediaQuery];
-    var maxWidth = getClosestValue(stripUnit(minWidth), sortedBreakpointsValues);
-    _query = "(min-width: " + minWidth + ")" + (maxWidth !== null ? "and (max-width: " + maxWidth + "px)" : '');
+    var maxWidth = getClosestValue(stripUnit(breakpoints[bp[0]]), sortedBreakpointsValues);
+
+    switch (mediaQuery) {
+      case 'max-width':
+        _query = "(max-width: " + breakpoints[bp[0]] + ")";
+        break;
+
+      case 'min-width':
+        _query = "(min-width: " + breakpoints[bp[0]] + ")";
+        break;
+
+      case 'between':
+        _query = "(min-width: " + breakpoints[bp[0]] + ") and (max-width: " + breakpoints[bp[1]] + ")";
+        break;
+
+      default:
+        console.warn("[vactory-ui] useMedia(" + bp + ")  ne sera pas prise en charge dans les versions à venir, utiliser plutot useMediaLessThan(), useMediaGreaterThan() ou useMediaBetween()");
+        _query = "(min-width: " + breakpoints[bp[0]] + ")" + (maxWidth !== null ? "and (max-width: " + maxWidth + "px)" : '');
+        break;
+    }
   }
 
   React.useEffect(function () {
@@ -1064,9 +1195,9 @@ var DropContainer = React.forwardRef(function (_ref2, ref) {
       responsive = _ref2.responsive,
       restrictFocus = _ref2.restrictFocus,
       _ref2$stretch = _ref2.stretch,
-      stretch = _ref2$stretch === void 0 ? 'width' : _ref2$stretch,
+      stretch = _ref2$stretch === void 0 ? true : _ref2$stretch,
       sx = _ref2.sx,
-      rest = _objectWithoutPropertiesLoose(_ref2, ["align", "children", "dropTarget", "elevation", "onClickOutside", "onEsc", "onKeyDown", "plain", "responsive", "restrictFocus", "stretch", "sx"]);
+      rest = _objectWithoutPropertiesLoose(_ref2, ["align", "children", "dropTarget", "onClickOutside", "plain", "responsive", "restrictFocus", "stretch", "sx"]);
 
   var theme = React.useContext(styled.ThemeContext) || {};
   var portalContext = React.useContext(PortalContext) || [];
@@ -1276,7 +1407,6 @@ var DropContainer = React.forwardRef(function (_ref2, ref) {
     sx: sx,
     ref: ref || dropRef,
     plain: plain,
-    elevation: undefined,
     tabIndex: "-1",
     alignProp: align,
     "data-g-portal-id": portalId
@@ -3008,7 +3138,7 @@ var generateMediaforContainer = function generateMediaforContainer(props) {
   if (!props.fluid) {
     return styled.css(_templateObject$5(), breakpointsName.map(function (breakpoint) {
       if (getContainer(props)(breakpoint)) {
-        return generateMedia(props).greaterThan(breakpoint)(_templateObject2$1(), function (props) {
+        return greaterThan(breakpoint)(_templateObject2$1(), function (props) {
           return getContainer(props)(breakpoint);
         });
       } else {
@@ -3018,11 +3148,23 @@ var generateMediaforContainer = function generateMediaforContainer(props) {
   }
 };
 
-var Container = styled__default.div(_templateObject3$1(), function (props) {
+var StyledContainer = styled__default.div(_templateObject3$1(), function (props) {
   return getOuterMargin(props);
 }, function (props) {
   return getOuterMargin(props);
 }, generateMediaforContainer);
+
+var Container = function Container(_ref) {
+  var _ref$fluid = _ref.fluid,
+      fluid = _ref$fluid === void 0 ? false : _ref$fluid,
+      rest = _objectWithoutPropertiesLoose(_ref, ["fluid"]);
+
+  return /*#__PURE__*/React__default.createElement(Box, _extends({
+    as: StyledContainer,
+    fluid: fluid
+  }, rest));
+};
+
 Container.defaultProps = {
   fluid: false
 };
@@ -3036,12 +3178,17 @@ function _templateObject$6() {
 
   return data;
 }
-var Row = styled__default.div(_templateObject$6(), function (props) {
+var StyledRow = styled__default.div(_templateObject$6(), function (props) {
   return getGutterWidth(props) / 2 * -1;
 }, function (props) {
   return getGutterWidth(props) / 2 * -1;
 }, styledSystem.flexbox);
-Row.defaultProps = {};
+
+var Row = function Row(props) {
+  return /*#__PURE__*/React__default.createElement(Box, _extends({
+    as: StyledRow
+  }, props));
+};
 
 function _templateObject2$2() {
   var data = _taggedTemplateLiteralLoose(["\n    box-sizing: border-box;\n    flex: 0 0 auto;\n    padding-right: ", "px;\n    padding-left: ", "px;\n    flex-grow: 1;\n    flex-basis:0;\n    max-width: 100%;\n    ", "\n    ", "\n    \n"]);
@@ -3065,18 +3212,23 @@ function _templateObject$7() {
 
 var generateMediaForCol = function generateMediaForCol(props) {
   return sortBreakpointProps(props).map(function (bp) {
-    return generateMedia(props).greaterThan(bp)(_templateObject$7(), props[bp] >= 0 ? "\n                    flex-basis: " + 100 / getGridSize(props) * props[bp] + "%;\n                    max-width: " + 100 / getGridSize(props) * props[bp] + "%;\n                    display: block;\n               " : props[bp] ? "\n               flex-grow: 1;\n               flex-basis: 0;\n               max-width: 100%;\n               display: block;\n           " : "\n               display: none;\n           ");
+    return greaterThan(bp)(_templateObject$7(), props[bp] >= 0 ? "\n                    flex-basis: " + 100 / getGridSize(props) * props[bp] + "%;\n                    max-width: " + 100 / getGridSize(props) * props[bp] + "%;\n                    display: block;\n               " : props[bp] ? "\n               flex-grow: 1;\n               flex-basis: 0;\n               max-width: 100%;\n               display: block;\n           " : "\n               display: none;\n           ");
   });
 };
 
-var Col = styled__default.div(_templateObject2$2(), function (props) {
+var StyledCol = styled__default.div(_templateObject2$2(), function (props) {
   return getGutterWidth(props) / 2;
 }, function (props) {
   return getGutterWidth(props) / 2;
 }, function (p) {
   return p.reverse && "\n        flex-direction: column-reverse;\n    ";
 }, generateMediaForCol);
-Col.defaultProps = {};
+
+var Col = function Col(props) {
+  return /*#__PURE__*/React__default.createElement(Box, _extends({
+    as: StyledCol
+  }, props));
+};
 
 var Header = React__default.forwardRef(function (_ref, ref) {
   var _ref$fixed = _ref.fixed,
@@ -3703,7 +3855,7 @@ var Heading = function Heading(_ref3) {
       lineHeight: "heading" + level,
       mb: "small"
     },
-    variant: variant
+    variant: getVariant([variant, 'h' + level])
   }, rest, {
     as: "h" + level
   }), children);
@@ -4379,60 +4531,60 @@ function _templateObject10() {
   return data;
 }
 
-function _templateObject9() {
+function _templateObject9$1() {
   var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translate(-50%, 100%); }\n      100% { transform: translate(-50%, 0); }\n    "]);
 
-  _templateObject9 = function _templateObject9() {
+  _templateObject9$1 = function _templateObject9() {
     return data;
   };
 
   return data;
 }
 
-function _templateObject8() {
+function _templateObject8$1() {
   var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translate(-50%, -100%); }\n      100% { transform: translate(-50%, 0); }\n    "]);
 
-  _templateObject8 = function _templateObject8() {
+  _templateObject8$1 = function _templateObject8() {
     return data;
   };
 
   return data;
 }
 
-function _templateObject7() {
+function _templateObject7$1() {
   var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translateY(-100%); }\n      100% { transform: translateY(0); }\n    "]);
 
-  _templateObject7 = function _templateObject7() {
+  _templateObject7$1 = function _templateObject7() {
     return data;
   };
 
   return data;
 }
 
-function _templateObject6() {
+function _templateObject6$1() {
   var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translateY(-100%); }\n      100% { transform: translateY(0); }\n    "]);
 
-  _templateObject6 = function _templateObject6() {
+  _templateObject6$1 = function _templateObject6() {
     return data;
   };
 
   return data;
 }
 
-function _templateObject5() {
+function _templateObject5$1() {
   var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translate(-50%, -100%); }\n      100% { transform: translate(-50%, 0); }\n    "]);
 
-  _templateObject5 = function _templateObject5() {
+  _templateObject5$1 = function _templateObject5() {
     return data;
   };
 
   return data;
 }
 
-function _templateObject4() {
+function _templateObject4$1() {
   var data = _taggedTemplateLiteralLoose(["\n      0% { transform: translate(-50%, -50%) scale(0.8); }\n      100% { transform: translate(-50%, -50%) scale(1); }\n    "]);
 
-  _templateObject4 = function _templateObject4() {
+  _templateObject4$1 = function _templateObject4() {
     return data;
   };
 
@@ -4609,16 +4761,16 @@ var KEYFRAMES = {
     vertical: styled.keyframes(_templateObject$8()),
     horizontal: styled.keyframes(_templateObject2$3()),
     "true": styled.keyframes(_templateObject3$2()),
-    "false": styled.keyframes(_templateObject4())
+    "false": styled.keyframes(_templateObject4$1())
   },
   top: {
-    vertical: styled.keyframes(_templateObject5()),
-    horizontal: styled.keyframes(_templateObject6()),
-    "true": styled.keyframes(_templateObject7()),
-    "false": styled.keyframes(_templateObject8())
+    vertical: styled.keyframes(_templateObject5$1()),
+    horizontal: styled.keyframes(_templateObject6$1()),
+    "true": styled.keyframes(_templateObject7$1()),
+    "false": styled.keyframes(_templateObject8$1())
   },
   bottom: {
-    vertical: styled.keyframes(_templateObject9()),
+    vertical: styled.keyframes(_templateObject9$1()),
     horizontal: styled.keyframes(_templateObject10()),
     "true": styled.keyframes(_templateObject11()),
     "false": styled.keyframes(_templateObject12())
@@ -4907,7 +5059,7 @@ var POSITIONS = {
     }
   }
 };
-var StyledContainer = styled__default.div.attrs({
+var StyledContainer$1 = styled__default.div.attrs({
   'data-s': 'StyledContainer'
 })(_templateObject75(), themeGet.themeGet('sizes.xsmall'), themeGet.themeGet('layer.container.zIndex'), function (props) {
   return props.modal ? 'absolute' : 'fixed';
@@ -5068,7 +5220,7 @@ var LayerContainer = React.forwardRef(function (_ref, ref) {
     setTargetBounds(fullBounds);
     return undefined;
   }, [layerTarget]);
-  var content = /*#__PURE__*/React__default.createElement(StyledContainer, _extends({
+  var content = /*#__PURE__*/React__default.createElement(StyledContainer$1, _extends({
     ref: ref || containerRef,
     id: id,
     full: full,
@@ -6568,20 +6720,12 @@ var componentsTheme = {
   breadcrumb: breadcrumb,
   navs: navs,
   heading: heading,
-  searchOverlay: searchOverlay,
-  card: {
-    variant1: {
-      title: {},
-      body: {
-        padding: 'small'
-      },
-      excerpt: {}
-    }
-  }
+  searchOverlay: searchOverlay
 };
 var theme = _extends(_extends({}, baseTheme), componentsTheme);
 
 exports.Accordion = Accordion;
+exports.AccordionContext = AccordionContext;
 exports.AccordionPanel = AccordionPanel;
 exports.Anchor = Anchor;
 exports.Arrow = Arrow;
@@ -6639,6 +6783,7 @@ exports.VactoryThemeContext = VactoryThemeContext;
 exports.WrapperIcon = WrapperIcon;
 exports.appendDots = appendDots;
 exports.base = base;
+exports.between = between;
 exports.findParentByMatchedQuery = findParentByMatchedQuery;
 exports.findScrollParents = findScrollParents;
 exports.findVisibleParent = findVisibleParent;
@@ -6652,8 +6797,10 @@ exports.getSizeProps = getSizeProps;
 exports.getSpaceProps = getSpaceProps;
 exports.getSystemProps = getSystemProps;
 exports.getVariant = getVariant;
+exports.greaterThan = greaterThan;
 exports.iconSet = iconSet;
 exports.isNotAncestorOf = isNotAncestorOf;
+exports.lessThan = lessThan;
 exports.makeNodeFocusable = makeNodeFocusable;
 exports.makeNodeUnfocusable = makeNodeUnfocusable;
 exports.mergeIcons = mergeIcons;
@@ -6669,6 +6816,9 @@ exports.theme = theme;
 exports.useColorMode = useColorMode;
 exports.useIsomorphicLayoutEffect = useIsomorphicLayoutEffect;
 exports.useMedia = useMedia;
+exports.useMediaBetween = useMediaBetween;
+exports.useMediaGreaterThan = useMediaGreaterThan;
+exports.useMediaLessThan = useMediaLessThan;
 exports.useScrollPosition = useScrollPosition;
 exports.useVactoryIcon = useVactoryIcon;
 exports.useVactoryTheme = useVactoryTheme;
