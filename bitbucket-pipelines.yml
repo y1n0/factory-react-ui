@@ -26,7 +26,7 @@ pipelines:
               USER: 'factoryui'
               SERVER: 'factory-ui.lapreprod.com'
               REMOTE_PATH: '/home/factoryui/public_html/'
-              LOCAL_PATH: 'storybook-static/*'
+              LOCAL_PATH: '${BITBUCKET_CLONE_DIR}/storybook-static/*'
               # SSH_KEY: '<string>' # Optional.
               # EXTRA_ARGS: '<string>' # Optional.
               # DEBUG: '<boolean>' # Optional.
