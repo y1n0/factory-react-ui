@@ -13,14 +13,15 @@ pipelines:
         script: # Modify the commands below to build your repository.
           - yarn install
           - yarn build
+          - yarn build-storybook
     - step:
         script:
           - pipe: atlassian/scp-deploy:0.3.12
             variables:
               USER: 'factoryui'
               SERVER: 'factory-ui.lapreprod.com'
-              REMOTE_PATH: '/home/factoryui/public_html'
-              LOCAL_PATH: 'dist/'
+              REMOTE_PATH: '/home/factoryui/public_html/'
+              LOCAL_PATH: 'public/*'
               # SSH_KEY: '<string>' # Optional.
               # EXTRA_ARGS: '<string>' # Optional.
               # DEBUG: '<boolean>' # Optional.
