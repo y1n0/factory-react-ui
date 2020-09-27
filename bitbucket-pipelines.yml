@@ -16,11 +16,11 @@ pipelines:
           - yarn build-storybook
     - step:
         script:
-            - pipe: atlassian/ssh-run:0.2.2
-              variables:
-                SSH_USER: 'factoryui'
-                SERVER: 'factory-ui.lapreprod.com'
-                COMMAND: 'rm -rf /home/factoryui/public_html && chmod -R 755 /home/factoryui/public_html'
+          - pipe: atlassian/ssh-run:0.2.2
+            variables:
+              SSH_USER: 'factoryui'
+              SERVER: 'factory-ui.lapreprod.com'
+              COMMAND: 'rm -rf /home/factoryui/public_html && chmod -R 755 /home/factoryui/public_html'
           - pipe: atlassian/scp-deploy:0.3.12
             variables:
               USER: 'factoryui'
