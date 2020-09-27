@@ -1,6 +1,6 @@
 import React from 'react';
 import { withKnobs, text, select } from "@storybook/addon-knobs";
-import { 
+import {
     fontFamilyOption,
     colorOption,
     themeId
@@ -9,25 +9,22 @@ import {Heading} from '../Text';
 
 const customText = "Heading";
 
-const levelOption = {
-    "1": 1,
-    "2": 2,
-    "3": 3,
-    "4": 4,
-    "5": 5,
-    "6": 6,
-};
+const levelOption = [1,2,3,4,5,6];
 
 
 export const HeadingComponent = () => {
 
     return (
-        <Heading level={select("level", levelOption, 1, 'props')}
-                 color={select("color",colorOption, 'black', themeId )}
-                 fontFamily={select("fontFamily", fontFamilyOption, 'sans', themeId)}
-                 >
-                {text("text", customText)}
-        </Heading>
+        <div>
+            {levelOption.map((level, index) => {
+                return <Heading level={level}
+                         color={select("color",colorOption, 'black', themeId )}
+                         fontFamily={select("fontFamily", fontFamilyOption, 'sans', themeId)}
+                >
+                    {text("text", customText)}
+                </Heading>
+            })}
+        </div>
     );
 }
 
