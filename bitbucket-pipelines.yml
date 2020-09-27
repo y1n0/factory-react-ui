@@ -21,7 +21,7 @@ pipelines:
               USER: 'factoryui'
               SERVER: 'factory-ui.lapreprod.com'
               REMOTE_PATH: '/home/factoryui/public_html/'
-              LOCAL_PATH: 'public/*'
+              LOCAL_PATH: 'storybook-static/*'
               # SSH_KEY: '<string>' # Optional.
               # EXTRA_ARGS: '<string>' # Optional.
               # DEBUG: '<boolean>' # Optional.
