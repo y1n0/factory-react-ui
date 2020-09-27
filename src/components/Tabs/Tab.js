@@ -14,7 +14,7 @@ export const Tab = forwardRef((
     },
     ref
 ) => {
-
+    
     const handleOnClickTab = event => {
         if (event) {
             event.preventDefault();
@@ -28,6 +28,7 @@ export const Tab = forwardRef((
             {...props}
             sx={sx}
             variant={getVariant([variant, isActive ? 'activeTab' : 'tab'])}
+            className={`vf-tabs__tab ${isActive ? 'vf-tabs__tab--active' : ''}`}
             __css={{
                 cursor: 'pointer',
                 margin: 0,

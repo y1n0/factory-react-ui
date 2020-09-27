@@ -89,7 +89,7 @@ const CapitalCardButton = ({ children }) => <Box
         }
     }}>{children}</Box>
 
-export const CapitalAzurCard = () => {
+export const CapitalAzur = () => {
     return (
         <Box>
             <Box width={[1, 1 / 2, 1 / 3]}>
@@ -181,7 +181,7 @@ export const Layout = () => {
 }
 
 
-export const InlineCard = () => {
+export const Inline= () => {
     return (
         <Container fluid={true}>
 
@@ -241,5 +241,5 @@ export const InlineCard = () => {
 }
 
 export default {
-    title: 'Card',
+    title: 'Components/Card',
 };

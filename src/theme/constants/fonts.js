@@ -7,7 +7,7 @@
  */
 
  const fonts = {
-    sans: 'Robot, sans-serif',
+    sans: 'Roboto, sans-serif',
     serif: '\'Roboto Slab\', serif',
     monospace: '\'Roboto Mono\', monospace',
     montserrat: "'Montserrat', sans-serif"

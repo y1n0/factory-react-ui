@@ -99,6 +99,6 @@ export const CustomIcon = () => {
 
 
 export default {
-    title: 'Form/Radio',
+    title: 'Primitives/Form/Radio',
     decorators: [withKnobs],
 }

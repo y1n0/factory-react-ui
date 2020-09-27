@@ -69,5 +69,5 @@ export const GoTo = () => {
 }
 
 export default {
-    title: 'Pagination',
+    title: 'Components/Pagination',
 };

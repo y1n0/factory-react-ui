@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 import toast from "cogo-toast";
 import copy from "copy-to-clipboard";
-import {withKnobs} from "@storybook/addon-knobs";
+import {withKnobs, text} from "@storybook/addon-knobs";
 import {Box, Flex} from '../../Box';
 
 import Icon, {mergeIcons, iconSet} from '../Icon';
@@ -34,6 +34,8 @@ const IconBox = styled(Flex)`
 `
 
 export const Sizes = () => {
+    let filter = text("search", "");
+
     return (
         <VactoryIconProvider value={iconSet}>
             <Box>
@@ -43,8 +45,10 @@ export const Sizes = () => {
                         flexWrap: 'wrap'
                     }}>
                         {
-                            iconNameList(iconSet).map((iconName, key) => (
-                                <IconBox
+                            iconNameList(iconSet).map((iconName, key) => {
+
+                                if ( iconName.indexOf(filter) > -1 )
+                                return <IconBox
                                     key={key}
                                     tabIndex={0}
                                     sx={{
@@ -62,11 +66,11 @@ export const Sizes = () => {
                                         cursor: 'pointer',
                                     }}
                                     onClick={() => copyToClipboard(iconName)}
-                                >
+                                    >
                                     <Icon name={iconName} color="primary" size="large"/>
                                     <Box className={'iconName'} mt="medium">{iconName}</Box>
                                 </IconBox>
-                            ))
+                            })
                         }
                     </Flex>
                 </Box>
@@ -77,6 +81,7 @@ export const Sizes = () => {
 
 export const Custom = () => {
     const customIcons = mergeIcons(iconSet, customIconSet)
+    let filter = text("search", "");
 
     return (
         <VactoryIconProvider value={customIcons}>
@@ -87,8 +92,10 @@ export const Custom = () => {
                         flexWrap: 'wrap'
                     }}>
                         {
-                            iconNameList(customIcons).map((iconName, key) => (
-                                <IconBox
+                            iconNameList(customIcons).map((iconName, key) => {
+
+                                if ( iconName.indexOf(filter) > -1 )
+                                return <IconBox
                                     key={key}
                                     tabIndex={0}
                                     sx={{
@@ -106,11 +113,11 @@ export const Custom = () => {
                                         cursor: 'pointer',
                                     }}
                                     onClick={() => copyToClipboard(iconName)}
-                                >
+                                    >
                                     <Icon name={iconName} color="primary" size="large"/>
                                     <Box className={'iconName'} mt="medium">{iconName}</Box>
                                 </IconBox>
-                            ))
+                            })
                         }
                     </Flex>
                 </Box>
@@ -120,6 +127,6 @@ export const Custom = () => {
 }
 
 export default {
-    title: 'Icons',
+    title: 'Primitives/Icons',
     decorators: [withKnobs],
 };

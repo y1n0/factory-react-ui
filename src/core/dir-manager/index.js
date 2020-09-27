@@ -3,6 +3,13 @@ import { StyleSheetManager } from "styled-components";
 import stylisRTLPlugin from 'stylis-plugin-rtl';
 
 
+export const DirectionManagerContext = React.createContext("ltr");
+
 export const DirectionManager = ({dir= "ltr", children}) => {
-    return <StyleSheetManager stylisPlugins={dir === 'rtl' ? [stylisRTLPlugin] : []}><React.Fragment>{children}</React.Fragment></StyleSheetManager>
+    return <DirectionManagerContext.Provider value={dir}>
+            <StyleSheetManager stylisPlugins={dir === 'rtl' ? [stylisRTLPlugin] : []}>
+                 <div dir={dir}>{children}</div>
+            </StyleSheetManager>
+        </DirectionManagerContext.Provider>
+            
 } 

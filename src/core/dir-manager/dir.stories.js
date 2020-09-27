@@ -12,7 +12,7 @@ const Box = styled.div`
 const BoxTextRight = styled.div`
     background: green;
     margin-bottom: 10px;
-    /* @noflip */
+   
     ${typography}
     /* @noflip */
     border-left: 20px solid red;
@@ -20,30 +20,32 @@ const BoxTextRight = styled.div`
 
 export const LTR = () => {
 
-    return (<DirectionManager>
-      <>
-                <Box borderLeft="20px solid red">My border is now on the left!</Box>
-                <BoxTextRight textAlign="right">Content aligns along the right side.</BoxTextRight>
-                </>
-            </DirectionManager>
-            
-    );
+  return (<DirectionManager>
+    <>
+      <Box borderLeft="20px solid red">My border is now on the left!</Box>
+      <BoxTextRight textAlign="right">Content aligns along the right side.</BoxTextRight>
+    </>
+  </DirectionManager>
+
+  );
 }
 export const RTL = () => {
 
-    return (
-        <DirectionManager dir="rtl">
-          <>
-                <Box borderLeft="20px solid red">My border is now on the right!</Box>
-                <BoxTextRight textAlign="right">Content aligns along the right side.</BoxTextRight>
-                </>
+  return (
+    <DirectionManager dir="ltr">
+      <>
+        <DirectionManager dir="ltr">
+          <Box dir="ltr" borderLeft="20px solid red">My border is now on the right!</Box>
         </DirectionManager>
-    );
+        <BoxTextRight textAlign="right">Content aligns along the right side.</BoxTextRight>
+      </>
+    </DirectionManager>
+  );
 }
 
 
 export default {
-  title: 'Direction Manager',
+  title: 'Core/Direction Manager',
   parameters: {
     notes: { markdown },
   },

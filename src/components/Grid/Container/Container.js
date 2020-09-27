@@ -1,7 +1,8 @@
-
+import React from 'react';
 import styled, {css} from 'styled-components';
 import {getOuterMargin, getContainer} from '../helpers';
-import {generateMedia} from '../../../core';
+import {greaterThan} from '../../../core';
+import {Box} from '../../Box';
 
 const generateMediaforContainer = props => {
     const breakpointsName = Object.keys(props.theme.breakpoints);
@@ -9,7 +10,7 @@ const generateMediaforContainer = props => {
         return css`
             ${breakpointsName.map(breakpoint => {
                 if(getContainer(props)(breakpoint)) {
-                    return generateMedia(props.theme.breakpoints).greaterThan(breakpoint)`
+                    return greaterThan(breakpoint)`
                         max-width: ${(props) => getContainer(props)(breakpoint)};
                     `
                 } else {
@@ -21,7 +22,7 @@ const generateMediaforContainer = props => {
     }
 };
 
-const Container = styled.div`
+const StyledContainer = styled.div`
     box-sizing: border-box;
     margin-right: auto;
     margin-left: auto;
@@ -30,6 +31,10 @@ const Container = styled.div`
     width: 100%;
     ${generateMediaforContainer}
 `;
+
+const Container = ({fluid = false, ...rest}) => {
+    return <Box as={StyledContainer}  fluid={fluid} {...rest} />
+}
 
 Container.defaultProps = {
     fluid: false

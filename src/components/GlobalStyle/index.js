@@ -20,10 +20,12 @@ export const GlobalStyle = createGlobalStyle`
     }
 
 
-    html {
+    html, body {
         font-family: ${({ theme }) => theme.fonts.sans};
         font-size: ${({ theme }) => theme.fontSizes.body};;
         box-sizing: border-box;
+
+        -webkit-font-smoothing: antialiased;
     }
 
 `;

@@ -15,6 +15,6 @@ export const Simple= () => {
 }
 
 export default {
-    title: 'Images',
+    title: 'Primitives/Images',
     decorators: [withKnobs],
 };

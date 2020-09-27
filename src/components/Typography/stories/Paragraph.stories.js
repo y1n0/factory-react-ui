@@ -23,7 +23,7 @@ export const ParagraphComponent = () => {
 }
 
 export default {
-    title: 'Typography',
+    title: 'Primitives/Typography',
     decorators: [withKnobs],
     parameters: {
         actions: { disabled: true }

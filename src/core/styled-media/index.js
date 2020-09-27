@@ -1,5 +1,4 @@
 import { css } from "styled-components";
-
 export const DEFAULT_BREAKPOINTS = {
     xs: '0',  
     sm: '500px', 
@@ -20,25 +19,86 @@ const getSizeFromBreakpoint = (breakpointValue, breakpoints = {})  => {
     }
 }
 
-export function generateMedia(breakpoints = DEFAULT_BREAKPOINTS) {
-    const lessThan = (breakpoint) => (...args) => css`
+
+export const lessThan = (breakpoint) => (...args) => {
+
+  return css`
+    ${
+      props => {
+        const breakpoints =  props ? props.theme.breakpoints :  DEFAULT_BREAKPOINTS;
+        return css`
+                  @media (max-width: ${getSizeFromBreakpoint(breakpoint, breakpoints)}) {
+                    ${css(...args)}
+                  }
+                `;
+      }
+    }
+  `;
+}
+
+export const greaterThan = (breakpoint) => (...args) => {
+
+  return css`
+    ${
+      props => {
+        const breakpoints =  props ? props.theme.breakpoints :  DEFAULT_BREAKPOINTS;
+        return css`
+                  @media (min-width: ${getSizeFromBreakpoint(breakpoint, breakpoints)}) {
+                    ${css(...args)}
+                  }
+                `;
+      }
+    }
+  `;
+}
+
+export const between = (firstBreakpoint, secondBreakpoint)  => (...args) => {
+
+  return css`
+    ${
+      props => {
+        const breakpoints =  props ? props.theme.breakpoints :  DEFAULT_BREAKPOINTS;
+        return css`
+                  @media (min-width: ${getSizeFromBreakpoint(firstBreakpoint, breakpoints)}) and (max-width: ${getSizeFromBreakpoint(secondBreakpoint, breakpoints)}) {
+                    ${css(...args)}
+                  }
+                `;
+      }
+    }
+  `;
+};
+
+export const  generateMedia = (props) => {
+  
+    const breakpoints =  props ? props.theme.breakpoints :  DEFAULT_BREAKPOINTS;
+    
+    const lessThan = (breakpoint) => (...args) => {
+      console.warn("[vactory-ui] generateMedia(props).lessThan("+breakpoint+") ne sera pas prise en charge dans les versions à venir, utiliser plutot lessThan("+breakpoint+")");
+      return css`
       @media (max-width: ${getSizeFromBreakpoint(breakpoint, breakpoints)}) {
         ${css(...args)}
       }
-    `;
+    `};
   
-    const greaterThan = (breakpoint) => (...args) => css`
-      @media (min-width: ${getSizeFromBreakpoint(breakpoint, breakpoints)}) {
-        ${css(...args)}
-      }
-    `;
+    const greaterThan = (breakpoint) => (...args) => {
+
+      console.warn("[vactory-ui] generateMedia(props).greaterThan("+breakpoint+") ne sera pas prise en charge dans les versions à venir, utiliser plutot greaterThan("+breakpoint+")");
+      return  css`
+        @media (min-width: ${getSizeFromBreakpoint(breakpoint, breakpoints)}) {
+          ${css(...args)}
+        }
+      `
+    };
   
-    const between = (firstBreakpoint, secondBreakpoint) => (...args) => css`
+    const between = (firstBreakpoint, secondBreakpoint) => (...args) => {
+      console.warn("[vactory-ui] generateMedia(props).between("+firstBreakpoint+", "+secondBreakpoint+") ne sera pas prise en charge dans les versions à venir, utiliser plutot greaterThan("+firstBreakpoint+", "+secondBreakpoint+")");
+      
+      return css`
       @media (min-width: ${getSizeFromBreakpoint(firstBreakpoint, breakpoints)}) and
         (max-width: ${getSizeFromBreakpoint(secondBreakpoint, breakpoints)}) {
         ${css(...args)}
       }
-    `;
+    `};
 
     return  {
         lessThan,
@@ -47,4 +107,4 @@ export function generateMedia(breakpoints = DEFAULT_BREAKPOINTS) {
       };
 }
 
-export default generateMedia();
+export default generateMedia;

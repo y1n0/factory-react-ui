@@ -647,7 +647,7 @@ export const StyledContainer = styled.div.attrs({'data-s': 'StyledContainer'})`
     ${props => {
         const responsiveBreakpoint = themeGet('layer.responsiveBreakpoint', false)(props);
         if(props.responsive && responsiveBreakpoint) {
-            return generateMedia(themeGet('breakpoints')(props)).lessThan(responsiveBreakpoint)`
+            return generateMedia(props).lessThan(responsiveBreakpoint)`
                 position: relative;
                 max-height: none;
                 max-width: none;

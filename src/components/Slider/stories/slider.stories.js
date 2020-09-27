@@ -155,5 +155,5 @@ export const RichSlider = () => {
 
 
 export default {
-  title: 'Slider',
+  title: 'Components/Slider',
 };

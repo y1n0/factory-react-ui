@@ -1,9 +1,10 @@
 
 import React from "react";
 import { Box } from '../Box';
+import { getVariant } from "../../core";
 
 export const BreadcrumbItem = React.forwardRef(({
-    variant='breadcrumb',
+    variant='breadcrumb.default',
     children,
     href,
     active,
@@ -18,6 +19,7 @@ export const BreadcrumbItem = React.forwardRef(({
             as={as}
             ref={ref}
             href={href}
+            variant={getVariant([variant, 'item', active && 'active'])}
             {...rest}
             __css={{
                 color: active ? 'gray900' : 'primary500',

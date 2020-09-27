@@ -84,5 +84,5 @@ export const RevealY = () => {
 
 
 export default {
-    title: 'Animation',
+    title: 'Core/Animation',
 };

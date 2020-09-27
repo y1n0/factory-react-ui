@@ -74,6 +74,6 @@ export const RTL = () => {
 }
 
 export default {
-    title: 'Form/Select',
+    title: 'Primitives/Form/Select',
     decorators: [withKnobs],
 }

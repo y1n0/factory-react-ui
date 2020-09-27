@@ -18,7 +18,6 @@ export const Box = styled('div', {shouldForwardProp})(
     minWidth: 0,
   },
   base,
-  variant,
   sx,
   props => props.css,
   props => props.styledCss,
@@ -30,7 +29,8 @@ export const Box = styled('div', {shouldForwardProp})(
     border,
     typography,
     boxShadow 
-  ),
+    ),
+  variant,
 );
 
 export const Flex = styled(Box)({

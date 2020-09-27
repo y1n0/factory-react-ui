@@ -58,6 +58,7 @@ const componentsTheme = {
     navs,
     heading,
     searchOverlay,
+
 }
 
 
