@@ -3,10 +3,9 @@ import {Box} from '../Box';
 import { getVariant } from '../../core';
 
 
-export const Footer = ({variant='footer', ...props}) => {
+export const Footer = ({variant='footer',children,  ...rest}) => {
     return (
         <Box
-            {...props}
             as='footer'
             variant={getVariant([variant])}
             sx={{
@@ -19,10 +18,10 @@ export const Footer = ({variant='footer', ...props}) => {
                 minWidth: '0px',
                 minHeight: '0px',
                 outline: 'none',
-                ...props.sx
             }}
+            {...rest}
         >
-                {props.children}
+                {children}
         </Box>
     )
 }
