@@ -1,8 +1,8 @@
 import React, { forwardRef, useContext, cloneElement } from 'react';
 import { AccordionContext } from './AccordionContext';
 import { getVariant, getSystemProps } from '../../core';
-
-import { Box, MotionBox } from '../../components';
+import { MotionBox } from '../Animation';
+import { Box } from '../Box';
 
 
 const PanelHeaderBaseStyle = {

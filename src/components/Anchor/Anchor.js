@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box} from '../../components';
+import {Box} from '../Box';
 
 export const Anchor = React.forwardRef(({
         variant = "anchor.default",

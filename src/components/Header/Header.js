@@ -7,6 +7,8 @@ export const Header = React.forwardRef(({
     fixed = false,
     sticky = false,
     variant = 'header',
+    stickyOptions = {},
+
     children,
     ...rest }, ref) => {
 
@@ -21,7 +23,7 @@ export const Header = React.forwardRef(({
     }
     const Wrapper = sticky ? Headroom : 'div';
     return (
-        <Wrapper style={{
+        <Wrapper {...stickyOptions} style={{
             zIndex: 10
         }}>
             <Box
