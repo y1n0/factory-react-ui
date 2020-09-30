@@ -1,34 +1,26 @@
-import React, { forwardRef, useContext } from 'react';
+import React from 'react';
 import { Box } from '../Box';
-import { ThemeContext } from "styled-components";
-import  { get } from '@styled-system/css';
 import {  getVariant } from '../../core';
 
 
 
-export const Nav = forwardRef(({
+export const Nav = React.forwardRef(({
     variant = 'navs',
     children,
     href,
-    active,
+    active = false,
     as = 'a',
-    sx,
     key,
     ...rest
 }, ref) => {
 
-    let isActiveStyle = null;
-    if (active) {
-        const theme = useContext(ThemeContext);
-        isActiveStyle = get(theme, getVariant([variant, 'activeNav']));
-    }
     return (
         <Box
             as={as}
             ref={ref}
             href={href}
             {...rest}
-            variant={getVariant([variant, 'nav'])}
+            variant={getVariant([variant, active ? 'activeNav' :'nav'])}
             __css={{
                 color: 'primary500',
                 textDecoration: 'none',
@@ -38,10 +30,7 @@ export const Nav = forwardRef(({
                     color: 'primary700',
                 },
             }}
-            sx={{
-                ...isActiveStyle,
-                ...sx,
-            }}
+            {...rest}
         >
             {children}
         </Box>

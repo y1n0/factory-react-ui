@@ -8,7 +8,7 @@ export const Footer = ({variant='footer',children,  ...rest}) => {
         <Box
             as='footer'
             variant={getVariant([variant])}
-            sx={{
+            __css={{
                 display: 'flex',
                 position: 'relative',
                 flexDirection: 'row',

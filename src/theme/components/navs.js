@@ -46,7 +46,10 @@ const navs = {
 
         },
         activeNav: {
+            padding: '0px',
             color: '#017CFE',
+            px: '16px',
+            py: ['16px', '0'],
             fontWeight: 600,
             ':hover': {
                 color: '#017CFE'
