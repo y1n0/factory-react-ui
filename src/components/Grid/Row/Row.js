@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {getGutterWidth} from '../helpers';
+import {getOuterMargin} from '../helpers';
 import { flexbox } from 'styled-system';
 import {Box} from '../../Box';
 
@@ -9,8 +9,8 @@ const StyledRow = styled.div`
     display: flex;
     flex: 0 1 auto;
     flex-wrap: wrap;
-    margin-right: ${props => getGutterWidth(props) / 2 * -1}px;
-    margin-left: ${props => getGutterWidth(props) / 2 * -1}px;
+    margin-right: ${props => getOuterMargin(props) * -1}px;
+    margin-left: ${props => getOuterMargin(props) * -1}px;
     ${flexbox}
 `;
 
