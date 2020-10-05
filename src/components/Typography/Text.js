@@ -1,6 +1,8 @@
 import React from 'react';
 import { getVariant } from '../../core';
 import { Box } from '../Box';
+import { get } from 'styled-system';
+import { ThemeContext } from 'styled-components';
 
 
 export const Text = ({ children, as = 'p', ...rest }) => <Box {...rest} as={as} __css={{
@@ -36,15 +38,26 @@ export const Heading = ({
     level = '1',
     variant = "heading.default",
     ...rest
-}) => <Text
+}) => {
+    let variantName = getVariant([variant, 'h'+level]);
+    const theme = React.useContext(ThemeContext);
+
+    // use the extact variant passed in props
+    // if the level specific one is not defined
+    const levelSpecificVariantExists = !!get(theme, variantName);
+    if (!levelSpecificVariantExists)
+        variantName = variant;
+
+    return <Text
     __css={{
         fontSize: `heading${level}`,
         lineHeight: `heading${level}`,
         mb: "small",
     }}
-    variant={getVariant([variant, 'h'+level])}
+    variant={variantName}
     {...rest}
     as={`h${level}`}>{children}</Text>
+}
 
 
 
