@@ -1,5 +1,4 @@
 import React from 'react';
-import { getVariant } from '../../core';
 import { Box } from '../Box';
 
 
@@ -42,7 +41,7 @@ export const Heading = ({
         lineHeight: `heading${level}`,
         mb: "small",
     }}
-    variant={getVariant([variant, 'h'+level])}
+    variant={variant}
     {...rest}
     as={`h${level}`}>{children}</Text>
 
