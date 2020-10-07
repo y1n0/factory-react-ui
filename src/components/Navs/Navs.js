@@ -34,6 +34,7 @@ export const Navs = forwardRef(({
                 padding: 'small',
                 display: 'flex',
                 alignItems: 'center',
+                // TODO unset this
                 flexDirection: ['column' , 'row']
             }}
         >

@@ -3,6 +3,7 @@ import styled, {css} from 'styled-components';
 import {getOuterMargin, getContainer} from '../helpers';
 import {greaterThan} from '../../../core';
 import {Box} from '../../Box';
+import { space, layout, flexbox, compose } from "styled-system";
 
 const generateMediaforContainer = props => {
     const breakpointsName = Object.keys(props.theme.breakpoints);
@@ -30,6 +31,7 @@ const StyledContainer = styled.div`
     padding-right: ${props => getOuterMargin(props)}px;
     width: 100%;
     ${generateMediaforContainer}
+    ${compose(space, layout, flexbox)}
 `;
 
 const Container = ({fluid = false, ...rest}) => {
