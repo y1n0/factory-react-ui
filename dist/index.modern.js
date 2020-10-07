@@ -1584,7 +1584,7 @@ var Footer = function Footer(_ref) {
   return /*#__PURE__*/React.createElement(Box, _extends({
     as: "footer",
     variant: getVariant([variant]),
-    sx: {
+    __css: {
       display: 'flex',
       position: 'relative',
       flexDirection: 'row',
@@ -3104,7 +3104,8 @@ var Select = forwardRef(function (_ref3, ref) {
       appearance: 'none',
       fontSize: 'inherit',
       lineHeight: 'inherit',
-      border: '1px solid gray500',
+      border: '1px solid',
+      borderColor: 'gray500',
       borderRadius: 'medium',
       color: 'inherit',
       pr: '32px',
@@ -3216,7 +3217,7 @@ var getContainer = function getContainer(props) {
 };
 
 function _templateObject3$1() {
-  var data = _taggedTemplateLiteralLoose(["\n    box-sizing: border-box;\n    margin-right: auto;\n    margin-left: auto;\n    padding-left: ", "px;\n    padding-right: ", "px;\n    width: 100%;\n    ", "\n"]);
+  var data = _taggedTemplateLiteralLoose(["\n    box-sizing: border-box;\n    margin-right: auto;\n    margin-left: auto;\n    padding-left: ", "px;\n    padding-right: ", "px;\n    width: 100%;\n    ", "\n    ", "\n"]);
 
   _templateObject3$1 = function _templateObject3() {
     return data;
@@ -3265,7 +3266,7 @@ var StyledContainer = styled.div(_templateObject3$1(), function (props) {
   return getOuterMargin(props);
 }, function (props) {
   return getOuterMargin(props);
-}, generateMediaforContainer);
+}, generateMediaforContainer, compose(space$1, layout, flexbox));
 
 var Container = function Container(_ref) {
   var _ref$fluid = _ref.fluid,
@@ -3292,10 +3293,10 @@ function _templateObject$6() {
   return data;
 }
 var StyledRow = styled.div(_templateObject$6(), function (props) {
-  return getGutterWidth(props) / 2 * -1;
+  return getOuterMargin(props) * -1;
 }, function (props) {
-  return getGutterWidth(props) / 2 * -1;
-}, flexbox);
+  return getOuterMargin(props) * -1;
+}, compose(space$1, layout, flexbox));
 
 var Row = function Row(props) {
   return /*#__PURE__*/React.createElement(Box, _extends({
@@ -3304,7 +3305,7 @@ var Row = function Row(props) {
 };
 
 function _templateObject2$2() {
-  var data = _taggedTemplateLiteralLoose(["\n    box-sizing: border-box;\n    flex: 0 0 auto;\n    padding-right: ", "px;\n    padding-left: ", "px;\n    flex-grow: 1;\n    flex-basis:0;\n    max-width: 100%;\n    ", "\n    ", "\n    \n"]);
+  var data = _taggedTemplateLiteralLoose(["\n    box-sizing: border-box;\n    flex: 0 0 auto;\n    padding-right: ", "px;\n    padding-left: ", "px;\n    flex-grow: 1;\n    flex-basis:0;\n    max-width: 100%;\n    ", "\n    ", "\n    ", "\n    \n"]);
 
   _templateObject2$2 = function _templateObject2() {
     return data;
@@ -3335,7 +3336,7 @@ var StyledCol = styled.div(_templateObject2$2(), function (props) {
   return getGutterWidth(props) / 2;
 }, function (p) {
   return p.reverse && "\n        flex-direction: column-reverse;\n    ";
-}, generateMediaForCol);
+}, generateMediaForCol, compose(space$1, layout, flexbox));
 
 var Col = function Col(props) {
   return /*#__PURE__*/React.createElement(Box, _extends({
@@ -3432,30 +3433,23 @@ var Navs = forwardRef(function (_ref, ref) {
   }), navs);
 });
 
-var Nav = forwardRef(function (_ref, ref) {
+var Nav = React.forwardRef(function (_ref, ref) {
   var _ref$variant = _ref.variant,
       variant = _ref$variant === void 0 ? 'navs' : _ref$variant,
       children = _ref.children,
       href = _ref.href,
-      active = _ref.active,
+      _ref$active = _ref.active,
+      active = _ref$active === void 0 ? false : _ref$active,
       _ref$as = _ref.as,
       as = _ref$as === void 0 ? 'a' : _ref$as,
-      sx = _ref.sx,
-      rest = _objectWithoutPropertiesLoose(_ref, ["variant", "children", "href", "active", "as", "sx", "key"]);
-
-  var isActiveStyle = null;
-
-  if (active) {
-    var theme = useContext(ThemeContext);
-    isActiveStyle = get$1(theme, getVariant([variant, 'activeNav']));
-  }
+      rest = _objectWithoutPropertiesLoose(_ref, ["variant", "children", "href", "active", "as", "key"]);
 
   return /*#__PURE__*/React.createElement(Box, _extends({
     as: as,
     ref: ref,
     href: href
   }, rest, {
-    variant: getVariant([variant, 'nav']),
+    variant: getVariant([variant, active ? 'activeNav' : 'nav']),
     __css: {
       color: 'primary500',
       textDecoration: 'none',
@@ -3464,9 +3458,8 @@ var Nav = forwardRef(function (_ref, ref) {
         cursor: 'pointer',
         color: 'primary700'
       }
-    },
-    sx: _extends(_extends({}, isActiveStyle), sx)
-  }), children);
+    }
+  }, rest), children);
 });
 
 var PaginationPageButton = function PaginationPageButton(props) {
@@ -3851,7 +3844,7 @@ var Heading = function Heading(_ref3) {
       lineHeight: "heading" + level,
       mb: "small"
     },
-    variant: getVariant([variant, 'h' + level])
+    variant: variant
   }, rest, {
     as: "h" + level
   }), children);
@@ -6653,7 +6646,10 @@ var navs = {
       }
     },
     activeNav: {
+      padding: '0px',
       color: '#017CFE',
+      px: '16px',
+      py: ['16px', '0'],
       fontWeight: 600,
       ':hover': {
         color: '#017CFE'
