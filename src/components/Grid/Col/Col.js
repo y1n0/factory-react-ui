@@ -30,7 +30,7 @@ const generateMediaForCol = (props) => {
   });
 };
 
-const StyledCol = styled(Box)`
+const StyledCol = styled.div`
     box-sizing: border-box;
     flex: 0 0 auto;
     padding-right: ${(props) => getGutterWidth(props) / 2}px;
