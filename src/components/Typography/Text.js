@@ -1,8 +1,8 @@
 import React from 'react';
 import { getVariant } from '../../core';
 import { Box } from '../Box';
-import { get } from 'styled-system';
-import { ThemeContext } from 'styled-components';
+import { themeGet } from '@styled-system/theme-get';
+import { withTheme } from 'styled-components';
 
 
 export const Text = ({ children, as = 'p', ...rest }) => <Box {...rest} as={as} __css={{
@@ -33,31 +33,32 @@ export const Paragraph = ({
     );
 }
 
-export const Heading = ({
-    children,
-    level = '1',
-    variant = "heading.default",
-    ...rest
-}) => {
-    let variantName = getVariant([variant, 'h'+level]);
-    const theme = React.useContext(ThemeContext);
+export const Heading = withTheme(
+    ({
+        children,
+        level = '1',
+        variant = "heading.default",
+        ...rest
+    }) => {
+        let variantName = getVariant([variant, 'h'+level]);
 
-    // use the extact variant passed in props
-    // if the level specific one is not defined
-    const levelSpecificVariantExists = !!get(theme, variantName);
-    if (!levelSpecificVariantExists)
-        variantName = variant;
+        // use the extact variant passed in props
+        // if the level specific one is not defined
+        const levelSpecificVariantExists = !!themeGet(variantName)(rest);
+        if (!levelSpecificVariantExists)
+            variantName = variant;
 
-    return <Text
-    __css={{
-        fontSize: `heading${level}`,
-        lineHeight: `heading${level}`,
-        mb: "small",
-    }}
-    variant={variantName}
-    {...rest}
-    as={`h${level}`}>{children}</Text>
-}
+        return <Text
+        __css={{
+            fontSize: `heading${level}`,
+            lineHeight: `heading${level}`,
+            mb: "small",
+        }}
+        variant={variantName}
+        {...rest}
+        as={`h${level}`}>{children}</Text>
+    }
+)
 
 
 
