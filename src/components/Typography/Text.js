@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box } from '../Box';
 import { withTheme } from 'styled-components';
+import { themeGet } from '@styled-system/theme-get';
 
 export const Text = ({ children, as = 'p', ...rest }) => <Box {...rest} as={as} __css={{
     fontSize: 'inherit',
@@ -35,10 +36,9 @@ export const Heading = withTheme(
         children,
         level = '1',
         variant = "heading.default",
-        theme,
         ...rest
     }) => {
-        const variantName = typeof theme[variant]['h'+level] !== 'undefined' ? variant + '.h'+level : variant;
+        const variantName = themeGet(variant + '.h'+level)(rest) ? variant + '.h'+level : variant;
 
         return <Text
         __css={{
