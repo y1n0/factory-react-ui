@@ -683,7 +683,7 @@ var cssRegex = /^([+-]?(?:\d+|\d*\.\d+))([a-z]*|%)$/;
 /**
  * Returns a given CSS value minus its unit of measure.
  *
- * @deprecated - stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getUnitAndValue.
+ * @deprecated - stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getValueAndUnit.
  *
  * @example
  * // Styles as object usage
@@ -709,7 +709,7 @@ function stripUnit(value, unitReturn) {
 
   if (unitReturn) {
     // eslint-disable-next-line no-console
-    console.warn("stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getUnitAndValue.");
+    console.warn("stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getValueAndUnit.");
     if (matchedValue) return [parseFloat(value), matchedValue[2]];
     return [value, undefined];
   }
@@ -5934,7 +5934,13 @@ var space = {
   xxxlarge: '64px'
 };
 
-var shadows = ['0 1px 1px 0 rgba(8, 11, 14, 0.1)', '0 3px 3px -1px rgba(8, 11, 14, 0.1)', '0 6px 6px -1px rgba(8, 11, 14, 0.1)', '0 16px 16px -1px rgba(8, 11, 14, 0.1)', '0 32px 40px -1px rgba(8, 11, 14, 0.1)'];
+var shadows = {
+  0: '0 1px 1px 0 rgba(8, 11, 14, 0.1)',
+  1: '0 3px 3px -1px rgba(8, 11, 14, 0.1)',
+  2: '0 6px 6px -1px rgba(8, 11, 14, 0.1)',
+  3: '0 16px 16px -1px rgba(8, 11, 14, 0.1)',
+  4: '0 32px 40px -1px rgba(8, 11, 14, 0.1)'
+};
 
 var sizes = {
   xxxsmall: '2px',
