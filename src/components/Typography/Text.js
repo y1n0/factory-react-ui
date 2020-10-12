@@ -1,5 +1,4 @@
 import React from 'react';
-import { getVariant } from '../../core';
 import { Box } from '../Box';
 import { withTheme } from 'styled-components';
 
