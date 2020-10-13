@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box } from '../Box';
-
+import { withTheme } from 'styled-components';
+import { themeGet } from '@styled-system/theme-get';
 
 export const Text = ({ children, as = 'p', ...rest }) => <Box {...rest} as={as} __css={{
     fontSize: 'inherit',
@@ -30,20 +31,26 @@ export const Paragraph = ({
     );
 }
 
-export const Heading = ({
-    children,
-    level = '1',
-    variant = "heading.default",
-    ...rest
-}) => <Text
-    __css={{
-        fontSize: `heading${level}`,
-        lineHeight: `heading${level}`,
-        mb: "small",
-    }}
-    variant={variant}
-    {...rest}
-    as={`h${level}`}>{children}</Text>
+export const Heading = withTheme(
+    ({
+        children,
+        level = '1',
+        variant = "heading.default",
+        ...rest
+    }) => {
+        const variantName = themeGet(variant + '.h'+level)(rest) ? variant + '.h'+level : variant;
+
+        return <Text
+        __css={{
+            fontSize: `heading${level}`,
+            lineHeight: `heading${level}`,
+            mb: "small",
+        }}
+        variant={variantName}
+        {...rest}
+        as={`h${level}`}>{children}</Text>
+    }
+)
 
 
 
