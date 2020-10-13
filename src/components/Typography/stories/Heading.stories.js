@@ -17,7 +17,7 @@ export const HeadingComponent = () => {
     return (
         <div>
             {levelOption.map((level, index) => {
-                return <Heading level={level}
+                return <Heading key={index} level={level}
                          color={select("color",colorOption, 'black', themeId )}
                          fontFamily={select("fontFamily", fontFamilyOption, 'sans', themeId)}
                 >
