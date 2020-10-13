@@ -3837,7 +3837,7 @@ var Paragraph = function Paragraph(_ref2) {
     variant: variant
   }, rest), children);
 };
-var Heading = function Heading(_ref3) {
+var Heading = styled.withTheme(function (_ref3) {
   var children = _ref3.children,
       _ref3$level = _ref3.level,
       level = _ref3$level === void 0 ? '1' : _ref3$level,
@@ -3845,17 +3845,18 @@ var Heading = function Heading(_ref3) {
       variant = _ref3$variant === void 0 ? "heading.default" : _ref3$variant,
       rest = _objectWithoutPropertiesLoose(_ref3, ["children", "level", "variant"]);
 
+  var variantName = themeGet.themeGet(variant + '.h' + level)(rest) ? variant + '.h' + level : variant;
   return /*#__PURE__*/React__default.createElement(Text, _extends({
     __css: {
       fontSize: "heading" + level,
       lineHeight: "heading" + level,
       mb: "small"
     },
-    variant: variant
+    variant: variantName
   }, rest, {
     as: "h" + level
   }), children);
-};
+});
 
 function _templateObject76() {
   var data = _taggedTemplateLiteralLoose(["\n                position: relative;\n                max-height: none;\n                max-width: none;\n                border-radius: 0;\n                top: 0;\n                bottom: 0;\n                left: 0;\n                right: 0;\n                transform: none;\n                animation: none;\n                height: 100vh;\n                width: 100vw;\n            "]);
