@@ -38,7 +38,7 @@ const SelectIcon = ({ icon }) => {
     </Flex>;
 };
 
-const Select = forwardRef(({ variant, ...props }, ref) => {
+const Select = forwardRef(({ variant, children, options, ...props }, ref) => {
 
     const selectRef = ref || useRef();
 
@@ -72,9 +72,17 @@ const Select = forwardRef(({ variant, ...props }, ref) => {
                     outline: 'none',
                     boxShadow: t => `0 0 0 2px ${t.colors.primary500}`,
                 }
-            }}
-        />
-        <SelectIcon {...props} />
+            }} >
+
+            { options
+                ? Object.entries(options).map( ([option, attrs], i) => (
+                    <option key={i} {...attrs}>{option}</option>
+                ) )
+                : children
+            }
+
+        </Box>
+        <SelectIcon />
 
     </Flex>
 });

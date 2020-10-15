@@ -61,5 +61,6 @@ Select components are used for collecting user provided information from a list 
 
 | props         | Description   | type   | valeur par défaut   |
 |---------------|---------------|--------|---------------------|
+| options       | An object of the form `"{" [ opt1: "{" "value": val1, [ attr: attr_value ].. "}" ].. "}"`. The Object key is used as the option's name, the rest of its sub-keys are set as attributes to the option. In the presense of this prop, the `children` are not rendered. | object of objects with a mandatory `value` key | `undefined` |
 | variant         | La nom ou le chemin de `variant` pour styler  le composant via `Theme Object` | `string`   | `radio`   |
 | Box's props         | Vous pouvez utiliser toutes le proporiétés de `Box`   |    | -   |
