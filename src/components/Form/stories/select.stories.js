@@ -49,7 +49,6 @@ export const UsingOptionsProp = () => {
                     "EL Jadida": {value: "EL Jadida"},
                     "Casablanca": {
                         value: "Casablanca",
-                        selected: true,
                     },
                     "Tanger": {
                         value: "Tanger",
