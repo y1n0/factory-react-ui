@@ -38,14 +38,10 @@ const SelectIcon = ({ icon }) => {
     </Flex>;
 };
 
-const Select = forwardRef(({ variant, ...props }, ref) => {
+const Select = forwardRef(({ variant, children, options, ...props }, ref) => {
 
     const selectRef = ref || useRef();
 
-    const handleOnChange = (ev) => {
-        const value = selectRef.current.value;
-        props.onChange(value);
-    }
     return <Flex {...getMarginProps(props)} {...getLayoutProps(props)} __css={{ width: 'fit-content',
     position: 'relative' }}>
         <Box
@@ -53,7 +49,6 @@ const Select = forwardRef(({ variant, ...props }, ref) => {
             as='select'
             variant={`select${variant ? '.' + variant : ''}`}
             {...omitMarginProps(props)}
-            onChange={handleOnChange}
             __css={{
                 display: 'block',
                 width: 'auto',
@@ -72,9 +67,17 @@ const Select = forwardRef(({ variant, ...props }, ref) => {
                     outline: 'none',
                     boxShadow: t => `0 0 0 2px ${t.colors.primary500}`,
                 }
-            }}
-        />
-        <SelectIcon {...props} />
+            }} >
+
+            { options
+                ? Object.entries(options).map( ([option, attrs], i) => (
+                    <option key={i} {...attrs}>{option}</option>
+                ) )
+                : children
+            }
+
+        </Box>
+        <SelectIcon />
 
     </Flex>
 });

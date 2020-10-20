@@ -36,6 +36,29 @@ export const DefaultSelect = () => {
         </Box>);
 }
 
+export const UsingOptionsProp = () => {
+    return (
+        <Box p="medium">
+            <Label alignItems="center">Villes</Label>
+            <Select
+                id='ville'
+                name='ville'
+                mt="small"
+                options={{
+                    "Agadir": {value: "Agadir"},
+                    "EL Jadida": {value: "EL Jadida"},
+                    "Casablanca": {
+                        value: "Casablanca",
+                    },
+                    "Tanger": {
+                        value: "Tanger",
+                        disabled: true,
+                    },
+                }}
+                />
+        </Box>);
+}
+
 export const CustomDownarrow = () => {
     return (
         <Box p="medium">
