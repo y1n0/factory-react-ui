@@ -1,5 +1,9 @@
 import React from 'react';
-import { withKnobs, text, select } from "@storybook/addon-knobs";
+import deepmerge from 'deepmerge';
+import {ThemeProvider} from 'styled-components';
+import { withKnobs, text, select, boolean } from "@storybook/addon-knobs";
+import {DirectionManager} from "../../../core/dir-manager";
+import {vactoryTheme} from "../../../theme";
 import {
     fontFamilyOption,
     colorOption,
@@ -7,9 +11,19 @@ import {
 } from './knobes-options.storybook';
 import {Heading} from '../Text';
 
-const customText = "Heading";
+const customThem = {
+    fonts: {
+        sans: 'Cairo',
+        serif: 'Cairo',
+        monospace: 'Cairo',
+        montserrat: "Cairo"
+    }
+};
 
-const levelOption = [1,2,3,4,5,6];
+const customText = "Heading";
+const levelOption = [1, 2, 3, 4, 5, 6];
+const groupRtl = "Version arabe";
+const activeRtl = true;
 
 
 export const HeadingComponent = () => {
@@ -25,6 +39,28 @@ export const HeadingComponent = () => {
                 </Heading>
             })}
         </div>
+    );
+}
+
+export const HeadingComponentArabe = () => {
+    const rtl = boolean('Activer RTl', activeRtl, groupRtl)
+    const theme = rtl ? deepmerge.all([vactoryTheme, customThem]) : vactoryTheme;
+
+    return (
+        <ThemeProvider theme={theme}>
+            <DirectionManager dir={rtl ? 'rtl' : 'ltr'}>
+                <div>
+                    {levelOption.map((level, index) => {
+                        return <Heading key={index} level={level}
+                                        color={select("color", colorOption, 'black', themeId)}
+                                        fontFamily={select("fontFamily", fontFamilyOption, 'sans', themeId)}
+                        >
+                            {text("text", customText)}
+                        </Heading>
+                    })}
+                </div>
+            </DirectionManager>
+        </ThemeProvider>
     );
 }
 

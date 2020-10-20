@@ -39,13 +39,7 @@ export const Heading = withTheme(
         ...rest
     }) => {
         const variantName = themeGet(variant + '.h'+level)(rest) ? variant + '.h'+level : variant;
-
         return <Text
-        __css={{
-            fontSize: `heading${level}`,
-            lineHeight: `heading${level}`,
-            mb: "small",
-        }}
         variant={variantName}
         {...rest}
         as={`h${level}`}>{children}</Text>
