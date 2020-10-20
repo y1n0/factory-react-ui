@@ -19,12 +19,7 @@ export const Paragraph = ({
 }) => {
 
     return (
-        <Text __css={{
-            fontSize: "paragraph",
-            lineHeight: "paragraph",
-            mb: "xsmall",
-        }}
-        variant={variant}
+        <Text variant={variant}
             {...rest}>
             {children}
         </Text>

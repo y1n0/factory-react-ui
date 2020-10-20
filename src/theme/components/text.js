@@ -1,36 +1,36 @@
 
-
+// @todo: thinking if we can add value in object fontSizes/lineHeights for paragraphMobile, heading1Mobile heading2Mobile...
 export const heading = {
     default: {
         color: 'black500',
         h1: {
-            fontSize: ["28px", null, "50px", '60px', '70px'],
-            lineHeight: ['28', "37px", "54px"],
+            fontSize: ["28px", null, "50px", 'heading1', 'heading1'],
+            lineHeight: ['28', "37px", "heading1"],
             marginBottom: ['15px', null, '20px'],
         },
         h2: {
-            fontSize: ["22px", null, "40px"],
-            lineHeight: ['27px', null, "46px"],
+            fontSize: ["22px", null, "heading2"],
+            lineHeight: ['27px', null, "heading2"],
             marginBottom: ['15px', null, '20px'],
         },
         h3: {
-            fontSize: ["18px", null, "30px"],
-            lineHeight: ['27px', null, "41px"],
+            fontSize: ["18px", null, "heading3"],
+            lineHeight: ['27px', null, "heading3"],
             marginBottom: ['15px', null, '20px'],
         },
         h4: {
-            fontSize: ["18px", null, "20px"],
-            lineHeight: ['21px', null, "28px"],
+            fontSize: ["18px", null, "heading4"],
+            lineHeight: ['21px', null, "heading4"],
             marginBottom: ['15px', null, '20px'],
         },
         h5: {
-            fontSize: ["16px", null, "18px"],
-            lineHeight: ['19px', null, "21px"],
+            fontSize: ["16px", null, "heading5"],
+            lineHeight: ['19px', null, "heading5"],
             marginBottom: ['15px', null, '20px'],
         },
         h6: {
-            fontSize: ["16px", null, "18px"],
-            lineHeight: ['20px', null, "24px"],
+            fontSize: ["16px", null, "heading6"],
+            lineHeight: ['20px', null, "heading6"],
             marginBottom: ['15px', null, '20px'],
         },
     },
@@ -39,8 +39,9 @@ export const heading = {
 
 export const paragraph = {
     default: {
-        fontSize: ['15px', '15px', '18px'],
-        lineHeight: '40px',
+        fontSize: ['15px', null, 'paragraph'],
+        lineHeight: 'paragraph',
+        marginBottom: 'xsmall',
     },
 }
 
