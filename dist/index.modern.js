@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useLayoutEffect, useRef, forwardRef, Children, cloneElement, Fragment as Fragment$1, useMemo } from 'react';
-import styled, { ThemeContext, ThemeProvider, StyleSheetManager, css, createGlobalStyle, keyframes } from 'styled-components';
+import styled, { ThemeContext, ThemeProvider, StyleSheetManager, css, createGlobalStyle, withTheme, keyframes } from 'styled-components';
 import { get, space as space$1, margin, size, layout, compose, color, flexbox, border, typography, boxShadow, variant as variant$1, buttonStyle, width, height as height$1, display, background, position, shadow, padding } from 'styled-system';
 import shouldForwardProp, { props } from '@styled-system/should-forward-prop';
 import deepmerge from 'deepmerge';
@@ -683,7 +683,7 @@ var cssRegex = /^([+-]?(?:\d+|\d*\.\d+))([a-z]*|%)$/;
 /**
  * Returns a given CSS value minus its unit of measure.
  *
- * @deprecated - stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getUnitAndValue.
+ * @deprecated - stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getValueAndUnit.
  *
  * @example
  * // Styles as object usage
@@ -709,7 +709,7 @@ function stripUnit(value, unitReturn) {
 
   if (unitReturn) {
     // eslint-disable-next-line no-console
-    console.warn("stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getUnitAndValue.");
+    console.warn("stripUnit's unitReturn functionality has been marked for deprecation in polished 4.0. It's functionality has been been moved to getValueAndUnit.");
     if (matchedValue) return [parseFloat(value), matchedValue[2]];
     return [value, undefined];
   }
@@ -3077,15 +3077,11 @@ var SelectIcon = function SelectIcon(_ref2) {
 
 var Select = forwardRef(function (_ref3, ref) {
   var variant = _ref3.variant,
-      props = _objectWithoutPropertiesLoose(_ref3, ["variant"]);
+      children = _ref3.children,
+      options = _ref3.options,
+      props = _objectWithoutPropertiesLoose(_ref3, ["variant", "children", "options"]);
 
   var selectRef = ref || useRef();
-
-  var handleOnChange = function handleOnChange(ev) {
-    var value = selectRef.current.value;
-    props.onChange(value);
-  };
-
   return /*#__PURE__*/React.createElement(Flex, _extends({}, getMarginProps(props), getLayoutProps(props), {
     __css: {
       width: 'fit-content',
@@ -3096,7 +3092,6 @@ var Select = forwardRef(function (_ref3, ref) {
     as: "select",
     variant: "select" + (variant ? '.' + variant : '')
   }, omitMarginProps(props), {
-    onChange: handleOnChange,
     __css: {
       display: 'block',
       width: 'auto',
@@ -3118,12 +3113,18 @@ var Select = forwardRef(function (_ref3, ref) {
         }
       }
     }
-  })), /*#__PURE__*/React.createElement(SelectIcon, props));
+  }), options ? Object.entries(options).map(function (_ref4, i) {
+    var option = _ref4[0],
+        attrs = _ref4[1];
+    return /*#__PURE__*/React.createElement("option", _extends({
+      key: i
+    }, attrs), option);
+  }) : children), /*#__PURE__*/React.createElement(SelectIcon, null));
 });
 
-Select.Option = function (_ref4) {
-  var children = _ref4.children,
-      props = _objectWithoutPropertiesLoose(_ref4, ["children"]);
+Select.Option = function (_ref5) {
+  var children = _ref5.children,
+      props = _objectWithoutPropertiesLoose(_ref5, ["children"]);
 
   return /*#__PURE__*/React.createElement("option", props, children);
 };
@@ -3830,7 +3831,7 @@ var Paragraph = function Paragraph(_ref2) {
     variant: variant
   }, rest), children);
 };
-var Heading = function Heading(_ref3) {
+var Heading = withTheme(function (_ref3) {
   var children = _ref3.children,
       _ref3$level = _ref3.level,
       level = _ref3$level === void 0 ? '1' : _ref3$level,
@@ -3838,17 +3839,18 @@ var Heading = function Heading(_ref3) {
       variant = _ref3$variant === void 0 ? "heading.default" : _ref3$variant,
       rest = _objectWithoutPropertiesLoose(_ref3, ["children", "level", "variant"]);
 
+  var variantName = themeGet(variant + '.h' + level)(rest) ? variant + '.h' + level : variant;
   return /*#__PURE__*/React.createElement(Text, _extends({
     __css: {
       fontSize: "heading" + level,
       lineHeight: "heading" + level,
       mb: "small"
     },
-    variant: variant
+    variant: variantName
   }, rest, {
     as: "h" + level
   }), children);
-};
+});
 
 function _templateObject76() {
   var data = _taggedTemplateLiteralLoose(["\n                position: relative;\n                max-height: none;\n                max-width: none;\n                border-radius: 0;\n                top: 0;\n                bottom: 0;\n                left: 0;\n                right: 0;\n                transform: none;\n                animation: none;\n                height: 100vh;\n                width: 100vw;\n            "]);
@@ -5934,7 +5936,13 @@ var space = {
   xxxlarge: '64px'
 };
 
-var shadows = ['0 1px 1px 0 rgba(8, 11, 14, 0.1)', '0 3px 3px -1px rgba(8, 11, 14, 0.1)', '0 6px 6px -1px rgba(8, 11, 14, 0.1)', '0 16px 16px -1px rgba(8, 11, 14, 0.1)', '0 32px 40px -1px rgba(8, 11, 14, 0.1)'];
+var shadows = {
+  0: '0 1px 1px 0 rgba(8, 11, 14, 0.1)',
+  1: '0 3px 3px -1px rgba(8, 11, 14, 0.1)',
+  2: '0 6px 6px -1px rgba(8, 11, 14, 0.1)',
+  3: '0 16px 16px -1px rgba(8, 11, 14, 0.1)',
+  4: '0 32px 40px -1px rgba(8, 11, 14, 0.1)'
+};
 
 var sizes = {
   xxxsmall: '2px',
