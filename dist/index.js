@@ -3084,15 +3084,11 @@ var SelectIcon = function SelectIcon(_ref2) {
 
 var Select = React.forwardRef(function (_ref3, ref) {
   var variant = _ref3.variant,
-      props = _objectWithoutPropertiesLoose(_ref3, ["variant"]);
+      children = _ref3.children,
+      options = _ref3.options,
+      props = _objectWithoutPropertiesLoose(_ref3, ["variant", "children", "options"]);
 
   var selectRef = ref || React.useRef();
-
-  var handleOnChange = function handleOnChange(ev) {
-    var value = selectRef.current.value;
-    props.onChange(value);
-  };
-
   return /*#__PURE__*/React__default.createElement(Flex, _extends({}, getMarginProps(props), getLayoutProps(props), {
     __css: {
       width: 'fit-content',
@@ -3103,7 +3099,6 @@ var Select = React.forwardRef(function (_ref3, ref) {
     as: "select",
     variant: "select" + (variant ? '.' + variant : '')
   }, omitMarginProps(props), {
-    onChange: handleOnChange,
     __css: {
       display: 'block',
       width: 'auto',
@@ -3125,12 +3120,18 @@ var Select = React.forwardRef(function (_ref3, ref) {
         }
       }
     }
-  })), /*#__PURE__*/React__default.createElement(SelectIcon, props));
+  }), options ? Object.entries(options).map(function (_ref4, i) {
+    var option = _ref4[0],
+        attrs = _ref4[1];
+    return /*#__PURE__*/React__default.createElement("option", _extends({
+      key: i
+    }, attrs), option);
+  }) : children), /*#__PURE__*/React__default.createElement(SelectIcon, null));
 });
 
-Select.Option = function (_ref4) {
-  var children = _ref4.children,
-      props = _objectWithoutPropertiesLoose(_ref4, ["children"]);
+Select.Option = function (_ref5) {
+  var children = _ref5.children,
+      props = _objectWithoutPropertiesLoose(_ref5, ["children"]);
 
   return /*#__PURE__*/React__default.createElement("option", props, children);
 };
