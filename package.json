@@ -1,7 +1,6 @@
 {
   "name": "vactory-ui",
   "version": "0.1.1",
-  "private": true,
   "main": "dist/index.js",
   "module": "dist/index.modern.js",
   "source": "src/index.js",
