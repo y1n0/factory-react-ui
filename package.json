@@ -5,6 +5,7 @@
   "module": "dist/index.modern.js",
   "source": "src/index.js",
   "author": "void.fr",
+  "license": "Apache-2.0",
   "dependencies": {
     "@styled-system/css": "^5.1.5",
     "@styled-system/prop-types": "^5.1.5",
