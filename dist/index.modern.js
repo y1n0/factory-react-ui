@@ -3823,11 +3823,6 @@ var Paragraph = function Paragraph(_ref2) {
       rest = _objectWithoutPropertiesLoose(_ref2, ["children", "variant"]);
 
   return /*#__PURE__*/React.createElement(Text, _extends({
-    __css: {
-      fontSize: "paragraph",
-      lineHeight: "paragraph",
-      mb: "xsmall"
-    },
     variant: variant
   }, rest), children);
 };
@@ -3841,11 +3836,6 @@ var Heading = withTheme(function (_ref3) {
 
   var variantName = themeGet(variant + '.h' + level)(rest) ? variant + '.h' + level : variant;
   return /*#__PURE__*/React.createElement(Text, _extends({
-    __css: {
-      fontSize: "heading" + level,
-      lineHeight: "heading" + level,
-      mb: "small"
-    },
     variant: variantName
   }, rest, {
     as: "h" + level
@@ -6668,7 +6658,44 @@ var navs = {
 
 var heading = {
   "default": {
-    color: 'black500'
+    color: 'black500',
+    h1: {
+      fontSize: ["28px", null, "50px", 'heading1', 'heading1'],
+      lineHeight: ['28', "37px", "heading1"],
+      marginBottom: ['15px', null, '20px']
+    },
+    h2: {
+      fontSize: ["22px", null, "heading2"],
+      lineHeight: ['27px', null, "heading2"],
+      marginBottom: ['15px', null, '20px']
+    },
+    h3: {
+      fontSize: ["18px", null, "heading3"],
+      lineHeight: ['27px', null, "heading3"],
+      marginBottom: ['15px', null, '20px']
+    },
+    h4: {
+      fontSize: ["18px", null, "heading4"],
+      lineHeight: ['21px', null, "heading4"],
+      marginBottom: ['15px', null, '20px']
+    },
+    h5: {
+      fontSize: ["16px", null, "heading5"],
+      lineHeight: ['19px', null, "heading5"],
+      marginBottom: ['15px', null, '20px']
+    },
+    h6: {
+      fontSize: ["16px", null, "heading6"],
+      lineHeight: ['20px', null, "heading6"],
+      marginBottom: ['15px', null, '20px']
+    }
+  }
+};
+var paragraph = {
+  "default": {
+    fontSize: ['15px', null, 'paragraph'],
+    lineHeight: 'paragraph',
+    marginBottom: 'xsmall'
   }
 };
 
@@ -6720,6 +6747,7 @@ var componentsTheme = {
   breadcrumb: breadcrumb,
   navs: navs,
   heading: heading,
+  paragraph: paragraph,
   searchOverlay: searchOverlay
 };
 var theme = _extends(_extends({}, baseTheme), componentsTheme);
