@@ -23,7 +23,7 @@ import tabs from './components/tabs';
 import accordion from './components/accordion';
 import breadcrumb from './components/breadcrumb';
 import navs from './components/navs';
-import {heading} from './components/text';
+import {heading, paragraph} from './components/text';
 import {searchOverlay} from './components/search-overlay';
 
 const baseTheme = {
@@ -57,6 +57,7 @@ const componentsTheme = {
     breadcrumb,
     navs,
     heading,
+    paragraph,
     searchOverlay,
 
 }

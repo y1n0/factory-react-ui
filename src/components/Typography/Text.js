@@ -19,12 +19,7 @@ export const Paragraph = ({
 }) => {
 
     return (
-        <Text __css={{
-            fontSize: "paragraph",
-            lineHeight: "paragraph",
-            mb: "xsmall",
-        }}
-        variant={variant}
+        <Text variant={variant}
             {...rest}>
             {children}
         </Text>
@@ -39,13 +34,7 @@ export const Heading = withTheme(
         ...rest
     }) => {
         const variantName = themeGet(variant + '.h'+level)(rest) ? variant + '.h'+level : variant;
-
         return <Text
-        __css={{
-            fontSize: `heading${level}`,
-            lineHeight: `heading${level}`,
-            mb: "small",
-        }}
         variant={variantName}
         {...rest}
         as={`h${level}`}>{children}</Text>
