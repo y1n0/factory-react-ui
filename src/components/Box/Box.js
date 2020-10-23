@@ -7,6 +7,7 @@ import {
   flexbox,
   border,
   compose,
+  position,
   typography } from 'styled-system';
 import shouldForwardProp from '@styled-system/should-forward-prop';
 import { variant, base, sx } from '../../core';
@@ -28,7 +29,8 @@ export const Box = styled('div', {shouldForwardProp})(
     flexbox,
     border,
     typography,
-    boxShadow 
+    boxShadow,
+    position
     ),
   variant,
 );
