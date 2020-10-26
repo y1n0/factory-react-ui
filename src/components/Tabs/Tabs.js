@@ -54,7 +54,7 @@ export const Tabs = forwardRef(({
        if(showBar){
                 animateInkBar(activeKey);
        }
-    }, [activeKey, showBar])
+    })
 
     const handleClickTab = key => {
         headerAnimationCtrls.start('active');

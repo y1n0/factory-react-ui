@@ -1,9 +1,5 @@
 import React from 'react';
-import {Flex} from '../Box'
+import {Box} from '../Box'
 
 
-export const Label = ({children, variant, ...props}) => {
-    return <Flex as="label" {...props} variant={variant}>
-        {children}
-    </Flex>
-}
+export const Label = (props) => <Box as="label" {...props} />

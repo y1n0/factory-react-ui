@@ -5,35 +5,9 @@ import { color, typography, background, border, position, shadow, variant as Sty
 import { sx, variant, getLayoutProps, getMarginProps } from "../../core";
 import { Flex } from '../Box';
 
-const variantVariants = StyledVariant({
-    scale: 'inputs.variants',
-    prop: 'variant',
-    variants: {
-        primary: {
-
-        }
-    }
-});
-const variantStatus = StyledVariant({
-    scale: 'inputs.status',
-    prop: 'status',
-    variants: {
-        primary: {
-
-        }
-    }
-});
-
-const variantSizes = StyledVariant({
-    scale: 'inputs.sizes',
-    prop: 'size',
-    variants: {
-        medium: {
-            padding: 'xsmall',
-            fontSize: '16px',
-            lineHeight: '24px'
-        }
-    }
+const variantState = StyledVariant({
+    scale: 'inputs.states',
+    prop: 'state',
 });
 
 
@@ -52,11 +26,7 @@ const StyledInput = styled.input`
         box-shadow: 0 0 0 2px;
     }
 
-    ${variantVariants}
-    ${variantStatus}
-    ${variantSizes}
-
-
+    ${variantState}
     ${variant}
     ${sx}
     ${compose(
@@ -76,11 +46,10 @@ const StyledInput = styled.input`
 StyledInput.defaultProps = {
     type: 'text',
     variant: 'default',
-    size: 'medium'
 }
 
 
-export const Input  = React.forwardRef(({as,size,reverse,  ...props}, ref) => {
+export const Input  = React.forwardRef(({as ,reverse,  ...props}, ref) => {
 
 
     return (
@@ -105,7 +74,7 @@ export const Input  = React.forwardRef(({as,size,reverse,  ...props}, ref) => {
                         {props.icon}
                     </Flex>
             }
-            <StyledInput as={as} reverse={reverse} size={size} {...props} ref={ref} />
+            <StyledInput as={as} reverse={reverse} {...props} ref={ref} />
         </Flex>
 
     );
@@ -115,7 +84,6 @@ Input.defaultProps = {
     as: 'input',
     type: 'text',
     variant: 'default',
-    size: 'medium'
 }
 
 

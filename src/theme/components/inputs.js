@@ -76,7 +76,7 @@ const inputs = {
             }
         }
     },
-    status: {
+    states: {
         primary: {
             borderColor: 'primary500',
             ':hover,:active': {
@@ -128,42 +128,6 @@ const inputs = {
             }
         }
     },
-
-    sizes: {
-        small: {
-            paddingY: 'xxsmall',
-            paddingX: 'xsmall',
-            fontSize: '14px',
-            lineHeight: '20px'
-
-        },
-        medium: {
-            paddingY: 'xsmall',
-            paddingX: 'xsmall',
-            fontSize: '16px',
-            lineHeight: '24px'
-        },
-        large: {
-            paddingY: 'small',
-            paddingX: 'small',
-            fontSize: '18px',
-            lineHeight: '26px'
-        },
-        dam: {
-            
-            paddingX: '14px',
-            fontSize: '16px',
-            lineHeight: '30px',
-        },
-        awb: {
-            padding: '7px 25px',
-            fontSize: '18px',
-            lineHeight: '1.33337',
-            fontWeight: 700,
-            height: '60px',
-            width: '100%'
-        }
-    }
 };
 
 
