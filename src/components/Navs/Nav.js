@@ -14,6 +14,12 @@ export const Nav = React.forwardRef(({
     ...rest
 }, ref) => {
 
+    console.warn("Deprecation Warning: this component should no longer be used. ",
+                 "Use the List/Item Instead");
+    console.groupCollapsed("View warning trace");
+    console.trace("The above warning was raised in: ");
+    console.groupEnd();
+
     return (
         <Box
             as={as}

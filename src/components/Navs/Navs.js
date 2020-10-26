@@ -10,6 +10,12 @@ export const Navs = forwardRef(({
     ...rest
 }, ref)=> {
 
+    console.warn("Deprecation Warning: this component should no longer be used. ",
+                 "Use the List/Item instead");
+    console.groupCollapsed("View warning trace");
+    console.trace("The above warning was raised in: ");
+    console.groupEnd();
+
     const navs = Children.toArray(children)
                           .filter(child => child)
                           .map((child, index) => {
