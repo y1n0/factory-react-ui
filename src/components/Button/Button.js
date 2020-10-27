@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { flexbox, color, space, typography, compose, background, position, shadow, border, variant as StyledVariant, buttonStyle, width, height, display } from "styled-system";
-import { sx, variant } from "../../core";
+import { sx, base, variant } from "../../core";
 
 
 const fillVariants = StyledVariant({
@@ -53,6 +53,7 @@ const outlineVariants = StyledVariant({
     ${outlineVariants}
     ${sizeVariants}
     ${variant}
+    ${base}
     ${sx}
     ${compose(
         width,
