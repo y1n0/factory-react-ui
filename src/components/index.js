@@ -15,6 +15,7 @@ export * from './Navs';
 export * from './Pagination';
 export * from './Tabs';
 export * from './Typography';
+export * from './List';
 export * from './Layer';
 export * from './Animation';
 export * from './Slider';
