@@ -1,5 +1,5 @@
 import React from 'react';
-import { withKnobs } from "@storybook/addon-knobs";
+import { withKnobs, boolean } from "@storybook/addon-knobs";
 import { Box } from '../../Box';
 
 import Button from '../Button';
@@ -159,6 +159,19 @@ export const AsLink = () => {
     );
 }
 
+export const Stretch = () => <Box>
+    <Box sx={{
+        position:"relative",
+        width: 300,
+        height: 300,
+        bg: 'rgba(0,0,0,.1)',
+        textAlign: 'center'
+    }}>
+        <h2>this is area in now {boolean('toggle stretch') ? '' : 'un'}clickable</h2>
+
+        <Button mt={100} stretch={boolean('toggle stretch')}>Hover Or Click</Button>
+    </Box>
+</Box>
 
 export default {
     title: 'Primitives/Button',
