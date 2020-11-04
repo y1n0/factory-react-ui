@@ -33,7 +33,7 @@ const CheckboxIcon = ({iconName ,checkedIconName, uncheckedIconName, size =  '24
                 {...props}
                 __css={{
                     display: 'none',
-                    'input:checked ~ &': {
+                    'input:checked ~ &&': {
                         display: 'block',
                     }
                 }} /> :
@@ -42,7 +42,7 @@ const CheckboxIcon = ({iconName ,checkedIconName, uncheckedIconName, size =  '24
                     {...props}
                     __css={{
                         display: 'none',
-                        'input:checked ~ &': {
+                        'input:checked ~ &&': {
                             display: 'block',
                         }
                     }}
@@ -54,7 +54,7 @@ const CheckboxIcon = ({iconName ,checkedIconName, uncheckedIconName, size =  '24
                 {...props}
                 __css={{
                     display: 'block',
-                    'input:checked ~ &': {
+                    'input:checked ~ &&': {
                         display: 'none',
                     }
                 }}
@@ -64,7 +64,7 @@ const CheckboxIcon = ({iconName ,checkedIconName, uncheckedIconName, size =  '24
                     {...props}
                     __css={{
                         display: 'block',
-                        'input:checked ~ &': {
+                        'input:checked ~ &&': {
                             display: 'none',
                         }
                     }}
@@ -116,13 +116,13 @@ export const Checkbox = forwardRef(({
                     mr: 'small',
                     borderRadius: 4,
                     color: 'gray500',
-                    'input:checked ~ &': {
+                    'input:checked ~ &&': {
                         color: 'primary500',
                     },
-                    'input:focus ~ &': {
+                    'input:focus ~ &&': {
                         bg: 'primary100',
                     },
-                    'input:disabled ~ &': {
+                    'input:disabled ~ &&': {
                         bg: 'gray300',
                         color: 'gray200',
                     }
