@@ -56,7 +56,7 @@ const RadioIcon = ({iconName ,checkedIconName, uncheckedIconName, size =  '24px'
                 {...props}
                 __css={{
                     display: 'none',
-                    'input:checked ~ &': {
+                    'input:checked ~ &&': {
                         display: 'block',
                     }
                 }} /> :
@@ -65,7 +65,7 @@ const RadioIcon = ({iconName ,checkedIconName, uncheckedIconName, size =  '24px'
                     {...props}
                     __css={{
                         display: 'none',
-                        'input:checked ~ &': {
+                        'input:checked ~ &&': {
                             display: 'block',
                         }
                     }}
@@ -77,7 +77,7 @@ const RadioIcon = ({iconName ,checkedIconName, uncheckedIconName, size =  '24px'
                 {...props}
                 __css={{
                     display: 'block',
-                    'input:checked ~ &': {
+                    'input:checked ~ &&': {
                         display: 'none',
                     }
                 }}
@@ -87,7 +87,7 @@ const RadioIcon = ({iconName ,checkedIconName, uncheckedIconName, size =  '24px'
                     {...props}
                     __css={{
                         display: 'block',
-                        'input:checked ~ &': {
+                        'input:checked ~ &&': {
                             display: 'none',
                         }
                     }}
@@ -132,13 +132,13 @@ export const Radio = forwardRef(({
                     mr: 'small',
                     borderRadius: 9999,
                     color: 'gray500',
-                    'input:checked ~ &': {
+                    'input:checked ~ &&': {
                         color: 'primary500',
                     },
-                    'input:focus ~ &': {
+                    'input:focus ~ &&': {
                         bg: 'primary100',
                     },
-                    'input:disabled ~ &': {
+                    'input:disabled ~ &&': {
                             bg: 'gray300',
                         color: 'gray200',
                     }

@@ -2,6 +2,8 @@ import React from 'react';
 import { Box, Flex } from '../../Box';
 import { Image } from '../../Image';
 import { Container, Row, Col } from '../../Grid';
+import { Link } from '../../Button';
+import { withKnobs, boolean } from "@storybook/addon-knobs";
 import CardImage from './img1.jpg';
 
 const CapitalCardTitle = ({ sx, children, ...rest }) => {
@@ -153,7 +155,7 @@ export const Layout = () => {
                     return (
                         <Col xs={12} sm={6} md={4} marginBottom="16px">
                             <Box height="100%" pb="16px">
-                                <Card height="100%">
+                                <Card sx={{position: 'relative'}} height="100%">
 
                                     <CardBody>
                                         <Image src={CardImage} />
@@ -165,7 +167,7 @@ export const Layout = () => {
                                             <CapitalCardTitle>{article.title}</CapitalCardTitle>
                                         </Box>
                                         <Box p="medium">
-                                            <CapitalCardButton>lire plus</CapitalCardButton>
+                                            <Link stretch={boolean("stretch link")}>lire plus</Link>
                                         </Box>
                                     </CardBody>
 
@@ -242,4 +244,5 @@ export const Inline= () => {
 
 export default {
     title: 'Components/Card',
+    decorators: [withKnobs],
 };

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { flexbox, color, space, typography, compose, background, position, shadow, border, variant as StyledVariant, buttonStyle, width, height, display } from "styled-system";
-import { sx, variant } from "../../core";
+import { sx, base, variant } from "../../core";
 
 
 const fillVariants = StyledVariant({
@@ -47,12 +47,27 @@ const outlineVariants = StyledVariant({
     text-transform: none;
     border-style: solid;
 
+    ${ ({stretch}) => stretch && {
+            '&::after': {
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0,
+                zIndex: 1,
+                pointerEvents: 'auto',
+                content: '""',
+                backgroundColor: '#0000',
+            },
+        }
+    }
     
     ${buttonStyle}
     ${fillVariants}
     ${outlineVariants}
     ${sizeVariants}
     ${variant}
+    ${base}
     ${sx}
     ${compose(
         width,
