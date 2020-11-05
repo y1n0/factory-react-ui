@@ -2737,7 +2737,7 @@ var CheckboxIcon = function CheckboxIcon(_ref2) {
       size = _ref2$size === void 0 ? '24px' : _ref2$size,
       props = _objectWithoutPropertiesLoose(_ref2, ["iconName", "checkedIconName", "uncheckedIconName", "size"]);
 
-  return /*#__PURE__*/React.createElement(Fragment, null, iconName || checkedIconName ? /*#__PURE__*/React.createElement(Icon, _extends({
+  return /*#__PURE__*/React.createElement(React.Fragment, null, iconName || checkedIconName ? /*#__PURE__*/React.createElement(Icon, _extends({
     size: size,
     name: iconName || checkedIconName
   }, props, {
@@ -2970,7 +2970,7 @@ var RadioIcon = function RadioIcon(_ref2) {
       size = _ref2$size === void 0 ? '24px' : _ref2$size,
       props = _objectWithoutPropertiesLoose(_ref2, ["iconName", "checkedIconName", "uncheckedIconName", "size"]);
 
-  return /*#__PURE__*/React.createElement(Fragment, null, iconName || checkedIconName ? /*#__PURE__*/React.createElement(Icon, _extends({
+  return /*#__PURE__*/React.createElement(React.Fragment, null, iconName || checkedIconName ? /*#__PURE__*/React.createElement(Icon, _extends({
     size: size,
     name: iconName || checkedIconName
   }, props, {
