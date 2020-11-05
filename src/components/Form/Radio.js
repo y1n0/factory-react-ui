@@ -49,7 +49,7 @@ const RadioUnchecked = props =>
 
 const RadioIcon = ({iconName ,checkedIconName, uncheckedIconName, size =  '24px' , ...props }) =>
 { 
-    return (<>
+    return (<React.Fragment>
         {
             (iconName || checkedIconName) ? <Icon size={size}
                 name={iconName || checkedIconName}
@@ -97,7 +97,7 @@ const RadioIcon = ({iconName ,checkedIconName, uncheckedIconName, size =  '24px'
 
 
 
-    </>)}
+    </React.Fragment>)}
     
 
 

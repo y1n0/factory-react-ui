@@ -26,7 +26,7 @@ const CheckboxUnchecked = props =>
 
 const CheckboxIcon = ({iconName ,checkedIconName, uncheckedIconName, size =  '24px' , ...props }) =>
 { 
-    return (<>
+    return (<React.Fragment>
         {
             (iconName || checkedIconName) ? <Icon size={size}
                 name={iconName || checkedIconName}
@@ -74,7 +74,7 @@ const CheckboxIcon = ({iconName ,checkedIconName, uncheckedIconName, size =  '24
 
 
 
-    </>)}
+    </React.Fragment>)}
 
 
 

@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.0.5 (2020-11-05)
+
+### Bug Fixes
+
+* **components:** Use React.Fragment instead of <> ([daa2f83](https://github.com/voidagency/factory-react-ui/commit/daa2f83f40c36d547e057cf6a8ebf441b7982879))
+
+
 # 1.0.4 (2020-11-05)
 
 ### Bug Fixes
