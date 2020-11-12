@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { css } from "@styled-system/css";
 import { flexbox, color, space, typography, compose, background, position, shadow, border, variant as StyledVariant, buttonStyle, width, height, display } from "styled-system";
 import { sx, base, variant } from "../../core";
 
@@ -46,6 +47,9 @@ const outlineVariants = StyledVariant({
     overflow: visible;
     text-transform: none;
     border-style: solid;
+    ${css({
+        borderRadius: 'small'
+    })}
 
     ${ ({stretch}) => stretch && {
             '&::after': {
@@ -94,6 +98,5 @@ const outlineVariants = StyledVariant({
 Button.defaultProps = {
     fill: 'primary',
     size: 'medium',
-    borderRadius: 'small'
 }
 export default Button;
