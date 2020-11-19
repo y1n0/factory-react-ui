@@ -14,7 +14,7 @@ export const BreadcrumbItem = React.forwardRef(({
 }, ref) => {
     
     return (
-        <Box
+        <Box.WithoutConfig
             className={`vf-breadcrumb__item ${active && 'vf-breadcrumb__item--active'}`}
             as={as}
             ref={ref}
@@ -32,7 +32,7 @@ export const BreadcrumbItem = React.forwardRef(({
             {...rest}
         >
             {children}
-        </Box>
+        </Box.WithoutConfig>
     );
 
 

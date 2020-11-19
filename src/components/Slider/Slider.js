@@ -183,7 +183,7 @@ export const appendDots = dots => <Box
 
 export const Slider = React.forwardRef(({children, ...rest}, ref) => {
     return (<SliderWrapper>
-        <Box    ref={ref}
+        <Box.WithoutConfig ref={ref}
                 as={SlickSlider}
                 __css={{
                     '& .slick-slide': {
@@ -192,7 +192,7 @@ export const Slider = React.forwardRef(({children, ...rest}, ref) => {
                     }}
                 {...rest}>
             {children}
-        </Box>
+        </Box.WithoutConfig>
     </SliderWrapper>)
 });
 

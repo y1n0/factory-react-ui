@@ -109,7 +109,7 @@ export const Pagination = ({
 }) => {
     const theme = useContext(ThemeContext);
     return (
-        <Box __css={{
+        <Box.WithoutConfig __css={{
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',

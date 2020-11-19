@@ -35,7 +35,7 @@ const StyledContainer = styled.div`
 `;
 
 const Container = ({fluid = false, ...rest}) => {
-    return <Box as={StyledContainer}  fluid={fluid} {...rest} />
+    return <Box.WithoutConfig as={StyledContainer}  fluid={fluid} {...rest} />
 }
 
 Container.defaultProps = {

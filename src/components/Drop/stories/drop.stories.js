@@ -9,7 +9,7 @@ export const DropButton = () => {
     return (<Box>
 
         <Flex alignItem="center" justifyContent="center" p="xlarge">
-            <Box as={Button} ref={targetRef} onClick={() => setShowDrop(true)} outline="primary">Drop Button</Box>
+            <Button ref={targetRef} onClick={() => setShowDrop(true)} outline="primary">Drop Button</Button>
             {showDrop && <Drop sx={{ overflow: 'initial' }} onClickOutside={() => setShowDrop(false)} elevation="xsmall" align={{ top: 'bottom', left: 'left' }}  target={targetRef.current} stretch={true}>
                 <Flex sx={{
                     border: '1px solid',
@@ -56,7 +56,7 @@ export const Tooltip = () => {
     return (<Box>
 
         <Flex alignItem="center" justifyContent="center" p="xxlarge">
-            <Box as={Button} ref={targetRef} onClick={() => setShowDrop(true)} onMouseOver={() => setShowDrop(true)} onMouseOut={() => setShowDrop(false)} outline="primary">Show tooltip</Box>
+            <Button ref={targetRef} onClick={() => setShowDrop(true)} onMouseOver={() => setShowDrop(true)} onMouseOut={() => setShowDrop(false)} outline="primary">Show tooltip</Button>
             {showDrop &&
                 <Drop sx={{ overflow: 'initial' }} onClickOutside={() => setShowDrop(false)} align={{ top: 'top', left: 'right' }} target={targetRef.current} stretch={true}>
                     <Tootltip>This is a tooltip</Tootltip>

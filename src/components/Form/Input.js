@@ -4,6 +4,7 @@ import { color, typography, background, border, position, shadow, variant as Sty
 
 import { sx, variant, getLayoutProps, getMarginProps } from "../../core";
 import { Flex } from '../Box';
+import { props as systemProps } from '@styled-system/should-forward-prop';
 
 const variantVariants = StyledVariant({
     scale: 'inputs.variants',
@@ -37,7 +38,9 @@ const variantSizes = StyledVariant({
 });
 
 
-const StyledInput = styled.input`
+const StyledInput = styled('input').withConfig({
+    shouldForwardProp: (prop, defaultValidatorFn) => { return defaultValidatorFn(prop) && ![...systemProps].includes(prop);}
+  })`
     display: block;
     padding: 2px;
     appearance: none;

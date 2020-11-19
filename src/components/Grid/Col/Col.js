@@ -48,6 +48,6 @@ const StyledCol = styled.div`
     
 `;
 
-const Col = (props) => <Box as={StyledCol} {...props} />;
+const Col = (props) => <Box.WithoutConfig as={StyledCol} {...props} />;
 
 export default Col;

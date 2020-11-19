@@ -42,5 +42,5 @@ export const ParallaxBox = ({
         clamp: false,
         easing
     });
-    return <Box as={as} ref={ref}  style={{ y }} {...rest}>{children}</Box>
+    return <Box.WithoutConfig as={as} ref={ref}  style={{ y }} {...rest}>{children}</Box.WithoutConfig>
 }
