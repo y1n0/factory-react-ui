@@ -89,7 +89,7 @@ const outlineVariants = StyledVariant({
 
     &:disabled {
        cursor: not-allowed;
-       pointer-events: all !important;
+       pointer-events: all;
     }
 
 `;

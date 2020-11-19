@@ -95,7 +95,7 @@ export const Slide = ({ children, isActive = false, subtitle = null, content = n
         minHeight: '1px',
         height: ['300px', null, '500px'],
         width: '100%',
-        display: 'flex !important',
+        display: 'flex',
         position: 'relative',
         '&:before': {
             content: '""',
