@@ -49,7 +49,6 @@ const useColorModeState = (theme = {}) => {
 
     // init state
     // useEffect(() => {
-    //     console.log('init state');
     //     const stored = storage.get();
     //     if (!stored || stored === mode) return;
     //     setMode(stored);

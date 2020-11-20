@@ -63,7 +63,7 @@ export const RevealBox = React.forwardRef(({
 
   return (
     <Box ref={intersectionRef}>
-      <Box
+      <Box.WithoutConfig
         initial="hidden"
         animate={inView ? "show" : "hidden"}
         exit="hidden"
@@ -71,7 +71,7 @@ export const RevealBox = React.forwardRef(({
         ref={ref}
         {...rest}
         as={MotionBox}>{children}
-      </Box>
+      </Box.WithoutConfig>
     </Box>
   );
 });

@@ -1,27 +1,31 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import {
   boxShadow,
-  color, 
+  color,
   space,
   layout,
   flexbox,
   border,
   compose,
   position,
-  typography } from 'styled-system';
-import shouldForwardProp from '@styled-system/should-forward-prop';
-import { variant, base, sx } from '../../core';
+  typography,
+} from "styled-system";
 
-export const Box = styled('div', {shouldForwardProp})(
+import { props as systemProps } from "@styled-system/should-forward-prop";
+import { variant, base, sx } from "../../core";
+
+// const customShouldForwardProp
+
+export const BoxWithoutConfig = styled("div")(
   {
-    boxSizing: 'border-box',
+    boxSizing: "border-box",
     margin: 0,
     minWidth: 0,
   },
   base,
   sx,
-  props => props.css,
-  props => props.styledCss,
+  (props) => props.css,
+  (props) => props.styledCss,
   compose(
     space,
     color,
@@ -31,13 +35,28 @@ export const Box = styled('div', {shouldForwardProp})(
     typography,
     boxShadow,
     position
-    ),
-  variant,
+  ),
+  variant
 );
 
-export const Flex = styled(Box)({
-  display: 'flex'
+const Box = styled(BoxWithoutConfig).withConfig({
+  shouldForwardProp: (prop, defaultValidatorFn) => {
+    return defaultValidatorFn(prop) && !systemProps.includes(prop);
+  },
+})({});
+
+Box.WithoutConfig = BoxWithoutConfig;
+
+
+
+const Flex = styled(Box)({
+  display: "flex",
 });
 
-export default Box;
+Flex.WithoutConfig = styled(BoxWithoutConfig)({
+  display: "flex",
+});
 
+export {Box, Flex};
+
+export default Box;

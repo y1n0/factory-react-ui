@@ -5,7 +5,7 @@ export const heading = {
         color: 'black500',
         h1: {
             fontSize: ["28px", null, "50px", 'heading1', 'heading1'],
-            lineHeight: ['28', "37px", "heading1"],
+            lineHeight: ['28px', "37px", "heading1"],
             marginBottom: ['15px', null, '20px'],
         },
         h2: {

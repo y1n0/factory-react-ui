@@ -280,7 +280,6 @@ export const getAnimationStyle = (props, position, full) => {
     } else if (animation === 'fadeIn') {
         keys = keyframes`0% { opacity: 0 } 100% { opacity: 1 }`;
     }
-    console.log(keys)
     return keys
         ? css`
         animation: ${keys} ${animationDuration / 1000.0}s ease-in-out forwards;

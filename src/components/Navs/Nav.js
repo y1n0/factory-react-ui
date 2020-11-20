@@ -15,7 +15,7 @@ export const Nav = React.forwardRef(({
 }, ref) => {
 
     return (
-        <Box
+        <Box.WithoutConfig
             as={as}
             ref={ref}
             href={href}
@@ -33,7 +33,7 @@ export const Nav = React.forwardRef(({
             {...rest}
         >
             {children}
-        </Box>
+        </Box.WithoutConfig>
     );
 
 

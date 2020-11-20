@@ -25,12 +25,12 @@ const getSystemProps = getProps(k => PRE.test(k));
 
 
 
-const SVG = ({ size = 24, ...props }) =>
+const SVG = ({ size, ...props }) =>
     <Box
         as='svg'
         xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
+        width="24px"
+        height="24px"
         viewBox="0 0 24 24"
         fill='currentcolor'
         {...props}
@@ -121,7 +121,7 @@ export const Radio = forwardRef(({
                     overflow: 'hidden',
                 }}
             />
-            <Box
+            <Box.WithoutConfig
                 as={RadioIcon}
                 aria-hidden='true'
                 variant={`radio${variant ? '.'+variant : ''}`}
