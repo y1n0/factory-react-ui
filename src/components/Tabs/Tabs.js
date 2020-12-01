@@ -54,7 +54,7 @@ export const Tabs = forwardRef(({
        if(showBar){
                 animateInkBar(activeKey);
        }
-    }, [activeKey, showBar])
+    }, [activeKey, showBar]) // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleClickTab = key => {
         headerAnimationCtrls.start('active');

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Select } from '../Select';
 import { Box } from '../../Box';
-import { withKnobs } from '@storybook/addon-knobs';
+import { withKnobs, select } from '@storybook/addon-knobs';
 import { Label } from '../Label';
 import { Icon } from '../../Icon';
 import { DirectionManager } from '../../../core';
@@ -94,6 +94,19 @@ export const RTL = () => {
                 </Select>
             </DirectionManager>
         </Box>);
+}
+
+export const VisualStates = () => {
+    return (
+        <Box p="medium">
+            <Label>Change the state of the select using the knobs: </Label>
+            <Select state={select('state', ['default', 'danger', 'success', 'info'])} options={{
+                'this': {},
+                'or': {},
+                'that': {},
+            }} />
+        </Box>
+    )
 }
 
 export default {
