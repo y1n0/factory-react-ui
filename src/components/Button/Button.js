@@ -3,6 +3,7 @@ import { css } from "@styled-system/css";
 import { flexbox, color, space, typography, compose, background, position, shadow, border, variant as StyledVariant, buttonStyle, width, height, display } from "styled-system";
 import { sx, base, variant } from "../../core";
 
+import { props as systemProps } from '@styled-system/should-forward-prop';
 
 const fillVariants = StyledVariant({
     scale: 'buttons.fill',
@@ -32,7 +33,9 @@ const outlineVariants = StyledVariant({
 })
 
 
- export const Button = styled.button`
+ export const Button = styled('button').withConfig({
+    shouldForwardProp: (prop, defaultValidatorFn) => { return defaultValidatorFn(prop) && ![...systemProps, "fill", "outline"].includes(prop);}
+  })`
 
     display: inline-flex;
     align-items: center;
@@ -90,7 +93,7 @@ const outlineVariants = StyledVariant({
 
     &:disabled {
        cursor: not-allowed;
-       pointer-events: all !important;
+       pointer-events: all;
     }
 
 `;

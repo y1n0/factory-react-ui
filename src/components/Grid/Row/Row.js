@@ -15,6 +15,6 @@ const StyledRow = styled.div`
     ${compose(space, layout, flexbox)}
 `;
 
-const Row = props => <Box as={StyledRow} {...props}/>
+const Row = props => <Box.WithoutConfig as={StyledRow} {...props}/>
 
 export default Row;

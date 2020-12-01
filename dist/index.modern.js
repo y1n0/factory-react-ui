@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useState, useEffect, useLayoutEffect, useRef, forwardRef, Children, cloneElement, Fragment as Fragment$1, useMemo } from 'react';
 import styled, { ThemeContext, ThemeProvider, StyleSheetManager, css, createGlobalStyle, withTheme, keyframes } from 'styled-components';
-import { get, space as space$1, margin, size, layout, compose, color, flexbox, border, typography, boxShadow, variant as variant$1, buttonStyle, width, height as height$1, display, background, position, shadow, padding } from 'styled-system';
-import shouldForwardProp, { props } from '@styled-system/should-forward-prop';
+import { get, space as space$1, margin, size, layout, compose, color, flexbox, border, typography, boxShadow, position, variant as variant$1, buttonStyle, width, height as height$1, display, background, shadow, padding } from 'styled-system';
+import { props } from '@styled-system/should-forward-prop';
 import deepmerge from 'deepmerge';
 import stylisRTLPlugin from 'stylis-plugin-rtl';
-import css$1, { get as get$1 } from '@styled-system/css';
+import css$1, { get as get$1, css as css$2 } from '@styled-system/css';
 import { useIntersection } from 'react-use';
 import { motion, useViewportScroll, useTransform, useAnimation } from 'framer-motion';
 import ReactDOM, { createPortal } from 'react-dom';
@@ -810,19 +810,26 @@ var useMedia = function useMedia(bp, mediaQuery) {
   return doesMatch;
 };
 
-var Box = styled('div', {
-  shouldForwardProp: shouldForwardProp
-})({
-  boxSizing: 'border-box',
+var BoxWithoutConfig = styled("div")({
+  boxSizing: "border-box",
   margin: 0,
   minWidth: 0
 }, base, sx, function (props) {
   return props.css;
 }, function (props) {
   return props.styledCss;
-}, compose(space$1, color, layout, flexbox, border, typography, boxShadow), variant);
+}, compose(space$1, color, layout, flexbox, border, typography, boxShadow, position), variant);
+var Box = styled(BoxWithoutConfig).withConfig({
+  shouldForwardProp: function shouldForwardProp(prop, defaultValidatorFn) {
+    return defaultValidatorFn(prop) && !props.includes(prop);
+  }
+})({});
+Box.WithoutConfig = BoxWithoutConfig;
 var Flex = styled(Box)({
-  display: 'flex'
+  display: "flex"
+});
+Flex.WithoutConfig = styled(BoxWithoutConfig)({
+  display: "flex"
 });
 
 var activeAsArray = function activeAsArray(active) {
@@ -894,8 +901,8 @@ var Accordion = forwardRef(function (_ref, ref) {
   }, rest), panels);
 });
 
-var MotionBox = motion.custom(Box);
-var MotionFlex = motion.custom(Flex);
+var MotionBox = motion.custom(Box.WithoutConfig);
+var MotionFlex = motion.custom(Flex.WithoutConfig);
 
 var ParallaxBox = function ParallaxBox(_ref) {
   var _ref$as = _ref.as,
@@ -936,7 +943,7 @@ var ParallaxBox = function ParallaxBox(_ref) {
     clamp: false,
     easing: easing
   });
-  return /*#__PURE__*/React.createElement(Box, _extends({
+  return /*#__PURE__*/React.createElement(Box.WithoutConfig, _extends({
     as: as,
     ref: ref,
     style: {
@@ -1002,7 +1009,7 @@ var RevealBox = React.forwardRef(function (_ref, ref) {
   };
   return /*#__PURE__*/React.createElement(Box, {
     ref: intersectionRef
-  }, /*#__PURE__*/React.createElement(Box, _extends({
+  }, /*#__PURE__*/React.createElement(Box.WithoutConfig, _extends({
     initial: "hidden",
     animate: inView ? "show" : "hidden",
     exit: "hidden",
@@ -1188,7 +1195,7 @@ var BreadcrumbItem = React.forwardRef(function (_ref, ref) {
       as = _ref$as === void 0 ? 'a' : _ref$as,
       rest = _objectWithoutPropertiesLoose(_ref, ["variant", "children", "href", "active", "as", "key"]);
 
-  return /*#__PURE__*/React.createElement(Box, _extends({
+  return /*#__PURE__*/React.createElement(Box.WithoutConfig, _extends({
     className: "vf-breadcrumb__item " + (active && 'vf-breadcrumb__item--active'),
     as: as,
     ref: ref,
@@ -1207,7 +1214,7 @@ var BreadcrumbItem = React.forwardRef(function (_ref, ref) {
 });
 
 function _templateObject$1() {
-  var data = _taggedTemplateLiteralLoose(["\n\n    display: inline-flex;\n    align-items: center;\n    flex-direction: row;\n    box-sizing: border-box;\n    cursor: pointer;\n    outline: none;\n    font: inherit;\n    text-decoration: none;\n    margin: 0;\n    background: transparent;\n    overflow: visible;\n    text-transform: none;\n    border-style: solid;\n\n    \n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n\n\n    &:disabled {\n       cursor: not-allowed;\n       pointer-events: all !important;\n    }\n\n"]);
+  var data = _taggedTemplateLiteralLoose(["\n\n    display: inline-flex;\n    align-items: center;\n    flex-direction: row;\n    box-sizing: border-box;\n    cursor: pointer;\n    outline: none;\n    font: inherit;\n    text-decoration: none;\n    margin: 0;\n    background: transparent;\n    overflow: visible;\n    text-transform: none;\n    border-style: solid;\n    ", "\n\n    ", "\n    \n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n\n\n    &:disabled {\n       cursor: not-allowed;\n       pointer-events: all;\n    }\n\n"]);
 
   _templateObject$1 = function _templateObject() {
     return data;
@@ -1236,11 +1243,31 @@ var outlineVariants = variant$1({
     primary: {}
   }
 });
-var Button = styled.button(_templateObject$1(), buttonStyle, fillVariants, outlineVariants, sizeVariants, variant, sx, compose(width, height$1, display, space$1, color, typography, flexbox, background, border, position, shadow));
+var Button = styled('button').withConfig({
+  shouldForwardProp: function shouldForwardProp(prop, defaultValidatorFn) {
+    return defaultValidatorFn(prop) && ![].concat(props, ["fill", "outline"]).includes(prop);
+  }
+})(_templateObject$1(), css$2({
+  borderRadius: 'small'
+}), function (_ref) {
+  var stretch = _ref.stretch;
+  return stretch && {
+    '&::after': {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      zIndex: 1,
+      pointerEvents: 'auto',
+      content: '""',
+      backgroundColor: '#0000'
+    }
+  };
+}, buttonStyle, fillVariants, outlineVariants, sizeVariants, variant, base, sx, compose(width, height$1, display, space$1, color, typography, flexbox, background, border, position, shadow));
 Button.defaultProps = {
   fill: 'primary',
-  size: 'medium',
-  borderRadius: 'small'
+  size: 'medium'
 };
 
 var Link = function Link(_ref) {
@@ -2680,8 +2707,10 @@ var WrapperIcon = function WrapperIcon(_ref) {
     iconSet: icons
   }, rest));
 };
-var Icon = styled(WrapperIcon, {
-  shouldForwardProp: shouldForwardProp
+var Icon = styled(WrapperIcon).withConfig({
+  shouldForwardProp: function shouldForwardProp(prop, defaultValidatorFn) {
+    return !['sx', '__css'].concat(props).includes(prop);
+  }
 }).attrs(function (props) {
   return {
     removeInlineStyle: true,
@@ -2695,8 +2724,8 @@ var SVG = function SVG(_ref) {
   return /*#__PURE__*/React.createElement(Box, _extends({
     as: "svg",
     xmlns: "http://www.w3.org/2000/svg",
-    width: "24",
-    height: "24",
+    width: "24px",
+    height: "24px",
     viewBox: "0 0 24 24",
     fill: "currentcolor"
   }, props));
@@ -2722,13 +2751,13 @@ var CheckboxIcon = function CheckboxIcon(_ref2) {
       size = _ref2$size === void 0 ? '24px' : _ref2$size,
       props = _objectWithoutPropertiesLoose(_ref2, ["iconName", "checkedIconName", "uncheckedIconName", "size"]);
 
-  return /*#__PURE__*/React.createElement(Fragment, null, iconName || checkedIconName ? /*#__PURE__*/React.createElement(Icon, _extends({
+  return /*#__PURE__*/React.createElement(React.Fragment, null, iconName || checkedIconName ? /*#__PURE__*/React.createElement(Icon, _extends({
     size: size,
     name: iconName || checkedIconName
   }, props, {
     __css: {
       display: 'none',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         display: 'block'
       }
     }
@@ -2737,7 +2766,7 @@ var CheckboxIcon = function CheckboxIcon(_ref2) {
   }, props, {
     __css: {
       display: 'none',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         display: 'block'
       }
     }
@@ -2747,7 +2776,7 @@ var CheckboxIcon = function CheckboxIcon(_ref2) {
   }, props, {
     __css: {
       display: 'block',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         display: 'none'
       }
     }
@@ -2756,7 +2785,7 @@ var CheckboxIcon = function CheckboxIcon(_ref2) {
   }, props, {
     __css: {
       display: 'block',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         display: 'none'
       }
     }
@@ -2785,7 +2814,7 @@ var Checkbox = forwardRef(function (_ref3, ref) {
       height: 1,
       overflow: 'hidden'
     }
-  })), /*#__PURE__*/React.createElement(Box, _extends({
+  })), /*#__PURE__*/React.createElement(Box.WithoutConfig, _extends({
     as: CheckboxIcon,
     "aria-hidden": "true",
     variant: "checkbox" + (variant ? '.' + variant : ''),
@@ -2799,13 +2828,13 @@ var Checkbox = forwardRef(function (_ref3, ref) {
       mr: 'small',
       borderRadius: 4,
       color: 'gray500',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         color: 'primary500'
       },
-      'input:focus ~ &': {
+      'input:focus ~ &&': {
         bg: 'primary100'
       },
-      'input:disabled ~ &': {
+      'input:disabled ~ &&': {
         bg: 'gray300',
         color: 'gray200'
       }
@@ -2847,7 +2876,11 @@ var variantSizes = variant$1({
     }
   }
 });
-var StyledInput = styled.input(_templateObject$3(), variantVariants, variantStatus, variantSizes, variant, sx, compose(padding, color, typography, background, border, position, shadow, width, height$1, display));
+var StyledInput = styled('input').withConfig({
+  shouldForwardProp: function shouldForwardProp(prop, defaultValidatorFn) {
+    return defaultValidatorFn(prop) && ![].concat(props).includes(prop);
+  }
+})(_templateObject$3(), variantVariants, variantStatus, variantSizes, variant, sx, compose(padding, color, typography, background, border, position, shadow, width, height$1, display));
 StyledInput.defaultProps = {
   type: 'text',
   variant: 'default',
@@ -2928,8 +2961,8 @@ var SVG$1 = function SVG(_ref) {
   return /*#__PURE__*/React.createElement(Box, _extends({
     as: "svg",
     xmlns: "http://www.w3.org/2000/svg",
-    width: "24",
-    height: "24",
+    width: "24px",
+    height: "24px",
     viewBox: "0 0 24 24",
     fill: "currentcolor"
   }, props));
@@ -2955,13 +2988,13 @@ var RadioIcon = function RadioIcon(_ref2) {
       size = _ref2$size === void 0 ? '24px' : _ref2$size,
       props = _objectWithoutPropertiesLoose(_ref2, ["iconName", "checkedIconName", "uncheckedIconName", "size"]);
 
-  return /*#__PURE__*/React.createElement(Fragment, null, iconName || checkedIconName ? /*#__PURE__*/React.createElement(Icon, _extends({
+  return /*#__PURE__*/React.createElement(React.Fragment, null, iconName || checkedIconName ? /*#__PURE__*/React.createElement(Icon, _extends({
     size: size,
     name: iconName || checkedIconName
   }, props, {
     __css: {
       display: 'none',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         display: 'block'
       }
     }
@@ -2970,7 +3003,7 @@ var RadioIcon = function RadioIcon(_ref2) {
   }, props, {
     __css: {
       display: 'none',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         display: 'block'
       }
     }
@@ -2980,7 +3013,7 @@ var RadioIcon = function RadioIcon(_ref2) {
   }, props, {
     __css: {
       display: 'block',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         display: 'none'
       }
     }
@@ -2989,7 +3022,7 @@ var RadioIcon = function RadioIcon(_ref2) {
   }, props, {
     __css: {
       display: 'block',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         display: 'none'
       }
     }
@@ -3015,7 +3048,7 @@ var Radio = forwardRef(function (_ref3, ref) {
       height: 1,
       overflow: 'hidden'
     }
-  })), /*#__PURE__*/React.createElement(Box, _extends({
+  })), /*#__PURE__*/React.createElement(Box.WithoutConfig, _extends({
     as: RadioIcon,
     "aria-hidden": "true",
     variant: "radio" + (variant ? '.' + variant : ''),
@@ -3026,13 +3059,13 @@ var Radio = forwardRef(function (_ref3, ref) {
       mr: 'small',
       borderRadius: 9999,
       color: 'gray500',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         color: 'primary500'
       },
-      'input:focus ~ &': {
+      'input:focus ~ &&': {
         bg: 'primary100'
       },
-      'input:disabled ~ &': {
+      'input:disabled ~ &&': {
         bg: 'gray300',
         color: 'gray200'
       }
@@ -3274,7 +3307,7 @@ var Container = function Container(_ref) {
       fluid = _ref$fluid === void 0 ? false : _ref$fluid,
       rest = _objectWithoutPropertiesLoose(_ref, ["fluid"]);
 
-  return /*#__PURE__*/React.createElement(Box, _extends({
+  return /*#__PURE__*/React.createElement(Box.WithoutConfig, _extends({
     as: StyledContainer,
     fluid: fluid
   }, rest));
@@ -3300,7 +3333,7 @@ var StyledRow = styled.div(_templateObject$6(), function (props) {
 }, compose(space$1, layout, flexbox));
 
 var Row = function Row(props) {
-  return /*#__PURE__*/React.createElement(Box, _extends({
+  return /*#__PURE__*/React.createElement(Box.WithoutConfig, _extends({
     as: StyledRow
   }, props));
 };
@@ -3340,7 +3373,7 @@ var StyledCol = styled.div(_templateObject2$2(), function (props) {
 }, generateMediaForCol, compose(space$1, layout, flexbox));
 
 var Col = function Col(props) {
-  return /*#__PURE__*/React.createElement(Box, _extends({
+  return /*#__PURE__*/React.createElement(Box.WithoutConfig, _extends({
     as: StyledCol
   }, props));
 };
@@ -3392,7 +3425,7 @@ var Header = React.forwardRef(function (_ref, ref) {
 });
 
 var Image = forwardRef(function (props, ref) {
-  return /*#__PURE__*/React.createElement(Box, _extends({
+  return /*#__PURE__*/React.createElement(Box.WithoutConfig, _extends({
     ref: ref,
     as: "img"
   }, props, {
@@ -3445,7 +3478,7 @@ var Nav = React.forwardRef(function (_ref, ref) {
       as = _ref$as === void 0 ? 'a' : _ref$as,
       rest = _objectWithoutPropertiesLoose(_ref, ["variant", "children", "href", "active", "as", "key"]);
 
-  return /*#__PURE__*/React.createElement(Box, _extends({
+  return /*#__PURE__*/React.createElement(Box.WithoutConfig, _extends({
     as: as,
     ref: ref,
     href: href
@@ -3580,7 +3613,7 @@ var Pagination = function Pagination(_ref) {
       props = _objectWithoutPropertiesLoose(_ref, ["sx"]);
 
   var theme = useContext(ThemeContext);
-  return /*#__PURE__*/React.createElement(Box, _extends({
+  return /*#__PURE__*/React.createElement(Box.WithoutConfig, _extends({
     __css: {
       display: 'flex',
       flexDirection: 'row',
@@ -3841,6 +3874,34 @@ var Heading = withTheme(function (_ref3) {
     as: "h" + level
   }), children);
 });
+
+var List_ = function List_(_ref, ref) {
+  var horizontal = _ref.horizontal,
+      ordered = _ref.ordered,
+      rest = _objectWithoutPropertiesLoose(_ref, ["horizontal", "ordered"]);
+
+  return /*#__PURE__*/React.createElement(Box, _extends({
+    ref: ref,
+    as: ordered ? "ol" : "ul",
+    variant: "lists.default",
+    __css: {
+      display: 'flex',
+      flexDirection: horizontal ? "row" : "column",
+      listStyle: ordered ? 'decimal inside' : null
+    }
+  }, rest));
+};
+
+var List = forwardRef(List_);
+
+var Item_ = function Item_(props, ref) {
+  return /*#__PURE__*/React.createElement(Box, _extends({
+    ref: ref,
+    as: "li"
+  }, props));
+};
+
+var Item = forwardRef(Item_);
 
 function _templateObject76() {
   var data = _taggedTemplateLiteralLoose(["\n                position: relative;\n                max-height: none;\n                max-width: none;\n                border-radius: 0;\n                top: 0;\n                bottom: 0;\n                left: 0;\n                right: 0;\n                transform: none;\n                animation: none;\n                height: 100vh;\n                width: 100vw;\n            "]);
@@ -4793,7 +4854,6 @@ var getAnimationStyle = function getAnimationStyle(props, position, full) {
     keys = keyframes(_templateObject29());
   }
 
-  console.log(keys);
   return keys ? css(_templateObject30(), keys, animationDuration / 1000.0) : '';
 };
 var POSITIONS = {
@@ -5432,7 +5492,7 @@ var Slider = React.forwardRef(function (_ref2, ref) {
   var children = _ref2.children,
       rest = _objectWithoutPropertiesLoose(_ref2, ["children"]);
 
-  return /*#__PURE__*/React.createElement(SliderWrapper, null, /*#__PURE__*/React.createElement(Box, _extends({
+  return /*#__PURE__*/React.createElement(SliderWrapper, null, /*#__PURE__*/React.createElement(Box.WithoutConfig, _extends({
     ref: ref,
     as: SlickSlider,
     __css: {
@@ -5551,7 +5611,7 @@ var Slide = function Slide(_ref4) {
       minHeight: '1px',
       height: ['300px', null, '500px'],
       width: '100%',
-      display: 'flex !important',
+      display: 'flex',
       position: 'relative',
       '&:before': {
         content: '""',
@@ -6661,7 +6721,7 @@ var heading = {
     color: 'black500',
     h1: {
       fontSize: ["28px", null, "50px", 'heading1', 'heading1'],
-      lineHeight: ['28', "37px", "heading1"],
+      lineHeight: ['28px', "37px", "heading1"],
       marginBottom: ['15px', null, '20px']
     },
     h2: {
@@ -6752,5 +6812,5 @@ var componentsTheme = {
 };
 var theme = _extends(_extends({}, baseTheme), componentsTheme);
 
-export { Accordion, AccordionContext, AccordionPanel, Anchor, Arrow, Box, Breadcrumb, BreadcrumbItem, Button, Checkbox, Col, ColorModeProvider, Container, DEFAULT_BREAKPOINTS, DirectionManager, DirectionManagerContext, Drop, Flex, Footer, GlobalStyle, Header, Heading, Icon, Image, Input, IntersectionContext, IntersectionObserver, Label, Layer, Link, MotionBox, MotionFlex, Nav, Navs, NextArrow, Pagination, Paragraph, ParallaxBox, PrevArrow, Radio, RevealBox, Row, SearchOverlay, Select, Slide, Slider, StyledChildren, TABINDEX, TABINDEX_STATE, Tab, Tabs, Text, VactoryIconConsumer, VactoryIconContext, VactoryIconProvider, VactoryThemeContext, WrapperIcon, appendDots, base, between, findParentByMatchedQuery, findScrollParents, findVisibleParent, generateMedia, getBodyChildElements, getLayoutProps, getMarginProps, getNewContainer, getProps, getSizeProps, getSpaceProps, getSystemProps, getVariant, greaterThan, iconSet, isNotAncestorOf, lessThan, makeNodeFocusable, makeNodeUnfocusable, mergeIcons, omitLayoutProps, omitMarginProps, omitProps, omitSizeProps, omitSpaceProps, parseMetricToNum, setFocusWithoutScroll, sx, theme, useColorMode, useIsomorphicLayoutEffect, useMedia, useMediaBetween, useMediaGreaterThan, useMediaLessThan, useScrollPosition, useVactoryIcon, useVactoryTheme, theme as vactoryTheme, variant, variantReducer };
+export { Accordion, AccordionContext, AccordionPanel, Anchor, Arrow, Box, BoxWithoutConfig, Breadcrumb, BreadcrumbItem, Button, Checkbox, Col, ColorModeProvider, Container, DEFAULT_BREAKPOINTS, DirectionManager, DirectionManagerContext, Drop, Flex, Footer, GlobalStyle, Header, Heading, Icon, Image, Input, IntersectionContext, IntersectionObserver, Item, Label, Layer, Link, List, MotionBox, MotionFlex, Nav, Navs, NextArrow, Pagination, Paragraph, ParallaxBox, PrevArrow, Radio, RevealBox, Row, SearchOverlay, Select, Slide, Slider, StyledChildren, TABINDEX, TABINDEX_STATE, Tab, Tabs, Text, VactoryIconConsumer, VactoryIconContext, VactoryIconProvider, VactoryThemeContext, WrapperIcon, appendDots, base, between, findParentByMatchedQuery, findScrollParents, findVisibleParent, generateMedia, getBodyChildElements, getLayoutProps, getMarginProps, getNewContainer, getProps, getSizeProps, getSpaceProps, getSystemProps, getVariant, greaterThan, iconSet, isNotAncestorOf, lessThan, makeNodeFocusable, makeNodeUnfocusable, mergeIcons, omitLayoutProps, omitMarginProps, omitProps, omitSizeProps, omitSpaceProps, parseMetricToNum, setFocusWithoutScroll, sx, theme, useColorMode, useIsomorphicLayoutEffect, useMedia, useMediaBetween, useMediaGreaterThan, useMediaLessThan, useScrollPosition, useVactoryIcon, useVactoryTheme, theme as vactoryTheme, variant, variantReducer };
 //# sourceMappingURL=index.modern.js.map

@@ -45,7 +45,7 @@ export const FooterVariant3 = ({className, ...props}) => {
 				justifyContent: "space-between",
 				alignItems: ["start", null, "center"],
 				flexDirection: ['column', null, 'row'],
-				display: [ isNavOpen ? 'flex' : 'none !important', null, 'flex'],
+				display: [ isNavOpen ? 'flex' : 'none', null, 'flex'],
 			}}
 			>
 

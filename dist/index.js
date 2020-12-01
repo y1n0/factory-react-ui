@@ -817,19 +817,26 @@ var useMedia = function useMedia(bp, mediaQuery) {
   return doesMatch;
 };
 
-var Box = styled__default('div', {
-  shouldForwardProp: shouldForwardProp__default
-})({
-  boxSizing: 'border-box',
+var BoxWithoutConfig = styled__default("div")({
+  boxSizing: "border-box",
   margin: 0,
   minWidth: 0
 }, base, sx, function (props) {
   return props.css;
 }, function (props) {
   return props.styledCss;
-}, styledSystem.compose(styledSystem.space, styledSystem.color, styledSystem.layout, styledSystem.flexbox, styledSystem.border, styledSystem.typography, styledSystem.boxShadow), variant);
+}, styledSystem.compose(styledSystem.space, styledSystem.color, styledSystem.layout, styledSystem.flexbox, styledSystem.border, styledSystem.typography, styledSystem.boxShadow, styledSystem.position), variant);
+var Box = styled__default(BoxWithoutConfig).withConfig({
+  shouldForwardProp: function shouldForwardProp$1(prop, defaultValidatorFn) {
+    return defaultValidatorFn(prop) && !shouldForwardProp.props.includes(prop);
+  }
+})({});
+Box.WithoutConfig = BoxWithoutConfig;
 var Flex = styled__default(Box)({
-  display: 'flex'
+  display: "flex"
+});
+Flex.WithoutConfig = styled__default(BoxWithoutConfig)({
+  display: "flex"
 });
 
 var activeAsArray = function activeAsArray(active) {
@@ -901,8 +908,8 @@ var Accordion = React.forwardRef(function (_ref, ref) {
   }, rest), panels);
 });
 
-var MotionBox = framerMotion.motion.custom(Box);
-var MotionFlex = framerMotion.motion.custom(Flex);
+var MotionBox = framerMotion.motion.custom(Box.WithoutConfig);
+var MotionFlex = framerMotion.motion.custom(Flex.WithoutConfig);
 
 var ParallaxBox = function ParallaxBox(_ref) {
   var _ref$as = _ref.as,
@@ -943,7 +950,7 @@ var ParallaxBox = function ParallaxBox(_ref) {
     clamp: false,
     easing: easing
   });
-  return /*#__PURE__*/React__default.createElement(Box, _extends({
+  return /*#__PURE__*/React__default.createElement(Box.WithoutConfig, _extends({
     as: as,
     ref: ref,
     style: {
@@ -1009,7 +1016,7 @@ var RevealBox = React__default.forwardRef(function (_ref, ref) {
   };
   return /*#__PURE__*/React__default.createElement(Box, {
     ref: intersectionRef
-  }, /*#__PURE__*/React__default.createElement(Box, _extends({
+  }, /*#__PURE__*/React__default.createElement(Box.WithoutConfig, _extends({
     initial: "hidden",
     animate: inView ? "show" : "hidden",
     exit: "hidden",
@@ -1195,7 +1202,7 @@ var BreadcrumbItem = React__default.forwardRef(function (_ref, ref) {
       as = _ref$as === void 0 ? 'a' : _ref$as,
       rest = _objectWithoutPropertiesLoose(_ref, ["variant", "children", "href", "active", "as", "key"]);
 
-  return /*#__PURE__*/React__default.createElement(Box, _extends({
+  return /*#__PURE__*/React__default.createElement(Box.WithoutConfig, _extends({
     className: "vf-breadcrumb__item " + (active && 'vf-breadcrumb__item--active'),
     as: as,
     ref: ref,
@@ -1214,7 +1221,7 @@ var BreadcrumbItem = React__default.forwardRef(function (_ref, ref) {
 });
 
 function _templateObject$1() {
-  var data = _taggedTemplateLiteralLoose(["\n\n    display: inline-flex;\n    align-items: center;\n    flex-direction: row;\n    box-sizing: border-box;\n    cursor: pointer;\n    outline: none;\n    font: inherit;\n    text-decoration: none;\n    margin: 0;\n    background: transparent;\n    overflow: visible;\n    text-transform: none;\n    border-style: solid;\n\n    \n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n\n\n    &:disabled {\n       cursor: not-allowed;\n       pointer-events: all !important;\n    }\n\n"]);
+  var data = _taggedTemplateLiteralLoose(["\n\n    display: inline-flex;\n    align-items: center;\n    flex-direction: row;\n    box-sizing: border-box;\n    cursor: pointer;\n    outline: none;\n    font: inherit;\n    text-decoration: none;\n    margin: 0;\n    background: transparent;\n    overflow: visible;\n    text-transform: none;\n    border-style: solid;\n    ", "\n\n    ", "\n    \n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n    ", "\n\n\n    &:disabled {\n       cursor: not-allowed;\n       pointer-events: all;\n    }\n\n"]);
 
   _templateObject$1 = function _templateObject() {
     return data;
@@ -1243,11 +1250,31 @@ var outlineVariants = styledSystem.variant({
     primary: {}
   }
 });
-var Button = styled__default.button(_templateObject$1(), styledSystem.buttonStyle, fillVariants, outlineVariants, sizeVariants, variant, sx, styledSystem.compose(styledSystem.width, styledSystem.height, styledSystem.display, styledSystem.space, styledSystem.color, styledSystem.typography, styledSystem.flexbox, styledSystem.background, styledSystem.border, styledSystem.position, styledSystem.shadow));
+var Button = styled__default('button').withConfig({
+  shouldForwardProp: function shouldForwardProp$1(prop, defaultValidatorFn) {
+    return defaultValidatorFn(prop) && ![].concat(shouldForwardProp.props, ["fill", "outline"]).includes(prop);
+  }
+})(_templateObject$1(), css.css({
+  borderRadius: 'small'
+}), function (_ref) {
+  var stretch = _ref.stretch;
+  return stretch && {
+    '&::after': {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      zIndex: 1,
+      pointerEvents: 'auto',
+      content: '""',
+      backgroundColor: '#0000'
+    }
+  };
+}, styledSystem.buttonStyle, fillVariants, outlineVariants, sizeVariants, variant, base, sx, styledSystem.compose(styledSystem.width, styledSystem.height, styledSystem.display, styledSystem.space, styledSystem.color, styledSystem.typography, styledSystem.flexbox, styledSystem.background, styledSystem.border, styledSystem.position, styledSystem.shadow));
 Button.defaultProps = {
   fill: 'primary',
-  size: 'medium',
-  borderRadius: 'small'
+  size: 'medium'
 };
 
 var Link = function Link(_ref) {
@@ -2687,8 +2714,10 @@ var WrapperIcon = function WrapperIcon(_ref) {
     iconSet: icons
   }, rest));
 };
-var Icon = styled__default(WrapperIcon, {
-  shouldForwardProp: shouldForwardProp__default
+var Icon = styled__default(WrapperIcon).withConfig({
+  shouldForwardProp: function shouldForwardProp$1(prop, defaultValidatorFn) {
+    return !['sx', '__css'].concat(shouldForwardProp.props).includes(prop);
+  }
 }).attrs(function (props) {
   return {
     removeInlineStyle: true,
@@ -2702,8 +2731,8 @@ var SVG = function SVG(_ref) {
   return /*#__PURE__*/React__default.createElement(Box, _extends({
     as: "svg",
     xmlns: "http://www.w3.org/2000/svg",
-    width: "24",
-    height: "24",
+    width: "24px",
+    height: "24px",
     viewBox: "0 0 24 24",
     fill: "currentcolor"
   }, props));
@@ -2729,13 +2758,13 @@ var CheckboxIcon = function CheckboxIcon(_ref2) {
       size = _ref2$size === void 0 ? '24px' : _ref2$size,
       props = _objectWithoutPropertiesLoose(_ref2, ["iconName", "checkedIconName", "uncheckedIconName", "size"]);
 
-  return /*#__PURE__*/React__default.createElement(Fragment, null, iconName || checkedIconName ? /*#__PURE__*/React__default.createElement(Icon, _extends({
+  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, iconName || checkedIconName ? /*#__PURE__*/React__default.createElement(Icon, _extends({
     size: size,
     name: iconName || checkedIconName
   }, props, {
     __css: {
       display: 'none',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         display: 'block'
       }
     }
@@ -2744,7 +2773,7 @@ var CheckboxIcon = function CheckboxIcon(_ref2) {
   }, props, {
     __css: {
       display: 'none',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         display: 'block'
       }
     }
@@ -2754,7 +2783,7 @@ var CheckboxIcon = function CheckboxIcon(_ref2) {
   }, props, {
     __css: {
       display: 'block',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         display: 'none'
       }
     }
@@ -2763,7 +2792,7 @@ var CheckboxIcon = function CheckboxIcon(_ref2) {
   }, props, {
     __css: {
       display: 'block',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         display: 'none'
       }
     }
@@ -2792,7 +2821,7 @@ var Checkbox = React.forwardRef(function (_ref3, ref) {
       height: 1,
       overflow: 'hidden'
     }
-  })), /*#__PURE__*/React__default.createElement(Box, _extends({
+  })), /*#__PURE__*/React__default.createElement(Box.WithoutConfig, _extends({
     as: CheckboxIcon,
     "aria-hidden": "true",
     variant: "checkbox" + (variant ? '.' + variant : ''),
@@ -2806,13 +2835,13 @@ var Checkbox = React.forwardRef(function (_ref3, ref) {
       mr: 'small',
       borderRadius: 4,
       color: 'gray500',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         color: 'primary500'
       },
-      'input:focus ~ &': {
+      'input:focus ~ &&': {
         bg: 'primary100'
       },
-      'input:disabled ~ &': {
+      'input:disabled ~ &&': {
         bg: 'gray300',
         color: 'gray200'
       }
@@ -2854,7 +2883,11 @@ var variantSizes = styledSystem.variant({
     }
   }
 });
-var StyledInput = styled__default.input(_templateObject$3(), variantVariants, variantStatus, variantSizes, variant, sx, styledSystem.compose(styledSystem.padding, styledSystem.color, styledSystem.typography, styledSystem.background, styledSystem.border, styledSystem.position, styledSystem.shadow, styledSystem.width, styledSystem.height, styledSystem.display));
+var StyledInput = styled__default('input').withConfig({
+  shouldForwardProp: function shouldForwardProp$1(prop, defaultValidatorFn) {
+    return defaultValidatorFn(prop) && ![].concat(shouldForwardProp.props).includes(prop);
+  }
+})(_templateObject$3(), variantVariants, variantStatus, variantSizes, variant, sx, styledSystem.compose(styledSystem.padding, styledSystem.color, styledSystem.typography, styledSystem.background, styledSystem.border, styledSystem.position, styledSystem.shadow, styledSystem.width, styledSystem.height, styledSystem.display));
 StyledInput.defaultProps = {
   type: 'text',
   variant: 'default',
@@ -2935,8 +2968,8 @@ var SVG$1 = function SVG(_ref) {
   return /*#__PURE__*/React__default.createElement(Box, _extends({
     as: "svg",
     xmlns: "http://www.w3.org/2000/svg",
-    width: "24",
-    height: "24",
+    width: "24px",
+    height: "24px",
     viewBox: "0 0 24 24",
     fill: "currentcolor"
   }, props));
@@ -2962,13 +2995,13 @@ var RadioIcon = function RadioIcon(_ref2) {
       size = _ref2$size === void 0 ? '24px' : _ref2$size,
       props = _objectWithoutPropertiesLoose(_ref2, ["iconName", "checkedIconName", "uncheckedIconName", "size"]);
 
-  return /*#__PURE__*/React__default.createElement(Fragment, null, iconName || checkedIconName ? /*#__PURE__*/React__default.createElement(Icon, _extends({
+  return /*#__PURE__*/React__default.createElement(React__default.Fragment, null, iconName || checkedIconName ? /*#__PURE__*/React__default.createElement(Icon, _extends({
     size: size,
     name: iconName || checkedIconName
   }, props, {
     __css: {
       display: 'none',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         display: 'block'
       }
     }
@@ -2977,7 +3010,7 @@ var RadioIcon = function RadioIcon(_ref2) {
   }, props, {
     __css: {
       display: 'none',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         display: 'block'
       }
     }
@@ -2987,7 +3020,7 @@ var RadioIcon = function RadioIcon(_ref2) {
   }, props, {
     __css: {
       display: 'block',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         display: 'none'
       }
     }
@@ -2996,7 +3029,7 @@ var RadioIcon = function RadioIcon(_ref2) {
   }, props, {
     __css: {
       display: 'block',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         display: 'none'
       }
     }
@@ -3022,7 +3055,7 @@ var Radio = React.forwardRef(function (_ref3, ref) {
       height: 1,
       overflow: 'hidden'
     }
-  })), /*#__PURE__*/React__default.createElement(Box, _extends({
+  })), /*#__PURE__*/React__default.createElement(Box.WithoutConfig, _extends({
     as: RadioIcon,
     "aria-hidden": "true",
     variant: "radio" + (variant ? '.' + variant : ''),
@@ -3033,13 +3066,13 @@ var Radio = React.forwardRef(function (_ref3, ref) {
       mr: 'small',
       borderRadius: 9999,
       color: 'gray500',
-      'input:checked ~ &': {
+      'input:checked ~ &&': {
         color: 'primary500'
       },
-      'input:focus ~ &': {
+      'input:focus ~ &&': {
         bg: 'primary100'
       },
-      'input:disabled ~ &': {
+      'input:disabled ~ &&': {
         bg: 'gray300',
         color: 'gray200'
       }
@@ -3281,7 +3314,7 @@ var Container = function Container(_ref) {
       fluid = _ref$fluid === void 0 ? false : _ref$fluid,
       rest = _objectWithoutPropertiesLoose(_ref, ["fluid"]);
 
-  return /*#__PURE__*/React__default.createElement(Box, _extends({
+  return /*#__PURE__*/React__default.createElement(Box.WithoutConfig, _extends({
     as: StyledContainer,
     fluid: fluid
   }, rest));
@@ -3307,7 +3340,7 @@ var StyledRow = styled__default.div(_templateObject$6(), function (props) {
 }, styledSystem.compose(styledSystem.space, styledSystem.layout, styledSystem.flexbox));
 
 var Row = function Row(props) {
-  return /*#__PURE__*/React__default.createElement(Box, _extends({
+  return /*#__PURE__*/React__default.createElement(Box.WithoutConfig, _extends({
     as: StyledRow
   }, props));
 };
@@ -3347,7 +3380,7 @@ var StyledCol = styled__default.div(_templateObject2$2(), function (props) {
 }, generateMediaForCol, styledSystem.compose(styledSystem.space, styledSystem.layout, styledSystem.flexbox));
 
 var Col = function Col(props) {
-  return /*#__PURE__*/React__default.createElement(Box, _extends({
+  return /*#__PURE__*/React__default.createElement(Box.WithoutConfig, _extends({
     as: StyledCol
   }, props));
 };
@@ -3399,7 +3432,7 @@ var Header = React__default.forwardRef(function (_ref, ref) {
 });
 
 var Image = React.forwardRef(function (props, ref) {
-  return /*#__PURE__*/React__default.createElement(Box, _extends({
+  return /*#__PURE__*/React__default.createElement(Box.WithoutConfig, _extends({
     ref: ref,
     as: "img"
   }, props, {
@@ -3452,7 +3485,7 @@ var Nav = React__default.forwardRef(function (_ref, ref) {
       as = _ref$as === void 0 ? 'a' : _ref$as,
       rest = _objectWithoutPropertiesLoose(_ref, ["variant", "children", "href", "active", "as", "key"]);
 
-  return /*#__PURE__*/React__default.createElement(Box, _extends({
+  return /*#__PURE__*/React__default.createElement(Box.WithoutConfig, _extends({
     as: as,
     ref: ref,
     href: href
@@ -3587,7 +3620,7 @@ var Pagination = function Pagination(_ref) {
       props = _objectWithoutPropertiesLoose(_ref, ["sx"]);
 
   var theme = React.useContext(styled.ThemeContext);
-  return /*#__PURE__*/React__default.createElement(Box, _extends({
+  return /*#__PURE__*/React__default.createElement(Box.WithoutConfig, _extends({
     __css: {
       display: 'flex',
       flexDirection: 'row',
@@ -3848,6 +3881,34 @@ var Heading = styled.withTheme(function (_ref3) {
     as: "h" + level
   }), children);
 });
+
+var List_ = function List_(_ref, ref) {
+  var horizontal = _ref.horizontal,
+      ordered = _ref.ordered,
+      rest = _objectWithoutPropertiesLoose(_ref, ["horizontal", "ordered"]);
+
+  return /*#__PURE__*/React__default.createElement(Box, _extends({
+    ref: ref,
+    as: ordered ? "ol" : "ul",
+    variant: "lists.default",
+    __css: {
+      display: 'flex',
+      flexDirection: horizontal ? "row" : "column",
+      listStyle: ordered ? 'decimal inside' : null
+    }
+  }, rest));
+};
+
+var List = React.forwardRef(List_);
+
+var Item_ = function Item_(props, ref) {
+  return /*#__PURE__*/React__default.createElement(Box, _extends({
+    ref: ref,
+    as: "li"
+  }, props));
+};
+
+var Item = React.forwardRef(Item_);
 
 function _templateObject76() {
   var data = _taggedTemplateLiteralLoose(["\n                position: relative;\n                max-height: none;\n                max-width: none;\n                border-radius: 0;\n                top: 0;\n                bottom: 0;\n                left: 0;\n                right: 0;\n                transform: none;\n                animation: none;\n                height: 100vh;\n                width: 100vw;\n            "]);
@@ -4800,7 +4861,6 @@ var getAnimationStyle = function getAnimationStyle(props, position, full) {
     keys = styled.keyframes(_templateObject29());
   }
 
-  console.log(keys);
   return keys ? styled.css(_templateObject30(), keys, animationDuration / 1000.0) : '';
 };
 var POSITIONS = {
@@ -5439,7 +5499,7 @@ var Slider = React__default.forwardRef(function (_ref2, ref) {
   var children = _ref2.children,
       rest = _objectWithoutPropertiesLoose(_ref2, ["children"]);
 
-  return /*#__PURE__*/React__default.createElement(SliderWrapper, null, /*#__PURE__*/React__default.createElement(Box, _extends({
+  return /*#__PURE__*/React__default.createElement(SliderWrapper, null, /*#__PURE__*/React__default.createElement(Box.WithoutConfig, _extends({
     ref: ref,
     as: SlickSlider,
     __css: {
@@ -5558,7 +5618,7 @@ var Slide = function Slide(_ref4) {
       minHeight: '1px',
       height: ['300px', null, '500px'],
       width: '100%',
-      display: 'flex !important',
+      display: 'flex',
       position: 'relative',
       '&:before': {
         content: '""',
@@ -6668,7 +6728,7 @@ var heading = {
     color: 'black500',
     h1: {
       fontSize: ["28px", null, "50px", 'heading1', 'heading1'],
-      lineHeight: ['28', "37px", "heading1"],
+      lineHeight: ['28px', "37px", "heading1"],
       marginBottom: ['15px', null, '20px']
     },
     h2: {
@@ -6765,6 +6825,7 @@ exports.AccordionPanel = AccordionPanel;
 exports.Anchor = Anchor;
 exports.Arrow = Arrow;
 exports.Box = Box;
+exports.BoxWithoutConfig = BoxWithoutConfig;
 exports.Breadcrumb = Breadcrumb;
 exports.BreadcrumbItem = BreadcrumbItem;
 exports.Button = Button;
@@ -6786,9 +6847,11 @@ exports.Image = Image;
 exports.Input = Input;
 exports.IntersectionContext = IntersectionContext;
 exports.IntersectionObserver = IntersectionObserver;
+exports.Item = Item;
 exports.Label = Label;
 exports.Layer = Layer;
 exports.Link = Link;
+exports.List = List;
 exports.MotionBox = MotionBox;
 exports.MotionFlex = MotionFlex;
 exports.Nav = Nav;

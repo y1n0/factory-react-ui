@@ -1,3 +1,3 @@
 
 
-export {Box, Flex} from './Box';
+export * from './Box';

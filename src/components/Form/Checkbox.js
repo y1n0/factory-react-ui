@@ -7,8 +7,8 @@ const SVG = ({ size = 24, ...props }) =>
     <Box
         as='svg'
         xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
+        width="24px"
+        height="24px"
         viewBox="0 0 24 24"
         fill='currentcolor'
         {...props}
@@ -26,14 +26,14 @@ const CheckboxUnchecked = props =>
 
 const CheckboxIcon = ({iconName ,checkedIconName, uncheckedIconName, size =  '24px' , ...props }) =>
 { 
-    return (<>
+    return (<React.Fragment>
         {
             (iconName || checkedIconName) ? <Icon size={size}
                 name={iconName || checkedIconName}
                 {...props}
                 __css={{
                     display: 'none',
-                    'input:checked ~ &': {
+                    'input:checked ~ &&': {
                         display: 'block',
                     }
                 }} /> :
@@ -42,7 +42,7 @@ const CheckboxIcon = ({iconName ,checkedIconName, uncheckedIconName, size =  '24
                     {...props}
                     __css={{
                         display: 'none',
-                        'input:checked ~ &': {
+                        'input:checked ~ &&': {
                             display: 'block',
                         }
                     }}
@@ -54,7 +54,7 @@ const CheckboxIcon = ({iconName ,checkedIconName, uncheckedIconName, size =  '24
                 {...props}
                 __css={{
                     display: 'block',
-                    'input:checked ~ &': {
+                    'input:checked ~ &&': {
                         display: 'none',
                     }
                 }}
@@ -64,7 +64,7 @@ const CheckboxIcon = ({iconName ,checkedIconName, uncheckedIconName, size =  '24
                     {...props}
                     __css={{
                         display: 'block',
-                        'input:checked ~ &': {
+                        'input:checked ~ &&': {
                             display: 'none',
                         }
                     }}
@@ -74,7 +74,7 @@ const CheckboxIcon = ({iconName ,checkedIconName, uncheckedIconName, size =  '24
 
 
 
-    </>)}
+    </React.Fragment>)}
 
 
 
@@ -102,7 +102,7 @@ export const Checkbox = forwardRef(({
                     overflow: 'hidden',
                 }}
             />
-            <Box
+            <Box.WithoutConfig
                 as={CheckboxIcon}
                 aria-hidden='true'
                 variant={`checkbox${variant ? '.'+variant : ''}`}
@@ -116,13 +116,13 @@ export const Checkbox = forwardRef(({
                     mr: 'small',
                     borderRadius: 4,
                     color: 'gray500',
-                    'input:checked ~ &': {
+                    'input:checked ~ &&': {
                         color: 'primary500',
                     },
-                    'input:focus ~ &': {
+                    'input:focus ~ &&': {
                         bg: 'primary100',
                     },
-                    'input:disabled ~ &': {
+                    'input:disabled ~ &&': {
                         bg: 'gray300',
                         color: 'gray200',
                     }
