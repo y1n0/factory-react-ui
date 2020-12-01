@@ -3,21 +3,17 @@ import { Box, Flex } from '../Box';
 import { getMarginProps, omitMarginProps, getLayoutProps } from '../../core';
 
 
-const SVG = ({ size = 24, ...props }) =>
-    <Box
-        as='svg'
+const DownArrow = ({size = 24, ...rest}) => (
+    <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
+        width={size}
+        height={size}
         viewBox="0 0 24 24"
         fill='currentcolor'
-        {...props}
-    />
-
-const DownArrow = props =>
-    <SVG {...props}>
+    >
         <path d="M7 10l5 5 5-5z" />
-    </SVG>
+    </svg>
+)
 
 
 const SelectIcon = ({ icon }) => {
