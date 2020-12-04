@@ -4,7 +4,7 @@ import {Box} from '../Box';
 
 const Item_ = (props, ref) => {
 
-    return <Box
+    return <Box.WithoutConfig
             ref={ref}
             as="li"
             {...props}

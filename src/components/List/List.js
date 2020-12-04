@@ -4,7 +4,7 @@ import {Box} from '../Box';
 
 const List_ = ({horizontal, ordered, ...rest}, ref) => {
 
-    return <Box
+    return <Box.WithoutConfig
             ref={ref}
             as={ordered ? "ol" : "ul"}
             variant="lists.default"
